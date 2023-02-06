@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 .aside {
     /*width: 200px;*/
     /*background-color: #f2f2f2;*/
     /*padding: 20px;*/
     position: absolute;
     left: 0;
-    right: 84.31%;
+    right: 88%;
     top: 6.71%;
     bottom: 0;
     text-decoration-color: white;
@@ -34,6 +36,9 @@
 }
 
 .mainA {
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    font-size: large;
     padding: 5px 10px;
     border: 2px solid transparent;
 }
@@ -42,18 +47,85 @@
     border: 2px solid #9af39f;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 5px;
+    /*padding: 5px 10px;*/
 }
 
 .layout {
+    flex-direction: column;
+    list-style: none;
     display: flex;
     height: 100vh;
 }
+.arrow_icon {
+    color: white;
+    font-size: 17px;
+    padding-right: 10px;
+    transition: transform 0.2s ease-in-out;
+    transform-origin: center;
+}
 
+.icon {
+    color: white;
+    font-size: 15px;
+    padding-left: 5%;
+    /*margin-left: 2%;*/
+    padding-right: 4%;
+}
+.gear_icon {
+    color: white;
+    font-size: 17px;
+    padding-right: 10px;
+}
+.icon:hover {
+    color: #ccc;
+}
+
+.settings{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 72%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.settings li {
+    margin: 0;
+    padding: 20px;
+}
 .dropdown {
     position: relative;
 }
 
 .dropdownContent {
     position: relative;
-    left: 10%;
+    left: 7%;
+}
+
+.dropdownContent li{
+    margin: 5px 0;
+}
+.dropdownContent li a {
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+    color: #ffffff;
+    padding: 0 10px;
+    border: 2px solid transparent;
+    display: block;
+    margin: 5px 0;
+    /*padding: 10px;*/
+    /*text-decoration: none;*/
+
+}
+
+.dropdownContent li a span {
+    padding: 5px 10px;
+    border: 2px solid transparent;
+}
+
+.dropdownContent li a span:hover {
+    border: 2px solid #9af39f;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
 }

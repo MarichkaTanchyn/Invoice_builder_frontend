@@ -5,7 +5,7 @@ const SidebarItem = (props) => {
 
     return (
         <li className={style.li}>
-            <a className={style.a}>{props.name}</a>
+            <a className={style.a}><span>{props.name}</span></a>
         </li>
     )
 }
