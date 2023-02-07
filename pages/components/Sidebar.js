@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {Collapse} from 'reactstrap';
 import SidebarList from "./SidebarList";
 import style from './sidebar.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faChevronRight, faPencil, faPlus, faGear} from '@fortawesome/free-solid-svg-icons'
 
 const CATEGORIES = [{
@@ -31,62 +31,62 @@ const Sidebar = () => {
 
     return (
         <div className={style.aside}>
-        <ul className={style.ul}>
-            <li className={style.li}>
-                <a className={`${style.a}`} href="#">
+            <ul className={style.ul}>
+                <li className={style.li}>
+                    <a className={`${style.a}`} href="#">
                     <span className={`${style.mainA}`}>
                         Invoices
                     </span>
-                </a>
+                    </a>
 
-            </li>
-            <li className={`${style.li} ${style.dropdown}`}>
-                <a className={`${style.a}`} onClick={toggle1}>
-                    <div onClick={handleClick}>
+                </li>
+                <li className={`${style.dropdown}`}>
+                    <div className={`${style.mainCategory}`} style={{paddingLeft: '0'}}>
+                        <a className={`${style.a}`} onClick={toggle1}>
+                            <div onClick={handleClick}>
                     <span className={`${style.mainA}`}>
                         <FontAwesomeIcon icon={faChevronRight}
-                                         className={style.arrow_icon}
+                                         className={`${style.arrow_icon} ${style.icon}`}
                                          style={{
                                              transform: `rotate(${rotation}deg) 
                                                          translateX(${moveDown ? 4 : 0}px)
                                                          translateY(${moveDown ? 5 : 0}px)`,
-                                         }} />
+                                         }}/>
                         Categories
                     </span>
-                        <FontAwesomeIcon icon={faPencil} className={style.icon}/>
-                        <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize : `17px`}}/>
+                            </div>
+                        </a>
+                        <FontAwesomeIcon icon={faPencil} className={`${style.icon}`}/>
+                        <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize: `15px`}}/>
                     </div>
-                </a>
-                <Collapse isOpen={collapse1}>
-                    <SidebarList categories={CATEGORIES}/>
-                </Collapse>
-            </li>
-            <li className={style.li}>
-                <a className={style.a} href="#">
+                    <Collapse isOpen={collapse1}>
+                        <SidebarList categories={CATEGORIES}/>
+                    </Collapse>
+                </li>
+                <li className={style.li}>
+                    <a className={style.a} href="#">
                     <span className={`${style.mainA}`}>
                         Customers
                     </span>
-                </a>
-            </li>
-            <li className={style.li}>
-                <a className={style.a} href="#">
+                    </a>
+                </li>
+                <li className={style.li}>
+                    <a className={style.a} href="#">
                     <span className={`${style.mainA}`}>
                         Reports
                     </span>
-                </a>
-            </li>
-        </ul>
-        <ul className={style.settings}>
-            <li className={style.li}>
+                    </a>
+                </li>
+            </ul>
+            <div className={style.settings}>
                 <a className={style.a} href="#">
                     <span className={`${style.mainA}`}>
-                         <FontAwesomeIcon icon={faGear} className={style.gear_icon}/>
+                         <FontAwesomeIcon icon={faGear} className={`${style.icon} ${style.gear_icon}`}/>
                         Settings
                     </span>
                 </a>
-            </li>
-        </ul>
-    </div>);
+            </div>
+        </div>);
 };
 
 export default Sidebar;
