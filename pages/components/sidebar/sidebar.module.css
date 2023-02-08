@@ -33,7 +33,7 @@
 
 .a:hover {
     cursor: default;
-    color: #ddd;
+    color: #ccc;
 }
 
 .mainA {
@@ -45,8 +45,6 @@
 }
 
 .mainA:hover {
-    border: 2px solid #9af39f;
-    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 5px;
 }
 
@@ -126,8 +124,6 @@
 }
 
 .dropdownContent li a span:hover {
-    border: 2px solid #9af39f;
-    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 5px;
 }
 @media (min-width: 1200px) and (max-width: 1650px) {

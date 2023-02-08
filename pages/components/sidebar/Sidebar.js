@@ -14,7 +14,7 @@ const CATEGORIES = [{
     id: 121, name: 'Jeans'
 }];
 
-const Sidebar = () => {
+const Sidebar = (props) => {
     const [collapse1, setCollapse1] = useState(false);
 
     const toggle1 = () => {
@@ -28,12 +28,11 @@ const Sidebar = () => {
         setRotation(rotation === 0 ? 90 : 0);
         setMoveDown(!moveDown);
     };
-
     return (
         <div className={style.aside}>
             <ul className={style.ul}>
                 <li className={style.li}>
-                    <a className={`${style.a}`} href="#">
+                    <a className={`${style.a}`} href="">
                     <span className={`${style.mainA}`}>
                         Invoices
                     </span>
@@ -60,18 +59,18 @@ const Sidebar = () => {
                         <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize: `15px`}}/>
                     </div>
                     <Collapse isOpen={collapse1}>
-                        <SidebarList categories={CATEGORIES}/>
+                        <SidebarList categories={props.categories}/>
                     </Collapse>
                 </li>
                 <li className={style.li}>
-                    <a className={style.a} href="#">
+                    <a className={style.a} href="">
                     <span className={`${style.mainA}`}>
                         Customers
                     </span>
                     </a>
                 </li>
                 <li className={style.li}>
-                    <a className={style.a} href="#">
+                    <a className={style.a} href="">
                     <span className={`${style.mainA}`}>
                         Reports
                     </span>
@@ -79,7 +78,7 @@ const Sidebar = () => {
                 </li>
             </ul>
             <div className={style.settings}>
-                <a className={style.a} href="#">
+                <a className={style.a} href="">
                     <span className={`${style.mainA}`}>
                          <FontAwesomeIcon icon={faGear} className={`${style.icon} ${style.gear_icon}`}/>
                         Settings
