@@ -14,7 +14,7 @@ function HomePage() {
             return await getCategories(params);
         }
          fetchData().then(res => {
-             setCategories(Object.values(res));
+             setCategories(Object.values(res.props.categories));
          });
     }, []);
 
