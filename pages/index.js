@@ -2,6 +2,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import style from './components/sidebar/sidebar.module.css'
 import {getCategories} from './api/categoriesApi'
 import {useEffect, useState} from "react";
+import Header from "./components/header/header";
 
 function HomePage() {
     const [categories, setCategories] = useState([]);
@@ -9,17 +10,19 @@ function HomePage() {
         id: 1
     }
 
-    useEffect( () => {
+    useEffect(() => {
         async function fetchData() {
             return await getCategories(params);
         }
-         fetchData().then(res => {
-             setCategories(Object.values(res.props.categories));
-         });
+
+        fetchData().then(res => {
+            setCategories(Object.values(res.props.categories));
+        });
     }, []);
 
     return (
         <div className={style.layout}>
+            <Header/>
             <Sidebar categories={categories}/>
         </div>
     )
