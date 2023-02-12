@@ -1,8 +1,10 @@
 import Sidebar from "./components/sidebar/Sidebar";
-import style from './components/sidebar/sidebar.module.css'
 import {getCategories} from './api/categoriesApi'
 import {useEffect, useState} from "react";
 import Header from "./components/header/header";
+import Invoices from "./components/invoices/invoices";
+
+import style from './index.module.css';
 
 function HomePage() {
     const [categories, setCategories] = useState([]);
@@ -20,11 +22,16 @@ function HomePage() {
         });
     }, []);
 
+
     return (
-        <div className={style.layout}>
+        <div>
             <Header/>
-            <Sidebar categories={categories}/>
+            <div className={style.pageContainer}>
+                <Sidebar categories={categories}/>
+                <Invoices />
+            </div>
         </div>
+
     )
 }
 

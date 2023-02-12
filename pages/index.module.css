@@ -1,0 +1,6 @@
+.pageContainer {
+    width: 100%;
+    display: flex;
+    justify-content: stretch;
+    align-content: flex-start;
+}

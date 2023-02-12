@@ -1,18 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 .aside {
-    position: absolute;
-    left: 0;
-    right: 87%;
-    top: 6.71%;
-    bottom: 0;
+    height: 92.4vh;
+    width: 20%;
     text-decoration-color: white;
     background: #041F47;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
-
 }
 
 .ul {
@@ -48,11 +44,11 @@
     border-radius: 5px;
 }
 
-.layout {
-    flex-direction: column;
-    list-style: none;
+.pageContent {
     display: flex;
-    height: 100vh;
+    /*flex-direction: row;*/
+    justify-content: space-between;
+    /*align-items: center;*/
 }
 
 .icon {
@@ -127,10 +123,10 @@
     border-radius: 5px;
 }
 @media (min-width: 1200px) and (max-width: 1650px) {
-    .aside {
-        right: 75%;
-        max-width: 15rem;
-    }
+    /*.aside {*/
+    /*    right: 75%;*/
+    /*    max-width: 15rem;*/
+    /*}*/
     .icon {
         width: 7%;
         font-size: 78%;
@@ -150,11 +146,11 @@
 }
 
 @media (max-width: 1200px) {
-    .aside {
-        right: 75%;
-        min-width: 11rem;
-        max-width: 12rem;
-    }
+    /*.aside {*/
+    /*    right: 75%;*/
+    /*    min-width: 11rem;*/
+    /*    max-width: 12rem;*/
+    /*}*/
     .icon {
         width: 7%;
         font-size: 78%;

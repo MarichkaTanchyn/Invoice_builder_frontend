@@ -1,0 +1,22 @@
+/* Search.css */
+
+.searchContainer {
+    /*display: flex;*/
+    /*padding: 10px;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+}
+
+.searchInput {
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-bottom: .1em solid #949bab;
+    outline: none;
+
+}
+
+.icon {
+    font-size: 1.2em;
+    padding-right: .1em;
+}
