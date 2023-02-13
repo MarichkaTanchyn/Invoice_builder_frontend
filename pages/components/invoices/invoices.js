@@ -2,13 +2,17 @@ import React, {useState} from "react";
 import Search from "../util/search/search";
 import styles from './invoices.module.css'
 import Filter from "../util/filter/filter";
+import Button from "../util/button/button"
 
 import Select from 'react-select'
 
 const FILTER_OPTIONS = [
-    { value: "all", label: "All" },
-    { value: "active", label: "Active" },
-    { value: "completed", label: "Completed" }
+    {value: "oldest", label: "Sort by the oldest"},
+    {value: "newest", label: "Sort by the newest"},
+    {value: "cheapest", label: "Price($-$$$)"},
+    {value: "mostExpensive", label: "Price($$$-$)"},
+    {value: "nameaz", label: "Name(A-Z)"},
+    {value: "nameza", label: "Name(Z-A)"},
 ];
 
 const Invoices = () => {
@@ -24,9 +28,10 @@ const Invoices = () => {
             ...base,
             border: 0,
             boxShadow: "none",
-            height:10,
+            height: 10,
             padding: 3,
             margin: 0,
+            marginTop: 0.3,
             marginLeft: 0,
             fontSize: 20,
         })
@@ -51,10 +56,13 @@ const Invoices = () => {
                         {isOpen && <Filter/>}
                     </div>
 
-                    <div >
+                    <div>
                         <Select options={FILTER_OPTIONS} styles={selectStyle} placeholder="Sort"/>
                     </div>
-                    {/*    button create invoice*/}
+                    <div className={styles.createInvoiceButton}>
+                        {/*TODO: redirect to create Invoice page*/}
+                        <Button label={"Create Invoice"} onClick={() => console.log("You clicked on the Create Invoice button!")}/>
+                    </div>
                 </div>
             </div>
         </div>
