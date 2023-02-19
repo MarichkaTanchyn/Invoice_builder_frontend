@@ -40,7 +40,8 @@ const Invoices = () => {
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
-    }
+    };
+
 
     // H1, search, filter, sort, button component, cards with invoices
     // filter ->  dropdown select, response from server

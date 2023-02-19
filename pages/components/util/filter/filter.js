@@ -1,13 +1,48 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styles from './filter.module.css'
+import Popup from "../popup/popup";
 
 const Filter = () => {
-    return (
-        <div className={styles.popupBox}>
-            <div className={styles.box}>
 
-            </div>
-        </div>
+    const [useDateRange, setUseDateRange] = useState(false);
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
+
+    const handleCheckboxChange = (event) => {
+        setUseDateRange(event.target.checked);
+    };
+
+    const handleFromDateChange = (event) => {
+        setFromDate(event.target.value);
+    };
+
+    const handleToDateChange = (event) => {
+        setToDate(event.target.value);
+    };
+
+
+    return (
+        <>
+            <Popup>
+                <h2>Filter</h2>
+                <label onClick={handleCheckboxChange}>
+                    <input type="checkbox" checked={useDateRange} onChange={handleCheckboxChange}/>
+                    Date Range
+                </label>
+                {useDateRange && (
+                    <div>
+                        <label>
+                            From:
+                            <input type="date" value={fromDate} onChange={handleFromDateChange}/>
+                        </label>
+                        <label>
+                            To:
+                            <input type="date" value={toDate} onChange={handleToDateChange}/>
+                        </label>
+                    </div>
+                )}
+            </Popup>
+        </>
     );
 };
 
