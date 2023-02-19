@@ -31,6 +31,7 @@ const Invoices = () => {
             height: 10,
             padding: 3,
             margin: 0,
+            width: '12em',
             marginTop: 0.3,
             marginLeft: 0,
             fontSize: 20,
@@ -49,15 +50,13 @@ const Invoices = () => {
                 <h1>Invoices</h1>
                 <div className={styles.actions}>
                     <Search placeholder="Search" onSearch={handleSearch}/>
-
+                    <div>
+                        <Select options={FILTER_OPTIONS} styles={selectStyle} placeholder="Sort"/>
+                    </div>
                     <div onClick={togglePopup} className={styles.filter}>
                         <img className={styles.img} src="/filter.svg" alt="Filter"/>
                         <span>Filter</span>
                         {isOpen && <Filter/>}
-                    </div>
-
-                    <div>
-                        <Select options={FILTER_OPTIONS} styles={selectStyle} placeholder="Sort"/>
                     </div>
                     <div className={styles.createInvoiceButton}>
                         {/*TODO: redirect to create Invoice page*/}

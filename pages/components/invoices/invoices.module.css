@@ -24,16 +24,18 @@
 }
 
 .filter {
-    margin-left: 1em;
+    /*margin-left: 1em;*/
     font-family: 'Roboto', sans-serif;
-    position: relative;
-    font-size: 1.3em;
-    padding: .3em .2em;
+    /*position: relative;*/
+    font-size: 1.25em;
+    padding: .2em .2em;
     border: 2px solid transparent;
     align-items: center;
     cursor: pointer;
     align-content: center;
-    height: 2.5em;
+    height: 2em;
+    margin-top: 0.2em;
+    margin-right: .7em;
 }
 
 .filter:hover {
@@ -52,8 +54,8 @@
 }
 
 .createInvoiceButton {
-    margin-top: .5em;
-    font-size: 1em;
+    margin-top: .15em;
+    font-size: 1.25em;
 }
 
 @media (max-width: 1200px) {
