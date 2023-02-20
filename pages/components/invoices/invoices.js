@@ -34,7 +34,7 @@ const Invoices = () => {
             width: '12em',
             marginTop: 0.3,
             marginLeft: 0,
-            fontSize: 20,
+            fontSize: 15,
         })
     };
 

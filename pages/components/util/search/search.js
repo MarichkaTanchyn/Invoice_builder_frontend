@@ -13,7 +13,7 @@ const Search = ({ placeholder, onSearch }) => {
     };
 
     return (
-        <div className={styles.searchContainer}>
+        <div className={styles.test}>
             <FontAwesomeIcon icon={faSearch} className={styles.icon} />
             <input
                 type="text"

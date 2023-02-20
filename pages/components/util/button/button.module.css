@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 .button {
     height: 2em;
     color: #ffffff;
     background-color: #041F47;
-    font-family: 'Roboto', sans-serif;
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     padding: 1em;
     border: none;
     text-align: center;

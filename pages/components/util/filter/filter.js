@@ -24,7 +24,6 @@ const Filter = () => {
     return (
         <>
             <Popup>
-                <h2>Filter</h2>
                 <label onClick={handleCheckboxChange}>
                     <input type="checkbox" checked={useDateRange} onChange={handleCheckboxChange}/>
                     Date Range
