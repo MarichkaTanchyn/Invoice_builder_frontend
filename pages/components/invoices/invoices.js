@@ -3,7 +3,6 @@ import Search from "../util/search/search";
 import styles from './invoices.module.css'
 import Filter from "../util/filter/filter";
 import Button from "../util/button/button"
-
 import Select from 'react-select'
 
 const FILTER_OPTIONS = [
@@ -26,15 +25,36 @@ const Invoices = () => {
     const selectStyle = {
         control: base => ({
             ...base,
-            border: 0,
             boxShadow: "none",
-            height: 10,
-            padding: 3,
-            margin: 0,
-            width: '12em',
-            marginTop: 0.3,
-            marginLeft: 0,
-            fontSize: 15,
+            padding: '0 .5em',
+            paddingLeft: '1.3em',
+            margin: ' 0 1em',
+            maxWidth: '10em',
+            fontSize: '1em',
+            border: '0px solid transparent',
+            borderRadius: '.4em',
+            background: `url(/sort.svg) no-repeat left center`,
+            backgroundSize: '1.5em',
+            '&:hover': {
+                border: '0px solid #ccc',
+                borderRadius: '.4em',
+                backgroundColor: '#ccc'
+            },
+        }),
+        indicatorSeparator: () => ({
+            display: "none"
+        }),
+        dropdownIndicator: base => ({
+            ...base,
+            display: "none"
+        }),
+        option: (base, state) => ({
+            ...base,
+            backgroundColor: state.isFocused ? "#f5f5f5" : "white",
+            color: "#333",
+            cursor: "pointer",
+            fontSize: ".8em",
+            padding: "0.5em 1em"
         })
     };
 
@@ -42,9 +62,6 @@ const Invoices = () => {
         setIsOpen(!isOpen);
     };
 
-
-    // H1, search, filter, sort, button component, cards with invoices
-    // filter ->  dropdown select, response from server
     return (
         <div className={styles.pageContent}>
             <div className={styles.headers}>
@@ -61,7 +78,8 @@ const Invoices = () => {
                     </div>
                     <div className={styles.createInvoiceButton}>
                         {/*TODO: redirect to create Invoice page*/}
-                        <Button label={"Create Invoice"} onClick={() => console.log("You clicked on the Create Invoice button!")}/>
+                        <Button label={"Create Invoice"}
+                                onClick={() => console.log("You clicked on the Create Invoice button!")}/>
                     </div>
                 </div>
             </div>
