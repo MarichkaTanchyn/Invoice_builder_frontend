@@ -1,0 +1,39 @@
+.filterOptionBox{
+    padding: 1em;
+    margin: 1em;
+    border-radius: .8em;
+    background-color: #FFFFFF;
+    border: .1em solid transparent;
+}
+
+.filterOptionLabel {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.filterOptionInput {
+    margin: .5em 1em;
+    width: 1em;
+    height: 1em;
+    accent-color: black;
+    border-color: black;
+}
+
+.checkboxContent{
+    padding-left: 6em;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkboxContentLabel{
+    text-align: left;
+}
+
+.checkboxContentInput{
+    margin: .5em 1em;
+    border: none;
+    border-bottom: .1em solid #949bab;
+    accent-color: black;
+
+}
