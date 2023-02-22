@@ -6,17 +6,36 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
     z-index: 20;
 }
 
 .box {
     position: relative;
-    padding: 32px;
+    padding: 1em;
     width: 100%;
     height: 40em;
-    max-width: 640px;
+    margin: 3em;
+    margin-top: 4em;
+    width: 20em;
     background-color: #f8f8f8;
     border-radius: 20px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar styling */
+.box::-webkit-scrollbar {
+    width: .5em;
+}
+
+.box::-webkit-scrollbar-thumb {
+    background-color: #999;
+    border-radius: 8px;
+}
+
+.box::-webkit-scrollbar-track {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    margin: 1em;
 }

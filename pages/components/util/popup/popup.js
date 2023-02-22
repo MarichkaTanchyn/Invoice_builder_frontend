@@ -1,5 +1,4 @@
 import styles from "./popup.module.css";
-import {useEffect} from "react";
 
 const Popup = ({children}) =>{
 

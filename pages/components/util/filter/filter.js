@@ -16,6 +16,9 @@ const Filter = () => {
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
 
+    const [useDate, setUseDate] = useState(false);
+    const [date, setDate] = useState('');
+
     const [useTotalAmountDue, setUseTotalAmountDue] = useState(false);
     const [fromTotalAmountDue, setFromTotalAmountDue] = useState(null)
     const [toTotalAmountDue, setToTotalAmountDue] = useState(null)
@@ -30,6 +33,13 @@ const Filter = () => {
 
     const handleToDateChange = (event) => {
         setToDate(event.target.value);
+    };
+
+    const handleDateCheckboxChange = (event) => {
+        setUseDate(event.target.checked);
+    };
+    const handleDateChange = (event) => {
+        setDate(event.target.value);
     };
 
     const handleTotalAmountDueRangeCheckboxChange = (event) => {
@@ -47,11 +57,8 @@ const Filter = () => {
         control: base => ({
             ...base,
             boxShadow: "none",
-            padding: '0 .5em',
-            paddingLeft: '1.3em',
-            margin: ' 0 1em',
-            maxWidth: '10em',
-            fontSize: '1em',
+            padding: '0',
+            margin: ' 1em 0',
             border: '0px solid transparent',
             borderRadius: '.4em',
             '&:hover': {
@@ -59,6 +66,15 @@ const Filter = () => {
                 borderRadius: '.4em',
                 backgroundColor: '#ccc'
             },
+        }),
+        indicatorSeparator: () => ({
+            display: "none"
+        }),
+        dropdownIndicator: base => ({
+            ...base,
+            color: '#A8A8A8',
+
+            marginLeft: '-.5em',
         }),
         option: (base, state) => ({
             ...base,
@@ -95,6 +111,21 @@ const Filter = () => {
                 </div>
 
                 <div className={styles.filterOptionBox}>
+                    <label className={styles.filterOptionLabel} onClick={handleDateCheckboxChange}>
+                        <input className={styles.filterOptionInput} type="checkbox" checked={useDate} onChange={handleDateCheckboxChange}/>
+                        Date
+                    </label>
+                    {useDate && (
+                        <div className={styles.checkboxContent}>
+                            <label className={styles.checkboxContentLabel}>
+                                <span>Date</span>
+                                <input className={styles.checkboxContentInput} type="date" value={date} onChange={handleDateChange}/>
+                            </label>
+                        </div>
+                    )}
+
+                </div>
+                <div className={styles.filterOptionBox}>
                     <label className={styles.filterOptionLabel} onClick={handleTotalAmountDueRangeCheckboxChange}>
                         <input className={styles.filterOptionInput} type="checkbox" checked={useTotalAmountDue}
                                onChange={handleTotalAmountDueRangeCheckboxChange}/>
@@ -112,8 +143,7 @@ const Filter = () => {
                                 <input className={styles.checkboxContentInput} type="number" value={toTotalAmountDue} onChange={handleToTotalAmountDueChange}/>
                             </label>
                             <label label className={styles.checkboxContentLabel}>
-                                <span>Currency</span>
-                                <Select options={CURRENCY_OPTIONS} styles={selectStyle}/>
+                                <Select options={CURRENCY_OPTIONS} styles={selectStyle} placeholder={"Currency"}/>
                             </label>
                         </div>
                     )}
