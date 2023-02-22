@@ -6,6 +6,12 @@ import Invoices from "./components/invoices/invoices";
 
 import style from './index.module.css';
 
+const CATEGORIES_OPTIONS = [
+    {id: 1, name: "Spodnie"},
+    {id: 2, name: "Bluzy"},
+    {id: 3, name: "Koszule" }
+]
+
 function HomePage() {
     const [categories, setCategories] = useState([]);
     const params = {
@@ -27,7 +33,7 @@ function HomePage() {
         <div>
             <Header/>
             <div className={style.pageContainer}>
-                <Sidebar categories={categories}/>
+                <Sidebar categories={CATEGORIES_OPTIONS}/>
                 <Invoices />
             </div>
         </div>

@@ -21,19 +21,23 @@
 }
 
 .checkboxContent{
-    padding-left: 6em;
+    padding-left: 3em;
+    margin: 0 6em;
     display: flex;
     flex-direction: column;
 }
 
-.checkboxContentLabel{
-    text-align: left;
-}
+.checkboxContentLabel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
 .checkboxContentInput{
     margin: .5em 1em;
     border: none;
     border-bottom: .1em solid #949bab;
     accent-color: black;
-
+    outline: none;
+    height: 2em;
 }
