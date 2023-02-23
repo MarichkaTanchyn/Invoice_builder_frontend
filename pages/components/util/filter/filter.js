@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import styles from './filter.module.css'
 import Popup from "../popup/popup";
-import Select from 'react-select'
+import CheckboxWithLabel from "./checkboxWithLabel";
+import InputWithLabel from "./inputWithLabel";
+import SelectWithLabel from "./selectWithLabel";
+
 
 const CURRENCY_OPTIONS = [
     {value: 1, label: 'All'},
@@ -22,6 +25,8 @@ const Filter = () => {
     const [useTotalAmountDue, setUseTotalAmountDue] = useState(false);
     const [fromTotalAmountDue, setFromTotalAmountDue] = useState(null)
     const [toTotalAmountDue, setToTotalAmountDue] = useState(null)
+
+    const [selectCurrency, setSelectCurrency] = useState(CURRENCY_OPTIONS[0])
 
 
     const handleDateRangeCheckboxChange = (event) => {
@@ -46,45 +51,29 @@ const Filter = () => {
         setUseTotalAmountDue(event.target.checked);
     };
     const handleFromTotalAmountDueChange = (event) => {
-        setFromTotalAmountDue(event.target.value);
+        const inputValue = event.target.value;
+        const validatedValue = validateInputValue(inputValue);
+        setFromTotalAmountDue(validatedValue);
     };
 
     const handleToTotalAmountDueChange = (event) => {
-        setToTotalAmountDue(event.target.value);
+        const inputValue = event.target.value;
+        const validatedValue = validateInputValue(inputValue);
+        setToTotalAmountDue(validatedValue);
     };
 
-    const selectStyle = {
-        control: base => ({
-            ...base,
-            boxShadow: "none",
-            padding: '0',
-            margin: ' 1em 0',
-            border: '0px solid transparent',
-            borderRadius: '.4em',
-            '&:hover': {
-                border: '0px solid #ccc',
-                borderRadius: '.4em',
-                backgroundColor: '#ccc'
-            },
-        }),
-        indicatorSeparator: () => ({
-            display: "none"
-        }),
-        dropdownIndicator: base => ({
-            ...base,
-            color: '#A8A8A8',
+    const handleSelectCurrencyChange = (option) => {
+        setSelectCurrency(option)
+        console.log("selected Currency", option)
+    }
 
-            marginLeft: '-.5em',
-        }),
-        option: (base, state) => ({
-            ...base,
-            backgroundColor: state.isFocused ? "#f5f5f5" : "white",
-            color: "#333",
-            cursor: "pointer",
-            fontSize: ".8em",
-            padding: "0.5em 1em"
-        })
-    };
+    const validateInputValue = (inputValue) => {
+        if (inputValue < 0) {
+            return 0;
+        } else {
+            return inputValue;
+        }
+    }
 
     // TODO: filter by created user, status
 
@@ -92,70 +81,75 @@ const Filter = () => {
         <>
             <Popup>
                 <div className={styles.filterOptionBox}>
-                    <label className={styles.filterOptionLabel} onClick={handleDateRangeCheckboxChange}>
-                        <input className={styles.filterOptionInput} type="checkbox" checked={useDateRange} onChange={handleDateRangeCheckboxChange}/>
-                        Date Range
-                    </label>
+                    <CheckboxWithLabel
+                        label="Date Range"
+                        checked={useDateRange}
+                        onChange={handleDateRangeCheckboxChange}
+                    />
                     {useDateRange && (
                         <div className={styles.checkboxContent}>
-                            <label className={styles.checkboxContentLabel}>
-                                <span>From</span>
-                                <input className={styles.checkboxContentInput} type="date" value={fromDate} onChange={handleFromDateChange}/>
-                            </label>
-                            <label className={styles.checkboxContentLabel}>
-                                <span>To</span>
-                                <input className={styles.checkboxContentInput} type="date" value={toDate} onChange={handleToDateChange}/>
-                            </label>
+                            <InputWithLabel
+                            label="From"
+                            inputType="date"
+                            inputValue={fromDate}
+                            onChange={handleFromDateChange}
+                            />
+                            <InputWithLabel
+                                label="To"
+                                inputType="date"
+                                inputValue={toDate}
+                                onChange={handleToDateChange}
+                            />
                         </div>
                     )}
                 </div>
-
                 <div className={styles.filterOptionBox}>
-                    <label className={styles.filterOptionLabel} onClick={handleDateCheckboxChange}>
-                        <input className={styles.filterOptionInput} type="checkbox" checked={useDate} onChange={handleDateCheckboxChange}/>
-                        Date
-                    </label>
+                    <CheckboxWithLabel
+                        label="Date"
+                        checked={useDate}
+                        onChange={handleDateCheckboxChange}
+                    />
                     {useDate && (
                         <div className={styles.checkboxContent}>
-                            <label className={styles.checkboxContentLabel}>
-                                <span>Date</span>
-                                <input className={styles.checkboxContentInput} type="date" value={date} onChange={handleDateChange}/>
-                            </label>
+                            <InputWithLabel
+                                label="Date"
+                                inputType="date"
+                                inputValue={date}
+                                onChange={handleDateChange}
+                            />
                         </div>
                     )}
-
                 </div>
                 <div className={styles.filterOptionBox}>
-                    <label className={styles.filterOptionLabel} onClick={handleTotalAmountDueRangeCheckboxChange}>
-                        <input className={styles.filterOptionInput} type="checkbox" checked={useTotalAmountDue}
-                               onChange={handleTotalAmountDueRangeCheckboxChange}/>
-                        Total Amount Due
-                    </label>
+                    <CheckboxWithLabel
+                        label="Total Amount Due"
+                        checked={useTotalAmountDue}
+                        onChange={handleTotalAmountDueRangeCheckboxChange}
+                    />
                     {useTotalAmountDue && (
                         <div className={styles.checkboxContent}>
-                            <label className={styles.checkboxContentLabel}>
-                                <span>From </span>
-                                <input className={styles.checkboxContentInput} type="number" value={fromTotalAmountDue}
-                                       onChange={handleFromTotalAmountDueChange}/>
-                            </label>
-                            <label label className={styles.checkboxContentLabel}>
-                                <span>To</span>
-                                <input className={styles.checkboxContentInput} type="number" value={toTotalAmountDue} onChange={handleToTotalAmountDueChange}/>
-                            </label>
-                            <label label className={styles.checkboxContentLabel}>
-                                <Select options={CURRENCY_OPTIONS} styles={selectStyle} placeholder={"Currency"}/>
-                            </label>
+                            <SelectWithLabel
+                                label="Currency"
+                                options={CURRENCY_OPTIONS}
+                                value={selectCurrency}
+                                onChange={handleSelectCurrencyChange}
+                            />
+                            <InputWithLabel
+                                label="From"
+                                inputType="number"
+                                inputValue={fromTotalAmountDue}
+                                onChange={handleFromTotalAmountDueChange}
+                            />
+                            <InputWithLabel
+                                label="To"
+                                inputType="number"
+                                inputValue={toTotalAmountDue}
+                                onChange={handleToTotalAmountDueChange}
+                            />
                         </div>
                     )}
                 </div>
-
             </Popup>
-            <style jsx>{`
-                input::-webkit-outer-spin-button,
-                input::-webkit-inner-spin-button {
-                     display: none;
-                }
-            `}</style>
         </>
     );
 };
