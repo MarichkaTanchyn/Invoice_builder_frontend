@@ -4,59 +4,30 @@ import styles from './invoices.module.css'
 import Filter from "../util/filter/filter";
 import Button from "../util/button/button"
 import Select from 'react-select'
+import SortSelect from "../util/sortSelect/sortSelect";
 
-const FILTER_OPTIONS = [
-    {value: "oldest", label: "Sort by the oldest"},
-    {value: "newest", label: "Sort by the newest"},
-    {value: "cheapest", label: "Price($-$$$)"},
-    {value: "mostExpensive", label: "Price($$$-$)"},
-    {value: "nameaz", label: "Name(A-Z)"},
-    {value: "nameza", label: "Name(Z-A)"},
+const SORT_OPTIONS = [
+    {value: "oldest", label: "Oldest first"},
+    {value: "newest", label: "Newest first"},
+    {value: "lowprice", label: "Price: Low to high"},
+    {value: "highprice", label: "Price: High to low"},
+    {value: "az", label: "Name: A to Z"},
+    {value: "za", label: "Name: Z to A"},
 ];
 
 const Invoices = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [sortSelect, setSortSelect] = useState(null)
 
     const handleSearch = searchTerm => {
         console.log(`Searching for: ${searchTerm}`);
         // make a request to back server and search there
     };
 
-    const selectStyle = {
-        control: base => ({
-            ...base,
-            boxShadow: "none",
-            padding: '0 .5em',
-            paddingLeft: '1.3em',
-            margin: ' 0 1em',
-            maxWidth: '10em',
-            fontSize: '1em',
-            border: '0px solid transparent',
-            borderRadius: '.4em',
-            background: `url(/sort.svg) no-repeat left center`,
-            backgroundSize: '1.5em',
-            '&:hover': {
-                border: '0px solid #ccc',
-                borderRadius: '.4em',
-                backgroundColor: '#ccc'
-            },
-        }),
-        indicatorSeparator: () => ({
-            display: "none"
-        }),
-        dropdownIndicator: base => ({
-            ...base,
-            display: "none"
-        }),
-        option: (base, state) => ({
-            ...base,
-            backgroundColor: state.isFocused ? "#f5f5f5" : "white",
-            color: "#333",
-            cursor: "pointer",
-            fontSize: ".8em",
-            padding: "0.5em 1em"
-        })
-    };
+    const handleSortSelectChange = (option) => {
+        setSortSelect(option)
+        console.log("Selected sort option:", option)
+    }
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -68,9 +39,7 @@ const Invoices = () => {
                 <h1>Invoices</h1>
                 <div className={styles.actions}>
                     <Search placeholder="Search" onSearch={handleSearch}/>
-                    <div>
-                        <Select options={FILTER_OPTIONS} styles={selectStyle} placeholder="Sort"/>
-                    </div>
+                    <SortSelect options={SORT_OPTIONS} value={sortSelect} onChange={handleSortSelectChange}/>
                     <div onClick={togglePopup} className={styles.filter}>
                         <img className={styles.img} src="/filter.svg" alt="Filter"/>
                         <span>Filter</span>

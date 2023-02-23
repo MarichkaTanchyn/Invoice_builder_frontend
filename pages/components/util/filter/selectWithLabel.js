@@ -7,7 +7,9 @@ const SelectWithLabel = ({
                              options,
                              label,
                              value,
-                             onChange
+                             onChange,
+                             placeholder,
+                             isMulti
                          }) => {
 
     const selectStyle = {
@@ -28,8 +30,20 @@ const SelectWithLabel = ({
         indicatorSeparator: () => ({
             display: "none"
         }),
-        dropdownIndicator: base => ({
-            ...base,
+        indicatorsContainer: (provided, state) => ({
+            ...provided,
+            paddingRight: "1.5em",
+        }),
+        clearIndicator: (provided, state) => ({
+            ...provided,
+            display: "none"
+        }),
+        dropdownIndicator: (provided, state) => ({
+            ...provided,
+            cursor: "pointer",
+            position: "absolute",
+            right: "0",
+            top: "0",
             color: '#949bab',
 
             marginLeft: '-.5em',
@@ -47,7 +61,14 @@ const SelectWithLabel = ({
     return (
         <label className={styles.checkboxContentLabel}>
             <span>{label}</span>
-            <Select options={options} value={value} onChange={onChange} styles={selectStyle}/>
+            <Select
+                options={options}
+                value={value}
+                onChange={onChange}
+                styles={selectStyle}
+                placeholder={placeholder}
+                isMulti={isMulti}
+            />
         </label>
     )
 
