@@ -30,9 +30,9 @@ function HomePage() {
 
 
     return (
-        <div>
+        <div className={style.pageContainer}>
             <Header/>
-            <div className={style.pageContainer}>
+            <div className={style.pageContentContainer}>
                 <Sidebar categories={CATEGORIES_OPTIONS}/>
                 <Invoices />
             </div>

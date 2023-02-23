@@ -1,5 +1,10 @@
-.pageContainer {
+.pageContainer{
+    height: 100vh;
+}
+
+.pageContentContainer {
     width: 100%;
+    height: calc(100% - 3em);
     display: flex;
     justify-content: stretch;
     align-content: flex-start;

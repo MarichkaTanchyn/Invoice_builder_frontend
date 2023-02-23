@@ -1,6 +1,4 @@
 .aside {
-    height: 94.4vh;
-    /* height: 93.5vh; */
     width: 14%;
     text-decoration-color: white;
     background: #041F47;
@@ -33,7 +31,6 @@
 }
 
 .mainA {
-    /*font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;*/
     position: relative;
     font-size: 14px;
     padding: 5px 10px;
@@ -42,13 +39,6 @@
 
 .mainA:hover {
     border-radius: 5px;
-}
-
-.pageContent {
-    display: flex;
-    /*flex-direction: row;*/
-    justify-content: space-between;
-    /*align-items: center;*/
 }
 
 .icon {
@@ -123,7 +113,6 @@
 }
 @media (min-width: 1200px) and (max-width: 1650px) {
     .aside {
-        /*right: 75%;*/
         min-width: 12rem;
     }
     .icon {
