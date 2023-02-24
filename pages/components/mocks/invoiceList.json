@@ -1,0 +1,54 @@
+
+[{
+  "id": "1",
+  "documentNumber": "FV128201",
+  "cretionDate": "12/12/2022",
+  "dueDate": "12/02/2023",
+  "client": "Maria Tanchyn",
+  "validTo": "",
+  "totalAmount": "1230.50",
+  "status": "Paid",
+  "typeOfDocument": "Invoice",
+  "invoiceFile": "",
+  "createdBy": "MaxDub"
+},
+{
+  "id": "2",
+  "documentNumber": "Q128201",
+  "cretionDate": "03/07/2022",
+  "dueDate": "03/07/2022",
+  "validTo": "",
+  "client": "Maria Tanchyn",
+  "totalAmount": "50124.50",
+  "status": "Draft",
+  "typeOfDocument": "Quote",
+  "invoiceFile": "",
+  "createdBy": "MaxDub"
+
+},{
+  "id": "3",
+  "documentNumber": "Q1329201",
+  "cretionDate": "03/07/2022",
+  "dueDate": "03/07/2022",
+  "validTo": "",
+  "client": "Maria Tanchyn",
+  "totalAmount": "50124.50",
+  "status": "Draft",
+  "typeOfDocument": "Quote",
+  "invoiceFile": "",
+  "createdBy": "MaxDub"
+
+},{
+  "id": "4",
+  "documentNumber": "Q128201",
+  "cretionDate": "03/07/2022",
+  "dueDate": "03/07/2022",
+  "validTo": "",
+  "client": "Maria Tanchyn",
+  "totalAmount": "50124.50",
+  "status": "Draft",
+  "typeOfDocument": "Invoice",
+  "invoiceFile": "",
+  "createdBy": "MaxDub"
+}
+]

@@ -2,7 +2,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import {getCategories} from './api/categoriesApi'
 import {useEffect, useState} from "react";
 import Header from "./components/header/header";
-import Invoices from "./components/invoices/invoices";
+import InvoicesPage from "./components/invoiceList/invoicesPage";
 
 import style from './index.module.css';
 
@@ -34,7 +34,7 @@ function HomePage() {
             <Header/>
             <div className={style.pageContentContainer}>
                 <Sidebar categories={CATEGORIES_OPTIONS}/>
-                <Invoices />
+                <InvoicesPage />
             </div>
         </div>
 
