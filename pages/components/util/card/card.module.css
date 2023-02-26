@@ -1,6 +1,11 @@
 .card {
-    /*margin: 1em;*/
-    /*background-color: #FFFFFF;*/
-    /*display: block;*/
-    /*width: 100%;*/
+    margin: 1em 0;
+    background-color: #FFFFFF;
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+    text-align: left;
 }

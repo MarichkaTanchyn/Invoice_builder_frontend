@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./invoices.module.css"
-import Card from "../util/card/card";
+import numeral from "numeral";
 import CheckboxWithLabel from "../util/filter/checkboxWithLabel";
 
 const InvoiceListItem = ({  id,
@@ -13,18 +13,22 @@ const InvoiceListItem = ({  id,
                              status
                          }) => {
 
-    // Reg checkbox, Number, Type, To, Date, TotalAmount
+    // TODO: add popup details for each, with options depends from document status - draft
+
     return (
-        <Card>
-            <CheckboxWithLabel label={id} />
-            <span>{documentNumber}</span>
-            <span>{type}</span>
-            <span>{clientName}</span>
-            <span>{creationDate}</span>
-            <span>{totalAmount}</span>
-            <span>{createdBy}</span>
-            <span>{status}</span>
-        </Card>
+        <tr className={styles.rowBox}>
+            <td style={{padding: '0'}} className={styles.tableColumns}>
+                <CheckboxWithLabel label={id} />
+            </td>
+            <td className={styles.tableColumns}>{documentNumber}</td>
+            <td className={styles.tableColumns}>{type}</td>
+            <td className={styles.tableColumns}>{clientName}</td>
+            <td className={styles.tableColumns}>{creationDate}</td>
+            <td className={styles.tableColumns}>{numeral(totalAmount).format("0,0.0")}</td>
+            <td className={styles.tableColumns}>{createdBy}</td>
+            <td className={styles.tableColumns}>{status}</td>
+            <td><img className={styles.imgDetails} src="/deta.svg" alt="Details"/></td>
+        </tr>
     )
 }
 export default InvoiceListItem
