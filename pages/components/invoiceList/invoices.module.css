@@ -2,15 +2,23 @@
     background-color: #fafafa;
     height: 100%;
     width: 100%;
-    padding-right: 2em;
-    padding-top: 5em;
-    padding-left: 16%;
+    /*padding-right: 2.2em;*/
+    padding-top: 3em;
+    /*padding-left: 16.2%;*/
+    padding-left: 14%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .headers {
     display: flex;
+    position: fixed;
+    padding: 2em;
+    padding-bottom: 4.5em;
+    width: 86%;
+    z-index: 1;
+    background-color: #fafafa;
+
 }
 
 .headers h1 {
@@ -67,7 +75,7 @@
 
 .pageContent::-webkit-scrollbar-track {
     border-radius: 5px;
-    margin-top: 3em;
+    margin-top: 13em;
 }
 
 
@@ -77,24 +85,31 @@
 }
 
 .table {
+    margin-top: 2em;
     width: 100%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1.1em;
     border-collapse: separate;
     border-spacing: 0 1em;
-}
-
-.tableColumns {
+    position: relative;
     text-align: left;
-    padding: 1rem;
-    /*width: 12.5%;*/
+    padding: 2em;
 }
 
 .tableHeaders th {
     font-weight: normal;
     font-size: 1.1rem;
     color: rgba(40, 40, 40, 0.5);
-    /*text-transform: uppercase;*/
+    margin-top: 3em;
+    padding-top: 1em;
+    position: sticky;
+    background-color: #fafafa;
+    z-index: 1;
+    top: 5em;
+}
+
+.tableColumns {
+    padding: 1rem;
 }
 
 .rowBox {

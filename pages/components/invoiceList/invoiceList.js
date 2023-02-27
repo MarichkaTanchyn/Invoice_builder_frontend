@@ -16,13 +16,15 @@ const InvoiceList = ({invoiceList}) => {
                 <th className={styles.tableColumns}>Total Amount</th>
                 <th className={styles.tableColumns}>Created By</th>
                 <th className={styles.tableColumns}>Status</th>
+                <th className={styles.tableColumns}></th>
+
             </tr>
             </thead>
             <tbody>
             {invoiceList.map((invoice, index) => (
                 <InvoiceListItem
                     key={invoice.id}
-                    id={index+1}
+                    id={index + 1}
                     documentNumber={invoice.documentNumber}
                     type={invoice.typeOfDocument}
                     createdBy={invoice.createdBy}
