@@ -8,7 +8,11 @@
     color: #fff;
     border-bottom: .1em solid #949bab;
     list-style: none;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
 }
+
 
 .logoAndName {
     display: flex;

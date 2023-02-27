@@ -3,8 +3,7 @@
 }
 
 .pageContentContainer {
-    width: 100%;
-    height: calc(100% - 3em);
+    height: 100%;
     display: flex;
     justify-content: stretch;
     align-content: flex-start;

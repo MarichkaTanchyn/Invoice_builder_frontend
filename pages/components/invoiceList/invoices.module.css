@@ -1,9 +1,12 @@
 .pageContent {
     background-color: #fafafa;
-    padding: 1.5em 2em;
+    height: 100%;
     width: 100%;
-    /*margin: 0 1em;*/
+    padding-right: 2em;
+    padding-top: 5em;
+    padding-left: 16%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    overflow: scroll;
 }
 
 .headers {
@@ -54,18 +57,17 @@
 }
 
 .pageContent::-webkit-scrollbar {
-    width: .5em;
+    width: .6em;
 }
 
 .pageContent::-webkit-scrollbar-thumb {
-    background-color: #999;
-    border-radius: 8px;
+    background-color: rgba(105, 105, 105, 0.25);
+    border-radius: 5px;
 }
 
 .pageContent::-webkit-scrollbar-track {
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    margin: 1em;
+    border-radius: 5px;
+    margin-top: 3em;
 }
 
 
@@ -75,8 +77,6 @@
 }
 
 .table {
-    margin-top: 1.5em;
-    /*border-collapse: collapse;*/
     width: 100%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1.1em;
