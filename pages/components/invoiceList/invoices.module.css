@@ -14,9 +14,9 @@
     display: flex;
     position: fixed;
     padding: 2em;
-    padding-bottom: 4.5em;
-    width: 86%;
-    z-index: 1;
+    width: 85%;
+    z-index: 10;
+    /* padding-bottom: 4.5em;  */
     background-color: #fafafa;
 
 }
