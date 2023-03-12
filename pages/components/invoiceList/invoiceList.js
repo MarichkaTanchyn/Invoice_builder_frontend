@@ -26,7 +26,7 @@ const InvoiceList = ({invoiceList}) => {
                 <InvoiceListItem
                     key={invoice.id}
                     id={index + 1}
-                    documentNumber={invoice.invoiceNumber}
+                    invoiceNumber={invoice.invoiceNumber}
                     type={invoice.typeOfDocument}
                     createdBy={invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
                     clientName={invoice.clientName}

@@ -4,7 +4,7 @@ import numeral from "numeral";
 import CheckboxWithLabel from "../util/filter/checkboxWithLabel";
 
 const InvoiceListItem = ({  id,
-                             documentNumber,
+                             invoiceNumber,
                              type,
                              clientName,
                              creationDate,
@@ -20,7 +20,7 @@ const InvoiceListItem = ({  id,
             <td style={{padding: '0'}} className={styles.tableColumns}>
                 <CheckboxWithLabel label={id} />
             </td>
-            <td className={styles.tableColumns}>{documentNumber}</td>
+            <td className={styles.tableColumns}>{invoiceNumber}</td>
             <td className={styles.tableColumns}>{type}</td>
             <td className={styles.tableColumns}>{clientName}</td>
             <td className={styles.tableColumns}>{creationDate}</td>

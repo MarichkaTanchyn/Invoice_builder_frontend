@@ -5,7 +5,7 @@ import styles from './invoices.module.css'
 import Filter from "../util/filter/filter";
 import Button from "../util/button/button"
 import SortSelect from "../util/sortSelect/sortSelect";
-import invoiceList from "../mocks/invoiceList.json"
+import sortDocuments from '../util/sortSelect/sortDocuments';
 import InvoiceList from "./invoiceList";
 import {getAllDocuments} from "../../api/invoicesAPI";
 
@@ -42,9 +42,10 @@ const InvoicesPage = () => {
         // make a request to back server and search there
     };
 
-    const handleSortSelectChange = (option) => {
+    const handleSortSelectChange = (option) =>{
+        // on change sort the documents list
         setSortSelect(option)
-        console.log("Selected sort option:", option)
+        setDocuments(sortDocuments(documents, option.value))
     }
 
     const togglePopup = () => {
