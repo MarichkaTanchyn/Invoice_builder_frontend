@@ -21,6 +21,7 @@
     background-color: #f8f8f8;
     border-radius: 20px;
     overflow-y: auto;
+    z-index: 20;
 }
 
 /* Custom scrollbar styling */

@@ -15,7 +15,7 @@ const CATEGORIES_OPTIONS = [
 function HomePage() {
     const [categories, setCategories] = useState([]);
     const params = {
-        id: 1
+        CompanyId: 4
     }
 
     useEffect(() => {
@@ -33,7 +33,7 @@ function HomePage() {
         <div className={style.pageContainer}>
             <Header/>
             <div className={style.pageContentContainer}>
-                <Sidebar categories={CATEGORIES_OPTIONS}/>
+                <Sidebar categories={categories}/>
                 <InvoicesPage />
             </div>
         </div>

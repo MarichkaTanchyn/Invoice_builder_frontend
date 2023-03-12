@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React from "react";
+import {useEffect, useState} from "react";
 import Search from "../util/search/search";
 import styles from './invoices.module.css'
 import Filter from "../util/filter/filter";
@@ -6,6 +7,7 @@ import Button from "../util/button/button"
 import SortSelect from "../util/sortSelect/sortSelect";
 import invoiceList from "../mocks/invoiceList.json"
 import InvoiceList from "./invoiceList";
+import {getAllDocuments} from "../../api/invoicesAPI";
 
 const SORT_OPTIONS = [
     {value: "oldest", label: "Oldest first"},
@@ -19,6 +21,21 @@ const SORT_OPTIONS = [
 const InvoicesPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [sortSelect, setSortSelect] = useState(null)
+    const [documents, setDocuments] = useState([]);
+    const params = {
+        CompanyId: 4,
+        EmployeeId: 4,
+    }
+
+    useEffect(() => {
+        async function fetchData() {
+            return await getAllDocuments(params);
+        }
+
+        fetchData().then(res => {
+            setDocuments(Object.values(res.props.documents.documents));
+        });
+    }, []);
 
     const handleSearch = searchTerm => {
         console.log(`Searching for: ${searchTerm}`);
@@ -53,8 +70,7 @@ const InvoicesPage = () => {
                         </div>
                     </div>
                 </div>
-                <InvoiceList invoiceList={invoiceList
-                } />
+                <InvoiceList invoiceList={documents} />
             </div>
     )
 

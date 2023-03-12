@@ -6,14 +6,6 @@ import style from './sidebar.module.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faChevronRight, faPencil, faPlus, faGear} from '@fortawesome/free-solid-svg-icons'
 
-const CATEGORIES = [{
-    id: 123, name: 'Shoes'
-}, {
-    id: 111, name: 'T-Shirts'
-}, {
-    id: 121, name: 'Jeans'
-}];
-
 const Sidebar = (props) => {
     const [collapse1, setCollapse1] = useState(false);
 
@@ -37,22 +29,21 @@ const Sidebar = (props) => {
                         Invoices
                     </span>
                     </a>
-
                 </li>
                 <li className={`${style.dropdown}`}>
                     <div className={`${style.mainCategory}`} style={{paddingLeft: '0'}}>
                         <a className={`${style.a}`} onClick={toggle1}>
                             <div onClick={handleClick}>
-                    <span className={`${style.mainA}`}>
-                        <FontAwesomeIcon icon={faChevronRight}
-                                         className={`${style.arrow_icon} ${style.icon}`}
-                                         style={{
-                                             transform: `rotate(${rotation}deg) 
-                                                         translateX(${moveDown ? 4 : 0}px)
-                                                         translateY(${moveDown ? 5 : 0}px)`,
-                                         }}/>
-                        Categories
-                    </span>
+                                <span className={`${style.mainA}`}>
+                                    <FontAwesomeIcon icon={faChevronRight}
+                                                     className={`${style.arrow_icon} ${style.icon}`}
+                                                     style={{
+                                                         transform: `rotate(${rotation}deg) 
+                                                                     translateX(${moveDown ? 4 : 0}px)
+                                                                     translateY(${moveDown ? 5 : 0}px)`,
+                                                     }}/>
+                                    Categories
+                                </span>
                             </div>
                         </a>
                         <FontAwesomeIcon icon={faPencil} className={`${style.icon}`}/>
@@ -64,16 +55,16 @@ const Sidebar = (props) => {
                 </li>
                 <li className={style.li}>
                     <a className={style.a} href="">
-                    <span className={`${style.mainA}`}>
-                        Customers
-                    </span>
+                        <span className={`${style.mainA}`}>
+                            Customers
+                        </span>
                     </a>
                 </li>
                 <li className={style.li}>
                     <a className={style.a} href="">
-                    <span className={`${style.mainA}`}>
-                        Reports
-                    </span>
+                        <span className={`${style.mainA}`}>
+                            Reports
+                        </span>
                     </a>
                 </li>
             </ul>

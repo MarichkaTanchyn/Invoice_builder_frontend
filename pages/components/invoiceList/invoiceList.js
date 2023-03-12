@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./invoices.module.css"
 import InvoiceListItem from "./invoiceListItem";
-import invoiceListTest from "./invoiceList";
+import { format } from 'date-fns';
+
 
 const InvoiceList = ({invoiceList}) => {
     return (
@@ -25,11 +26,11 @@ const InvoiceList = ({invoiceList}) => {
                 <InvoiceListItem
                     key={invoice.id}
                     id={index + 1}
-                    documentNumber={invoice.documentNumber}
+                    documentNumber={invoice.invoiceNumber}
                     type={invoice.typeOfDocument}
-                    createdBy={invoice.createdBy}
-                    clientName={invoice.client}
-                    creationDate={invoice.creationDate}
+                    createdBy={invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
+                    clientName={invoice.clientName}
+                    creationDate={format(new Date(invoice.creationDate), 'dd/MM/yyyy')}
                     totalAmount={invoice.totalAmount}
                     status={invoice.status}
                 />
