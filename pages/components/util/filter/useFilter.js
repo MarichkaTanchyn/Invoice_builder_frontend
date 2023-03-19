@@ -7,7 +7,7 @@ const useFilter = () => {
         (documents) => {
             let filteredDocuments = documents;
 
-            // Check if useDate is true and a date value is provided
+            // filter by date
             if (filterSettings.useDate && filterSettings.date) {
                 const filterDate = new Date(filterSettings.date);
                 filteredDocuments = filteredDocuments.filter((doc) => {
@@ -19,6 +19,7 @@ const useFilter = () => {
                     );
                 });
             }
+            // filter by total amount
             if (
                 filterSettings.useTotalAmountDue &&
                 filterSettings.fromTotalAmountDue &&
@@ -34,7 +35,7 @@ const useFilter = () => {
                     );
                 });
             }
-
+            //filter by date range
             if (
                 filterSettings.useDateRange &&
                 filterSettings.fromDate &&
@@ -49,13 +50,14 @@ const useFilter = () => {
                     return docDate >= fromDate && docDate <= toDate;
                 });
             }
-
+            //filter by status
             if (filterSettings.useSelectStatus && filterSettings.selectStatus) {
                 const filterStatus = filterSettings.selectStatus.value.toLocaleString().toLowerCase();
                 filteredDocuments = filteredDocuments.filter(
                     (doc) => doc.status.toLowerCase() === filterStatus
                 );
             }
+            //filter by created by
             if (filterSettings.useSelectUser && filterSettings.selectUser) {
                 const filterUsers = filterSettings.selectUser.map(user => user.value);
                 if (filterUsers.length > 0) {
@@ -64,8 +66,6 @@ const useFilter = () => {
                     );
                 }
             }
-
-
 
             return filteredDocuments;
         },

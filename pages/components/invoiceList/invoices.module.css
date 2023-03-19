@@ -112,6 +112,9 @@
     padding: 1rem;
 }
 
+.lastTableColumns {
+    position: relative;
+}
 .rowBox {
     line-height: 1.7em;
     border: 1px solid #ccc;
