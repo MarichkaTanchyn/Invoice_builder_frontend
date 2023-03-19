@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './filter.module.css'
 import Popup from "../popup/popup";
 import CheckboxWithLabel from "./checkboxWithLabel";
@@ -6,6 +6,7 @@ import InputWithLabel from "./inputWithLabel";
 import SelectWithLabel from "./selectWithLabel";
 import Button from "../button/button";
 import useFilter from "./useFilter";
+import {getEmployees} from "../../../api/employeesApi";
 
 
 const CURRENCY_OPTIONS = [
@@ -50,6 +51,7 @@ const Filter = ({updateFilterSettings}) => {
     const [selectCurrency, setSelectCurrency] = useState(CURRENCY_OPTIONS[0])
     const [selectStatus, setSelectStatus] = useState(null)
     const [selectUser, setSelectUser] = useState(null)
+
 
     // checkbox handlers
     const handleDateRangeCheckboxChange = (event) => {
@@ -96,6 +98,25 @@ const Filter = ({updateFilterSettings}) => {
         setToTotalAmountDue(validatedValue);
     };
 
+    const params = {
+        CompanyId: 4,
+    }
+    const [users, setUsers] = useState([])
+
+
+    useEffect(() => {
+        async function fetchData() {
+            return await getEmployees(params)
+        }
+        fetchData().then(res => {
+            setUsers(Object.values(res.props.employees).map(user => {
+                return {
+                    value: user.id,
+                    label: user.Person.firstName + " " + user.Person.lastName}
+            }))
+        })
+    }, [])
+
     //select handlers
     const handleSelectCurrencyChange = (option) => {
         setSelectCurrency(option)
@@ -104,7 +125,6 @@ const Filter = ({updateFilterSettings}) => {
 
     const handleSelectInvoiceStatus = (option) => {
         setSelectStatus(option)
-        console.log("Selected status", option)
     }
 
     const handleSelectUser = (option) => {
@@ -178,7 +198,7 @@ const Filter = ({updateFilterSettings}) => {
                         <div className={styles.checkboxContent}>
                             <SelectWithLabel
                                 label="User"
-                                options={USERS_OPTIONS}
+                                options={users}
                                 value={selectUser}
                                 onChange={handleSelectUser}
                                 placeholder={"Select User"}

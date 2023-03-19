@@ -19,6 +19,53 @@ const useFilter = () => {
                     );
                 });
             }
+            if (
+                filterSettings.useTotalAmountDue &&
+                filterSettings.fromTotalAmountDue &&
+                filterSettings.toTotalAmountDue
+            ) {
+                const fromTotalAmountDue = parseFloat(filterSettings.fromTotalAmountDue);
+                const toTotalAmountDue = parseFloat(filterSettings.toTotalAmountDue);
+
+                filteredDocuments = filteredDocuments.filter((doc) => {
+                    return (
+                        doc.totalAmount >= fromTotalAmountDue &&
+                        doc.totalAmount <= toTotalAmountDue
+                    );
+                });
+            }
+
+            if (
+                filterSettings.useDateRange &&
+                filterSettings.fromDate &&
+                filterSettings.toDate
+            ) {
+                const fromDate = new Date(filterSettings.fromDate);
+                const toDate = new Date(filterSettings.toDate);
+                toDate.setHours(23, 59, 59, 999);
+
+                filteredDocuments = filteredDocuments.filter((doc) => {
+                    const docDate = new Date(doc.date);
+                    return docDate >= fromDate && docDate <= toDate;
+                });
+            }
+
+            if (filterSettings.useSelectStatus && filterSettings.selectStatus) {
+                const filterStatus = filterSettings.selectStatus.value.toLocaleString().toLowerCase();
+                filteredDocuments = filteredDocuments.filter(
+                    (doc) => doc.status.toLowerCase() === filterStatus
+                );
+            }
+            if (filterSettings.useSelectUser && filterSettings.selectUser) {
+                const filterUsers = filterSettings.selectUser.map(user => user.value);
+                if (filterUsers.length > 0) {
+                    filteredDocuments = filteredDocuments.filter(
+                        (doc) => filterUsers.includes(doc.Employee.PersonId)
+                    );
+                }
+            }
+
+
 
             return filteredDocuments;
         },
