@@ -8,6 +8,7 @@ import SortSelect from "../util/sortSelect/sortSelect";
 import sortDocuments from '../util/sortSelect/sortDocuments';
 import InvoiceList from "./invoiceList";
 import {getAllDocuments} from "../../api/invoicesAPI";
+import useFilter from "../util/filter/useFilter";
 
 const SORT_OPTIONS = [
     {value: "oldest", label: "Oldest first"},
@@ -27,15 +28,18 @@ const InvoicesPage = () => {
         EmployeeId: 4,
     }
 
+    const { applyFilter, updateFilterSettings } = useFilter();
+
     useEffect(() => {
         async function fetchData() {
             return await getAllDocuments(params);
         }
 
-        fetchData().then(res => {
-            setDocuments(Object.values(res.props.documents.documents));
+        fetchData().then((res) => {
+            const allDocuments = Object.values(res.props.documents.documents);
+            setDocuments(applyFilter(allDocuments));
         });
-    }, []);
+    }, [applyFilter]);
 
     const handleSearch = searchTerm => {
         console.log(`Searching for: ${searchTerm}`);
@@ -62,7 +66,7 @@ const InvoicesPage = () => {
                         <div onClick={togglePopup} className={styles.filter}>
                             <img className={styles.img} src="/filter.svg" alt="Filter"/>
                             <span>Filter</span>
-                            {isOpen && <Filter/>}
+                            {isOpen && <Filter updateFilterSettings={updateFilterSettings}/>}
                         </div>
                         <div className={styles.createInvoiceButton}>
                             {/*TODO: redirect to create Invoice page*/}

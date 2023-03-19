@@ -4,6 +4,8 @@ import Popup from "../popup/popup";
 import CheckboxWithLabel from "./checkboxWithLabel";
 import InputWithLabel from "./inputWithLabel";
 import SelectWithLabel from "./selectWithLabel";
+import Button from "../button/button";
+import useFilter from "./useFilter";
 
 
 const CURRENCY_OPTIONS = [
@@ -29,7 +31,7 @@ const USERS_OPTIONS = [
     {value: 6, label: 'Olena Tanchyn'},
 ]
 
-const Filter = () => {
+const Filter = ({updateFilterSettings}) => {
 
     const [useDateRange, setUseDateRange] = useState(false);
     const [useDate, setUseDate] = useState(false);
@@ -118,6 +120,31 @@ const Filter = () => {
             return inputValue;
         }
     }
+
+    const handleApplyFilter = () => {
+        updateFilterSettings({
+            useDateRange,
+            fromDate,
+            toDate,
+            useDate,
+            date,
+            useTotalAmountDue,
+            fromTotalAmountDue,
+            toTotalAmountDue,
+            selectCurrency,
+            useSelectStatus,
+            selectStatus,
+            useSelectUser,
+            selectUser,
+        });
+    };
+
+    const { clearFilterSettings } = useFilter();
+
+    const handleClearFilter = () => {
+        clearFilterSettings();
+        updateFilterSettings({}); // Reset the filter settings in the parent component
+    };
 
     return (
         <>
@@ -229,6 +256,10 @@ const Filter = () => {
                             />
                         </div>
                     )}
+                </div>
+                <div className={styles.filterButtons}>
+                    <Button label="Clear" onClick={handleClearFilter}/>
+                    <Button label="Apply" onClick={handleApplyFilter}/>
                 </div>
             </Popup>
         </>
