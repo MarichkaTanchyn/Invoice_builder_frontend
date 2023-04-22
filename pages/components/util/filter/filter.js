@@ -53,84 +53,23 @@ const Filter = ({updateFilterSettings}) => {
     const [selectUser, setSelectUser] = useState(null)
 
 
-    // checkbox handlers
-    const handleDateRangeCheckboxChange = (event) => {
-        setUseDateRange(event.target.checked);
+    const handleCheckboxChange = (setter) => (event) => {
+        setter(event.target.checked);
     };
 
-    const handleTotalAmountDueRangeCheckboxChange = (event) => {
-        setUseTotalAmountDue(event.target.checked);
+    const handleInputChange = (setter) => (event) => {
+        setter(event.target.value);
     };
 
-    const handleStatusCheckboxChange = (event) => {
-        setUseSelectStatus(event.target.checked)
-    }
-
-    const handleUserCheckboxChange = (event) => {
-        setUseSelectUser(event.target.checked)
-    }
-    // date input handlers
-    const handleFromDateChange = (event) => {
-        setFromDate(event.target.value);
-    };
-
-    const handleToDateChange = (event) => {
-        setToDate(event.target.value);
-    };
-
-    const handleDateCheckboxChange = (event) => {
-        setUseDate(event.target.checked);
-    };
-    const handleDateChange = (event) => {
-        setDate(event.target.value);
-    };
-
-    // number input handlers
-    const handleFromTotalAmountDueChange = (event) => {
+    const handleNumberInputChange = (setter) => (event) => {
         const inputValue = event.target.value;
         const validatedValue = validateInputValue(inputValue);
-        setFromTotalAmountDue(validatedValue);
+        setter(validatedValue);
     };
 
-    const handleToTotalAmountDueChange = (event) => {
-        const inputValue = event.target.value;
-        const validatedValue = validateInputValue(inputValue);
-        setToTotalAmountDue(validatedValue);
+    const handleSelectChange = (setter) => (option) => {
+        setter(option);
     };
-
-    const params = {
-        CompanyId: 4,
-    }
-    const [users, setUsers] = useState([])
-
-
-    useEffect(() => {
-        async function fetchData() {
-            return await getEmployees(params)
-        }
-        fetchData().then(res => {
-            setUsers(Object.values(res.props.employees).map(user => {
-                return {
-                    value: user.id,
-                    label: user.Person.firstName + " " + user.Person.lastName}
-            }))
-        })
-    }, [])
-
-    //select handlers
-    const handleSelectCurrencyChange = (option) => {
-        setSelectCurrency(option)
-        console.log("selected Currency", option)
-    }
-
-    const handleSelectInvoiceStatus = (option) => {
-        setSelectStatus(option)
-    }
-
-    const handleSelectUser = (option) => {
-        setSelectUser(option)
-        console.log("Selected user", option)
-    }
 
     const validateInputValue = (inputValue) => {
         const regex = /^[0-9.]*$/;
@@ -140,6 +79,30 @@ const Filter = ({updateFilterSettings}) => {
             return inputValue;
         }
     }
+
+    useEffect(() => {
+        return () => {
+            setUseDateRange(false);
+            setUseDate(false);
+            setUseTotalAmountDue(false);
+            setUseSelectStatus(false);
+            setUseSelectUser(false);
+
+            setFromDate('');
+            setToDate('');
+
+            setDate('');
+
+            setFromTotalAmountDue(null);
+            setToTotalAmountDue(null);
+
+            setSelectCurrency(CURRENCY_OPTIONS[0]);
+            setSelectStatus(null);
+            setSelectUser(null);
+        };
+    }, []);
+
+
 
     const handleApplyFilter = () => {
         updateFilterSettings({
@@ -173,7 +136,7 @@ const Filter = ({updateFilterSettings}) => {
                     <CheckboxWithLabel
                         label="Invoice Status"
                         checked={useSelectStatus}
-                        onChange={handleStatusCheckboxChange}
+                        onChange={handleCheckboxChange(setUseSelectStatus)}
                     />
                     {useSelectStatus && (
                         <div className={styles.checkboxContent}>
@@ -181,7 +144,7 @@ const Filter = ({updateFilterSettings}) => {
                                 label="Status"
                                 options={INVOICE_STATUS_OPTIONS}
                                 value={selectStatus}
-                                onChange={handleSelectInvoiceStatus}
+                                onChange={handleSelectChange(setSelectStatus)}
                                 placeholder={"Select Status"}
                                 isMulti={false}
                             />
@@ -192,15 +155,15 @@ const Filter = ({updateFilterSettings}) => {
                     <CheckboxWithLabel
                         label="Created By"
                         checked={useSelectUser}
-                        onChange={handleUserCheckboxChange}
+                        onChange={handleCheckboxChange(setUseSelectUser)}
                     />
                     {useSelectUser && (
                         <div className={styles.checkboxContent}>
                             <SelectWithLabel
                                 label="User"
-                                options={users}
+                                options={USERS_OPTIONS}
                                 value={selectUser}
-                                onChange={handleSelectUser}
+                                onChange={handleSelectChange(setSelectUser)}
                                 placeholder={"Select User"}
                                 isMulti={true}
                             />
@@ -211,7 +174,7 @@ const Filter = ({updateFilterSettings}) => {
                     <CheckboxWithLabel
                         label="Date Range"
                         checked={useDateRange}
-                        onChange={handleDateRangeCheckboxChange}
+                        onChange={handleCheckboxChange(setUseDateRange)}
                     />
                     {useDateRange && (
                         <div className={styles.checkboxContent}>
@@ -219,13 +182,13 @@ const Filter = ({updateFilterSettings}) => {
                                 label="From"
                                 inputType="date"
                                 inputValue={fromDate}
-                                onChange={handleFromDateChange}
+                                onChange={handleInputChange(setFromDate)}
                             />
                             <InputWithLabel
                                 label="To"
                                 inputType="date"
                                 inputValue={toDate}
-                                onChange={handleToDateChange}
+                                onChange={handleInputChange(setToDate)}
                             />
                         </div>
                     )}
@@ -234,7 +197,7 @@ const Filter = ({updateFilterSettings}) => {
                     <CheckboxWithLabel
                         label="Date"
                         checked={useDate}
-                        onChange={handleDateCheckboxChange}
+                        onChange={handleCheckboxChange(setUseDate)}
                     />
                     {useDate && (
                         <div className={styles.checkboxContent}>
@@ -242,7 +205,7 @@ const Filter = ({updateFilterSettings}) => {
                                 label="Date"
                                 inputType="date"
                                 inputValue={date}
-                                onChange={handleDateChange}
+                                onChange={handleInputChange(setDate)}
                             />
                         </div>
                     )}
@@ -251,7 +214,7 @@ const Filter = ({updateFilterSettings}) => {
                     <CheckboxWithLabel
                         label="Total Amount Due"
                         checked={useTotalAmountDue}
-                        onChange={handleTotalAmountDueRangeCheckboxChange}
+                        onChange={handleCheckboxChange(setUseTotalAmountDue)}
                     />
                     {useTotalAmountDue && (
                         <div className={styles.checkboxContent}>
@@ -259,20 +222,20 @@ const Filter = ({updateFilterSettings}) => {
                                 label="Currency"
                                 options={CURRENCY_OPTIONS}
                                 value={selectCurrency}
-                                onChange={handleSelectCurrencyChange}
+                                onChange={handleSelectChange(setSelectCurrency)}
                                 isMulti={false}
                             />
                             <InputWithLabel
                                 label="From"
                                 inputType="text"
                                 inputValue={fromTotalAmountDue}
-                                onChange={handleFromTotalAmountDueChange}
+                                onChange={handleNumberInputChange(setFromTotalAmountDue)}
                             />
                             <InputWithLabel
                                 label="To"
                                 inputType="text"
                                 inputValue={toTotalAmountDue}
-                                onChange={handleToTotalAmountDueChange}
+                                onChange={handleNumberInputChange(setToTotalAmountDue)}
                             />
                         </div>
                     )}
