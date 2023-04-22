@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import styles from "./invoices.module.css"
 import numeral from "numeral";
-import CheckboxWithLabel from "../util/filter/checkboxWithLabel";
-import OptionsPopup from "../util/optionsPopup/optionsPopup";
+import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import OptionsPopup from "../components/util/optionsPopup/optionsPopup";
 
 const InvoiceListItem = ({
                              id,

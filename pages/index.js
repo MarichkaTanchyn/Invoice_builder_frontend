@@ -1,10 +1,6 @@
-import Sidebar from "./components/sidebar/Sidebar";
-import {getCategories} from './api/categoriesApi'
-import {useEffect, useState} from "react";
-import Header from "./components/header/header";
-import InvoicesPage from "./components/invoiceList/invoicesPage";
-
-import style from './index.module.css';
+import InvoicesPage from "./invoiceList/invoicesPage";
+import Layout from "./components/layout/layout";
+import Link from "next/link";
 
 const CATEGORIES_OPTIONS = [
     {id: 1, name: "Spodnie"},
@@ -13,31 +9,11 @@ const CATEGORIES_OPTIONS = [
 ]
 
 function HomePage() {
-    const [categories, setCategories] = useState([]);
-    const params = {
-        CompanyId: 4
-    }
-
-    useEffect(() => {
-        async function fetchData() {
-            return await getCategories(params);
-        }
-
-        fetchData().then(res => {
-            setCategories(Object.values(res.props.categories));
-        });
-    }, []);
-
 
     return (
-        <div className={style.pageContainer}>
-            <Header/>
-            <div className={style.pageContentContainer}>
-                <Sidebar categories={categories}/>
-                <InvoicesPage />
-            </div>
-        </div>
-
+        <Layout>
+            <Link href="/invoiceList/invoicesPage"/>
+        </Layout>
     )
 }
 

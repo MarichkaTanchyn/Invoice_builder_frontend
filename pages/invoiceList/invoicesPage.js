@@ -1,14 +1,17 @@
 import React from "react";
 import {useEffect, useState} from "react";
-import Search from "../util/search/search";
+import Search from "../components/util/search/search";
 import styles from './invoices.module.css'
-import Filter from "../util/filter/filter";
-import Button from "../util/button/button"
-import SortSelect from "../util/sortSelect/sortSelect";
-import sortDocuments from '../util/sortSelect/sortDocuments';
+import Filter from "../components/util/filter/filter";
+import Button from "../components/util/button/button"
+import SortSelect from "../components/util/sortSelect/sortSelect";
+import sortDocuments from '../components/util/sortSelect/sortDocuments';
 import InvoiceList from "./invoiceList";
-import {getAllDocuments} from "../../api/invoicesAPI";
-import useFilter from "../util/filter/useFilter";
+import {getAllDocuments} from "../api/invoicesAPI";
+import useFilter from "../components/util/filter/useFilter";
+import {useRouter} from "next/router";
+import withLayout from "../components/layout/withLayout";
+
 
 const SORT_OPTIONS = [
     {value: "oldest", label: "Oldest first"},
@@ -56,6 +59,14 @@ const InvoicesPage = () => {
         setIsOpen(!isOpen);
     };
 
+    const router = useRouter();
+
+    const handleCreateInvoice = async () => {
+        // Replace '/create-invoice' with the path to your Create Invoice page
+        await router.push('/createInvoice/createInvoiceForm');
+    };
+
+
     return (
             <div className={styles.pageContent}>
                 <div className={styles.headers}>
@@ -71,7 +82,7 @@ const InvoicesPage = () => {
                         <div className={styles.createInvoiceButton}>
                             {/*TODO: redirect to create Invoice page*/}
                             <Button label={"Create Invoice"}
-                                    onClick={() => console.log("You clicked on the Create Invoice button!")}/>
+                                    onClick={handleCreateInvoice}/>
                         </div>
                     </div>
                 </div>
@@ -81,4 +92,4 @@ const InvoicesPage = () => {
 
 }
 
-export default InvoicesPage
+export default withLayout(InvoicesPage);

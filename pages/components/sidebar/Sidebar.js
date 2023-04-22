@@ -5,6 +5,7 @@ import SidebarList from "./SidebarList";
 import style from './sidebar.module.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faChevronRight, faPencil, faPlus, faGear} from '@fortawesome/free-solid-svg-icons'
+import Link from "next/link";
 
 const Sidebar = (props) => {
     const [collapse1, setCollapse1] = useState(false);
@@ -24,11 +25,11 @@ const Sidebar = (props) => {
         <div className={style.aside}>
             <ul className={style.ul}>
                 <li className={style.li}>
-                    <a className={`${style.a}`} href="">
+                    <Link className={`${style.a}`} href="/invoiceList/invoicesPage">
                     <span className={`${style.mainA}`}>
                         Invoices
                     </span>
-                    </a>
+                    </Link>
                 </li>
                 <li className={`${style.dropdown}`}>
                     <div className={`${style.mainCategory}`} style={{paddingLeft: '0'}}>

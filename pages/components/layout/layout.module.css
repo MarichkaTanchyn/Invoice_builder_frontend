@@ -1,0 +1,20 @@
+.pageContainer{
+    height: 100vh;
+}
+
+.pageContentContainer {
+    height: 100%;
+    display: flex;
+    justify-content: stretch;
+    align-content: flex-start;
+    background-color: #fafafa;
+}
+.pageContent {
+    background-color: #fafafa;
+    height: 100%;
+    width: calc(100% - 14%); /* Updated width */
+    padding-top: 3em;
+    margin-left: 14%; /* Added margin-left */
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    overflow: auto;
+}
