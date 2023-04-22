@@ -1,20 +1,9 @@
-.pageContent {
-    background-color: #fafafa;
-    height: 100%;
-    width: calc(100% - 14%); /* Updated width */
-    padding-top: 3em;
-    margin-left: 14%; /* Added margin-left */
-    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    overflow: auto;
-}
-
 .headers {
     display: flex;
     position: fixed;
     padding: 2em;
     width: 85%;
     z-index: 10;
-    /* padding-bottom: 4.5em;  */
     background-color: #fafafa;
 
 }
@@ -76,11 +65,6 @@
     margin-top: 13em;
 }
 
-
-@media (max-width: 1200px) {
-    .pageContent {
-    }
-}
 
 .table {
     margin-top: 2em;

@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 
 
 const InvoiceList = ({invoiceList}) => {
-    console.log(invoiceList)
     return (
         <table className={styles.table}>
             <thead>

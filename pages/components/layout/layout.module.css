@@ -7,14 +7,15 @@
     display: flex;
     justify-content: stretch;
     align-content: flex-start;
+    width: 100%;
     background-color: #fafafa;
 }
 .pageContent {
     background-color: #fafafa;
     height: 100%;
-    width: calc(100% - 14%); /* Updated width */
+    width: calc(100% - 14%);
     padding-top: 3em;
-    margin-left: 14%; /* Added margin-left */
+    margin-left: 14%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     overflow: auto;
 }

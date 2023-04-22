@@ -31,7 +31,7 @@ const InvoicesPage = () => {
         EmployeeId: 4,
     }
 
-    const { applyFilter, updateFilterSettings } = useFilter();
+    const {applyFilter, updateFilterSettings} = useFilter();
 
     useEffect(() => {
         async function fetchData() {
@@ -49,7 +49,7 @@ const InvoicesPage = () => {
         // make a request to back server and search there
     };
 
-    const handleSortSelectChange = (option) =>{
+    const handleSortSelectChange = (option) => {
         // on change sort the documents list
         setSortSelect(option)
         setDocuments(sortDocuments(documents, option.value))
@@ -68,26 +68,26 @@ const InvoicesPage = () => {
 
 
     return (
-            <div className={styles.pageContent}>
-                <div className={styles.headers}>
-                    <h1>Invoices</h1>
-                    <div className={styles.actions}>
-                        <Search placeholder="Search" onSearch={handleSearch}/>
-                        <SortSelect options={SORT_OPTIONS} value={sortSelect} onChange={handleSortSelectChange}/>
-                        <div onClick={togglePopup} className={styles.filter}>
-                            <img className={styles.img} src="/filter.svg" alt="Filter"/>
-                            <span>Filter</span>
-                            {isOpen && <Filter updateFilterSettings={updateFilterSettings}/>}
-                        </div>
-                        <div className={styles.createInvoiceButton}>
-                            {/*TODO: redirect to create Invoice page*/}
-                            <Button label={"Create Invoice"}
-                                    onClick={handleCreateInvoice}/>
-                        </div>
+        <>
+            <div className={styles.headers}>
+                <h1>Invoices</h1>
+                <div className={styles.actions}>
+                    <Search placeholder="Search" onSearch={handleSearch}/>
+                    <SortSelect options={SORT_OPTIONS} value={sortSelect} onChange={handleSortSelectChange}/>
+                    <div onClick={togglePopup} className={styles.filter}>
+                        <img className={styles.img} src="/filter.svg" alt="Filter"/>
+                        <span>Filter</span>
+                        {isOpen && <Filter updateFilterSettings={updateFilterSettings}/>}
+                    </div>
+                    <div className={styles.createInvoiceButton}>
+                        {/*TODO: redirect to create Invoice page*/}
+                        <Button label={"Create Invoice"}
+                                onClick={handleCreateInvoice}/>
                     </div>
                 </div>
-                <InvoiceList invoiceList={documents} />
             </div>
+            <InvoiceList invoiceList={documents}/>
+        </>
     )
 
 }

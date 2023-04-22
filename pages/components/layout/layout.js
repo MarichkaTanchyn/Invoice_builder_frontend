@@ -4,7 +4,6 @@ import Header from "../util/header/header";
 import Sidebar from "../sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import {getCategories} from "../../api/categoriesApi";
-import styles from "../../invoiceList/invoices.module.css";
 
 const Layout = ({children}) => {
 
@@ -27,7 +26,7 @@ const Layout = ({children}) => {
             <Header/>
             <div className={style.pageContentContainer}>
                 <Sidebar categories={categories}/>
-                <div className={styles.pageContent}>{children}</div>
+                <div className={style.pageContent}>{children}</div>
             </div>
         </div>
     );
