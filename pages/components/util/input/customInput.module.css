@@ -6,7 +6,8 @@
     outline: none;
     margin-top: .8em ;
     height: 1.3em;
-    background-color: #fafafa;
+    /*background-color: #fafafa;*/
+    width: 15em;
 }
 
 .label {

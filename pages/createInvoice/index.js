@@ -1,7 +1,8 @@
 import withLayout from "../components/layout/withLayout";
-import styles  from "./createInvoice.module.css";
+import styles from "./createInvoice.module.css";
 import Button from "../components/util/button/button";
 import CreateInvoiceForm from "./createInvoiceForm";
+import Card from "../components/util/card/card";
 
 const CreateInvoice = () => {
 
@@ -10,16 +11,19 @@ const CreateInvoice = () => {
     }
 
     return (
-        <>
-        <div className={styles.headers}>
-            <h1>Create Invoice</h1>
-            <div className={styles.actions}>
-                <Button label={"Preview"} onClick={handlePreviewInvoice} />
+        <Card>
+            <div>
+                <div className={styles.headers}>
+                    <h1>Create Invoice</h1>
+                    <div className={styles.actions}>
+                        <Button label={"Preview"} onClick={handlePreviewInvoice} />
+                    </div>
+                </div>
+                <hr />
             </div>
-        </div>
-            <CreateInvoiceForm/>
-        </>
-    )
+            <CreateInvoiceForm />
+        </Card>
+    );
 }
 
 export default withLayout(CreateInvoice);

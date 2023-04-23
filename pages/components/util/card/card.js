@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./card.module.css"
+import React from 'react';
+import styles from './card.module.css';
 
-const Card = ({children}) => {
+const Card = ({ children }) => {
     return (
         <div className={styles.card}>
-            {children}
+        <div className={styles.cardBody}>{children}</div>
         </div>
-    )
+    );
 }
-export default Card
+export default Card;

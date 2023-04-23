@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from './customInput.module.css';
 
-const CustomInput = ({placeholder, onInput, type,label}) => {
+const CustomInput = ({ placeholder, onInput, type, label, className }) => {
     const [value, setValue] = useState('');
 
     const handleKeyDown = event => {
@@ -9,6 +9,9 @@ const CustomInput = ({placeholder, onInput, type,label}) => {
             onInput(value);
         }
     };
+
+    const mergedClassNames = `${styles.input} ${className}`;
+
     return (
         <>
             {label != null ? (
@@ -16,7 +19,7 @@ const CustomInput = ({placeholder, onInput, type,label}) => {
                     <span>{label}</span>
                     <input
                         type={type}
-                        className={styles.input}
+                        className={mergedClassNames}
                         placeholder={placeholder}
                         value={value}
                         onChange={(event) => setValue(event.target.value)}
@@ -26,7 +29,7 @@ const CustomInput = ({placeholder, onInput, type,label}) => {
             ) : (
                 <input
                     type={type}
-                    className={styles.input}
+                    className={mergedClassNames}
                     placeholder={placeholder}
                     value={value}
                     onChange={(event) => setValue(event.target.value)}
@@ -34,8 +37,7 @@ const CustomInput = ({placeholder, onInput, type,label}) => {
                 />
             )}
         </>
-
-    )
-}
+    );
+};
 
 export default CustomInput;

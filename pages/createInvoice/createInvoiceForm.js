@@ -3,6 +3,7 @@ import React from 'react';
 import styles from "./createInvoice.module.css"
 import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
+import Card from "../components/util/card/card";
 
 const TERMS_OPTIONS = [
     {value: "10", label: "10 days"},
@@ -13,7 +14,7 @@ const TERMS_OPTIONS = [
 
 const CreateInvoiceForm = () => {
     return (
-        <div>
+        <>
             <div className={styles.invoiceHeaders}>
                 <Radio.Group label={"Type"} defaultValue={"invoice"}>
                 <Radio value={"invoice"} size={"sm"}>Invoice</Radio>
@@ -25,7 +26,7 @@ const CreateInvoiceForm = () => {
                 <SelectWithLabel label={"Payment terms"} placeholder={"Payment terms"} options={TERMS_OPTIONS}/>
 
             </div>
-        </div>
+        </>
     )
 }
 
