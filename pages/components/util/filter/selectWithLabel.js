@@ -9,7 +9,8 @@ const SelectWithLabel = ({
                              value,
                              onChange,
                              placeholder,
-                             isMulti
+                             isMulti,
+                            customStyles
                          }) => {
 
     const selectStyle = {
@@ -60,7 +61,7 @@ const SelectWithLabel = ({
 
     return (
         <label className={styles.checkboxContentLabel}>
-            <span>{label}</span>
+            <span className={customStyles}>{label}</span>
             <Select
                 options={options}
                 value={value}
@@ -70,7 +71,7 @@ const SelectWithLabel = ({
                 isMulti={isMulti}
             />
         </label>
-    )
+    );
 
 }
 export default SelectWithLabel

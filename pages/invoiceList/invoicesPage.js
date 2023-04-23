@@ -4,8 +4,8 @@ import Search from "../components/util/search/search";
 import styles from './invoices.module.css'
 import Filter from "../components/util/filter/filter";
 import Button from "../components/util/button/button"
-import SortSelect from "../components/util/sortSelect/sortSelect";
-import sortDocuments from '../components/util/sortSelect/sortDocuments';
+import SortSelect from "../components/util/sort/sortSelect";
+import sortDocuments from '../components/util/sort/sortDocuments';
 import InvoiceList from "./invoiceList";
 import {getAllDocuments} from "../api/invoicesAPI";
 import useFilter from "../components/util/filter/useFilter";

@@ -20,3 +20,39 @@
     justify-content: space-between;
     font-size: 1em;
 }
+
+.selectLabel {
+    font-size: 1em;
+    color: rgba(40, 40, 40, 0.5);
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 1em;
+}
+.customerInfo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1em;
+    padding: 0 3em;
+    font-size: 1em;
+}
+.items {
+    padding: 2em 3em;
+    font-size: 1em;
+}
+.items h2 {
+    font-size: 1.3em;
+}
+.itemsActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
