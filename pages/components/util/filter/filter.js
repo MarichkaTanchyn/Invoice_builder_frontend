@@ -79,28 +79,28 @@ const Filter = ({updateFilterSettings}) => {
             return inputValue;
         }
     }
-
-    useEffect(() => {
-        return () => {
-            setUseDateRange(false);
-            setUseDate(false);
-            setUseTotalAmountDue(false);
-            setUseSelectStatus(false);
-            setUseSelectUser(false);
-
-            setFromDate('');
-            setToDate('');
-
-            setDate('');
-
-            setFromTotalAmountDue(null);
-            setToTotalAmountDue(null);
-
-            setSelectCurrency(CURRENCY_OPTIONS[0]);
-            setSelectStatus(null);
-            setSelectUser(null);
-        };
-    }, []);
+    //
+    // useEffect(() => {
+    //     return () => {
+    //         setUseDateRange(false);
+    //         setUseDate(false);
+    //         setUseTotalAmountDue(false);
+    //         setUseSelectStatus(false);
+    //         setUseSelectUser(false);
+    //
+    //         setFromDate('');
+    //         setToDate('');
+    //
+    //         setDate('');
+    //
+    //         setFromTotalAmountDue(null);
+    //         setToTotalAmountDue(null);
+    //
+    //         setSelectCurrency(CURRENCY_OPTIONS[0]);
+    //         setSelectStatus(null);
+    //         setSelectUser(null);
+    //     };
+    // }, []);
 
 
 

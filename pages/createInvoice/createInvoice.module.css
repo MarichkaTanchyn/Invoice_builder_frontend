@@ -1,0 +1,23 @@
+.headers {
+    display: flex;
+    position: fixed;
+    padding: 2em;
+    width: 85%;
+    z-index: 10;
+    background-color: #fafafa;
+}
+.headers h1 {
+    font-size: 28px;
+    margin-right: auto;
+}
+.actions {
+    display: inherit;
+}
+
+.invoiceHeaders {
+    display: flex;
+    background-color: #fafafa;
+    margin-top: 7em;
+    margin-left: 3em;
+    /*font-size: 1em;*/
+}

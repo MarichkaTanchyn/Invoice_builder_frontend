@@ -1,28 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from './search.module.css'
 import { faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import CustomInput from "../input/customInput";
 
 const Search = ({ placeholder, onSearch }) => {
-    const [searchTerm, setSearchTerm] = useState("");
-
-    const handleKeyDown = event => {
-        if (event.key === "Enter") {
-            onSearch(searchTerm);
-        }
-    };
-
     return (
         <div>
             <FontAwesomeIcon icon={faSearch} className={styles.icon} />
-            <input
-                type="text"
-                className={styles.searchInput}
-                placeholder={placeholder}
-                value={searchTerm}
-                onChange={event => setSearchTerm(event.target.value)}
-                onKeyDown={handleKeyDown}
-            />
+            <CustomInput placeholder={placeholder} onInput={onSearch} type={"text"}/>
         </div>
     );
 };

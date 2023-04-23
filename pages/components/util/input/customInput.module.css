@@ -1,0 +1,22 @@
+.input {
+    font-size: .9em;
+    padding: 10px;
+    border: none;
+    border-bottom: .1em solid #949bab;
+    outline: none;
+    margin-top: .8em ;
+    height: 1.3em;
+    background-color: #fafafa;
+}
+
+.label {
+    color: rgba(40, 40, 40, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: .5em;
+}
+
+.label span{
+    font-size: 1em;
+}

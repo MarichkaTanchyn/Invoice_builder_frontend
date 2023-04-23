@@ -63,7 +63,7 @@ const InvoicesPage = () => {
 
     const handleCreateInvoice = async () => {
         // Replace '/create-invoice' with the path to your Create Invoice page
-        await router.push('/createInvoice/createInvoiceForm');
+        await router.push('/createInvoice');
     };
 
 

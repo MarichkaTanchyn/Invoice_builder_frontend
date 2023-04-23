@@ -25,7 +25,7 @@ const Sidebar = (props) => {
         <div className={style.aside}>
             <ul className={style.ul}>
                 <li className={style.li}>
-                    <Link className={`${style.a}`} href="/invoiceList/invoicesPage">
+                    <Link className={`${style.a}`} href="/">
                     <span className={`${style.mainA}`}>
                         Invoices
                     </span>
