@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CustomInput from "../components/util/input/customInput";
 import SelectWithUnderline from "../components/util/select/selectWithUnderline";
 import SmallSelectWithUnderline from "../components/util/select/smallSelectWithUnderline";
@@ -85,9 +85,21 @@ const ProductTable = () => {
 
     const selectAllRows = () => {
         setRows((prevRows) =>
-            prevRows.map((row) => ({ ...row, checked: true }))
+            prevRows.map((row) => ({...row, checked: true}))
         );
     };
+
+    const [summary, setSummary] = useState({
+        totalAmount: 0,
+        totalNetValue: 0,
+        totalVatValue: 0,
+        totalGrossValue: 0,
+    });
+
+    useEffect(() => {
+        const updatedSummary = calculateSummary();
+        setSummary(updatedSummary);
+    }, [rows]);
 
     const calculateSummary = () => {
         const totalAmount = rows.reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
@@ -103,7 +115,6 @@ const ProductTable = () => {
         };
     };
 
-    const summary = calculateSummary();
 
     return (
         <>
@@ -112,7 +123,8 @@ const ProductTable = () => {
             <div className={styles.itemsActions}>
                 <ButtonWithImg label={"Add"} imgSrc={"/add.svg"} alt={"add"} onClick={addRow}/>
                 <ButtonWithImg label={"Delete"} imgSrc={"/bin.svg"} alt={"bin"} onClick={deleteSelectedRows}/>
-                <ButtonWithImg label={"Select All"} imgSrc={"/selectAll.svg"} alt={"SelectAll"} onClick={selectAllRows}/>
+                <ButtonWithImg label={"Select All"} imgSrc={"/selectAll.svg"} alt={"SelectAll"}
+                               onClick={selectAllRows}/>
             </div>
             <table className={styles.table}>
                 <thead className={styles.tableHeaders}>
@@ -148,7 +160,7 @@ const ProductTable = () => {
                             <SelectWithUnderline
                                 options={productOptions}
                                 onChange={(e) =>
-                                    handleInputChange(row.id, 'product', e.target.value)
+                                    handleInputChange(row.id, 'product', e.value)
                                 }
                             />
                         </td>
@@ -157,7 +169,7 @@ const ProductTable = () => {
                                 placeholder={"unit"}
                                 options={units}
                                 onChange={(e) =>
-                                    handleInputChange(row.id, 'unit', e.target.value)
+                                    handleInputChange(row.id, 'unit', e.value)
                                 }
                             />
                         </td>
@@ -165,32 +177,40 @@ const ProductTable = () => {
                             <CustomInput
                                 type={"number"}
                                 value={row.amount}
-                                onChange={(e) =>
-                                    handleInputChange(row.id, 'amount', e.target.value)
+                                onInput={(e) =>
+                                    handleInputChange(row.id, 'amount', e.value)
                                 }
                                 className={styles.itemsInput}
                             />
                         </td>
-                        <td className={styles.tableDisabledInput}>{row.unitPrice}</td>
+                        <td className={styles.tableDisabledInput}>{row.unitPrice}
+                            <hr/>
+                        </td>
                         <td>
                             <SmallSelectWithUnderline
                                 placeholder={"%"}
                                 options={vatOptions}
                                 onChange={(e) =>
-                                    handleInputChange(row.id, 'vat', e.target.value)
+                                    handleInputChange(row.id, 'vat', e.value)
                                 }
                                 className={styles.itemsInput}
                             />
                         </td>
-                        {/* You can calculate and display the netValue, vatValue, and grossValue here */}
-                        <td className={styles.tableDisabledInput}>{row.netValue}</td>
-                        <td className={styles.tableDisabledInput}>{row.vatValue}</td>
-                        <td className={styles.tableDisabledInput}>{row.grossValue}</td>
+                        <td className={styles.tableDisabledInput}>{row.netValue}
+                            <hr/>
+                        </td>
+
+                        <td className={styles.tableDisabledInput}>{row.vatValue}
+                            <hr/>
+                        </td>
+                        <td className={styles.tableDisabledInput}>{row.grossValue}
+                            <hr/>
+                        </td>
                         <td>
                             <CustomInput
                                 value={row.discount}
-                                onChange={(e) =>
-                                    handleInputChange(row.id, 'discount', e.target.value)
+                                onInput={(e) =>
+                                    handleInputChange(row.id, 'discount', e.value)
                                 }
                                 className={styles.itemsInput}
                             />
@@ -206,7 +226,7 @@ const ProductTable = () => {
                     <td>{summary.totalAmount}</td>
                     <td></td>
                     <td></td>
-                    <td >{summary.totalNetValue}</td>
+                    <td>{summary.totalNetValue}</td>
                     <td>{summary.totalVatValue}</td>
                     <td>{summary.totalGrossValue}</td>
                     <td></td>

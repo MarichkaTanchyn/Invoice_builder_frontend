@@ -11,6 +11,12 @@ const CustomInput = ({ placeholder, onInput, type, label, className }) => {
         }
     };
 
+    const handleChange = (event) => {
+        setValue(event.target.value);
+        onInput(event.target.value); // Call the onInput function when the value changes
+    };
+
+
     const mergedClassNames = `${styles.input} ${className}`;
 
     return (
@@ -23,7 +29,7 @@ const CustomInput = ({ placeholder, onInput, type, label, className }) => {
                         className={mergedClassNames}
                         placeholder={placeholder}
                         value={value}
-                        onChange={(event) => setValue(event.target.value)}
+                        onChange={handleChange}
                         onKeyDown={handleKeyDown}
                     />
                 </label>
@@ -33,8 +39,9 @@ const CustomInput = ({ placeholder, onInput, type, label, className }) => {
                     className={mergedClassNames}
                     placeholder={placeholder}
                     value={value}
-                    onChange={(event) => setValue(event.target.value)}
+                    onChange={handleChange}
                     onKeyDown={handleKeyDown}
+
                 />
             )}
         </>

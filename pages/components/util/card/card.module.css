@@ -35,7 +35,7 @@
     margin: 1em;
 }
 
-@media (min-width: 1200px){
+@media (min-width: 1400px){
     .card {
         width: 90%;
     }

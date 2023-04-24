@@ -13,6 +13,7 @@
 .actions {
     display: inherit;
 }
+
 .blackRadio .next-radio::before {
     border-color: black !important;
 }
@@ -24,6 +25,7 @@
 .blackRadio .next-radio.checked .circle::after {
     background-color: black !important;
 }
+
 .invoiceHeaders {
     display: flex;
     padding: 2em 3em;
@@ -103,12 +105,17 @@
 
 .tableDisabledInput {
     width: 6em;
-    padding-top: 2.5em;
+    padding-top: 2em;
     /*margin-top: 5em;*/
     color: rgba(40, 40, 40, 0.5);
     /*padding-left: 1em;*/
     text-align: center;
+    margin: 0;
+}
 
+.tableDisabledInput hr {
+    margin: 0;
+    padding: 0;
 }
 
 .checkbox {

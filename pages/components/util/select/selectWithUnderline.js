@@ -11,7 +11,7 @@ const SelectWithUnderline = ({
             ...base,
             boxShadow: "none",
             padding: '0',
-            width: '15em',
+            width: '16em',
             marginTop: '1.2em',
             border: 'none',
             borderBottom: '.1em solid #ccc',
