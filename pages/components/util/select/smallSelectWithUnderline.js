@@ -1,6 +1,6 @@
 import Select from 'react-select'
 import React from "react";
-const SelectWithUnderline = ({
+const SmallSelectWithUnderline = ({
                                  options,
                                  value,
                                  onChange,
@@ -11,7 +11,7 @@ const SelectWithUnderline = ({
             ...base,
             boxShadow: "none",
             padding: '0',
-            width: '15em',
+            width: '5em',
             marginTop: '1.2em',
             border: 'none',
             borderBottom: '.1em solid #ccc',
@@ -64,4 +64,4 @@ const SelectWithUnderline = ({
         </div>
     )
 }
-export default SelectWithUnderline;
+export default SmallSelectWithUnderline;

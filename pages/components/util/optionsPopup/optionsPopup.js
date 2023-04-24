@@ -1,4 +1,4 @@
-import styles from './OptionsPopup.module.css';
+import styles from './optionsPopup.module.css';
 
 const OptionsPopup = ({ show, options, onClose}) => {
     if (!show) {

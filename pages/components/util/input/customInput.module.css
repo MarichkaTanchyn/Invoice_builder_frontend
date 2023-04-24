@@ -19,3 +19,15 @@
 .label span{
     font-size: 1em;
 }
+
+@media (min-width: 1200px) and (max-width: 1650px) {
+    .input{
+        width: 12em;
+    }
+}
+
+@media (max-width: 1200px) {
+    .input{
+        width: 10em;
+    }
+}

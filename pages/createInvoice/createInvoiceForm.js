@@ -3,7 +3,8 @@ import React from 'react';
 import styles from "./createInvoice.module.css"
 import CustomInput from "../components/util/input/customInput";
 import SelectWithUnderline from "../components/util/select/selectWithUnderline";
-import ButtonWithImg from "../components/util/button/buttonWithImg";
+import CountryOptions from "../components/mocks/countries"; 
+import ProductTable from './productTable';
 
 const TERMS_OPTIONS = [
     {value: "10", label: "10 days"},
@@ -13,6 +14,8 @@ const TERMS_OPTIONS = [
 ]
 
 const CreateInvoiceForm = () => {
+
+    console.log(CountryOptions.countries)
 
     //TODO: add onclick to add && delete item button, add listeners for selects and inputs
 
@@ -37,19 +40,15 @@ const CreateInvoiceForm = () => {
                     customStyles={styles.selectLabel}/>
                 <CustomInput label={"NIP"} type={"text"}/>
                 <CustomInput label={"Street"}  type={"text"}/>
+                <SelectWithUnderline
+                    label={"Country"} placeholder={"Country"} options={CountryOptions.countries}
+                    customStyles={styles.selectLabel}/>
                 <CustomInput label={"City"} type={"text"}/>
                 <CustomInput label={"Postcode"}  type={"text"}/>
-                <SelectWithUnderline
-                    label={"Country"} placeholder={"Country"} options={TERMS_OPTIONS}
-                    customStyles={styles.selectLabel}/>
+                
             </div>
             <div className={styles.items}>
-                <h2>Items</h2>
-                <hr/>
-                <div className={styles.itemsActions}>
-                    <ButtonWithImg label={"Add"} imgSrc={"/add.svg"} alt={"add"}/>
-                    <ButtonWithImg label={"Delete"} imgSrc={"/bin.svg"} alt={"bin"}/>
-                </div>
+                <ProductTable/>
             </div>
         </>
     )

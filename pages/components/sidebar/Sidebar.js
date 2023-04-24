@@ -51,7 +51,7 @@ const Sidebar = (props) => {
                         <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize: `15px`}}/>
                     </div>
                     <Collapse isOpen={collapse1}>
-                        <SidebarList categories={props.categories}/>
+                        {/* <SidebarList categories={props.categories}/> */}
                     </Collapse>
                 </li>
                 <li className={style.li}>
