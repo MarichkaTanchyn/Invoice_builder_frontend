@@ -31,28 +31,28 @@ const ProductTable = () => {
           id: 1,
           product: productOptions[0].value,
           unit: unitOptions[0].value,
-          amount: '',
-          unitPrice: '',
+          amount: '0',
+          unitPrice: '0.00',
           vat: vatOptions[0].value,
-          netValue: '',
-          vatValue: '',
-          grossValue: '',
-          discount: '',
+          netValue: '0.00',
+          vatValue: '0.00',
+          grossValue: '0.00',
+          discount: '0',
         },
       ]);
     
       const addRow = () => {
         const newRow = {
           id: rows.length + 1,
-          product: '',
-          unit: '',
-          amount: '',
-          unitPrice: '',
-          vat: '',
-          netValue: '',
-          vatValue: '',
-          grossValue: '',
-          discount: '',
+          product: productOptions[0].value,
+          unit: unitOptions[0].value,
+          amount: '0',
+          unitPrice: '0.00',
+          vat: vatOptions[0].value,
+          netValue: '0.00',
+          vatValue: '0.00',
+          grossValue: '0.00',
+          discount: '0',
         };
         setRows((prevRows) => [...prevRows, newRow]);
       };
@@ -86,8 +86,8 @@ const ProductTable = () => {
                 <ButtonWithImg label={"Add"} imgSrc={"/add.svg"} alt={"add"} onClick={addRow}/>
                 <ButtonWithImg label={"Delete"} imgSrc={"/bin.svg"} alt={"bin"} onClick={deleteSelectedRows}/>
             </div>
-          <table>
-            <thead>
+          <table className={styles.table}>
+            <thead className={styles.tableHeaders}>
               <tr>
                 <th></th>
                 <th></th>
@@ -100,6 +100,7 @@ const ProductTable = () => {
                 <th>VAT Value</th>
                 <th>Gross Value</th>
                 <th>Discount (%)</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -107,13 +108,16 @@ const ProductTable = () => {
                 <tr key={row.id}>
                   <td>
                     {/* TODO: remake to checkbox librarary */}
+                    <label className={styles.checkbox}>
                     <input
                       type="checkbox"
+                      className={styles.checkboxInput}
                       checked={row.checked || false}
                       onChange={() => toggleRowSelection(row.id)}
                       />
-                    </td>
-                    <td>{index + 1}</td>
+                      </label>
+                    </td>        
+                    <td className={styles.itemNumber}>{index + 1}</td>            
                     <td>
                       <SelectWithUnderline
                         options={productOptions}
@@ -133,32 +137,36 @@ const ProductTable = () => {
                     </td>
                     <td>
                       <CustomInput
+                      type={"number"}
                         value={row.amount}
                         onChange={(e) =>
                           handleInputChange(row.id, 'amount', e.target.value)
                         }
+                        className={styles.itemsInput}
                       />
                     </td>
-                    <td>{row.unitPrice}</td>
+                    <td className={styles.tableDisabledInput}>{row.unitPrice}</td>
                     <td>
                       <SmallSelectWithUnderline
-                      placeholder={"vat%"}
+                      placeholder={"%"}
                         options={vatOptions}
                         onChange={(e) =>
                           handleInputChange(row.id, 'vat', e.target.value)
                         }
+                        className={styles.itemsInput}
                       />
                     </td>
                     {/* You can calculate and display the netValue, vatValue, and grossValue here */}
-                    <td>{row.netValue}</td>
-                    <td>{row.vatValue}</td>
-                    <td>{row.grossValue}</td>
+                    <td className={styles.tableDisabledInput}>{row.netValue}</td>
+                    <td className={styles.tableDisabledInput}>{row.vatValue}</td>
+                    <td className={styles.tableDisabledInput}>{row.grossValue}</td>
                     <td>
                       <CustomInput
                         value={row.discount}
                         onChange={(e) =>
                           handleInputChange(row.id, 'discount', e.target.value)
                         }
+                        className={styles.itemsInput}
                       />
                     </td>
                   </tr>

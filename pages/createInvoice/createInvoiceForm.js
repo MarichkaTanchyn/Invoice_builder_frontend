@@ -15,8 +15,6 @@ const TERMS_OPTIONS = [
 
 const CreateInvoiceForm = () => {
 
-    console.log(CountryOptions.countries)
-
     //TODO: add onclick to add && delete item button, add listeners for selects and inputs
 
     return (
@@ -26,8 +24,7 @@ const CreateInvoiceForm = () => {
                     <Radio value={"invoice"} size={"sm"}>Invoice</Radio>
                     <Radio value={"quote"} size={"sm"}>Quote</Radio>
                 </Radio.Group>
-                <CustomInput label={"Document Num"} placeholder={"Document Number"} type={"text"}
-                             className={styles.selectLabel}/>
+                <CustomInput label={"Document Num"} placeholder={"Document Number"} type={"text"}/>
                 <CustomInput label={"Valid from"} placeholder={"Valid from"} type={"date"}/>
                 <CustomInput label={"Valid until"} placeholder={"Valid until"} type={"date"}/>
                 <SelectWithUnderline

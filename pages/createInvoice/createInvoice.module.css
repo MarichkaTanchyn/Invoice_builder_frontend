@@ -56,3 +56,61 @@
     flex-direction: row;
     align-items: center;
 }
+
+.itemsInput{
+    width: 5em;
+    margin-top: 2.3em!Important;
+    border-color:  rgba(165, 165, 165, 0.5)!Important;
+}
+
+.table {
+    /* margin-top: 2em; */
+    width: 100%;
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 1.1em;
+    border-collapse: separate;
+    border-spacing: 0 1em;
+    /* position: relative; */
+    text-align: left;
+    /* padding: 2em; */
+}
+
+.tableHeaders th {
+    font-weight: normal;
+    font-size: 1rem;
+    color: rgba(27, 27, 27, 0.5);
+    padding: 1em 0;
+    position: sticky;
+    background-color: #fafafa;
+    z-index: 1;
+}
+
+.tableDisabledInput {
+    width: 6em;
+    padding-top: 2.5em;
+    margin-top: 5em;
+    color: rgba(40, 40, 40, 0.5);
+
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: center;
+    padding-top: 1em;
+    font-size: 1em;
+    padding-right: .5em;
+}
+
+.itemNumber {
+    padding-top: 1.5em;
+    padding-bottom: 0.5em;
+}
+
+.checkboxInput {
+    width: 1em;
+    height: 1em;
+    accent-color:rgba(99, 99, 99, 0.5);
+    border-color: rgba(40, 40, 40, 0.5);
+}

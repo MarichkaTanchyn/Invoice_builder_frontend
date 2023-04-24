@@ -6,7 +6,7 @@
     outline: none;
     margin-top: .8em ;
     height: 1.3em;
-    width: 15em;
+    /* width: 15em; */
 }
 
 .label {
@@ -22,12 +22,12 @@
 
 @media (min-width: 1200px) and (max-width: 1650px) {
     .input{
-        width: 12em;
+        /* width: 12em; */
     }
 }
 
 @media (max-width: 1200px) {
     .input{
-        width: 10em;
+        /* width: 10em; */
     }
 }

@@ -54,7 +54,7 @@ const SmallSelectWithUnderline = ({
         }),
         menu: (provided, state) => ({
             ...provided,
-            width: '15em',
+            width: '5em',
         }),
     };
 
