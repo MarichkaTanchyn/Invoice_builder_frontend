@@ -4,14 +4,26 @@
     width: 100%;
     z-index: 10;
 }
+
 .headers h1 {
     font-size: 28px;
     margin-right: auto;
 }
+
 .actions {
     display: inherit;
 }
+.blackRadio .next-radio::before {
+    border-color: black !important;
+}
 
+.blackRadio .next-radio.checked::before {
+    border-color: black !important;
+}
+
+.blackRadio .next-radio.checked .circle::after {
+    background-color: black !important;
+}
 .invoiceHeaders {
     display: flex;
     padding: 2em 3em;
@@ -36,6 +48,7 @@
     width: 100%;
     margin-bottom: 1em;
 }
+
 .customerInfo {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -44,23 +57,26 @@
     padding: 0 3em;
     font-size: 1em;
 }
+
 .items {
     padding: 2em 3em;
     font-size: 1em;
 }
+
 .items h2 {
     font-size: 1.3em;
 }
+
 .itemsActions {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.itemsInput{
+.itemsInput {
     width: 5em;
-    margin-top: 2.3em!Important;
-    border-color:  rgba(165, 165, 165, 0.5)!Important;
+    margin-top: 2.3em !Important;
+    border-color: rgba(165, 165, 165, 0.5) !Important;
 }
 
 .table {
@@ -71,7 +87,7 @@
     border-collapse: separate;
     border-spacing: 0 1em;
     /* position: relative; */
-    text-align: left;
+    text-align: center;
     /* padding: 2em; */
 }
 
@@ -82,35 +98,42 @@
     padding: 1em 0;
     position: sticky;
     background-color: #fafafa;
-    z-index: 1;
+    text-align: center;
 }
 
 .tableDisabledInput {
     width: 6em;
     padding-top: 2.5em;
-    margin-top: 5em;
+    /*margin-top: 5em;*/
     color: rgba(40, 40, 40, 0.5);
+    /*padding-left: 1em;*/
+    text-align: center;
 
 }
 
 .checkbox {
     display: flex;
     flex-direction: row;
-    align-items: space-between;
     justify-content: center;
-    padding-top: 1em;
-    font-size: 1em;
-    padding-right: .5em;
-}
-
-.itemNumber {
     padding-top: 1.5em;
-    padding-bottom: 0.5em;
+    font-size: 1em;
+    padding-right: 1em;
 }
 
 .checkboxInput {
     width: 1em;
     height: 1em;
-    accent-color:rgba(99, 99, 99, 0.5);
+    accent-color: rgba(99, 99, 99, 0.5);
     border-color: rgba(40, 40, 40, 0.5);
+    margin: auto;
 }
+
+.tableFooters td {
+    font-weight: normal;
+    font-size: 1rem;
+    color: rgba(27, 27, 27, 0.5);
+    padding: 1em 0;
+    background-color: #fafafa;
+    text-align: center;
+}
+

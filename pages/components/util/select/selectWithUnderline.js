@@ -56,6 +56,16 @@ const SelectWithUnderline = ({
             ...provided,
             width: '15em',
         }),
+        menuList: (provided, state) => ({
+            ...provided,
+            maxHeight: '8em',
+            overflowY: 'scroll',
+            scrollbarWidth: 'none', // For Firefox
+            msOverflowStyle: 'none', // For Internet Explorer and Edge
+            '&::-webkit-scrollbar': {
+                display: 'none', // For Chrome, Safari, and Opera
+            },
+        }),
     };
 
     return (

@@ -1,11 +1,12 @@
 import Select from 'react-select'
 import React from "react";
+
 const SmallSelectWithUnderline = ({
-                                 options,
-                                 value,
-                                 onChange,
-                                 placeholder
-                             }) => {
+                                      options,
+                                      value,
+                                      onChange,
+                                      placeholder
+                                  }) => {
     const selectStyle = {
         control: base => ({
             ...base,
@@ -49,12 +50,25 @@ const SmallSelectWithUnderline = ({
             backgroundColor: state.isFocused ? "#f5f5f5" : "white",
             color: "#333",
             cursor: "pointer",
-            fontSize: ".8em",
+            fontSize: ".7em",
             padding: "0.5em 1em",
         }),
         menu: (provided, state) => ({
             ...provided,
             width: '5em',
+            maxHeight: '1em',
+        }),
+        menuList: (provided, state) => ({
+            ...provided,
+            maxHeight: '8em',
+            border: '1px solid rgba(165, 165, 165, 0.5)',
+            borderRadius: '0.2em',
+            overflowY: 'scroll',
+            scrollbarWidth: 'none', // For Firefox
+            msOverflowStyle: 'none', // For Internet Explorer and Edge
+            '&::-webkit-scrollbar': {
+                display: 'none', // For Chrome, Safari, and Opera
+            },
         }),
     };
 

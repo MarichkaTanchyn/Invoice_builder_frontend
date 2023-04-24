@@ -20,7 +20,7 @@ const CreateInvoiceForm = () => {
     return (
         <>
             <div className={styles.invoiceHeaders}>
-                <Radio.Group label={"Type"} defaultValue={"invoice"}>
+                <Radio.Group label={"Type"} defaultValue={"invoice"} className={styles.blackRadio}>
                     <Radio value={"invoice"} size={"sm"}>Invoice</Radio>
                     <Radio value={"quote"} size={"sm"}>Quote</Radio>
                 </Radio.Group>
