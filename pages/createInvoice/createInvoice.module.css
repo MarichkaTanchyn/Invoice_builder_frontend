@@ -60,6 +60,15 @@
     font-size: 1em;
 }
 
+@media (min-width: 1400px) {
+    .customerInfo {
+        display: flex;
+        flex-direction: row;
+        padding: 0 3em;
+        font-size: 1em;
+    }
+}
+
 .items {
     padding: 2em 3em;
     font-size: 1em;
