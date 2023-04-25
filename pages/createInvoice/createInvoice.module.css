@@ -60,7 +60,7 @@
     font-size: 1em;
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1600px) {
     .customerInfo {
         display: flex;
         flex-direction: row;

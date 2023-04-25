@@ -4,8 +4,8 @@ import CreateInvoicePage from "./createInvoice/index.js";
 function HomePage() {
 
     return (
-        <InvoicesPage/>
-        // <CreateInvoicePage/>
+        // <InvoicesPage/>
+        <CreateInvoicePage/>
     )
 }
 
