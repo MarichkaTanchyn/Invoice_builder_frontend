@@ -6,8 +6,8 @@ import SelectWithUnderline from "../components/util/select/selectWithUnderline";
 import CountryOptions from "../components/data/countries";
 import ProductTable from './productTable';
 import Button from "../components/util/button/button";
-import {router} from "next/client";
-import Link from "next/link";
+import {useRouter} from "next/router";
+
 
 const TERMS_OPTIONS = [
     {value: "10", label: "10 days"},
@@ -19,6 +19,10 @@ const TERMS_OPTIONS = [
 const CreateInvoiceForm = () => {
 
     //TODO: add onclick to add && delete item button, add listeners for selects and inputs
+    const router = useRouter();
+    const handleCancelButton = async () => {
+        await router.push("/")
+    }
 
     const handleSubmitButton = () => {
         console.log("submit")
@@ -60,9 +64,7 @@ const CreateInvoiceForm = () => {
                     <Button label={"Submit"} onClick={handleSubmitButton}/>
                 </div>
                 <div className={styles.button}>
-                    <Link href={"/"} >
-                    <Button label={"Cancel"} />
-                    </Link>
+                        <Button label={"Cancel"} onClick={handleCancelButton}/>
                 </div>
             </div>
         </>
