@@ -4,19 +4,14 @@ import SelectWithUnderline from "../components/util/select/selectWithUnderline";
 import SmallSelectWithUnderline from "../components/util/select/smallSelectWithUnderline";
 import styles from "./createInvoice.module.css";
 import ButtonWithImg from "../components/util/button/buttonWithImg";
-import units from "../components/mocks/units.json";
+import units from "../components/data/units.json";
+import PaymentActions from "./paymentActions";
 
 const ProductTable = () => {
     const productOptions = [
         // Add your product options here
         {value: 'productA', label: 'Product A'},
         {value: 'productB', label: 'Product B'},
-    ];
-
-    const unitOptions = [
-        // Add your unit options here
-        {value: 'unitA', label: 'Unit A'},
-        {value: 'unitB', label: 'Unit B'},
     ];
 
     const vatOptions = [
@@ -30,7 +25,7 @@ const ProductTable = () => {
         {
             id: 1,
             product: productOptions[0].value,
-            unit: unitOptions[0].value,
+            unit: units[0].value,
             amount: '0',
             unitPrice: '0.00',
             vat: vatOptions[0].value,
@@ -45,7 +40,7 @@ const ProductTable = () => {
         const newRow = {
             id: rows.length + 1,
             product: productOptions[0].value,
-            unit: unitOptions[0].value,
+            unit: units[0].value,
             amount: '0',
             unitPrice: '0.00',
             vat: vatOptions[0].value,
@@ -233,6 +228,7 @@ const ProductTable = () => {
                 </tr>
                 </tfoot>
             </table>
+            <PaymentActions />
         </>
     );
 };

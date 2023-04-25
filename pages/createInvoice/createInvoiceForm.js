@@ -3,8 +3,11 @@ import React from 'react';
 import styles from "./createInvoice.module.css"
 import CustomInput from "../components/util/input/customInput";
 import SelectWithUnderline from "../components/util/select/selectWithUnderline";
-import CountryOptions from "../components/mocks/countries"; 
+import CountryOptions from "../components/data/countries";
 import ProductTable from './productTable';
+import Button from "../components/util/button/button";
+import {router} from "next/client";
+import Link from "next/link";
 
 const TERMS_OPTIONS = [
     {value: "10", label: "10 days"},
@@ -16,6 +19,11 @@ const TERMS_OPTIONS = [
 const CreateInvoiceForm = () => {
 
     //TODO: add onclick to add && delete item button, add listeners for selects and inputs
+
+    const handleSubmitButton = () => {
+        console.log("submit")
+    }
+
 
     return (
         <>
@@ -36,16 +44,26 @@ const CreateInvoiceForm = () => {
                     label={"Customer"} placeholder={"Customer"} options={TERMS_OPTIONS}
                     customStyles={styles.selectLabel}/>
                 <CustomInput label={"NIP"} type={"text"}/>
-                <CustomInput label={"Street"}  type={"text"}/>
+                <CustomInput label={"Street"} type={"text"}/>
                 <SelectWithUnderline
                     label={"Country"} placeholder={"Country"} options={CountryOptions.countries}
                     customStyles={styles.selectLabel}/>
                 <CustomInput label={"City"} type={"text"}/>
-                <CustomInput label={"Postcode"}  type={"text"}/>
-                
+                <CustomInput label={"Postcode"} type={"text"}/>
+
             </div>
             <div className={styles.items}>
                 <ProductTable/>
+            </div>
+            <div className={styles.actionButtons}>
+                <div className={styles.button}>
+                    <Button label={"Submit"} onClick={handleSubmitButton}/>
+                </div>
+                <div className={styles.button}>
+                    <Link href={"/"} >
+                    <Button label={"Cancel"} />
+                    </Link>
+                </div>
             </div>
         </>
     )

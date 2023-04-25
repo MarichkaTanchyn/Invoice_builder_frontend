@@ -70,7 +70,7 @@
 }
 
 .items {
-    padding: 2em 3em;
+    padding: 2em 3em 0;
     font-size: 1em;
 }
 
@@ -152,4 +152,17 @@
     background-color: #fafafa;
     text-align: center;
 }
+.paymentActions {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 4em;
+}
 
+.actionButtons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+.button {
+    margin: 1em 1.5em;
+
+}

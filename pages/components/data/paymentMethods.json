@@ -1,0 +1,9 @@
+[
+  {"label" : "Bank Transfer", "value" : "bank_transfer"},
+  {"label" : "Cash", "value" : "cash"},
+  {"label" : "Check", "value" : "check"},
+  {"label" : "Card", "value" : "card"},
+  {"label" : "Direct Deposit", "value" : "direct_deposit"},
+  {"label" : "PayPal", "value" : "paypal"},
+  {"label" : "Wire Transfer", "value" : "wire_transfer"}
+]
