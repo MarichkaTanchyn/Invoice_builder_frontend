@@ -1,0 +1,22 @@
+[
+  {"label" : "Argentine peso (ARS)", "value" : "ars"},
+  {"label" : "Australian dollar (AUD)", "value" : "aud"},
+  {"label" : "Brazilian real (BRL)", "value" : "brl"},
+  {"label" : "Canadian dollar (CAD)", "value" : "cad"},
+  {"label" : "Chinese renminbi (CNH)", "value" : "cnh"},
+  {"label" : "Euro (EUR)", "value" : "eur"},
+  {"label" : "Hong Kong dollar (HKD)", "value" : "hkd"},
+  {"label" : "Indian rupee (INR)", "value" : "inr"},
+  {"label" : "Japanese yen (JPY)", "value" : "jpy"},
+  {"label" : "Mexican peso (MXN)", "value" : "mxn"},
+  {"label" : "New Zealand dollar (NZD)", "value" : "nzd"},
+  {"label" : "Poland zloty (PLN)", "value" : "pln"},
+  {"label" : "Pound sterling (GBP)", "value" : "gpb"},
+  {"label" : "South African rand (ZAR)", "value" : "zar"},
+  {"label" : "South Korean won (KRW)", "value" : "krw"},
+  {"label" : "Swiss franc (CHF)", "value" : "chf"},
+  {"label" : "Taiwan new dollar (TWD)", "value" : "twd"},
+  {"label" : "Turkish lira (TRY)", "value" : "try"},
+  {"label" : "US dollar (USD)", "value" : "usd"},
+  {"label" : "Ukrainian hryvnia (UAH)", "value" : "uah"}
+]
