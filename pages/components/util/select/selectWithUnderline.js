@@ -18,6 +18,9 @@ const SelectWithUnderline = ({
             '&:hover': {
                 borderBottom: '1px solid #ccc',
             },
+            "@media only screen and (min-width: 1600px)": {
+                width: '20em',
+            },
         }),
         placeholder: (provided, state) => ({
             ...provided,
@@ -55,6 +58,9 @@ const SelectWithUnderline = ({
         menu: (provided, state) => ({
             ...provided,
             width: '15em',
+            "@media only screen and (min-width: 1600px)": {
+                width: '20em',
+            },
         }),
         menuList: (provided, state) => ({
             ...provided,
@@ -65,6 +71,7 @@ const SelectWithUnderline = ({
             '&::-webkit-scrollbar': {
                 display: 'none', // For Chrome, Safari, and Opera
             },
+
         }),
     };
 

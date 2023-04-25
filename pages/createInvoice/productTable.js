@@ -152,14 +152,17 @@ const ProductTable = () => {
                             </label>
                         </td>
                         <td>
+                            <div className={styles.select}>
                             <SelectWithUnderline
                                 options={productOptions}
                                 onChange={(e) =>
                                     handleInputChange(row.id, 'product', e.value)
                                 }
                             />
+                            </div>
                         </td>
                         <td>
+                            <div className={styles.select}>
                             <SmallSelectWithUnderline
                                 placeholder={"unit"}
                                 options={units}
@@ -167,6 +170,7 @@ const ProductTable = () => {
                                     handleInputChange(row.id, 'unit', e.value)
                                 }
                             />
+                            </div>
                         </td>
                         <td>
                             <CustomInput
@@ -182,6 +186,7 @@ const ProductTable = () => {
                             <hr/>
                         </td>
                         <td>
+                            <div className={styles.select}>
                             <SmallSelectWithUnderline
                                 placeholder={"%"}
                                 options={vatOptions}
@@ -190,6 +195,7 @@ const ProductTable = () => {
                                 }
                                 className={styles.itemsInput}
                             />
+                            </div>
                         </td>
                         <td className={styles.tableDisabledInput}>{row.netValue}
                             <hr/>

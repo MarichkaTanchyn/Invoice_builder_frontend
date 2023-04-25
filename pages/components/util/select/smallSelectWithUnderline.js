@@ -19,6 +19,9 @@ const SmallSelectWithUnderline = ({
             '&:hover': {
                 borderBottom: '1px solid #ccc',
             },
+            "@media only screen and (min-width: 1600px)": {
+                width: '10em',
+            },
         }),
         placeholder: (provided, state) => ({
             ...provided,
@@ -70,6 +73,7 @@ const SmallSelectWithUnderline = ({
                 display: 'none', // For Chrome, Safari, and Opera
             },
         }),
+
     };
 
     return (
