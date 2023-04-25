@@ -157,6 +157,18 @@
     flex-direction: row;
     margin-bottom: 4em;
 }
+.paymentActions span {
+    margin: .1em .5em;
+}
+
+.paymentActions span hr {
+    margin: .3em 0;
+    padding: 0;
+}
+.bankAccLabel {
+    display: flex;
+    flex-direction: column;
+}
 
 .actionButtons {
     display: flex;
