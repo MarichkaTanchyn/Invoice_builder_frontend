@@ -1,12 +1,11 @@
 import Select from 'react-select'
 import React from "react";
 
-const SelectWithUnderline = ({
+const ProductSelect = ({
                                  options,
                                  value,
                                  onChange,
-                                 placeholder,
-                                 label
+                                 placeholder
                              }) => {
     const selectStyle = {
         control: base => ({
@@ -14,6 +13,7 @@ const SelectWithUnderline = ({
             boxShadow: "none",
             padding: '0',
             width: '16em',
+            marginTop: '1.2em',
             border: 'none',
             borderBottom: '.1em solid #ccc',
             '&:hover': {
@@ -78,9 +78,8 @@ const SelectWithUnderline = ({
 
     return (
         <div>
-            <span style={{fontSize: "1em", color: "rgba(27, 27, 27, 0.5)"}}>{label}</span>
             <Select options={options} styles={selectStyle} value={value} onChange={onChange} placeholder={placeholder}/>
         </div>
     )
 }
-export default SelectWithUnderline;
+export default ProductSelect;

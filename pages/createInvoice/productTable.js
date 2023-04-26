@@ -6,6 +6,7 @@ import styles from "./createInvoice.module.css";
 import ButtonWithImg from "../components/util/button/buttonWithImg";
 import units from "../components/data/units.json";
 import PaymentActions from "./paymentActions";
+import ProductSelect from "../components/util/select/productSelect";
 
 const ProductTable = () => {
     const productOptions = [
@@ -153,7 +154,7 @@ const ProductTable = () => {
                         </td>
                         <td>
                             <div className={styles.select}>
-                            <SelectWithUnderline
+                            <ProductSelect
                                 options={productOptions}
                                 onChange={(e) =>
                                     handleInputChange(row.id, 'product', e.value)

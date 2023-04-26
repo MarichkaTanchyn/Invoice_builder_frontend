@@ -158,11 +158,13 @@
     background-color: #fafafa;
     text-align: center;
 }
+
 .paymentActions {
     display: flex;
     flex-direction: row;
     margin-bottom: 4em;
 }
+
 .paymentActions span {
     margin: .1em .5em;
 }
@@ -171,15 +173,24 @@
     margin: .3em 0;
     padding: 0;
 }
-.bankAccLabel {
+
+.labelBox {
     display: flex;
     flex-direction: column;
 }
+
+.label {
+    margin-top: .2em;
+    font-size: 1em;
+    color: rgba(27, 27, 27, 0.5);
+}
+
 
 .actionButtons {
     display: flex;
     flex-direction: row-reverse;
 }
+
 .button {
     margin: 1em 1.5em;
 
