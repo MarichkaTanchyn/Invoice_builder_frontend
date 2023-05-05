@@ -7,13 +7,16 @@ import ButtonWithImg from "../components/util/button/buttonWithImg";
 import units from "../components/data/units.json";
 import PaymentActions from "./paymentActions";
 import ProductSelect from "../components/util/select/productSelect";
+import productsMock from "..//components/mock/products.json";
 
 const ProductTable = () => {
-    const productOptions = [
-        // Add your product options here
-        {value: 'productA', label: 'Product A'},
-        {value: 'productB', label: 'Product B'},
-    ];
+    const productOptions = productsMock.map(product => ({
+        value: product.name,
+        label: product.name,
+        unit: product.unit,
+        unitPrice: product.unitPrice,
+        vat: product.vat
+    }));
 
     const vatOptions = [
         // Add your VAT options here
@@ -21,15 +24,16 @@ const ProductTable = () => {
         {value: 5, label: '5%'},
         {value: 10, label: '10%'},
         {value: 20, label: '20%'},
+        {value: 23, label: '23%'},
     ];
     const [rows, setRows] = useState([
         {
             id: 1,
-            product: productOptions[0].value,
-            unit: units[0].value,
-            amount: '0',
+            product: '',
+            unit: '',
+            amount: '1',
             unitPrice: '0.00',
-            vat: vatOptions[0].value,
+            vat: '',
             netValue: '0.00',
             vatValue: '0.00',
             grossValue: '0.00',
@@ -40,11 +44,11 @@ const ProductTable = () => {
     const addRow = () => {
         const newRow = {
             id: rows.length + 1,
-            product: productOptions[0].value,
-            unit: units[0].value,
-            amount: '0',
+            product: '',
+            unit: '',
+            amount: '1',
             unitPrice: '0.00',
-            vat: vatOptions[0].value,
+            vat: '',
             netValue: '0.00',
             vatValue: '0.00',
             grossValue: '0.00',
@@ -63,11 +67,66 @@ const ProductTable = () => {
         }
     };
 
-    const handleInputChange = (id, field, value) => {
+    const validateInputValue = (inputValue) => {
+        const regex = /^[0-9.]*$/;
+        if (!regex.test(inputValue)) {
+            return inputValue.slice(0, -1); // removes last digit
+        } else {
+            return inputValue;
+        }
+    }
+
+    const handleInputChange = (id, field, value, selectedProduct) => {
+        const productData = selectedProduct
+            ? {
+                unit: selectedProduct.unit,
+                unitPrice: selectedProduct.unitPrice,
+                vat: selectedProduct.vat
+            }
+            : {};
+
         setRows((prevRows) =>
-            prevRows.map((row) =>
-                row.id === id ? {...row, [field]: value} : row
-            )
+            prevRows.map((row) => {
+                if (row.id === id) {
+                    const updatedRow = { ...row, [field]: value, ...productData };
+
+                    // Ensure amount is greater than 0 or not null
+                    const amount = (field === 'amount' && (parseFloat(value) <= 0 || !value))
+                        ? 1
+                        : parseFloat(updatedRow.amount);
+
+                    // Calculate Net Value before applying the discount
+                    const netValueBeforeDiscount = amount * parseFloat(updatedRow.unitPrice);
+
+                    // Calculate discount amount
+                    const discountValue = updatedRow.discount ? parseFloat(updatedRow.discount) : 0;
+                    const discountAmount = netValueBeforeDiscount * (discountValue * 0.01);
+
+                    // Calculate Net Value after applying the discount
+                    updatedRow.netValue = (netValueBeforeDiscount - discountAmount).toFixed(2);
+
+                    // Calculate VAT Value
+                    updatedRow.vatValue = (
+                        parseFloat(updatedRow.netValue) *
+                        parseFloat(updatedRow.vat) *
+                        0.01
+                    ).toFixed(2);
+
+                    // Calculate Gross Value
+                    updatedRow.grossValue = (
+                        parseFloat(updatedRow.netValue) + parseFloat(updatedRow.vatValue)
+                    ).toFixed(2);
+
+                    // Update amount if it was changed in the previous check
+                    if (field === 'amount') {
+                        updatedRow.amount = amount;
+                    }
+
+                    return updatedRow;
+                } else {
+                    return row;
+                }
+            })
         );
     };
 
@@ -156,9 +215,12 @@ const ProductTable = () => {
                             <div className={styles.select}>
                             <ProductSelect
                                 options={productOptions}
-                                onChange={(e) =>
-                                    handleInputChange(row.id, 'product', e.value)
-                                }
+                                onChange={(e) => {
+                                    const selectedProduct = productOptions.find(
+                                        (option) => option.value === e.value
+                                    );
+                                    handleInputChange(row.id, 'product', e.value, selectedProduct);
+                                }}
                             />
                             </div>
                         </td>
@@ -166,6 +228,7 @@ const ProductTable = () => {
                             <div className={styles.select}>
                             <SmallSelectWithUnderline
                                 placeholder={"unit"}
+                                value={units.find((option) => option.value === row.unit)}
                                 options={units}
                                 onChange={(e) =>
                                     handleInputChange(row.id, 'unit', e.value)
@@ -177,10 +240,11 @@ const ProductTable = () => {
                             <CustomInput
                                 type={"number"}
                                 value={row.amount}
-                                onInput={(e) =>
-                                    handleInputChange(row.id, 'amount', e.value)
+                                onChange={(value) =>
+                                    handleInputChange(row.id, 'amount', value)
                                 }
                                 className={styles.itemsInput}
+                                placeholder={"1"}
                             />
                         </td>
                         <td className={styles.tableDisabledInput}>{row.unitPrice}
@@ -191,6 +255,7 @@ const ProductTable = () => {
                             <SmallSelectWithUnderline
                                 placeholder={"%"}
                                 options={vatOptions}
+                                value={vatOptions.find((option) => option.value === row.vat)}
                                 onChange={(e) =>
                                     handleInputChange(row.id, 'vat', e.value)
                                 }
@@ -211,8 +276,8 @@ const ProductTable = () => {
                         <td>
                             <CustomInput
                                 value={row.discount}
-                                onInput={(e) =>
-                                    handleInputChange(row.id, 'discount', e.value)
+                                onChange={(value) =>
+                                    handleInputChange(row.id, 'discount', value)
                                 }
                                 className={styles.itemsInput}
                             />
@@ -235,7 +300,7 @@ const ProductTable = () => {
                 </tr>
                 </tfoot>
             </table>
-            <PaymentActions />
+            <PaymentActions totalGrossValue={summary.totalGrossValue}/>
         </>
     );
 };

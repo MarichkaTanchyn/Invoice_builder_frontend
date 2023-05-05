@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styles from './customInput.module.css';
 
 
-const CustomInput = ({ placeholder, onInput, type, label, className }) => {
+const CustomInput = ({placeholder, onChange, type, label, className}) => {
     const [value, setValue] = useState('');
 
-    const handleKeyDown = event => {
-        if (event.key === "Enter") {
-            onInput(value);
-        }
-    };
+    // const handleKeyDown = event => {
+    //     if (event.key === "Enter") {
+    //         onChange(value);
+    //     }
+    // };
 
     const handleChange = (event) => {
-        setValue(event.target.value);
-        onInput(event.target.value); // Call the onInput function when the value changes
+        const inputValue = event.target.value;
+        setValue(inputValue);
+        console.log(inputValue);
+        if (onChange) {
+            onChange(inputValue);
+        }
     };
-
 
     const mergedClassNames = `${styles.input} ${className}`;
 
@@ -30,7 +33,6 @@ const CustomInput = ({ placeholder, onInput, type, label, className }) => {
                         placeholder={placeholder}
                         value={value}
                         onChange={handleChange}
-                        onKeyDown={handleKeyDown}
                     />
                 </label>
             ) : (
@@ -40,8 +42,6 @@ const CustomInput = ({ placeholder, onInput, type, label, className }) => {
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-
                 />
             )}
         </>

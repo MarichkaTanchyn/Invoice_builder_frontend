@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Smietanka",
+    "unit": "PC",
+    "unitPrice": 20,
+    "vat": 23
+  },
+  {
+    "name": "Kielbasa",
+    "unit": "PC",
+    "unitPrice": 50,
+    "vat": 23
+  },
+  {
+    "name": "Chleb",
+    "unit": "PC",
+    "unitPrice": 10,
+    "vat": 23
+  }
+]

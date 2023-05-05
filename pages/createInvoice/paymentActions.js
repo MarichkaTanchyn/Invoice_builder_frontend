@@ -4,9 +4,23 @@ import currencies from "../components/data/currency.json";
 import paymentMethods from "../components/data/paymentMethods.json";
 import styles from "./createInvoice.module.css"
 import CustomInput from "../components/util/input/customInput";
+import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
 
-const PaymentActions = () => {
+const PaymentActions = ({totalGrossValue}) => {
+
+    const [paid, setPaid] = React.useState(0);
+    const [partiallyPaid, setPartiallyPaid] = React.useState(false);
+
+    const handleCheckboxChange = (setter) => (event) => {
+        setter(event.target.checked);
+    };
+
+    const handlePaid = (value) => {
+        setPaid(value);
+    }
+
+    const leftToPay = totalGrossValue - (parseFloat(paid) || 0);
 
 
     return (
@@ -20,9 +34,23 @@ const PaymentActions = () => {
                 <span>92 3842 3232 3203 9132 0000 3422 <hr/></span>
             </div>
             <div className={styles.labelBox}>
-                <span className={styles.label}>Paid</span>
-                <CustomInput type="text" placeholder="0.00"/>
+                <span className={styles.label}>Partially paid</span>
+                <CheckboxWithLabel checked={partiallyPaid} onChange={handleCheckboxChange(setPartiallyPaid)}/>
             </div>
+            {partiallyPaid &&
+                <div style={{display: "flex", flexDirection: "row"}}>
+                    <div className={styles.labelBox}>
+                        <span className={styles.label}>Paid</span>
+                        <CustomInput type="text" placeholder="0" onChange={handlePaid} className={styles.payInput}/>
+                    </div>
+                    <div className={styles.labelBox}>
+                        <span className={styles.label}>Left to Pay</span>
+                        <span>{leftToPay}
+                            <hr/></span>
+                    </div>
+                </div>
+            }
+
         </div>
     )
 }

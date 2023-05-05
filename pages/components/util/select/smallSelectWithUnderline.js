@@ -72,6 +72,9 @@ const SmallSelectWithUnderline = ({
             '&::-webkit-scrollbar': {
                 display: 'none', // For Chrome, Safari, and Opera
             },
+            "@media only screen and (min-width: 1600px)": {
+                width: '10em',
+            },
         }),
 
     };

@@ -5,6 +5,7 @@ const CheckboxWithLabel = ({
                                checked,
                                onChange,
                            }) => {
+
     return (
         <label className={styles.filterOptionLabel} onClick={onChange}>
             <input

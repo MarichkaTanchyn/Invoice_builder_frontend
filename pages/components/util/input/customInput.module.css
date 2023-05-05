@@ -22,13 +22,13 @@
 
 
 
-@media only screen and (min-width: 1600px){
+@media only screen and (min-width: 20000px){
     .input{
          width: 15em;
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
     .input{
          width: 10em;
     }

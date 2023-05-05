@@ -19,7 +19,7 @@ const SelectWithUnderline = ({
             '&:hover': {
                 borderBottom: '1px solid #ccc',
             },
-            "@media only screen and (min-width: 1600px)": {
+            "@media only screen and (min-width: 1680px)": {
                 width: '20em',
             },
         }),
@@ -59,7 +59,7 @@ const SelectWithUnderline = ({
         menu: (provided, state) => ({
             ...provided,
             width: '15em',
-            "@media only screen and (min-width: 1600px)": {
+            "@media only screen and (min-width: 1680px)": {
                 width: '20em',
             },
         }),
