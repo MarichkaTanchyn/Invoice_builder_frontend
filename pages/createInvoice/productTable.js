@@ -9,7 +9,15 @@ import PaymentActions from "./paymentActions";
 import ProductSelect from "../components/util/select/productSelect";
 import productsMock from "..//components/mock/products.json";
 
-const ProductTable = () => {
+const ProductTable = ({
+                          summary,
+                          rows,
+                          addRow,
+                          deleteSelectedRows,
+                          handleInputChange,
+                          toggleRowSelection,
+                          selectAllRows
+                      }) => {
     const productOptions = productsMock.map(product => ({
         value: product.name,
         label: product.name,
@@ -26,149 +34,6 @@ const ProductTable = () => {
         {value: 20, label: '20%'},
         {value: 23, label: '23%'},
     ];
-    const [rows, setRows] = useState([
-        {
-            id: 1,
-            product: '',
-            unit: '',
-            amount: '1',
-            unitPrice: '0.00',
-            vat: '',
-            netValue: '0.00',
-            vatValue: '0.00',
-            grossValue: '0.00',
-            discount: '0',
-        },
-    ]);
-
-    const addRow = () => {
-        const newRow = {
-            id: rows.length + 1,
-            product: '',
-            unit: '',
-            amount: '1',
-            unitPrice: '0.00',
-            vat: '',
-            netValue: '0.00',
-            vatValue: '0.00',
-            grossValue: '0.00',
-            discount: '0',
-        };
-        setRows((prevRows) => [...prevRows, newRow]);
-    };
-
-    const deleteSelectedRows = () => {
-        const selectedRows = rows.filter((row) => row.checked);
-
-        if (selectedRows.length === rows.length) {
-            setRows([rows[0]]);
-        } else {
-            setRows((prevRows) => prevRows.filter((row) => !row.checked));
-        }
-    };
-
-    const validateInputValue = (inputValue) => {
-        const regex = /^[0-9.]*$/;
-        if (!regex.test(inputValue)) {
-            return inputValue.slice(0, -1); // removes last digit
-        } else {
-            return inputValue;
-        }
-    }
-
-    const handleInputChange = (id, field, value, selectedProduct) => {
-        const productData = selectedProduct
-            ? {
-                unit: selectedProduct.unit,
-                unitPrice: selectedProduct.unitPrice,
-                vat: selectedProduct.vat
-            }
-            : {};
-
-        setRows((prevRows) =>
-            prevRows.map((row) => {
-                if (row.id === id) {
-                    const updatedRow = { ...row, [field]: value, ...productData };
-
-                    // Ensure amount is greater than 0 or not null
-                    const amount = (field === 'amount' && (parseFloat(value) <= 0 || !value))
-                        ? 1
-                        : parseFloat(updatedRow.amount);
-
-                    // Calculate Net Value before applying the discount
-                    const netValueBeforeDiscount = amount * parseFloat(updatedRow.unitPrice);
-
-                    // Calculate discount amount
-                    const discountValue = updatedRow.discount ? parseFloat(updatedRow.discount) : 0;
-                    const discountAmount = netValueBeforeDiscount * (discountValue * 0.01);
-
-                    // Calculate Net Value after applying the discount
-                    updatedRow.netValue = (netValueBeforeDiscount - discountAmount).toFixed(2);
-
-                    // Calculate VAT Value
-                    updatedRow.vatValue = (
-                        parseFloat(updatedRow.netValue) *
-                        parseFloat(updatedRow.vat) *
-                        0.01
-                    ).toFixed(2);
-
-                    // Calculate Gross Value
-                    updatedRow.grossValue = (
-                        parseFloat(updatedRow.netValue) + parseFloat(updatedRow.vatValue)
-                    ).toFixed(2);
-
-                    // Update amount if it was changed in the previous check
-                    if (field === 'amount') {
-                        updatedRow.amount = amount;
-                    }
-
-                    return updatedRow;
-                } else {
-                    return row;
-                }
-            })
-        );
-    };
-
-    const toggleRowSelection = (id) => {
-        setRows((prevRows) =>
-            prevRows.map((row) =>
-                row.id === id ? {...row, checked: !row.checked} : row
-            )
-        );
-    };
-
-    const selectAllRows = () => {
-        setRows((prevRows) =>
-            prevRows.map((row) => ({...row, checked: true}))
-        );
-    };
-
-    const [summary, setSummary] = useState({
-        totalAmount: 0,
-        totalNetValue: 0,
-        totalVatValue: 0,
-        totalGrossValue: 0,
-    });
-
-    useEffect(() => {
-        const updatedSummary = calculateSummary();
-        setSummary(updatedSummary);
-    }, [rows]);
-
-    const calculateSummary = () => {
-        const totalAmount = rows.reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-        const totalNetValue = rows.reduce((sum, row) => sum + parseFloat(row.netValue || 0), 0);
-        const totalVatValue = rows.reduce((sum, row) => sum + parseFloat(row.vatValue || 0), 0);
-        const totalGrossValue = rows.reduce((sum, row) => sum + parseFloat(row.grossValue || 0), 0);
-
-        return {
-            totalAmount,
-            totalNetValue,
-            totalVatValue,
-            totalGrossValue,
-        };
-    };
 
 
     return (
@@ -213,27 +78,27 @@ const ProductTable = () => {
                         </td>
                         <td>
                             <div className={styles.select}>
-                            <ProductSelect
-                                options={productOptions}
-                                onChange={(e) => {
-                                    const selectedProduct = productOptions.find(
-                                        (option) => option.value === e.value
-                                    );
-                                    handleInputChange(row.id, 'product', e.value, selectedProduct);
-                                }}
-                            />
+                                <ProductSelect
+                                    options={productOptions}
+                                    onChange={(e) => {
+                                        const selectedProduct = productOptions.find(
+                                            (option) => option.value === e.value
+                                        );
+                                        handleInputChange(row.id, 'product', e.value, selectedProduct);
+                                    }}
+                                />
                             </div>
                         </td>
                         <td>
                             <div className={styles.select}>
-                            <SmallSelectWithUnderline
-                                placeholder={"unit"}
-                                value={units.find((option) => option.value === row.unit)}
-                                options={units}
-                                onChange={(e) =>
-                                    handleInputChange(row.id, 'unit', e.value)
-                                }
-                            />
+                                <SmallSelectWithUnderline
+                                    placeholder={"unit"}
+                                    value={units.find((option) => option.value === row.unit)}
+                                    options={units}
+                                    onChange={(e) =>
+                                        handleInputChange(row.id, 'unit', e.value)
+                                    }
+                                />
                             </div>
                         </td>
                         <td>
@@ -252,15 +117,15 @@ const ProductTable = () => {
                         </td>
                         <td>
                             <div className={styles.select}>
-                            <SmallSelectWithUnderline
-                                placeholder={"%"}
-                                options={vatOptions}
-                                value={vatOptions.find((option) => option.value === row.vat)}
-                                onChange={(e) =>
-                                    handleInputChange(row.id, 'vat', e.value)
-                                }
-                                className={styles.itemsInput}
-                            />
+                                <SmallSelectWithUnderline
+                                    placeholder={"%"}
+                                    options={vatOptions}
+                                    value={vatOptions.find((option) => option.value === row.vat)}
+                                    onChange={(e) =>
+                                        handleInputChange(row.id, 'vat', e.value)
+                                    }
+                                    className={styles.itemsInput}
+                                />
                             </div>
                         </td>
                         <td className={styles.tableDisabledInput}>{row.netValue}
