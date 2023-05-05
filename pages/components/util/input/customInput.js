@@ -5,11 +5,6 @@ import styles from './customInput.module.css';
 const CustomInput = ({placeholder, onChange, type, label, className}) => {
     const [value, setValue] = useState('');
 
-    // const handleKeyDown = event => {
-    //     if (event.key === "Enter") {
-    //         onChange(value);
-    //     }
-    // };
 
     const handleChange = (event) => {
         const inputValue = event.target.value;

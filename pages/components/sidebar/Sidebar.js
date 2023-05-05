@@ -48,7 +48,9 @@ const Sidebar = (props) => {
                             </div>
                         </a>
                         <FontAwesomeIcon icon={faPencil} className={`${style.icon}`}/>
+                        <Link href={"/createCategory"}>
                         <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize: `15px`}}/>
+                        </Link>
                     </div>
                     <Collapse isOpen={collapse1}>
                           <SidebarList categories={props.categories}/>
