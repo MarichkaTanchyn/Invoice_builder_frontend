@@ -49,7 +49,7 @@
 .inputContainer {
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 90%;
     justify-content: space-between;
 
 }
@@ -65,4 +65,51 @@
     border: .1em solid #ccc !Important;
     border-radius: .5em;
     height: 2.3em!important;
+}
+
+.subCategories {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.subCategories label {
+    margin-right: 1em;
+}
+
+.categoryHeaders {
+    padding: 3em 0 0 0 ;
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.hr {
+    margin: 0;
+}
+
+.tableActionButtons {
+    padding: 0 1em;
+}
+
+.tableActionButtons button {
+    border: none;
+    text-align: center;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding-left: 1em;
+    color: #AFAFAF;
+}
+.subCategoryFields {
+
+}
+.categoryFields {
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 1em 0;
 }

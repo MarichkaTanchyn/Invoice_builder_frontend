@@ -9,7 +9,7 @@ const Layout = ({children}) => {
 
     const [categories, setCategories] = useState([]);
     const params = {
-        CompanyId: 4
+        CompanyId: 1
     }
 
     useEffect(() => {

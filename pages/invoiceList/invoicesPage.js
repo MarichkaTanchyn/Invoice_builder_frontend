@@ -27,8 +27,8 @@ const InvoicesPage = () => {
     const [sortSelect, setSortSelect] = useState(null)
     const [documents, setDocuments] = useState([]);
     const params = {
-        CompanyId: 4,
-        EmployeeId: 4,
+        CompanyId: 1,
+        EmployeeId: 1,
     }
 
     const {applyFilter, updateFilterSettings} = useFilter();

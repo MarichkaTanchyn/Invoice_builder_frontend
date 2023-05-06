@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const getAllDocuments = async ({CompanyId, EmployeeId}) => {
     try {
+        console.log(CompanyId, EmployeeId)
         const { data: documents } = await axios.get(`http://localhost:3000/getAllDocuments/${CompanyId}/${EmployeeId}`);
         return {
             props: {
