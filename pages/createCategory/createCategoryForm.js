@@ -209,7 +209,7 @@ const CreateCategoryForm = ({showSubcategories}) => {
                                                         />
                                                     </td>
                                                     <td>
-                                                        <SelectWithLabel options={["String", "Number", "Date"]}/>
+                                                        <SelectWithLabel options={DATATYPE_OPTIONS}/>
                                                     </td>
                                                     <td>
                                                         <SelectWithLabel options={OPTIONALITY_OPTIONS} onChange={() => {
