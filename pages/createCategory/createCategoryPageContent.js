@@ -4,6 +4,7 @@ import {Switch} from "@nextui-org/react";
 import CreateCategoryForm from "./createCategoryForm";
 import Button from "../components/util/button/button";
 import React, {useState} from "react";
+import {createCategories} from "../api/categoriesApi";
 
 const CreateCategoryPageContent = () => {
     const [selectAllCategories, setSelectAllCategories] = useState(false);
@@ -207,48 +208,26 @@ const CreateCategoryPageContent = () => {
         );
     };
 
+    const params = {
+        CompanyId: 1
+    }
 
     const submitData = async () => {
         // Format the data into the desired structure
-        const dataToSend = {
+        const categoriesData = {
             withSubcategories: showSubcategories,
-            name: categoryName,
-            vat: vat,
             categories: categoryFields.map((category) => ({
                 ...category,
                 subcategories: subcategories.filter((subcategory) => subcategory.categoryId === category.id),
             })),
         };
-        console.log(dataToSend);
+        console.log(categoriesData);
+        await createCategories(categoriesData , params.CompanyId);
     };
 
     return (
         <div className={styles.content}>
             <div>
-                <div className={styles.inputContainer}>
-                    <div>
-                        <CustomInput label={"Name"}
-                                     type={"text"}
-                                     placeholder="Add a descriptive name..."
-                                     className={styles.categoryNameInput}
-                                     value={categoryName}
-                                     onChange={(value) => setCategoryName(value)}
-                        />
-                    </div>
-                    <div>
-                        <CustomInput label={"Vat(%)"}
-                                     placeholder=""
-                                     type={"text"}
-                                     className={styles.input}
-                                     value={vat}
-                                     onChange={(value) => setVat(value)}
-                        />
-                        <span style={{color: "#AFAFAF"}}>
-                                * this will be default vat for all products in category,<br/>
-                                can be changed in invoice creating process
-                            </span>
-                    </div>
-                </div>
                 <div className={styles.subCategoriesSwitch}>
                     <label>Subcategories</label>
                     <Switch

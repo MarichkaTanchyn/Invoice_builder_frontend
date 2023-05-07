@@ -121,7 +121,7 @@
 }
 
 .categoryTable {
-    width: 40em;
+    /*width: 40em;*/
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1.1em;
     text-align: left;

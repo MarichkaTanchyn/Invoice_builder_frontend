@@ -26,7 +26,7 @@ const CreateCategory = () => {
                     </div>
                 </Link>
                 <div className={styles.headers}>
-                    <h1>Add New Category</h1>
+                    <h1>Add Categories</h1>
                 </div>
                 <hr className={styles.hr}/>
                 <CreateCategoryPageContent />

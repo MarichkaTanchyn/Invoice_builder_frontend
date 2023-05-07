@@ -40,8 +40,6 @@ const CreateCategoryForm = ({
                                                        onChange={toggleSelectAllCategories}/>
                                 </th>
                                 <th>Name</th>
-                                {!showSubcategories && <th>Data type</th>}
-                                {!showSubcategories && <th>Optionality</th>}
                             </tr>
                         )}
                         </thead>
@@ -54,7 +52,7 @@ const CreateCategoryForm = ({
                         />
                         <tr>
                             <td></td>
-                            <td colSpan={showSubcategories ? 1 : 3}>
+                            <td colSpan={showSubcategories ? 2 : 4}>
                                 {showSubcategories &&
                                     subcategories
                                         .filter((subcategory) => subcategory.categoryId === field.id)

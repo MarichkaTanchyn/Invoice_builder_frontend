@@ -1,12 +1,9 @@
 import React from 'react';
 import CustomInput from "../components/util/input/customInput";
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
-import DATATYPE_OPTIONS from "../components/data/dataTypes.json";
-import OPTIONALITY_OPTIONS from "../components/data/optionality.json";
 import styles from "./createCategory.module.css";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
-const CategoryRow = ({field, showSubcategories, toggleSelectedCategory, updateCategoryField}) => (
+const CategoryRow = ({field,toggleSelectedCategory, updateCategoryField}) => (
 
     <tr>
         <td>
@@ -25,20 +22,6 @@ const CategoryRow = ({field, showSubcategories, toggleSelectedCategory, updateCa
                 className={styles.input}
             />
         </td>
-        {!showSubcategories && (
-            <>
-                <td>
-                    <SelectWithLabel options={DATATYPE_OPTIONS}
-                                     onChange={(selectedOption) => updateCategoryField(field.id, "dataType", selectedOption.value)}
-                    />
-                </td>
-                <td>
-                    <SelectWithLabel options={OPTIONALITY_OPTIONS}
-                                     onChange={(selectedOption) => updateCategoryField(field.id, "optionality", selectedOption.value)}
-                    />
-                </td>
-            </>
-        )}
     </tr>
 );
 

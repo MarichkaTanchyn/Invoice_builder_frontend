@@ -1,8 +1,6 @@
 import React from 'react';
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import styles from "./createCategory.module.css";
-import DATATYPE_OPTIONS from "../components/data/dataTypes.json";
-import OPTIONALITY_OPTIONS from "../components/data/optionality.json";
+
 import CustomInput from "../components/util/input/customInput";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
@@ -27,8 +25,6 @@ const SubcategoryTable = ({
                                        label={"REG"}/>
                 </th>
                 <th>Name</th>
-                <th>Data type</th>
-                <th>Optionality</th>
             </tr>
         )}
         </thead>
@@ -49,14 +45,6 @@ const SubcategoryTable = ({
                     placeholder="Enter name"
                     className={styles.input}
                 />
-            </td>
-            <td>
-                <SelectWithLabel options={DATATYPE_OPTIONS}
-                                 onChange={(selectedOption) => updateSubcategoryField(subCategoryId, "dataType", selectedOption.value)}/>
-            </td>
-            <td>
-                <SelectWithLabel options={OPTIONALITY_OPTIONS}
-                                 onChange={(selectedOption) => updateSubcategoryField(subCategoryId, "optionality", selectedOption.value)}/>
             </td>
         </tr>
         </tbody>
