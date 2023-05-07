@@ -16,7 +16,7 @@
 }
 .headers h2 {
     text-decoration: none;
-    color: #999999;
+    color: #707070;
     outline: none;
     font-size: 18px;
 }
@@ -32,6 +32,19 @@
     font-size: 1.2em;
     padding: 0;
 }
+
+.actionButtons {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    /*bottom: 0;*/
+    /*right: 0;*/
+}
+
+.button {
+    margin: 1em 1.5em;
+}
+
 
 .img {
     padding-right: .4em;
@@ -65,9 +78,10 @@
     border: .1em solid #ccc !Important;
     border-radius: .5em;
     height: 2.3em!important;
+    margin-bottom: .3em;
 }
 
-.subCategories {
+.subCategoriesSwitch {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -76,6 +90,8 @@
 .subCategories label {
     margin-right: 1em;
 }
+
+
 
 .categoryHeaders {
     padding: 3em 0 0 0 ;
@@ -101,15 +117,56 @@
     align-items: center;
     background-color: #FFFFFF;
     padding-left: 1em;
-    color: #AFAFAF;
+    color: #707070;
 }
-.subCategoryFields {
 
+.categoryTable {
+    width: 40em;
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 1.1em;
+    text-align: left;
 }
-.categoryFields {
+
+
+.categoryTableHeaders th {
+    font-weight: normal;
+    font-size: 1.1rem;
+    color: #707070;
+    padding: .5em 0em;
+}
+.checkBox {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 2.3em!important;
+    /*margin-right: 1em;*/
+    margin-top: .8em;
+    margin-bottom: .3em;
+    padding-right: .5em;
+}
+.categoryFields td{
+    margin: 0;
+}
+.subCategoryHeaders{
+    font-size: .9em;
     display: flex;
     flex-direction: row;
-    /*justify-content: space-between;*/
+    justify-content: space-between;
     align-items: center;
-    padding: 1em 0;
+}
+
+.subcategoryTable {
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: .9em;
+    text-align: left;
+}
+
+
+.subcategoryTableHeaders th {
+    font-weight: normal;
+    font-size: 1rem;
+    color: #707070;
+}
+
+.subcategoryTableFields td{
+    padding-right: 1em;
 }

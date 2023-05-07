@@ -21,7 +21,8 @@ const SelectWithLabel = ({
             width: '10em',
             margin: ' 1em 0',
             border: '.1em solid #ccc',
-            borderRadius: '.4em',
+            height: '2.3em',
+            borderRadius: '.5em',
             '&:hover': {
                 border: '1px solid #ccc',
                 borderRadius: '.4em',

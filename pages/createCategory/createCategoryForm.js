@@ -4,6 +4,7 @@ import CategoryRow from "./categoryRow";
 import SubCategoryHeaders from "./subCategoryHeaders";
 import CategoryHeaders from "./categoryHeaders";
 import SubcategoryTable from "./subCategoryTable";
+import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
 const CreateCategoryForm = ({
                                 showSubcategories,
@@ -16,6 +17,12 @@ const CreateCategoryForm = ({
                                 toggleSelectedCategory,
                                 updateSubcategoryField,
                                 updateCategoryField,
+                                selectAllCategories,
+                                toggleSelectAllCategories,
+                                selectAllSubcategories,
+                                toggleSelectAllSubcategories,
+                                toggleSelectedSubcategory,
+                                selectedSubcategories
                             }) => {
 
     return (
@@ -24,11 +31,14 @@ const CreateCategoryForm = ({
                              deleteCategoryField={deleteCategoryField}/>
             {categoryFields.map((field, index) => (
                 <React.Fragment key={field.id}>
-                    <table>
-                        <thead>
+                    <table className={styles.categoryTable}>
+                        <thead className={styles.categoryTableHeaders}>
                         {((!showSubcategories && index === 0) || showSubcategories) && (
                             <tr>
-                                <th>REG</th>
+                                <th><CheckboxWithLabel label={"REG"}
+                                                       checked={selectAllCategories}
+                                                       onChange={toggleSelectAllCategories}/>
+                                </th>
                                 <th>Name</th>
                                 {!showSubcategories && <th>Data type</th>}
                                 {!showSubcategories && <th>Optionality</th>}
@@ -42,34 +52,45 @@ const CreateCategoryForm = ({
                             toggleSelectedCategory={toggleSelectedCategory}
                             updateCategoryField={updateCategoryField}
                         />
-                        {showSubcategories &&
-                            subcategories
-                                .filter((subcategory) => subcategory.categoryId === field.id)
-                                .map((subcategory, index) => (
-                                    <tr key={`subcat-${subcategory.id}`}>
-                                        <td colSpan={showSubcategories ? 2 : 4}>
-                                            <SubCategoryHeaders addSubcategory={addSubcategory}
-                                                                deleteSubcategory={deleteSubcategory}
-                                                                index={index}
-                                                                fieldId={field.id}
-                                                                subCategoryId={subcategory.id}
-                                            />
-                                            <SubcategoryTable subCategoryId={subcategory.id}
-                                                              subCategoryName={subcategory.name}
-                                                              subCategoryReg={subcategory.reg}
-                                                              index={index}
-                                                                updateSubcategoryField={updateSubcategoryField}
-                                            />
+                        <tr>
+                            <td></td>
+                            <td colSpan={showSubcategories ? 1 : 3}>
+                                {showSubcategories &&
+                                    subcategories
+                                        .filter((subcategory) => subcategory.categoryId === field.id)
+                                        .map((subcategory, index) => (
+                                            <tr key={`subcat-${subcategory.id}`}>
+                                                <td colSpan={showSubcategories ? 2 : 4}>
+                                                    <SubCategoryHeaders addSubcategory={addSubcategory}
+                                                                        deleteSubcategory={deleteSubcategory}
+                                                                        index={index}
+                                                                        fieldId={field.id}
+                                                                        subCategoryId={subcategory.id}
+                                                    />
+                                                    <SubcategoryTable subCategoryId={subcategory.id}
+                                                                      subCategoryName={subcategory.name}
+                                                                      subCategoryReg={subcategory.reg}
+                                                                      subcategory={subcategory}
+                                                                      index={index}
+                                                                      updateSubcategoryField={updateSubcategoryField}
+                                                                      toggleSelectedSubcategory={toggleSelectedSubcategory}
+                                                                      selectedSubcategories={selectedSubcategories}
+                                                                      toggleSelectAllSubcategories={toggleSelectAllSubcategories}
+                                                                      selectAllSubcategories={selectAllSubcategories}
+
+                                                    />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                {showSubcategories && (
+                                    <tr>
+                                        <td colSpan={showSubcategories ? 3 : 4}>
+                                            <hr/>
                                         </td>
                                     </tr>
-                                ))}
-                        {showSubcategories && (
-                            <tr>
-                                <td colSpan={showSubcategories ? 3 : 4}>
-                                    <hr/>
-                                </td>
-                            </tr>
-                        )}
+                                )}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </React.Fragment>

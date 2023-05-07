@@ -1,19 +1,31 @@
 import React from 'react';
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import styles from "./createCategory.module.css";
-import CategoryHeaders from "./categoryHeaders";
-import CategoryRow from "./categoryRow";
 import DATATYPE_OPTIONS from "../components/data/dataTypes.json";
 import OPTIONALITY_OPTIONS from "../components/data/optionality.json";
-import {Checkbox} from "@nextui-org/react";
 import CustomInput from "../components/util/input/customInput";
+import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
-const SubcategoryTable = ({ index, subCategoryId, subCategoryReg, subCategoryName, updateSubcategoryField}) => (
-    <table>
-        <thead>
+const SubcategoryTable = ({
+                              index,
+                              subcategory,
+                              subCategoryId,
+                              subCategoryReg,
+                              subCategoryName,
+                              updateSubcategoryField,
+                              toggleSelectedSubcategory,
+                              selectAllSubcategories,
+                              toggleSelectAllSubcategories
+                          }) => (
+    <table className={styles.subcategoryTable}>
+        <thead className={styles.subcategoryTableHeaders}>
         {index === 0 && (
             <tr>
-                <th>REG</th>
+                <th>
+                    <CheckboxWithLabel checked={selectAllSubcategories}
+                                       onChange={(e) => toggleSelectAllSubcategories(subCategoryId, e.target.checked)}
+                                       label={"REG"}/>
+                </th>
                 <th>Name</th>
                 <th>Data type</th>
                 <th>Optionality</th>
@@ -21,10 +33,13 @@ const SubcategoryTable = ({ index, subCategoryId, subCategoryReg, subCategoryNam
         )}
         </thead>
         <tbody>
-        <tr key={subCategoryId}>
+        <tr className={styles.subcategoryTableFields} key={subCategoryId}>
             <td>
-                <Checkbox checked={subCategoryReg} onChange={() => {
-                }}/>
+                <div className={styles.checkBox}>
+                    <CheckboxWithLabel checked={subCategoryReg}
+                                       label={`#${index + 1}`}
+                                       onChange={() => toggleSelectedSubcategory(subcategory)}/>
+                </div>
             </td>
             <td>
                 <CustomInput

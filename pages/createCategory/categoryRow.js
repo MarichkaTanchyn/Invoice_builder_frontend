@@ -1,16 +1,20 @@
 import React from 'react';
 import CustomInput from "../components/util/input/customInput";
-import {Checkbox} from "@nextui-org/react";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import DATATYPE_OPTIONS from "../components/data/dataTypes.json";
 import OPTIONALITY_OPTIONS from "../components/data/optionality.json";
 import styles from "./createCategory.module.css";
+import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
 const CategoryRow = ({field, showSubcategories, toggleSelectedCategory, updateCategoryField}) => (
 
     <tr>
         <td>
-            <Checkbox checked={field.reg} onChange={() => toggleSelectedCategory(field.id)}/>
+            <div className={styles.checkBox} style={{marginRight:".8em"}}>
+            <CheckboxWithLabel checked={field.reg}
+                               onChange={() => toggleSelectedCategory(field.id)}
+                               label={`#${field.id}`}/>
+            </div>
         </td>
         <td>
             <CustomInput

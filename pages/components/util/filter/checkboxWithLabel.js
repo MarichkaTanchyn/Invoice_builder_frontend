@@ -3,7 +3,7 @@ import styles from './filter.module.css'
 const CheckboxWithLabel = ({
                                label,
                                checked,
-                               onChange,
+                               onChange
                            }) => {
 
     return (

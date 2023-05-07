@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "./createCategory.module.css";
 
 const CategoryHeaders = ({ addCategoryField, deleteCategoryField }) => (
-    <div>
+    <div style={{width: "50em"}}>
         <div className={styles.categoryHeaders}>
             <h4>Category Fields</h4>
             <div className={styles.tableActionButtons}>
