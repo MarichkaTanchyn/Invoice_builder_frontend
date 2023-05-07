@@ -5,91 +5,18 @@ import SubCategoryHeaders from "./subCategoryHeaders";
 import CategoryHeaders from "./categoryHeaders";
 import SubcategoryTable from "./subCategoryTable";
 
-const CreateCategoryForm = ({showSubcategories}) => {
-    const [categoryFields, setCategoryFields] = useState([
-        {
-            id: 1,
-            name: "",
-            dataType: "",
-            optionality: "",
-        },
-    ]);
-
-    const [subcategories, setSubcategories] = useState([
-        {
-            id: 1,
-            categoryId: 1,
-            reg: false,
-            name: "",
-            dataType: "",
-            optionality: "",
-        },
-    ]);
-
-    const [selectedCategories, setSelectedCategories] = useState([]);
-
-    const addCategoryField = () => {
-        const id = categoryFields.length + 1;
-        setCategoryFields([...categoryFields, {id, name: "", dataType: "", optionality: ""}]);
-
-        const newSubcategory = {
-            id: subcategories.length + 1,
-            categoryId: id,
-            reg: false,
-            name: "",
-            dataType: "",
-            optionality: "",
-        };
-        setSubcategories([...subcategories, newSubcategory]);
-    };
-
-    const deleteCategoryField = () => {
-        if (selectedCategories.length > 0) {
-            setCategoryFields(categoryFields.filter((field) => !selectedCategories.includes(field.id)));
-            setSelectedCategories([]); // Reset the selected categories
-        }
-    }
-
-    const toggleSelectedCategory = (categoryId) => {
-        if (selectedCategories.includes(categoryId)) {
-            setSelectedCategories(selectedCategories.filter((id) => id !== categoryId));
-        } else {
-            setSelectedCategories([...selectedCategories, categoryId]);
-        }
-    };
-
-    const addSubcategory = (categoryId) => {
-        // Find the highest subcategory id associated with the current category
-        const maxSubcategoryId = subcategories
-            .filter((subcategory) => subcategory.categoryId === categoryId)
-            .reduce((maxId, currentSubcategory) => {
-                return Math.max(maxId, currentSubcategory.id);
-            }, 0);
-
-        const newSubcategory = {
-            id: maxSubcategoryId + 1,
-            categoryId,
-            reg: false,
-            name: "",
-            dataType: "",
-            optionality: "",
-        };
-
-        setSubcategories([...subcategories, newSubcategory]);
-    };
-
-    const deleteSubcategory = (subcategoryId, categoryId) => {
-        const subcategoriesForCurrentCategory = subcategories.filter(
-            (subcategory) => subcategory.categoryId === categoryId
-        );
-
-        if (subcategoriesForCurrentCategory.length > 1) {
-            const updatedSubcategories = subcategories.filter(
-                (subcategory) => subcategory.id !== subcategoryId
-            );
-            setSubcategories(updatedSubcategories);
-        }
-    }
+const CreateCategoryForm = ({
+                                showSubcategories,
+                                categoryFields,
+                                subcategories,
+                                addCategoryField,
+                                deleteCategoryField,
+                                addSubcategory,
+                                deleteSubcategory,
+                                toggleSelectedCategory,
+                                updateSubcategoryField,
+                                updateCategoryField,
+                            }) => {
 
     return (
         <>
@@ -113,6 +40,7 @@ const CreateCategoryForm = ({showSubcategories}) => {
                             field={field}
                             showSubcategories={showSubcategories}
                             toggleSelectedCategory={toggleSelectedCategory}
+                            updateCategoryField={updateCategoryField}
                         />
                         {showSubcategories &&
                             subcategories
@@ -129,7 +57,9 @@ const CreateCategoryForm = ({showSubcategories}) => {
                                             <SubcategoryTable subCategoryId={subcategory.id}
                                                               subCategoryName={subcategory.name}
                                                               subCategoryReg={subcategory.reg}
-                                                              index={index}/>
+                                                              index={index}
+                                                                updateSubcategoryField={updateSubcategoryField}
+                                            />
                                         </td>
                                     </tr>
                                 ))}

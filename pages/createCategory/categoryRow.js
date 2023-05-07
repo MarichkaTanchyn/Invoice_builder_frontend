@@ -6,17 +6,17 @@ import DATATYPE_OPTIONS from "../components/data/dataTypes.json";
 import OPTIONALITY_OPTIONS from "../components/data/optionality.json";
 import styles from "./createCategory.module.css";
 
-const CategoryRow = ({ field, showSubcategories, toggleSelectedCategory }) => (
+const CategoryRow = ({field, showSubcategories, toggleSelectedCategory, updateCategoryField}) => (
 
     <tr>
         <td>
-            <Checkbox checked={field.reg} onChange={() => toggleSelectedCategory(field.id)} />
+            <Checkbox checked={field.reg} onChange={() => toggleSelectedCategory(field.id)}/>
         </td>
         <td>
             <CustomInput
                 type="text"
                 value={field.name}
-                onChange={() => { }}
+                onChange={(value) => updateCategoryField(field.id, "name", value)}
                 placeholder="Enter name"
                 className={styles.input}
             />
@@ -24,10 +24,14 @@ const CategoryRow = ({ field, showSubcategories, toggleSelectedCategory }) => (
         {!showSubcategories && (
             <>
                 <td>
-                    <SelectWithLabel options={DATATYPE_OPTIONS} onChange={() => { }} />
+                    <SelectWithLabel options={DATATYPE_OPTIONS}
+                                     onChange={(selectedOption) => updateCategoryField(field.id, "dataType", selectedOption.value)}
+                    />
                 </td>
                 <td>
-                    <SelectWithLabel options={OPTIONALITY_OPTIONS} onChange={() => { }} />
+                    <SelectWithLabel options={OPTIONALITY_OPTIONS}
+                                     onChange={(selectedOption) => updateCategoryField(field.id, "optionality", selectedOption.value)}
+                    />
                 </td>
             </>
         )}

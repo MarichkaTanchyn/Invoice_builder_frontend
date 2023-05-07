@@ -8,16 +8,11 @@ import {useRouter} from "next/router";
 import CustomInput from "../components/util/input/customInput";
 import {Switch} from "@nextui-org/react";
 import CreateCategoryForm from "./createCategoryForm";
+import CreateCategoryPageContent from "./createCategoryPageContent";
 
 
 const CreateCategory = () => {
     const router = useRouter();
-
-    const [showSubcategories, setShowSubcategories] = useState(false);
-
-    const toggleSubcategories = () => {
-        setShowSubcategories(!showSubcategories);
-    };
     const onClick = async () => {
         await router.push("/");
     }
@@ -34,34 +29,7 @@ const CreateCategory = () => {
                     <h1>Add New Category</h1>
                 </div>
                 <hr className={styles.hr}/>
-                <div className={styles.content}>
-                    <div className={styles.inputContainer}>
-                        <div>
-                            <CustomInput label={"Name"} type={"text"} placeholder="Add a descriptive name..."
-                                         className={styles.categoryNameInput}/>
-                        </div>
-                        <div>
-                            <CustomInput label={"Vat(%)"} placeholder="" type={"text"} className={styles.input}/>
-                            <span style={{color: "#AFAFAF"}}>
-                                * this will be default vat for all products in category,<br/>
-                                can be changed in invoice creating process
-                            </span>
-                        </div>
-                    </div>
-                    <div className={styles.subCategories}>
-                        <label>Subcategories</label>
-                        <Switch
-                            size={"sm"}
-                            squared
-                            color="primary"
-                            checked={showSubcategories}
-                            onChange={toggleSubcategories}
-                        >
-                            Squared option
-                        </Switch>
-                    </div>
-                    <CreateCategoryForm showSubcategories={showSubcategories} />
-                </div>
+                <CreateCategoryPageContent />
             </div>
         </Card>
     )

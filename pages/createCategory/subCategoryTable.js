@@ -8,7 +8,7 @@ import OPTIONALITY_OPTIONS from "../components/data/optionality.json";
 import {Checkbox} from "@nextui-org/react";
 import CustomInput from "../components/util/input/customInput";
 
-const SubcategoryTable = ({ index, subCategoryId, subCategoryReg, subCategoryName}) => (
+const SubcategoryTable = ({ index, subCategoryId, subCategoryReg, subCategoryName, updateSubcategoryField}) => (
     <table>
         <thead>
         {index === 0 && (
@@ -30,17 +30,18 @@ const SubcategoryTable = ({ index, subCategoryId, subCategoryReg, subCategoryNam
                 <CustomInput
                     type="text"
                     value={subCategoryName}
-                    onChange={() => {
-                    }}
+                    onChange={(value) => updateSubcategoryField(subCategoryId, "name", value)}
                     placeholder="Enter name"
                     className={styles.input}
                 />
             </td>
             <td>
-                <SelectWithLabel options={DATATYPE_OPTIONS}/>
+                <SelectWithLabel options={DATATYPE_OPTIONS}
+                                 onChange={(selectedOption) => updateSubcategoryField(subCategoryId, "dataType", selectedOption.value)}/>
             </td>
             <td>
-                <SelectWithLabel options={OPTIONALITY_OPTIONS} onChange={() => {}}/>
+                <SelectWithLabel options={OPTIONALITY_OPTIONS}
+                                 onChange={(selectedOption) => updateSubcategoryField(subCategoryId, "optionality", selectedOption.value)}/>
             </td>
         </tr>
         </tbody>

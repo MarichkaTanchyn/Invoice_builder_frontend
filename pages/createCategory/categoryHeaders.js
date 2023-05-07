@@ -6,8 +6,8 @@ const CategoryHeaders = ({ addCategoryField, deleteCategoryField }) => (
         <div className={styles.categoryHeaders}>
             <h4>Category Fields</h4>
             <div className={styles.tableActionButtons}>
-                <button onClick={addCategoryField}>Add</button>
-                <button onClick={deleteCategoryField}>Delete</button>
+                <button aria-label={"Add category"} onClick={addCategoryField}>Add</button>
+                <button aria-label={"Delete category"} onClick={deleteCategoryField}>Delete</button>
             </div>
         </div>
         <hr className={styles.hr}/>

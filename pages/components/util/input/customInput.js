@@ -9,7 +9,6 @@ const CustomInput = ({placeholder, onChange, type, label, className}) => {
     const handleChange = (event) => {
         const inputValue = event.target.value;
         setValue(inputValue);
-        console.log(inputValue);
         if (onChange) {
             onChange(inputValue);
         }

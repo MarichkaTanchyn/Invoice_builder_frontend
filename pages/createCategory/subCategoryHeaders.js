@@ -9,13 +9,14 @@ const SubCategoryHeaders = ({index, fieldId, subCategoryId, addSubcategory, dele
                 <div className={styles.categoryHeaders}>
                     <h6>Subcategory Fields</h6>
                     <div className={styles.tableActionButtons}>
-                        <button onClick={() => addSubcategory(fieldId)}>
+                        <button
+                            onClick={() => addSubcategory(fieldId)}
+                            aria-label={"Add subCategory"}>
                             Add
                         </button>
                         <button
-                            onClick={() =>
-                                deleteSubcategory(subCategoryId, fieldId)
-                            }>
+                            onClick={() => deleteSubcategory(subCategoryId, fieldId)}
+                            aria-label={"Delete subCategory"}>
                             Delete
                         </button>
                     </div>
