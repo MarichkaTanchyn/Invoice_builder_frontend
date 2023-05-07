@@ -1,0 +1,5 @@
+[
+  {"value": "String", "label": "String"},
+  {"value": "Number", "label": "Number"},
+  {"value": "Date", "label": "Date"}
+]

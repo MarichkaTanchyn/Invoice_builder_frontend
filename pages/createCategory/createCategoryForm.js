@@ -1,20 +1,10 @@
 import styles from './createCategory.module.css';
 import React, {useState, useEffect} from 'react';
-import CustomInput from "../components/util/input/customInput";
-import {Checkbox} from "@nextui-org/react";
-import {ta} from "date-fns/locale";
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
+import CategoryRow from "./categoryRow";
+import SubCategoryHeaders from "./subCategoryHeaders";
+import CategoryHeaders from "./categoryHeaders";
+import SubcategoryTable from "./subCategoryTable";
 
-const DATATYPE_OPTIONS = [
-    {value: "String", label: "String"},
-    {value: "Number", label: "Number"},
-    {value: "Date", label: "Date"},
-];
-
-const OPTIONALITY_OPTIONS = [
-    {value: "Mandatory", label: "Mandatory"},
-    {value: "Optional", label: "Optional"},
-];
 const CreateCategoryForm = ({showSubcategories}) => {
     const [categoryFields, setCategoryFields] = useState([
         {
@@ -37,7 +27,6 @@ const CreateCategoryForm = ({showSubcategories}) => {
     ]);
 
     const [selectedCategories, setSelectedCategories] = useState([]);
-
 
     const addCategoryField = () => {
         const id = categoryFields.length + 1;
@@ -104,16 +93,8 @@ const CreateCategoryForm = ({showSubcategories}) => {
 
     return (
         <>
-            <div>
-                <div className={styles.categoryHeaders}>
-                    <h4>Category Fields</h4>
-                    <div className={styles.tableActionButtons}>
-                        <button onClick={addCategoryField}>Add</button>
-                        <button onClick={deleteCategoryField}>Delete</button>
-                    </div>
-                </div>
-                <hr className={styles.hr}/>
-            </div>
+            <CategoryHeaders addCategoryField={addCategoryField}
+                             deleteCategoryField={deleteCategoryField}/>
             {categoryFields.map((field, index) => (
                 <React.Fragment key={field.id}>
                     <table>
@@ -128,96 +109,27 @@ const CreateCategoryForm = ({showSubcategories}) => {
                         )}
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <Checkbox checked={field.reg} onChange={() => toggleSelectedCategory(field.id)}/>
-                            </td>
-                            <td>
-                                <CustomInput
-                                    type="text"
-                                    value={field.name}
-                                    onChange={() => {
-                                    }}
-                                    placeholder="Enter name"
-                                    className={styles.input}
-                                />
-                            </td>
-                            <td>
-                                {!showSubcategories &&
-                                    <SelectWithLabel options={DATATYPE_OPTIONS} onChange={() => {
-                                    }}/>
-                                }
-                            </td>
-                            <td>
-                                {!showSubcategories &&
-                                    <SelectWithLabel options={OPTIONALITY_OPTIONS} onChange={() => {
-                                    }}/>
-                                }
-                            </td>
-                        </tr>
+                        <CategoryRow
+                            field={field}
+                            showSubcategories={showSubcategories}
+                            toggleSelectedCategory={toggleSelectedCategory}
+                        />
                         {showSubcategories &&
                             subcategories
                                 .filter((subcategory) => subcategory.categoryId === field.id)
                                 .map((subcategory, index) => (
                                     <tr key={`subcat-${subcategory.id}`}>
                                         <td colSpan={showSubcategories ? 2 : 4}>
-                                            {index === 0 && (
-                                                <>
-                                                    <div className={styles.categoryHeaders}>
-                                                        <h6>Subcategory Fields</h6>
-                                                        <div className={styles.tableActionButtons}>
-                                                            <button onClick={() => addSubcategory(field.id)}>
-                                                                Add
-                                                            </button>
-                                                            <button
-                                                                onClick={() =>
-                                                                    deleteSubcategory(subcategory.id, field.id)
-                                                                }
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <hr className={styles.hr}/>
-                                                </>
-                                            )}
-                                            <table>
-                                                <thead>
-                                                {index === 0 && (
-                                                    <tr>
-                                                        <th>REG</th>
-                                                        <th>Name</th>
-                                                        <th>Data type</th>
-                                                        <th>Optionality</th>
-                                                    </tr>
-                                                )}
-                                                </thead>
-                                                <tbody>
-                                                <tr key={subcategory.id}>
-                                                    <td>
-                                                        <Checkbox checked={subcategory.reg} onChange={() => {
-                                                        }}/>
-                                                    </td>
-                                                    <td>
-                                                        <CustomInput
-                                                            type="text"
-                                                            value={subcategory.name}
-                                                            onChange={() => {
-                                                            }}
-                                                            placeholder="Enter name"
-                                                            className={styles.input}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <SelectWithLabel options={DATATYPE_OPTIONS}/>
-                                                    </td>
-                                                    <td>
-                                                        <SelectWithLabel options={OPTIONALITY_OPTIONS} onChange={() => {
-                                                        }}/>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                            <SubCategoryHeaders addSubcategory={addSubcategory}
+                                                                deleteSubcategory={deleteSubcategory}
+                                                                index={index}
+                                                                fieldId={field.id}
+                                                                subCategoryId={subcategory.id}
+                                            />
+                                            <SubcategoryTable subCategoryId={subcategory.id}
+                                                              subCategoryName={subcategory.name}
+                                                              subCategoryReg={subcategory.reg}
+                                                              index={index}/>
                                         </td>
                                     </tr>
                                 ))}
@@ -227,9 +139,7 @@ const CreateCategoryForm = ({showSubcategories}) => {
                                     <hr/>
                                 </td>
                             </tr>
-                        )
-                        }
-
+                        )}
                         </tbody>
                     </table>
                 </React.Fragment>
