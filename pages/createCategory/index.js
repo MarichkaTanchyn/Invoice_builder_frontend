@@ -1,13 +1,9 @@
 import withLayout from "../components/layout/withLayout";
 import Card from "../components/util/card/card";
-import React, {useState} from 'react';
+import React from 'react';
 import styles from "./createCategory.module.css";
-import Button from "../components/util/button/button";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import CustomInput from "../components/util/input/customInput";
-import {Switch} from "@nextui-org/react";
-import CreateCategoryForm from "./createCategoryForm";
 import CreateCategoryPageContent from "./createCategoryPageContent";
 
 
