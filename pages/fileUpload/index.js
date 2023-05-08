@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import withLayout from "../components/layout/withLayout";
-import Card from "../components/util/card/card";
+import convertCsvToJson from './convertToJson';
 import styles from "./fileUpload.module.css";
 import { v4 as uuidv4 } from 'uuid';
-
+import { useRouter } from "next/router";
+import Button from "../components/util/button/button.js";
 
 const DragAndDrop = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -47,8 +48,6 @@ const DragAndDrop = () => {
     const { files } = e.dataTransfer;
     handleFiles(files);
   };
-
-
   const handleFiles = (files) => {
     if (files && files.length > 0) {
       const file = files[0];
@@ -70,44 +69,65 @@ const DragAndDrop = () => {
     }
 
   };
+
+  const router = useRouter();
+  const onCancel = async () => {
+    await router.push("/");
+  };
+
+  const onSubmit = () => {
+    if (uploadedFiles.length > 0) {
+      const file = uploadedFiles[0];
+      convertCsvToJson(file);
+    } else {
+      setErrorMessage('Please upload a .xlsx or .csv file before submitting.');
+    }
+  };
+
   return (
     <div className={styles.card}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       onDrop={handleDrop}>
-      <div className={styles.content}>
-        <h1>Drag and Drop</h1>
-        <input
-          type="file"
-          accept=".xlsx,.csv"
-          ref={fileInputRef}
-          onChange={handleFileInputChange}
-          style={{ display: 'none' }} />
-        <img className={styles.img}
-          src={"/upload.svg"}
-          alt={"dragAndDrop"}
-          onClick={() => fileInputRef.current.click()} />
+      <div className={styles.spaces}>
+        <div className={styles.content}>
+          <h1>Drag and Drop</h1>
+          <input
+            type="file"
+            accept=".xlsx,.csv"
+            ref={fileInputRef}
+            onChange={handleFileInputChange}
+            style={{ display: 'none' }} />
+          <img className={styles.img}
+            src={"/upload.svg"}
+            alt={"dragAndDrop"}
+            onClick={() => fileInputRef.current.click()} />
 
-        <span>* .xlsx or .csv </span>
+          <span>* .xlsx or .csv </span>
+        </div>
+        {uploadedFiles.length > 0 && (
+          <ul className={styles.uploadedFiles}>
+            {uploadedFiles.map((file) => {
+              const fileExtension = file.name.split('.').pop();
+              const fileNameWithoutExtension = file.name.substring(0, file.name.length - fileExtension.length - 1);
+              const truncatedFileName = fileNameWithoutExtension.length > 10 ? fileNameWithoutExtension.substring(0, 10) + "..." : fileNameWithoutExtension;
+
+              return (
+                <li key={file.id}>
+                  {truncatedFileName}.{fileExtension} ({(file.size / (1024 * 1024)).toFixed(2)} MB)
+                  <button className={styles.removeButton} onClick={() => removeFile(file.id)}>X</button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </div>
-      {uploadedFiles.length > 0 && (
-        <ul className={styles.uploadedFiles}>
-          {uploadedFiles.map((file) => {
-            const fileExtension = file.name.split('.').pop();
-            const fileNameWithoutExtension = file.name.substring(0, file.name.length - fileExtension.length - 1);
-            const truncatedFileName = fileNameWithoutExtension.length > 10 ? fileNameWithoutExtension.substring(0, 10) + "..." : fileNameWithoutExtension;
-
-            return (
-              <li key={file.id}>
-                {truncatedFileName}.{fileExtension} ({(file.size / (1024 * 1024)).toFixed(2)} MB)
-                <button className={styles.removeButton} onClick={() => removeFile(file.id)}>X</button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-      {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+      <div className={styles.buttonContainer}>
+        <Button onClick={onCancel} label={"Cancel"}></Button>
+        <Button onClick={onSubmit} label={"Submit"}></Button>
+      </div>
     </div>
   )
 }
