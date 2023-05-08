@@ -28,9 +28,21 @@ export const createCategories = async (categoriesData, CompanyId) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        });        console.log("Categories data sent successfully", response.data);
+        });
+        console.log("Categories data sent successfully", response.data);
     } catch (error) {
         console.error("Error sending categories data:", error.response || error);
     }
 
+}
+
+export const getCategoryProducts = async (CategoryId) => {
+    const apiUrl = `http://localhost:3000/getCategoryProducts/${CategoryId}`;
+
+    try {
+        const response = await axios.get(apiUrl);
+        console.log("Categories data sent successfully", response.data);
+    } catch (error) {
+        console.error("Error sending categories data:", error.response || error);
+    }
 }

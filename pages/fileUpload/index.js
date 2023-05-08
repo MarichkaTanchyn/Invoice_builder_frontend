@@ -5,6 +5,7 @@ import styles from "./fileUpload.module.css";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
 import Button from "../components/util/button/button.js";
+import {addProducts} from "../api/productsApi";
 
 const DragAndDrop = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -75,10 +76,11 @@ const DragAndDrop = () => {
     await router.push("/");
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (uploadedFiles.length > 0) {
       const file = uploadedFiles[0];
-      convertCsvToJson(file);
+      let data = await convertCsvToJson(file);
+      await addProducts(data,"23");
     } else {
       setErrorMessage('Please upload a .xlsx or .csv file before submitting.');
     }

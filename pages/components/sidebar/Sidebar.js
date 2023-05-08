@@ -53,7 +53,7 @@ const Sidebar = (props) => {
                         </Link>
                     </div>
                     <Collapse isOpen={collapse1}>
-                          {/* <SidebarList categories={props.categories}/> */}
+                           <SidebarList categories={props.categories}/>
                     </Collapse>
                 </li>
                 <li className={style.li}>
