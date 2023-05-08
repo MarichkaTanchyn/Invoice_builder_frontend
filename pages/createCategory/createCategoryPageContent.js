@@ -223,9 +223,7 @@ const CreateCategoryPageContent = () => {
         await createCategories(categoriesData , params.CompanyId);
     };
 
-    return (
-        <div className={styles.contentWrapper}>
-        
+    return (        
         <div className={styles.content}>
             <div>
                 <div className={styles.subCategoriesSwitch}>
@@ -256,17 +254,15 @@ const CreateCategoryPageContent = () => {
                 />
             </div>
             <div className={styles.actionButtons}>
-                <div className={styles.button}>
-                    <Button label={"Save"} onClick={submitData}></Button>
-                </div>
                 <div>
                     <Button label={"Cancel"}></Button>
                 </div>
+                <div className={styles.button}>
+                    <Button label={"Submit"} onClick={submitData}></Button>
+                </div>
             </div>
         </div>
-            
-        </div>
-    )
+)    
 }
 
 export default CreateCategoryPageContent;

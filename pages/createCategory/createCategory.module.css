@@ -32,12 +32,6 @@
     font-size: 1.2em;
     padding: 0;
 }
-
-.contentWrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
   
   .content {
     padding: 1em;
