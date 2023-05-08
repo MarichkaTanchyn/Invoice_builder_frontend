@@ -10,9 +10,7 @@ const CreateCategoryPageContent = () => {
     const [selectAllCategories, setSelectAllCategories] = useState(false);
     const [selectAllSubcategories, setSelectAllSubcategories] = useState(false);
     const [selectedSubcategories, setSelectedSubcategories] = useState([]);
-    const [showSubcategories, setShowSubcategories] = useState(false);
-    const [categoryName, setCategoryName] = useState("");
-    const [vat, setVat] = useState("");
+    const [showSubcategories, setShowSubcategories] = useState(true);
     const toggleSubcategories = () => {
         setShowSubcategories(!showSubcategories);
     };
@@ -226,6 +224,8 @@ const CreateCategoryPageContent = () => {
     };
 
     return (
+        <div className={styles.contentWrapper}>
+        
         <div className={styles.content}>
             <div>
                 <div className={styles.subCategoriesSwitch}>
@@ -236,9 +236,7 @@ const CreateCategoryPageContent = () => {
                         color="primary"
                         checked={showSubcategories}
                         onChange={toggleSubcategories}
-                    >
-                        Squared option
-                    </Switch>
+                    >Squared option</Switch>
                 </div>
                 <CreateCategoryForm showSubcategories={showSubcategories}
                                     addSubcategory={addSubcategory}
@@ -265,6 +263,8 @@ const CreateCategoryPageContent = () => {
                     <Button label={"Cancel"}></Button>
                 </div>
             </div>
+        </div>
+            
         </div>
     )
 }
