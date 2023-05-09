@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import withLayout from "../components/layout/withLayout";
-import convertCsvToJson from './convertToJson';
 import styles from "./fileUpload.module.css";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
@@ -13,7 +12,7 @@ const DragAndDrop = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [sheetData, setSheetData] = useState({});
+  const [sheetData, setSheetData] = useState([]);
 
   const removeFile = (id) => {
     setUploadedFiles(uploadedFiles.filter((file) => file.id !== id));
@@ -63,9 +62,9 @@ const DragAndDrop = () => {
       mySheetData[SheetName] = jsonData;
     }
     setSheetData(mySheetData);
+    console.log(Object.keys(mySheetData).length);
     console.log(mySheetData);
   };
-
   const handleFiles = async (files) => {
     const file = files[0];
 
