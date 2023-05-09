@@ -5,7 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
 import Button from "../components/util/button/button.js";
 import { addProducts } from "../api/productsApi";
-import * as XLSX from 'xlsx'
+import * as XLSX from 'xlsx';
+import { useCookies } from 'react-cookie';
 
 
 const DragAndDrop = () => {
@@ -13,6 +14,7 @@ const DragAndDrop = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [sheetData, setSheetData] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const removeFile = (id) => {
     setUploadedFiles(uploadedFiles.filter((file) => file.id !== id));
@@ -20,9 +22,9 @@ const DragAndDrop = () => {
 
   const fileInputRef = useRef();
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async(e) => {
     const { files } = e.target;
-    handleFiles(files);
+    await handleFiles(files);
   };
 
   const handleDragEnter = (e) => {
@@ -42,23 +44,23 @@ const DragAndDrop = () => {
     e.stopPropagation();
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     setIsDragging(false);
 
     const { files } = e.dataTransfer;
-    handleFiles(files);
+    await handleFiles(files);
   };
 
   const readDataFromExcel = async (data) => {
     const wb = XLSX.read(data);
-    var mySheetData = {};
+    const mySheetData = {};
     // Loop through the sheets
-    for (var i = 0; i < wb.SheetNames.length; ++i) {
+    for (let i = 0; i < wb.SheetNames.length; ++i) {
       let SheetName = wb.SheetNames[i];
-      var jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName]);
+      const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName]);
       mySheetData[SheetName] = jsonData;
     }
     setSheetData(mySheetData);
@@ -80,7 +82,7 @@ const DragAndDrop = () => {
         type: file.type,
       };
       const data = await file.arrayBuffer();
-      readDataFromExcel(data);
+      await readDataFromExcel(data);
       setUploadedFiles([newFile]);
     } else {
       setErrorMessage('Please upload a .xlsx or .csv file.');
@@ -94,7 +96,17 @@ const DragAndDrop = () => {
 
   const onSubmit = async () => {
     if (Object.keys(sheetData).length > 0) {
-      await addProducts(sheetData, "23");
+      if (Object.keys(sheetData).length > 1) {
+
+        setCookie('sheetsData', JSON.stringify(sheetData), {
+          path: '/',
+          expires: 1,
+        });
+        await router.push("/sheetsOptions");
+        //TODO: go to screen select options with sheets
+      }else {
+        await addProducts(sheetData, "23");
+      }
     } else {
       setErrorMessage('Please upload a .xlsx or .xls file before submitting.');
     }

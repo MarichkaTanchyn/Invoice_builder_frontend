@@ -1,0 +1,28 @@
+.card {
+    width: 80%;
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 20px;
+}
+.contentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.blackRadio .next-radio::before {
+    border-color: black !important;
+}
+
+.blackRadio .next-radio.checked::before {
+    border-color: black !important;
+}
+
+.blackRadio .next-radio.checked .circle::after {
+    background-color: black !important;
+}
