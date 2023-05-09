@@ -5,12 +5,15 @@ import styles from "./fileUpload.module.css";
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from "next/router";
 import Button from "../components/util/button/button.js";
-import {addProducts} from "../api/productsApi";
+import { addProducts } from "../api/productsApi";
+import * as XLSX from 'xlsx'
+
 
 const DragAndDrop = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [sheetData, setSheetData] = useState({});
 
   const removeFile = (id) => {
     setUploadedFiles(uploadedFiles.filter((file) => file.id !== id));
@@ -49,26 +52,40 @@ const DragAndDrop = () => {
     const { files } = e.dataTransfer;
     handleFiles(files);
   };
-  const handleFiles = (files) => {
-    if (files && files.length > 0) {
-      const file = files[0];
-      const fileExtension = file.name.split('.').pop().toLowerCase();
 
-      if (fileExtension === 'xlsx' || fileExtension === 'csv') {
-        setErrorMessage('');
-        const newFile = {
-          id: uuidv4(),
-          file,
-          name: file.name,
-          size: file.size,
-          type: file.type,
-        };
-        setUploadedFiles([newFile]);
-      } else {
-        setErrorMessage('Please upload a .xlsx or .csv file.');
-      }
+  const readDataFromExcel = async (data) => {
+    const wb = XLSX.read(data);
+    var mySheetData = {};
+    // Loop through the sheets
+    for (var i = 0; i < wb.SheetNames.length; ++i) {
+      let SheetName = wb.SheetNames[i];
+      var jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName]);
+      mySheetData[SheetName] = jsonData;
     }
+    setSheetData(mySheetData);
+    console.log(mySheetData);
+  };
 
+  const handleFiles = async (files) => {
+    const file = files[0];
+
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+
+    if (fileExtension === 'xlsx' || fileExtension === 'csv') {
+      setErrorMessage('');
+      const newFile = {
+        id: uuidv4(),
+        file,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      };
+      const data = await file.arrayBuffer();
+      readDataFromExcel(data);
+      setUploadedFiles([newFile]);
+    } else {
+      setErrorMessage('Please upload a .xlsx or .csv file.');
+    }
   };
 
   const router = useRouter();
@@ -77,12 +94,10 @@ const DragAndDrop = () => {
   };
 
   const onSubmit = async () => {
-    if (uploadedFiles.length > 0) {
-      const file = uploadedFiles[0];
-      let data = await convertCsvToJson(file);
-      await addProducts(data,"23");
+    if (Object.keys(sheetData).length > 0) {
+      await addProducts(sheetData, "23");
     } else {
-      setErrorMessage('Please upload a .xlsx or .csv file before submitting.');
+      setErrorMessage('Please upload a .xlsx or .xls file before submitting.');
     }
   };
 

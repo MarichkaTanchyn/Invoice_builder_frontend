@@ -6,10 +6,10 @@ import CategoryIsEmpty from "./categoryIsEmpty/index.js";
 function HomePage() {
 
     return (
-        <InvoicesPage/>
+        // <InvoicesPage/>
         // <CreateInvoicePage/>
         // <CreateCategory/>
-        // <CategoryIsEmpty/>
+        <CategoryIsEmpty/>
     )
 }
 
