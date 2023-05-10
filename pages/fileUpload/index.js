@@ -96,15 +96,14 @@ const DragAndDrop = () => {
   const onSubmit = async () => {
     if (Object.keys(sheetData).length > 0) {
       if (Object.keys(sheetData).length > 1) {
-        // setCookie('sheetsData', JSON.stringify(sheetData), {
-        //   path: '/',
-        //   // expires: 1,
-        // });
-        setCookie('sheetsData', JSON.stringify(sheetData));
+        setCookie('sheetsData', JSON.stringify(sheetData),{
+          maxAge: 60 * 60 * 24 * 7,
+          path: '/',
+        });
         await router.push("/sheetsOptions");
-        //TODO: go to screen select options with sheets
       }else {
         await addProducts(sheetData, "23");
+        //TODO: go to screen categroryProducts
       }
     } else {
       setErrorMessage('Please upload a .xlsx or .xls file before submitting.');
