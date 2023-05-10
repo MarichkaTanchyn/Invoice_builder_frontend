@@ -4,18 +4,19 @@ import Card from "../components/util/card/card";
 import styles from "./sheetsOptions.module.css";
 import {Radio} from "@nextui-org/react";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
-import { useCookies } from 'react-cookie';
+import { getCookie } from 'cookies-next';
 
 
 const SheetsOptions = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
     const [selectedOption, setSelectedOption] = useState("selectedSheet");
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
     };
-    const sh =  JSON.parse(cookies['sheetsData']);
-    console.log(sh)
+
+    const sheetsData = getCookie('sheetsData');
+    // const sh =  JSON.parse(cookies['sheetsData']);
+    console.log(sheetsData);
 
     return (
         <Card customStyle={styles.card}>

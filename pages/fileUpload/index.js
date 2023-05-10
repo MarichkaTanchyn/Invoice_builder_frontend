@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Button from "../components/util/button/button.js";
 import { addProducts } from "../api/productsApi";
 import * as XLSX from 'xlsx';
-import { useCookies } from 'react-cookie';
+import { setCookie } from 'cookies-next';
 
 
 const DragAndDrop = () => {
@@ -14,7 +14,6 @@ const DragAndDrop = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [sheetData, setSheetData] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const removeFile = (id) => {
     setUploadedFiles(uploadedFiles.filter((file) => file.id !== id));
@@ -97,11 +96,11 @@ const DragAndDrop = () => {
   const onSubmit = async () => {
     if (Object.keys(sheetData).length > 0) {
       if (Object.keys(sheetData).length > 1) {
-
-        setCookie('sheetsData', JSON.stringify(sheetData), {
-          path: '/',
-          expires: 1,
-        });
+        // setCookie('sheetsData', JSON.stringify(sheetData), {
+        //   path: '/',
+        //   // expires: 1,
+        // });
+        setCookie('sheetsData', JSON.stringify(sheetData));
         await router.push("/sheetsOptions");
         //TODO: go to screen select options with sheets
       }else {
