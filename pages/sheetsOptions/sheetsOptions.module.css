@@ -53,10 +53,49 @@
 
 .content {
     margin: 2em;
+    font-size: 1em;
+}
 
+.content span {
+    font-size: 1.2em;
 }
 
 .content hr {
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+.selectSheet {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 1em;
+}
+
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 2.3em!important;
+    margin-bottom: .3em;
+    padding-left: .5em;
+    width: 15%;
+}
+
+.bin {
+    /* padding-right: 1em; */
+    margin-bottom: .2em;
+    height: 2.3em;
+    cursor: pointer;
+}
+
+.columnWrapper {
+    opacity: 1;
+    max-height: 100px;
+    transition: all 0.3s ease-in-out;
+}
+
+.columnWrapper.hide {
+    opacity: 1;
+    max-height: 0;
+    padding: 0;
 }

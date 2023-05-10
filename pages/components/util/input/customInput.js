@@ -1,10 +1,14 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from './customInput.module.css';
 
 
-const CustomInput = ({placeholder, onChange, type, label, className}) => {
-    const [value, setValue] = useState('');
+const CustomInput = ({placeholder, onChange, type, label, defaultValue, className}) => {
+    const [value, setValue] = useState(defaultValue || '');
 
+
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue]);
 
     const handleChange = (event) => {
         const inputValue = event.target.value;

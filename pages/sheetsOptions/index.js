@@ -12,6 +12,8 @@ import CustomInput from "../components/util/input/customInput";
 const SheetsOptions = () => {
 
     const [sheetsData, setSheetsData] = useState(JSON.parse(getCookie('sheetsData') || '{}'));
+    const [originalSheetsData, setOriginalSheetsData] = useState(JSON.parse(getCookie('sheetsData') || '{}')); // Save the original state of sheetsData
+    const [deletedColumnIndex, setDeletedColumnIndex] = useState(null);
     const [selectedOption, setSelectedOption] = useState("selectedSheet");
     const [selectedSheet, setSelectedSheet] = useState('');
     const [selectedColumns, setSelectedColumns] = useState([]);
@@ -30,22 +32,29 @@ const SheetsOptions = () => {
     };
 
     const handleDeleteColumn = (column) => {
-        setSelectedColumns(prevColumns => {
-            const updatedColumns = prevColumns.filter(col => col !== column);
-            return updatedColumns;
-        });
+        const columnIndex = selectedColumns.findIndex((col) => col === column);
+        setDeletedColumnIndex(columnIndex);
 
-        // Update sheetsData to remove the selected column from each row
-        const updatedSheetsData = { ...sheetsData };
-        updatedSheetsData[selectedSheet] = updatedSheetsData[selectedSheet].map(row => {
-            const newRow = { ...row };
-            delete newRow[column];
-            return newRow;
-        });
+        setTimeout(() => {
+            setSelectedColumns(prevColumns => {
+                const updatedColumns = prevColumns.filter(col => col !== column);
+                return updatedColumns;
+            });
 
-        // Save the updated sheetsData
-        setSheetsData(updatedSheetsData);
+            // Update sheetsData to remove the selected column from each row
+            const updatedSheetsData = { ...sheetsData };
+            updatedSheetsData[selectedSheet] = updatedSheetsData[selectedSheet].map(row => {
+                const newRow = { ...row };
+                delete newRow[column];
+                return newRow;
+            });
+
+            // Save the updated sheetsData
+            setSheetsData(updatedSheetsData);
+            setDeletedColumnIndex(null);
+        }, 300);
     };
+
 
     const handleColumnNameChange = (index, newValue) => {
         const oldColumnName = selectedColumns[index];
@@ -70,10 +79,21 @@ const SheetsOptions = () => {
         setSheetsData(updatedSheetsData);
     };
 
-    
+    const handleCancelChanges = () => {
+        setSheetsData(originalSheetsData); // Reset sheetsData to its original state
+
+        // Reset selectedColumns to its original state
+        if (selectedSheet) {
+            const originalUniqueColumnNames = Array.from(
+                new Set(originalSheetsData[selectedSheet].flatMap(Object.keys))
+            );
+            setSelectedColumns(originalUniqueColumnNames);
+        }
+    };
+
     console.log(selectedColumns);
-    console.log("Sheet",selectedSheet);
-    console.log("All",sheetsData);
+    console.log("Sheet", selectedSheet);
+    console.log("All", sheetsData);
 
 
     const handleSubmit = () => {
@@ -92,12 +112,12 @@ const SheetsOptions = () => {
                         <Radio.Group label={"Type"} defaultValue={"selectedSheet"} className={styles.blackRadio}>
                             <Radio value={"selectedSheet"}
                                 size={"sm"}
-                                onClick={() => {setSelectedOption("selectedSheet")}}>
+                                onClick={() => { setSelectedOption("selectedSheet") }}>
                                 Preprocess only selected sheet
                             </Radio>
                             <Radio value={"newCategoryFromEach"}
                                 size={"sm"}
-                                onClick={() => {setSelectedOption("newCategoryFromEach") }}>
+                                onClick={() => { setSelectedOption("newCategoryFromEach") }}>
                                 Create new category for each sheet
                             </Radio>
                             <Radio
@@ -111,27 +131,41 @@ const SheetsOptions = () => {
 
                         {selectedOption === "selectedSheet" && (
                             <>
-                                <SelectWithLabel
-                                options={formattedOptions} onChange={handleSelectChange}
-                                />
+                                <div className={styles.selectSheet}>
+                                    <span>Sheet</span>
+                                    <SelectWithLabel
+                                        options={formattedOptions} onChange={handleSelectChange}
+                                    />
+                                </div>
                                 {selectedColumns.map((column, index) => (
-                                    <div>
-                                        <h5>Columns</h5>
-                                        <CustomInput key={index}
-                                            value={column}
+                                    <div key={index} className={`${styles.columnWrapper} ${deletedColumnIndex === index ? styles.hide : ''}`}>
+                                        {index === 0 && <h5>Columns</h5>}
+                                        <img src={"/bin.svg"}
+                                            alt={"bin"}
+                                            className={styles.bin}
+                                            onClick={() => handleDeleteColumn(column)}></img>
+                                        <CustomInput
+                                            defaultValue={column}
                                             type={"text"}
-                                            onChange={(value) => { handleColumnNameChange(index, value) }} />
-                                        <span onClick={() => handleDeleteColumn(column)}>X</span>
+                                            onChange={(value) => { handleColumnNameChange(index, value) }}
+                                            className={styles.input}
+                                        />
+
                                     </div>
                                 ))}
+
                             </>
                         )}
                     </div>
                 </div>
 
                 <div className={styles.buttonContainer}>
-                    <Button onClick={() => {handleSubmit}} label={"Submit"} />
+                    {originalSheetsData !== sheetsData && (
+                        <Button onClick={handleCancelChanges} label={"Cancel Changes"} />
+                    )}
                     <Button onClick={() => { }} label={"Cancel"} />
+                    <Button onClick={() => { handleSubmit }} label={"Submit"} />
+
                 </div>
             </div>
         </Card>
