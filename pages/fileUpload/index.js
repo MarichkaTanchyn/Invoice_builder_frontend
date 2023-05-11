@@ -60,19 +60,35 @@ const DragAndDrop = () => {
     for (let i = 0; i < wb.SheetNames.length; ++i) {
       let SheetName = wb.SheetNames[i];
       const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName]);
+
+      // Validate column names
+      for (const key in jsonData[0]) {
+        if (jsonData[0].hasOwnProperty(key)) {
+          if (key === null || /[^a-zA-Z0-9]/.test(key)) {
+            setErrorMessage(`Invalid column name: ${key}. Column names should not be null or contain special characters.`);
+            return false;
+          }
+        }
+      }
+
       mySheetData[SheetName] = jsonData;
     }
     setSheetData(mySheetData);
-    console.log(Object.keys(mySheetData).length);
-    console.log(mySheetData);
+    return true;
   };
   const handleFiles = async (files) => {
     const file = files[0];
-
     const fileExtension = file.name.split('.').pop().toLowerCase();
 
-    if (fileExtension === 'xlsx' || fileExtension === 'csv') {
-      setErrorMessage('');
+    if (fileExtension !== 'xlsx' && fileExtension !== 'csv') {
+      setErrorMessage('Please upload a .xlsx or .csv file.');
+      return;
+    }
+
+    const data = await file.arrayBuffer();
+    const isValid = await readDataFromExcel(data);
+
+    if (isValid) {
       const newFile = {
         id: uuidv4(),
         file,
@@ -80,11 +96,7 @@ const DragAndDrop = () => {
         size: file.size,
         type: file.type,
       };
-      const data = await file.arrayBuffer();
-      await readDataFromExcel(data);
       setUploadedFiles([newFile]);
-    } else {
-      setErrorMessage('Please upload a .xlsx or .csv file.');
     }
   };
 
