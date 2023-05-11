@@ -164,7 +164,7 @@ const SheetsOptions = () => {
                         <Button onClick={handleCancelChanges} label={"Cancel Changes"} />
                     )}
                     <Button onClick={() => { }} label={"Cancel"} />
-                    <Button onClick={() => { handleSubmit }} label={"Submit"} />
+                    <Button onClick={handleSubmit} label={"Submit"} />
 
                 </div>
             </div>

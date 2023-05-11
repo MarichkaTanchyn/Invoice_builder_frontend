@@ -40,24 +40,24 @@
     list-style-type: none;
     padding: 0;
     margin-top: 2em;
-  }
-  
-  .uploadedFiles li {
+}
+
+.uploadedFiles li {
     font-size: 14px;
     background-color: #dbdbdb;
     padding: 1em;
     text-align: center;
     border-radius: 6px;
-  }
+}
 
-  .error {
+.error {
     color: rgb(255, 80, 80);
     font-size: 1em;
     margin-top: 10px;
     text-align: center;
-  }
+}
 
-  .removeButton {
+.removeButton {
     background-color: transparent;
     border: none;
     color: black;
@@ -65,25 +65,69 @@
     font-size: 1em;
     margin-left: .7em;
     font-weight: bold;
-  }
+}
 
-  .buttonContainer {
+.buttonContainer {
     position: absolute;
     bottom: 1em;
     right: 1em;
     display: flex;
     justify-content: space-between;
-  }
+}
 
-  .buttonContainer button {
+.buttonContainer button {
     margin: 1em;
-  }
+}
 
-  .spaces {
+.spaces {
     padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    position: relative; 
+    position: relative;
 
-  }
+}
+
+.popupBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 1em;
+    width: 20em;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    overflow-y: auto;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    height: 13em;
+}
+
+.popup h4 {
+    /*margin: 0;*/
+    text-align: center;
+}
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 2.3em!important;
+    margin-bottom: .3em;
+    padding-left: .5em;
+    width: 18em;
+}
+
+.popupButtons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
