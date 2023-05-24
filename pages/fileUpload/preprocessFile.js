@@ -1,19 +1,19 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
-export const readDataFromExcel = async (data, {setSheetData, headersRow, setErrorMessage}) => {
+export const readDataFromExcel = async ({data, setSheetData, headersRow }) => {
     const wb = XLSX.read(data, { type: 'buffer' });
     const mySheetData = {};
-    let startRow = headersRow + 1;
+    let startRow = headersRow;
     let endRow = startRow + 9;
 
     for (let i = 0; i < wb.SheetNames.length; ++i) {
         let SheetName = wb.SheetNames[i];
         let attempts = 1;
 
-        while (attempts > 0) { 
+        while (attempts > 0) {
             const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName], {
-                range: startRow - 1 
+                range: startRow - 1
             });
 
             const slicedData = jsonData.slice(0, endRow - startRow + 1);
@@ -24,13 +24,9 @@ export const readDataFromExcel = async (data, {setSheetData, headersRow, setErro
                 let columns = [];
                 for (const key in slicedData[0]) {
                     if (slicedData[0].hasOwnProperty(key)) {
-                        if (key === null || /[^a-zA-Z0-9]/.test(key)) {
-                            setErrorMessage(`Invalid column name: ${key}. Column names should not be null or contain special characters.`);
-                            return false;
-                        }
                         const columnData = slicedData.map(row => row[key]);
-                        const dataType = (filledColumns[key] > 30) ? guessDataType(columnData) : "string"; 
-                        columns.push({ "column" : key, "dataType": dataType });
+                        const dataType = (filledColumns[key] > 30) ? guessDataType(columnData) : "string";
+                        columns.push({ "column": key, "dataType": dataType });
                     }
                 }
                 mySheetData[SheetName] = columns;
@@ -44,11 +40,10 @@ export const readDataFromExcel = async (data, {setSheetData, headersRow, setErro
     }
     console.log(mySheetData);
     setSheetData(mySheetData);
-    return true;
 }
 
 const calculateFilledColumns = (slicedData) => {
-    const filledColumns = {}; 
+    const filledColumns = {};
     for (const row of slicedData) {
         for (const column in row) {
             if (row[column] !== null && row[column] !== '') {
@@ -92,3 +87,25 @@ const guessDataType = (columnData) => {
     }
     return guessedType;
 }
+
+export const checkDataIsValid = async (data, {setErrorMessage}) => {
+    const wb = XLSX.read(data);
+    // Loop through the sheets
+    for (let i = 0; i < wb.SheetNames.length; ++i) {
+        let SheetName = wb.SheetNames[i];
+        const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName]);
+
+        // Validate column names
+        for (const key in jsonData[0]) {
+            if (jsonData[0].hasOwnProperty(key)) {
+                if (key === null || /[^a-zA-Z0-9]/.test(key)) {
+                    setErrorMessage(`Invalid column name: ${key}. Column names should not be null or contain special characters.`);
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+// function which should return list of sheets

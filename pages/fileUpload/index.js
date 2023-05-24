@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Button from "../components/util/button/button.js";
 import { addProducts } from "../api/productsApi";
 import HeadersPopup from "./headersPopup";
-import { readDataFromExcel } from './preprocessFile';
+import { readDataFromExcel, checkDataIsValid } from './preprocessFile';
 
 const DragAndDrop = () => {
     const [isDragging, setIsDragging] = useState(false);
@@ -14,7 +14,9 @@ const DragAndDrop = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [sheetData, setSheetData] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
-    const [headersRow, setHeadersRow] = useState([]);
+    const [sheets, SetSheets] = useState([]); 
+    const [headersRow, setHeadersRow] = useState();
+    const [data, setData] = useState();
 
     const fileInputRef = useRef();
     const router = useRouter();
@@ -45,8 +47,10 @@ const DragAndDrop = () => {
             return;
         }
 
-        const data = await file.arrayBuffer();
-        const isValid = await readDataFromExcel(data, { setSheetData, headersRow, setErrorMessage });
+        const arrayBufferData = await file.arrayBuffer();
+        setData(arrayBufferData);
+        const isValid = await checkDataIsValid(arrayBufferData, {setErrorMessage});
+        //caal function which will return list of sheets
 
         if (isValid) {
             const newFile = {
@@ -77,12 +81,20 @@ const DragAndDrop = () => {
         setShowPopup(true);
     };
 
+    const removeFile = (id) => {
+        setUploadedFiles(uploadedFiles.filter((file) => file.id !== id));
+    };
+
 
     const onSubmit = async () => {
         if (Object.keys(sheetData).length === 0) {
             setErrorMessage('Please upload a .xlsx or .xls file before submitting.');
             return;
         }
+        console.log("headersRow", headersRow);
+        await readDataFromExcel({data, setSheetData, headersRow });
+        console.log("sheetData", sheetData);
+       
 
         if (Object.keys(sheetData).length > 1) {
             await router.push({
@@ -91,16 +103,16 @@ const DragAndDrop = () => {
             });
             return;
         }
-        
+
         await addProducts(sheetData, "23");
         // TODO: Navigate to the screen categroryProducts
     };
 
     return (
         <div className={styles.card}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDragOver={handleDragOver}
+            onDragEnter={e => { handleDragEvent(e); setIsDragging(true); }}
+            onDragLeave={e => { handleDragEvent(e); setIsDragging(false); }}
+            onDragOver={handleDragEvent}
             onDrop={handleDrop}>
             <div className={styles.spaces}>
                 <div className={styles.content}>
@@ -139,12 +151,15 @@ const DragAndDrop = () => {
             </div>
             <div className={styles.buttonContainer}>
                 {uploadedFiles.length > 0 && headersRow !== null &&
-                    <Button onClick={handleOpenPopup} label={"Headers"} />
+                    <Button onClick={handleOpenPopup} label={"Headers"}/>
                 }
-                <Button onClick={onCancel} label={"Cancel"}></Button>
-                <Button onClick={onSubmit} label={"Submit"}></Button>
+                <Button onClick={onCancel} label={"Cancel"} />
+                <Button onClick={onSubmit} label={"Submit"} />
             </div>
-            {showPopup && <HeadersPopup
+            {/* if sheets.length === 1 than when submiting file show the headers popup, 
+            else show popup with possibility select option how preproess this file */}
+            {showPopup && 
+            <HeadersPopup
                 setHeadersRow={setHeadersRow}
                 handlePopupSubmit={handlePopupSubmit}
                 handleClose={handleClose}

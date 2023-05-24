@@ -1,6 +1,6 @@
 .card {
     width: 40em;
-    height: 50em;
+    height: 53em;
     display: flex;
     align-items: center;
     background-color: #ffffff;
@@ -37,7 +37,7 @@
 
 @media (max-height: 800px) {
     .card {
-        height: 40em;
+        height: 45em;
     }  
     .img {
         height: 15em;
