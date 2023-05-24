@@ -7,12 +7,15 @@ import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import { getCookie } from 'cookies-next';
 import Button from "../components/util/button/button";
 import CustomInput from "../components/util/input/customInput";
+import { useRouter } from "next/router";
+
 
 
 const SheetsOptions = () => {
 
-    const [sheetsData, setSheetsData] = useState(JSON.parse(getCookie('sheetsData') || '{}'));
-    const [originalSheetsData, setOriginalSheetsData] = useState(JSON.parse(getCookie('sheetsData') || '{}')); // Save the original state of sheetsData
+    const router = useRouter();
+    const [sheetsData, setSheetsData] = useState(JSON.parse(router.query.data) || '{}');
+    const [originalSheetsData, setOriginalSheetsData] = useState(JSON.parse(router.query.data) || '{}'); // Save the original state of sheetsData
     const [deletedColumnIndex, setDeletedColumnIndex] = useState(null);
     const [selectedOption, setSelectedOption] = useState("selectedSheet");
     const [selectedSheet, setSelectedSheet] = useState('');
