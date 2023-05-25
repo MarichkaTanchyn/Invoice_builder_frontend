@@ -1,5 +1,5 @@
 .card {
-    width: 40em;
+    width: 60em;
     height: 53em;
     display: flex;
     align-items: center;
@@ -105,12 +105,12 @@
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.popup {
+.headersPopup {
     position: absolute;
     top: 50%;
     left: 56%;
     padding: 1em;
-    width: 20em;
+    width: 22em;
     background-color: #f8f8f8;
     border-radius: 20px;
     overflow-y: auto;
@@ -120,22 +120,57 @@
     height: 13em;
 }
 
-.popup h4 {
+.headersPopup h4 {
     /*margin: 0;*/
     text-align: center;
 }
 .input {
-    border: .1em solid #ccc !Important;
-    border-radius: .5em;
+    /*border: .1em solid #ccc !Important;*/
+    /*border-radius: .5em;*/
     height: 2.3em!important;
+    border-bottom: .1em solid #ccc !Important;
     margin-bottom: .3em;
     padding-left: .5em;
-    width: 18em;
+    width: 20em;
 }
 
 .popupButtons {
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+}
+
+.popupButtons button {
+    margin: 1em 0 0 1em;
+}
+
+.optionsPopup {
+    position: absolute;
+    top: 50%;
+    left: 56%;
+    padding: 1em;
+    width: 22em;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    overflow-y: auto;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    height: 24em;
+}
+.optionsPopup h4 {
+    margin: 0;
+    text-align: center;
+}
+
+.selectedSheetOptions {
     margin-top: 1em;
 }
+
+.selectedSheetOptions label {
+    margin-top: 1em;
+}
+
 

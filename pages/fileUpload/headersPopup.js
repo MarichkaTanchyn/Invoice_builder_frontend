@@ -8,11 +8,9 @@ const HeadersPopup = ({setHeadersRow, handlePopupSubmit, handleClose, defaultVal
         event.stopPropagation(); // Add this line to prevent the popup from closing
     };
 
-
-
     return (
         <div className={styles.popupBox} onClick={handleClose}>
-            <div className={styles.popup} onClick={handlePopupClick}>
+            <div className={styles.headersPopup} onClick={handlePopupClick}>
                 <h4>Enter Row Number for Headers</h4>
                 <CustomInput
                     type="number"

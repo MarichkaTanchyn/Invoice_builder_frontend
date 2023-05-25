@@ -108,4 +108,13 @@ export const checkDataIsValid = async (data, {setErrorMessage}) => {
     return true;
 }
 
-// function which should return list of sheets
+export const getFileSheets = async (data) => {
+    const wb = XLSX.read(data);
+    const sheets = [];
+    for (let i = 0; i < wb.SheetNames.length; ++i) {
+        let SheetName = wb.SheetNames[i];
+        sheets.push(SheetName);
+    }
+    console.log(sheets);
+    return sheets;
+}
