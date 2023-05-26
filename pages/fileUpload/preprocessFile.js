@@ -76,13 +76,35 @@ const checkAllColumnsFilled = (filledColumns) => {
 }
 
 const guessDataType = (columnData) => {
-    let typeCounts = { string: 0, number: 0, boolean: 0, object: 0, date: 0, undefined: 0 };
+    let typeCounts = { name: 0, price: 0, date: 0, size: 0, height: 0, weight: 0, length: 0, description: 0, other: 0 };
     columnData.forEach(data => {
         let dataType;
         if (data instanceof Date) {
             dataType = 'date';
         } else {
             dataType = typeof data;
+            switch(dataType) {
+                case 'string':
+                    // This is a basic assumption, you need to adjust this logic based on your data
+                    if (data.length <= 50) {
+                        dataType = 'name';
+                    } else {
+                        dataType = 'description';
+                    }
+                    break;
+                case 'number':
+                    // This is a basic assumption, you need to adjust this logic based on your data
+                    if (data < 1000) {
+                        dataType = 'price';
+                    } else if (data < 10000) {
+                        dataType = 'size';
+                    } else {
+                        dataType = 'other';
+                    }
+                    break;
+                default:
+                    dataType = 'other';
+            }
         }
         if (dataType in typeCounts) {
             typeCounts[dataType]++;
@@ -91,7 +113,7 @@ const guessDataType = (columnData) => {
         }
     });
     let maxCount = 0;
-    let guessedType = 'undefined';
+    let guessedType = 'other';
     for (const dataType in typeCounts) {
         if (typeCounts[dataType] > maxCount) {
             maxCount = typeCounts[dataType];
