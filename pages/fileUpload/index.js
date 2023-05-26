@@ -5,20 +5,21 @@ import {v4 as uuidv4} from 'uuid';
 import {useRouter} from "next/router";
 import Button from "../components/util/button/button.js";
 import HeadersPopup from "./headersPopup";
-import {checkDataIsValid, getFileSheets} from './preprocessFile';
+import {checkDataIsValid, getFileSheets, readDataFromExcelSheet} from './preprocessFile';
 import SheetsOptionsPopup from "./sheetsOptionsPopup";
+import {setCookie} from "cookies-next";
 
 const DragAndDrop = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-    const [sheetData, setSheetData] = useState([]);
     const [showHeadersPopup, setShowHeadersPopup] = useState(false);
     const [showOptionsPopup, setShowOptionsPopup] = useState(false);
     const [headersRow, setHeadersRow] = useState();
-    const [data, setData] = useState();
+    const [data, setData] = useState({});
     const [listOfSheets, setListOfSheets] = useState([]);
     const [selectedSheet, setSelectedSheet] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
 
 
     const fileInputRef = useRef();
@@ -53,8 +54,10 @@ const DragAndDrop = () => {
         const arrayBufferData = await file.arrayBuffer();
         setData(arrayBufferData);
         const isValid = await checkDataIsValid(arrayBufferData, {setErrorMessage});
-        //cal function which will return list of sheets
         setListOfSheets(await getFileSheets(arrayBufferData));
+
+        const fileData = await readDataFromExcelSheet(data, '1', selectedSheet);
+        console.log(fileData);
 
         if (isValid) {
             const newFile = {
@@ -68,7 +71,6 @@ const DragAndDrop = () => {
             setShowHeadersPopup(true);
         }
     };
-
     const onCancel = async () => {
         await router.push("/");
     };
@@ -87,21 +89,25 @@ const DragAndDrop = () => {
 
     const handleOptionsPopupSubmit = async () => {
 
-        console.log("list", listOfSheets);
-        console.log("selectedSheet", selectedSheet);
-        console.log("headers", headersRow);
+        if (selectedOption === "newCategoryFromEach") {
+            // CALL page where will be inputs for headers for each sheet
 
-        // setShowOptionsPopup(false);
-        // await router.push({
-        //     pathName: "/sheetsOptions",
-        //     query: {data: JSON.stringify(sheetData)}
-        // });
+        } else {
+            const sheetData = await readDataFromExcelSheet(data, headersRow, selectedSheet);
+            // It is visible to user, make it not visible, pass data in other way
+            setCookie('sheetData', JSON.stringify(sheetData),{
+                maxAge: 60 * 60 * 24 * 7,
+                path: '/',
+            });
+            await router.push({
+                pathname: '/preprocessSheet',
+            });
+        }
     };
 
     const removeFile = (id) => {
         setUploadedFiles(uploadedFiles.filter((file) => file.id !== id));
         setListOfSheets([]);
-        setSheetData([]);
         setErrorMessage('');
         setHeadersRow(1);
     };
@@ -187,6 +193,8 @@ const DragAndDrop = () => {
                     handleCloseOptionsPopup={handleCloseOptionsPopup}
                     defaultValue={headersRow}
                     setHeadersRow={setHeadersRow}
+                    setSelectedOption={setSelectedOption}
+                    selectedOption={selectedOption}
                 />}
         </div>
     )

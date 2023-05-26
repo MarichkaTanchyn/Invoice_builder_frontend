@@ -1,45 +1,53 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
-export const readDataFromExcel = async ({data, setSheetData, headersRow }) => {
+export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
     const wb = XLSX.read(data, { type: 'buffer' });
+
     const mySheetData = {};
     let startRow = headersRow;
     let endRow = startRow + 9;
 
-    for (let i = 0; i < wb.SheetNames.length; ++i) {
-        let SheetName = wb.SheetNames[i];
-        let attempts = 1;
+    // Check if the workbook has the sheetName
+    if(!wb.SheetNames.includes(sheetName)){
+        console.error(`Sheet: ${sheetName} not found in the workbook`);
+        return;
+    }
 
-        while (attempts > 0) {
-            const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName], {
-                range: startRow - 1
-            });
+    let attempts = 3;
 
-            const slicedData = jsonData.slice(0, endRow - startRow + 1);
-            const filledColumns = calculateFilledColumns(slicedData);
-            const averageFilled = checkAllColumnsFilled(filledColumns);
+    while (attempts > 0) {
+        const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {
+            range: startRow - 1
+        });
+        console.log('jsonData:', jsonData); // Debugging line
 
-            if (averageFilled > 60 || attempts == 1) {
-                let columns = [];
-                for (const key in slicedData[0]) {
-                    if (slicedData[0].hasOwnProperty(key)) {
-                        const columnData = slicedData.map(row => row[key]);
-                        const dataType = (filledColumns[key] > 30) ? guessDataType(columnData) : "string";
-                        columns.push({ "column": key, "dataType": dataType });
-                    }
+        const slicedData = jsonData.slice(0, endRow - startRow + 1);
+        console.log('slicedData:', slicedData); // Debugging line
+
+        const filledColumns = calculateFilledColumns(slicedData);
+        const averageFilled = checkAllColumnsFilled(filledColumns);
+        console.log('averageFilled:', averageFilled, 'attempts:', attempts);
+
+        if (averageFilled || attempts === 1) {
+            let columns = [];
+            for (const key in slicedData[0]) {
+                if (slicedData[0].hasOwnProperty(key)) {
+                    const columnData = slicedData.map(row => row[key]);
+                    const dataType = (filledColumns[key] > 30) ? guessDataType(columnData) : "string";
+                    columns.push({ "column": key, "dataType": dataType });
                 }
-                mySheetData[SheetName] = columns;
-                break;
-            } else {
-                startRow = endRow + 1;
-                endRow = startRow + 9;
-                attempts--;
             }
+            mySheetData[sheetName] = columns;
+            break;
+        } else {
+            startRow = endRow + 1;
+            endRow = startRow + 9;
+            attempts--;
         }
     }
     console.log(mySheetData);
-    setSheetData(mySheetData);
+    return mySheetData;
 }
 
 const calculateFilledColumns = (slicedData) => {
@@ -68,9 +76,14 @@ const checkAllColumnsFilled = (filledColumns) => {
 }
 
 const guessDataType = (columnData) => {
-    let typeCounts = { string: 0, number: 0, boolean: 0, object: 0, undefined: 0 };
+    let typeCounts = { string: 0, number: 0, boolean: 0, object: 0, date: 0, undefined: 0 };
     columnData.forEach(data => {
-        const dataType = typeof data;
+        let dataType;
+        if (data instanceof Date) {
+            dataType = 'date';
+        } else {
+            dataType = typeof data;
+        }
         if (dataType in typeCounts) {
             typeCounts[dataType]++;
         } else {

@@ -1,8 +1,7 @@
 import CustomInput from "../components/util/input/customInput";
 import Button from "../components/util/button/button";
 import styles from "./fileUpload.module.css"
-import React, {useState} from "react";
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
+import React from "react";
 import SelectWithUnderline from "../components/util/select/selectWithUnderline";
 
 const SheetsOptionsPopup = ({
@@ -11,9 +10,10 @@ const SheetsOptionsPopup = ({
                                 handleOptionsPopupSubmit,
                                 handleCloseOptionsPopup,
                                 listOfSheets,
-                                setSelectedSheet
-}) => {
-    const [selectedOption, setSelectedOption] = useState('');
+                                setSelectedSheet,
+                                setSelectedOption,
+                                selectedOption
+                            }) => {
 
     const options = [
         {value: 'selectedSheet', label: 'Preprocess only selected sheet'},
@@ -46,11 +46,11 @@ const SheetsOptionsPopup = ({
                     placeholder={'Select option'}
                     options={options} onChange={handleSelectChange}
                     label={"Select option"}
-                    />
+                />
                 {selectedOption === 'selectedSheet' &&
                     <div className={styles.selectedSheetOptions}>
                         <SelectWithUnderline label={"Select sheet"}
-                            options={sheetsOptions} onChange={handleSelectSheetChange}/>
+                                             options={sheetsOptions} onChange={handleSelectSheetChange}/>
                         <CustomInput
                             type="text"
                             defaultValue={defaultValue}
