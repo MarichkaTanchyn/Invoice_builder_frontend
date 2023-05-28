@@ -11,18 +11,21 @@ import dataTypes from "../components/data/dataTypes.json";
 
 const PreprocessSheet = () => {
     const [deletedColumnIndex, setDeletedColumnIndex] = useState(null);
-    const [selectedOption, setSelectedOption] = useState("selectedSheet");
     const [sheetsData, setSheetsData] = useState({});
     const [originalSheetsData, setOriginalSheetsData] = useState({}); // Save the original state of sheetsData
     const [selectedColumns, setSelectedColumns] = useState([]);
-    const [selectedSheet, setSelectedSheet] = useState('Sheet1');
+    const [selectedSheet, setSelectedSheet] = useState('');
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
 
 
     useEffect(() => {
+
         const sheetData = JSON.parse(getCookie('sheetData') || '{}');
+        const selectedSheet = Object.keys(sheetData)[0];
+        if (!selectedSheet) return;
         const columns = sheetData[selectedSheet].map(item => item.column);
         const columnTypes = sheetData[selectedSheet].map(item => item.dataType);
+        setSelectedSheet(selectedSheet)
         setSheetsData(sheetData);
         setOriginalSheetsData(sheetData);
         setSelectedColumns(columns);
@@ -97,40 +100,44 @@ const PreprocessSheet = () => {
     };
 
     const handleSubmit = () => {
-        if (selectedOption === "selectedSheet") {
-            console.log(sheetsData);
-            console.log(selectedSheet);
-            console.log(sheetsData[selectedSheet]);
-        }
+        console.log(sheetsData);
+        console.log(selectedSheet);
+        console.log(sheetsData[selectedSheet]);
     }
     return (
         <Card customStyle={styles.card}>
             <div className={styles.box}>
-                <div>
+                <h1>Customize column mapping</h1>
+                <hr/>
+                <div className={styles.definedCol}>
                     {selectedColumns.map((column, index) => (
                         <div key={index}
                              className={`${styles.columnWrapper} ${deletedColumnIndex === index ? styles.hide : ''}`}>
-                            {index === 0 && <h5>Columns</h5>}
+                            {index === 0 && <h4>Defined columns</h4>}
                             <div className={styles.columns}>
-                                <img src={"/bin.svg"}
-                                     alt={"bin"}
-                                     className={styles.bin}
-                                     onClick={() => handleDeleteColumn(column)}></img>
-                                <CustomInput
-                                    defaultValue={column}
-                                    type={"text"}
-                                    onChange={(value) => {
-                                        handleColumnNameChange(index, value)
-                                    }}
-                                    className={styles.input}
-                                    label={"Column Name"}
-                                />
+                                <div className={styles.colLabel}>
+                                    {index === 0 && <span>Column Name</span>}
+                                    <CustomInput
+                                        defaultValue={column}
+                                        type={"text"}
+                                        onChange={(value) => {
+                                            handleColumnNameChange(index, value)
+                                        }}
+                                        className={styles.input}
+                                    />
+                                </div>
+                                <div className={styles.colLabel}>
+                                    {index === 0 &&<span className={styles.selectLabel}>Type</span>}
                                 <SelectWithLabel
-                                    label={"Type"}
                                     options={dataTypes}
                                     value={dataTypes.find(option => option.value === selectedColumnTypes[index])}
                                     onChange={(value) => handleColumnTypeChange(index, value)}
                                 />
+                                </div>
+                                <img src={"/x.svg"}
+                                     alt={"x"}
+                                     className={styles.x}
+                                     onClick={() => handleDeleteColumn(column)}></img>
                             </div>
                         </div>
                     ))}
@@ -140,8 +147,7 @@ const PreprocessSheet = () => {
                     {JSON.stringify(originalSheetsData) !== JSON.stringify(sheetsData) && (
                         <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>
                     )}
-                    <Button onClick={() => {
-                    }} label={"Cancel"}/>
+                    <Button onClick={() => {}} label={"Cancel"}/>
                     <Button onClick={handleSubmit} label={"Submit"}/>
 
                 </div>

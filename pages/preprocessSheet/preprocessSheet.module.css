@@ -33,12 +33,6 @@
     margin: 1em;
 }
 
-.box h4 {
-    margin: 1em;
-    align-items: center;
-    text-align: center;
-}
-
 .buttonContainer {
     position: absolute;
     bottom: 1em;
@@ -78,14 +72,19 @@
     height: 2.3em!important;
     margin-bottom: .3em;
     padding-left: .5em;
-    width: 10em;
+    width: 20em;
 }
 
-.bin {
+.x {
     /* padding-right: 1em; */
     margin-bottom: .2em;
     height: 2.3em;
     cursor: pointer;
+    margin-top: 1.5em;
+}
+
+.x:hover {
+    fill: #ff0000;
 }
 
 .columnWrapper {
@@ -103,7 +102,26 @@
 .columns {
     display: flex;
     flex-direction: row;
-    /*justify-content: space-between;*/
     align-items: center;
-    margin: 1em;
+    justify-items: center;
+    /*margin-left: 2em;*/
+    /*margin: 1em;*/
+}
+
+.columns label {
+    margin: 0 2em;
+}
+
+.definedCol {
+    margin-top: 1em;
+}
+
+.colLabel {
+    display: flex;
+    flex-direction: column;
+    color: rgb(131, 131, 131);
+}
+
+.selectLabel {
+    margin-left: 2em;
 }

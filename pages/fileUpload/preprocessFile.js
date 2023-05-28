@@ -1,12 +1,12 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
+let hasGuessedName = false;
+const numPreviewRows = 10;
 export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
     const wb = XLSX.read(data, { type: 'buffer' });
 
     const mySheetData = {};
-    let startRow = headersRow;
-    let endRow = startRow + 9;
 
     // Check if the workbook has the sheetName
     if(!wb.SheetNames.includes(sheetName)){
@@ -14,65 +14,42 @@ export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
         return;
     }
 
-    let attempts = 3;
+    // TODO: it cut vertically also, but should cut only horizontally
 
-    while (attempts > 0) {
-        const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {
-            range: startRow - 1
-        });
-        console.log('jsonData:', jsonData); // Debugging line
+    // const ws = wb.Sheets[sheetName];
+    // if (!ws['!ref']) {
+    //     console.error(`No data found in sheet: ${sheetName}`);
+    //     return;
+    // }
+    // const startRow = headersRow - 1;
+    // const endRow = Math.min(numPreviewRows, XLSX.utils.decode_range(ws['!ref']).e.r);  // total rows count
+    //
+    // const jsonData = XLSX.utils.sheet_to_json(ws, {
+    //     range: XLSX.utils.encode_range({s: {r: startRow, c: 0}, e: {r: endRow, c: 0}}) // range should be specified as a cell range
+    // });
+    //
+    // console.log("sheet",jsonData);
 
-        const slicedData = jsonData.slice(0, endRow - startRow + 1);
-        console.log('slicedData:', slicedData); // Debugging line
+    //TODO: it works bad, it should delete everything what is upper headers row
 
-        const filledColumns = calculateFilledColumns(slicedData);
-        const averageFilled = checkAllColumnsFilled(filledColumns);
-        console.log('averageFilled:', averageFilled, 'attempts:', attempts);
 
-        if (averageFilled || attempts === 1) {
-            let columns = [];
-            for (const key in slicedData[0]) {
-                if (slicedData[0].hasOwnProperty(key)) {
-                    const columnData = slicedData.map(row => row[key]);
-                    const dataType = (filledColumns[key] > 30) ? guessDataType(columnData) : "string";
-                    columns.push({ "column": key, "dataType": dataType });
-                }
-            }
-            mySheetData[sheetName] = columns;
-            break;
-        } else {
-            startRow = endRow + 1;
-            endRow = startRow + 9;
-            attempts--;
+    const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {
+        range: headersRow - 1
+    });
+    console.log(jsonData)
+    let columns = [];
+    for (const key in jsonData[0]) {
+        if (jsonData[0].hasOwnProperty(key)) {
+            const columnData = jsonData.map(row => row[key]);
+            const dataType = guessDataType(columnData);
+            columns.push({ "column": key, "dataType": dataType });
         }
     }
+    mySheetData[sheetName] = columns;
+
     console.log(mySheetData);
+    hasGuessedName = false;
     return mySheetData;
-}
-
-const calculateFilledColumns = (slicedData) => {
-    const filledColumns = {};
-    for (const row of slicedData) {
-        for (const column in row) {
-            if (row[column] !== null && row[column] !== '') {
-                filledColumns[column] = (filledColumns[column] || 0) + 1;
-            }
-        }
-    }
-    for (const column in filledColumns) {
-        filledColumns[column] = (filledColumns[column] / slicedData.length) * 100;
-    }
-    return filledColumns;
-}
-
-const checkAllColumnsFilled = (filledColumns) => {
-    let sumFilledPercentages = 0;
-    let columnCount = 0;
-    for (const column in filledColumns) {
-        sumFilledPercentages += filledColumns[column];
-        columnCount++;
-    }
-    return (sumFilledPercentages / columnCount) > 60;
 }
 
 const guessDataType = (columnData) => {
@@ -85,18 +62,27 @@ const guessDataType = (columnData) => {
             dataType = typeof data;
             switch(dataType) {
                 case 'string':
-                    // This is a basic assumption, you need to adjust this logic based on your data
                     if (data.length <= 50) {
-                        dataType = 'name';
+                        console.log('hasGuessedName: ', hasGuessedName)
+                        if (hasGuessedName) {
+                            // If we've already guessed 'name' before, then consider this as 'description' or 'other'
+                            dataType = data.length > 40 ? 'description' : 'other';
+                        } else {
+                            console.log("Guessing name")
+                            dataType = 'name';
+                            hasGuessedName = true;  // Mark that we've guessed 'name'
+                        }
                     } else {
                         dataType = 'description';
                     }
                     break;
                 case 'number':
-                    // This is a basic assumption, you need to adjust this logic based on your data
-                    if (data < 1000) {
+                    // If it's between 0 and 1000, it's likely a price
+                    if (data >= 0 && data <= 1000) {
                         dataType = 'price';
-                    } else if (data < 10000) {
+                    }
+                    // If it's between 1 and 300, it's likely a size
+                    else if (data > 0 && data <= 300) {
                         dataType = 'size';
                     } else {
                         dataType = 'other';
@@ -133,7 +119,7 @@ export const checkDataIsValid = async (data, {setErrorMessage}) => {
         // Validate column names
         for (const key in jsonData[0]) {
             if (jsonData[0].hasOwnProperty(key)) {
-                if (key === null || /[^a-zA-Z0-9]/.test(key)) {
+                if (key === null || /[^\p{L}0-9_ ]/gu.test(key)) {
                     setErrorMessage(`Invalid column name: ${key}. Column names should not be null or contain special characters.`);
                     return false;
                 }

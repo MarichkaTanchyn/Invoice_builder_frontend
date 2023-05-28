@@ -7,7 +7,7 @@ import Button from "../components/util/button/button.js";
 import HeadersPopup from "./headersPopup";
 import {checkDataIsValid, getFileSheets, readDataFromExcelSheet} from './preprocessFile';
 import SheetsOptionsPopup from "./sheetsOptionsPopup";
-import {setCookie} from "cookies-next";
+import {setCookie, setCookies} from "cookies-next";
 
 const DragAndDrop = () => {
     const [isDragging, setIsDragging] = useState(false);
@@ -56,9 +56,6 @@ const DragAndDrop = () => {
         const isValid = await checkDataIsValid(arrayBufferData, {setErrorMessage});
         setListOfSheets(await getFileSheets(arrayBufferData));
 
-        const fileData = await readDataFromExcelSheet(data, '1', selectedSheet);
-        console.log(fileData);
-
         if (isValid) {
             const newFile = {
                 id: uuidv4(),
@@ -75,8 +72,17 @@ const DragAndDrop = () => {
         await router.push("/");
     };
 
-    const handleHeadersPopupSubmit = () => {
-        setShowHeadersPopup(false);
+    const handleHeadersPopupSubmit = async () => {
+        console.log(listOfSheets[0]);
+        const sheetData = await readDataFromExcelSheet(data, headersRow, listOfSheets[0]);
+        console.log(sheetData)
+        setCookie('sheetData', JSON.stringify(sheetData),{
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+        });
+        await router.push({
+            pathname: '/preprocessSheet',
+        });
     };
 
     const handleHeadersPopupClose = () => {
