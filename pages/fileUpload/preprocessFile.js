@@ -1,8 +1,6 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
-let hasGuessedName = false;
-const numPreviewRows = 10;
 export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
     const wb = XLSX.read(data, { type: 'buffer' });
 
@@ -14,29 +12,17 @@ export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
         return;
     }
 
-    // TODO: it cut vertically also, but should cut only horizontally
+    const firstRowToRead = headersRow - 1; // 0 based index
+    const lastRowToRead = firstRowToRead + 100; // 100 rows after the header
 
-    // const ws = wb.Sheets[sheetName];
-    // if (!ws['!ref']) {
-    //     console.error(`No data found in sheet: ${sheetName}`);
-    //     return;
-    // }
-    // const startRow = headersRow - 1;
-    // const endRow = Math.min(numPreviewRows, XLSX.utils.decode_range(ws['!ref']).e.r);  // total rows count
-    //
-    // const jsonData = XLSX.utils.sheet_to_json(ws, {
-    //     range: XLSX.utils.encode_range({s: {r: startRow, c: 0}, e: {r: endRow, c: 0}}) // range should be specified as a cell range
-    // });
-    //
-    // console.log("sheet",jsonData);
-
-    //TODO: it works bad, it should delete everything what is upper headers row
-
+    // read all columns from A to Z (200 columns)
+    const range = { s: { c: 0, r: firstRowToRead }, e: { c: 200, r: lastRowToRead } };
 
     const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {
-        range: headersRow - 1
+        range: range
+
     });
-    console.log(jsonData)
+    console.log("data",jsonData)
     let columns = [];
     for (const key in jsonData[0]) {
         if (jsonData[0].hasOwnProperty(key)) {
@@ -47,11 +33,11 @@ export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
     }
     mySheetData[sheetName] = columns;
 
-    console.log(mySheetData);
-    hasGuessedName = false;
+    console.log("end",mySheetData);
     return mySheetData;
 }
 
+let hasGuessedName = false;
 const guessDataType = (columnData) => {
     let typeCounts = { name: 0, price: 0, date: 0, size: 0, height: 0, weight: 0, length: 0, description: 0, other: 0 };
     columnData.forEach(data => {

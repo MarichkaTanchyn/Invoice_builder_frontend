@@ -7,6 +7,7 @@ import {getCookie} from "cookies-next";
 import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
+import {useRouter} from "next/router";
 
 
 const PreprocessSheet = () => {
@@ -99,6 +100,10 @@ const PreprocessSheet = () => {
         setSelectedColumnTypes([...originalColumnTypes]); // Create a new array
     };
 
+    const router = useRouter();
+    const onCancel = async () => {
+        await router.push("/fileUpload");
+    };
     const handleSubmit = () => {
         console.log(sheetsData);
         console.log(selectedSheet);
@@ -147,7 +152,7 @@ const PreprocessSheet = () => {
                     {JSON.stringify(originalSheetsData) !== JSON.stringify(sheetsData) && (
                         <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>
                     )}
-                    <Button onClick={() => {}} label={"Cancel"}/>
+                    <Button onClick={onCancel} label={"Cancel"}/>
                     <Button onClick={handleSubmit} label={"Submit"}/>
 
                 </div>
