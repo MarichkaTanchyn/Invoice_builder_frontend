@@ -1,12 +1,12 @@
 [
   {"value": "name", "label": "Name"},
   {"value": "number", "label": "Number"},
-  {"value": "other", "label": "Other"},
   {"value": "price", "label": "Price"},
   {"value": "date", "label": "Date"},
   {"value": "description", "label": "Description"},
   {"value": "length", "label": "Length"},
   {"value": "size", "label": "Size"},
   {"value": "height", "label": "Height"},
-  {"value": "weight", "label": "Weight"}
+  {"value": "weight", "label": "Weight"},
+  {"value": "other", "label": "Other"}
 ]

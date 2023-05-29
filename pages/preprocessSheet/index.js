@@ -17,10 +17,9 @@ const PreprocessSheet = () => {
     const [selectedColumns, setSelectedColumns] = useState([]);
     const [selectedSheet, setSelectedSheet] = useState('');
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
-
+    const [originalColumnNames, setOriginalColumnNames] = useState([]);
 
     useEffect(() => {
-
         const sheetData = JSON.parse(getCookie('sheetData') || '{}');
         const selectedSheet = Object.keys(sheetData)[0];
         if (!selectedSheet) return;
@@ -31,6 +30,7 @@ const PreprocessSheet = () => {
         setOriginalSheetsData(sheetData);
         setSelectedColumns(columns);
         setSelectedColumnTypes(columnTypes);
+        setOriginalColumnNames(columns);
     }, []);
 
     const handleColumnTypeChange = (index, newValue) => {
@@ -90,14 +90,19 @@ const PreprocessSheet = () => {
     };
 
     const handleCancelChanges = () => {
-        // Get original state from originalSheetsData
         const originalColumns = originalSheetsData[selectedSheet].map(col => col.column);
-        const originalColumnTypes = originalSheetsData[selectedSheet].map(item => dataTypes.find(option => option.value === item.dataType));
 
         // Update states with original values
-        setSheetsData({...originalSheetsData}); // Make sure to create a new object
-        setSelectedColumns([...originalColumns]); // Create a new array
-        setSelectedColumnTypes([...originalColumnTypes]); // Create a new array
+        setSheetsData(prevSheetsData => {
+            // Create a new object
+            const updatedSheetsData = {...prevSheetsData};
+            // Only change the column names back to original
+            updatedSheetsData[selectedSheet] = updatedSheetsData[selectedSheet].map((col, index) => {
+                return {...col, column: originalColumns[index]};
+            });
+            return updatedSheetsData;
+        });
+        setSelectedColumns([...originalColumns]);
     };
 
     const router = useRouter();
@@ -105,6 +110,7 @@ const PreprocessSheet = () => {
         await router.push("/fileUpload");
     };
     const handleSubmit = () => {
+
         console.log(sheetsData);
         console.log(selectedSheet);
         console.log(sheetsData[selectedSheet]);
@@ -149,7 +155,7 @@ const PreprocessSheet = () => {
                 </div>
 
                 <div className={styles.buttonContainer}>
-                    {JSON.stringify(originalSheetsData) !== JSON.stringify(sheetsData) && (
+                    {JSON.stringify(originalColumnNames) !== JSON.stringify(selectedColumns) && (
                         <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>
                     )}
                     <Button onClick={onCancel} label={"Cancel"}/>

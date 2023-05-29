@@ -1,5 +1,4 @@
 import styles from "./createCategory.module.css";
-import CustomInput from "../components/util/input/customInput";
 import {Switch} from "@nextui-org/react";
 import CreateCategoryForm from "./createCategoryForm";
 import Button from "../components/util/button/button";
@@ -220,10 +219,10 @@ const CreateCategoryPageContent = () => {
             })),
         };
         console.log(categoriesData);
-        await createCategories(categoriesData , params.CompanyId);
+        await createCategories(categoriesData, params.CompanyId);
     };
 
-    return (        
+    return (
         <div className={styles.content}>
             <div>
                 <div className={styles.subCategoriesSwitch}>
@@ -262,7 +261,7 @@ const CreateCategoryPageContent = () => {
                 </div>
             </div>
         </div>
-)    
+    )
 }
 
 export default CreateCategoryPageContent;

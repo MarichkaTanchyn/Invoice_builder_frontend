@@ -8,6 +8,7 @@ import HeadersPopup from "./headersPopup";
 import {checkDataIsValid, getFileSheets, readDataFromExcelSheet} from './preprocessFile';
 import SheetsOptionsPopup from "./sheetsOptionsPopup";
 import {setCookie, setCookies} from "cookies-next";
+import {postFile} from "../api/fileApi";
 
 const DragAndDrop = () => {
     const [isDragging, setIsDragging] = useState(false);
@@ -20,6 +21,7 @@ const DragAndDrop = () => {
     const [listOfSheets, setListOfSheets] = useState([]);
     const [selectedSheet, setSelectedSheet] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
+    const [file, setFile] = useState();
 
 
     const fileInputRef = useRef();
@@ -56,6 +58,8 @@ const DragAndDrop = () => {
         const isValid = await checkDataIsValid(arrayBufferData, {setErrorMessage});
         setListOfSheets(await getFileSheets(arrayBufferData));
 
+        setFile(file);
+
         if (isValid) {
             const newFile = {
                 id: uuidv4(),
@@ -73,10 +77,14 @@ const DragAndDrop = () => {
     };
 
     const handleHeadersPopupSubmit = async () => {
-        console.log(listOfSheets[0]);
         const sheetData = await readDataFromExcelSheet(data, headersRow, listOfSheets[0]);
         console.log(sheetData)
         setCookie('sheetData', JSON.stringify(sheetData),{
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+        });
+        const fileKey = await postFile(file, '1');
+        setCookie('fileKey', fileKey,{
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
         });
@@ -94,10 +102,13 @@ const DragAndDrop = () => {
     };
 
     const handleOptionsPopupSubmit = async () => {
-
+        const fileKey = await postFile(file, '1');
+        setCookie('fileKey', fileKey,{
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+        });
         if (selectedOption === "newCategoryFromEach") {
             // CALL page where will be inputs for headers for each sheet
-
         } else {
             const sheetData = await readDataFromExcelSheet(data, headersRow, selectedSheet);
             // It is visible to user, make it not visible, pass data in other way
