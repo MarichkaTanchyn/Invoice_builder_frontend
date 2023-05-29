@@ -141,8 +141,8 @@ const PreprocessSheet = () => {
                                 </div>
                                 <img src={"/x.svg"}
                                      alt={"x"}
-                                     className={styles.x}
-                                     onClick={() => handleDeleteColumn(column)}></img>
+                                     className={index !== 0 ? styles.x : styles.xFirst}
+                                     onClick={() => handleDeleteColumn(column)}/>
                             </div>
                         </div>
                     ))}

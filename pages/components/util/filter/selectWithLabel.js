@@ -47,8 +47,18 @@ const SelectWithLabel = ({
             right: "0",
             top: "0",
             color: '#949bab',
-
             marginLeft: '-.5em',
+        }),
+        menuList: (provided, state) => ({
+            ...provided,
+            maxHeight: '9em',
+            overflowY: 'scroll',
+            scrollbarWidth: 'none', // For Firefox
+            msOverflowStyle: 'none', // For Internet Explorer and Edge
+            '&::-webkit-scrollbar': {
+                display: 'none', // For Chrome, Safari, and Opera
+            },
+
         }),
         option: (base, state) => ({
             ...base,
@@ -56,7 +66,11 @@ const SelectWithLabel = ({
             color: "#333",
             cursor: "pointer",
             fontSize: ".8em",
-            padding: "0.5em 1em"
+            padding: "0.5em 1em",
+            '&:hover': {
+                backgroundColor: "#f5f5f5",
+                color: "#333",
+            },
         })
     };
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
+
+let hasGuessedName = false;
+let hasGuessedPrice = false;
 export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
     const wb = XLSX.read(data, { type: 'buffer' });
 
@@ -28,18 +31,26 @@ export const readDataFromExcelSheet = async (data, headersRow, sheetName) => {
         if (jsonData[0].hasOwnProperty(key)) {
             const columnData = jsonData.map(row => row[key]);
             const dataType = guessDataType(columnData);
+            if (dataType === 'name') {
+                hasGuessedName = true;
+            }
+            if (dataType === 'price') {
+                hasGuessedPrice = true;
+            }
             columns.push({ "column": key, "dataType": dataType });
         }
     }
     mySheetData[sheetName] = columns;
 
+    hasGuessedName = false;
     console.log("end",mySheetData);
     return mySheetData;
 }
 
-let hasGuessedName = false;
+
 const guessDataType = (columnData) => {
-    let typeCounts = { name: 0, price: 0, date: 0, size: 0, height: 0, weight: 0, length: 0, description: 0, other: 0 };
+    let typeCounts = { name: 0, price: 0, number : 0, date: 0, size: 0, height: 0, weight: 0, length: 0, description: 0, other: 0 };
+
     columnData.forEach(data => {
         let dataType;
         if (data instanceof Date) {
@@ -48,15 +59,11 @@ const guessDataType = (columnData) => {
             dataType = typeof data;
             switch(dataType) {
                 case 'string':
-                    if (data.length <= 50) {
-                        console.log('hasGuessedName: ', hasGuessedName)
+                    if (data.length <= 30) {
                         if (hasGuessedName) {
-                            // If we've already guessed 'name' before, then consider this as 'description' or 'other'
-                            dataType = data.length > 40 ? 'description' : 'other';
+                            dataType = 'other';
                         } else {
-                            console.log("Guessing name")
                             dataType = 'name';
-                            hasGuessedName = true;  // Mark that we've guessed 'name'
                         }
                     } else {
                         dataType = 'description';
@@ -64,14 +71,23 @@ const guessDataType = (columnData) => {
                     break;
                 case 'number':
                     // If it's between 0 and 1000, it's likely a price
+
                     if (data >= 0 && data <= 1000) {
-                        dataType = 'price';
+                        if (hasGuessedPrice) {
+                            dataType = 'number';
+                        } else {
+                            dataType = 'price';
+                        }
+                    }
+                    // If it's between 1000 and 100000, it's likely a number
+                    else if (data > 1000 && data <= 100000) {
+                        dataType = 'number';
                     }
                     // If it's between 1 and 300, it's likely a size
                     else if (data > 0 && data <= 300) {
                         dataType = 'size';
                     } else {
-                        dataType = 'other';
+                        dataType = 'number';
                     }
                     break;
                 default:
@@ -84,6 +100,7 @@ const guessDataType = (columnData) => {
             typeCounts[dataType] = 1;
         }
     });
+    console.log(typeCounts, columnData)
     let maxCount = 0;
     let guessedType = 'other';
     for (const dataType in typeCounts) {

@@ -1,6 +1,6 @@
 .aside {
     padding-top: 3em;
-    width: 14%;
+    width: 14em;
     text-decoration-color: white;
     background: #041F47;
     display: flex;
@@ -125,12 +125,7 @@
 
 @media (min-width: 1200px) and (max-width: 1650px) {
     .aside {
-        min-width: 12rem;
-    }
-
-    .icon {
-        width: 7%;
-        font-size: 78%;
+        min-width: 12em;
     }
 
     .mainA {
@@ -148,23 +143,12 @@
 
 @media (max-width: 1200px) {
     .aside {
-        /*right: 75%;*/
-        min-width: 10rem;
+        min-width: 10em;
     }
-
-    .icon {
-        width: 7%;
-        font-size: 78%;
-    }
-
     .mainA {
         position: relative;
-        font-size: 80%;
         padding: 5px 10px;
         border: 2px solid transparent;
     }
 
-    .dropdownContent li a {
-        font-size: 70%;
-    }
 }
