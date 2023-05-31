@@ -17,11 +17,12 @@ const DragAndDrop = () => {
     const [showHeadersPopup, setShowHeadersPopup] = useState(false);
     const [showOptionsPopup, setShowOptionsPopup] = useState(false);
     const [headersRow, setHeadersRow] = useState();
-    const [data, setData] = useState({});
+    const [fileData, setFileData] = useState({});
     const [listOfSheets, setListOfSheets] = useState([]);
     const [selectedSheet, setSelectedSheet] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
     const [file, setFile] = useState();
+    const [sheetHeaders, setSheetHeaders] = useState({});
 
 
     const fileInputRef = useRef();
@@ -54,7 +55,7 @@ const DragAndDrop = () => {
         }
 
         const arrayBufferData = await file.arrayBuffer();
-        setData(arrayBufferData);
+        setFileData(arrayBufferData);
         const isValid = await checkDataIsValid(arrayBufferData, {setErrorMessage});
         setListOfSheets(await getFileSheets(arrayBufferData));
 
@@ -76,8 +77,15 @@ const DragAndDrop = () => {
         await router.push("/");
     };
 
+    const handleSheetHeaderRowChange = (sheet, value) => {
+        setSheetHeaders(prevState => ({ ...prevState, [sheet]: value }));
+        console.log(sheetHeaders)
+        console.log(sheet)
+        console.log(value)
+    };
+
     const handleHeadersPopupSubmit = async () => {
-        const sheetData = await readDataFromExcelSheet(data, headersRow, listOfSheets[0]);
+        const sheetData = await readDataFromExcelSheet(fileData, headersRow, listOfSheets[0]);
         console.log(sheetData)
         setCookie('sheetData', JSON.stringify(sheetData),{
             maxAge: 60 * 60 * 24 * 7,
@@ -108,9 +116,16 @@ const DragAndDrop = () => {
             path: '/',
         });
         if (selectedOption === "newCategoryFromEach") {
+            console.log(sheetHeaders)
+            // for each sheet call readDataFromExcelSheet with sheetHeaders[sheet]
+            // and create json in such structure {[ {sheetName: [{"column":"Category1","dataType":"name"},{"column":"Category2","dataType":"other"},{"column":"Category3","dataType":"other"},{"column":"Category4","dataType":"other"}]},
+            // {sheetName: [{"column":"Category1","dataType":"name"},{"column":"Category2","dataType":"other"},{"column":"Category3","dataType":"other"},{"column":"Category4","dataType":"other"}]}]}
+
+
+
             // CALL page where will be inputs for headers for each sheet
         } else {
-            const sheetData = await readDataFromExcelSheet(data, headersRow, selectedSheet);
+            const sheetData = await readDataFromExcelSheet(fileData, headersRow, selectedSheet);
             // It is visible to user, make it not visible, pass data in other way
             setCookie('sheetData', JSON.stringify(sheetData),{
                 maxAge: 60 * 60 * 24 * 7,
@@ -212,6 +227,8 @@ const DragAndDrop = () => {
                     setHeadersRow={setHeadersRow}
                     setSelectedOption={setSelectedOption}
                     selectedOption={selectedOption}
+                    handleSheetHeaderRowChange={handleSheetHeaderRowChange}
+                    setSheetHeaders={setSheetHeaders}
                 />}
         </div>
     )
