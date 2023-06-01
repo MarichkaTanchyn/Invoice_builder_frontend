@@ -1,0 +1,123 @@
+.headers {
+    display: flex;
+    padding: 1em;
+    width: 100%;
+    z-index: 10;
+    flex-direction: column;
+}
+
+.headers h1 {
+    font-size: 28px;
+    margin-right: auto;
+}
+.hr {
+    margin: 0;
+}
+
+.sheetTable {
+    margin-left: 2em;
+    /*width: 40em;*/
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 1em;
+    text-align: left;
+}
+.categoryTableHeaders th {
+    font-weight: normal;
+    font-size: 1em;
+    color: #707070;
+    padding: .5em 2em .5em 0;
+}
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 2.3em!important;
+    padding-left: .5em;
+    width: 20em;
+    margin-bottom: .8em;
+}
+.x {
+    height: 2.3em;
+    cursor: pointer;
+    /*margin-bottom: .8em;*/
+}
+.xFirst {
+    margin-top: 1.5em;
+    height: 2.3em;
+    cursor: pointer;
+}
+.columnBox {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+    /*margin-left: 2em;*/
+    /*margin: 1em;*/
+}
+
+.columns label {
+    margin: 0 2em;
+    align-items: center;
+}
+
+.colLabel {
+    display: flex;
+    flex-direction: column;
+    color: rgb(131, 131, 131);
+}
+
+.selectLabel {
+    margin-left: 2em;
+}
+
+
+/*loading*/
+.loadingWave {
+    top: 40%;
+    left: 50%;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+}
+
+.loadingBar {
+    width: 20px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #041F47;
+    border-radius: 5px;
+    animation: loadingWave-animation 1s ease-in-out infinite;
+}
+
+.loadingBar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.loadingBar:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.loadingBar:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+@keyframes loadingWave-animation {
+    0% {
+        height: 10px;
+    }
+
+    50% {
+        height: 50px;
+    }
+
+    100% {
+        height: 10px;
+    }
+}

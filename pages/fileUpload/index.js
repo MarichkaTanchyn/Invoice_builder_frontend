@@ -9,6 +9,7 @@ import {checkDataIsValid, getFileSheets} from './preprocessFile';
 import SheetsOptionsPopup from "./sheetsOptionsPopup";
 import {setCookie} from "cookies-next";
 import {postFile} from "../api/fileApi";
+import {readExcel} from "../api/csvAPI";
 
 const DragAndDrop = () => {
     const [isDragging, setIsDragging] = useState(false);
@@ -114,7 +115,9 @@ const DragAndDrop = () => {
                 maxAge: 60 * 60 * 24 * 7,
                 path: '/',
             });
-
+            await router.push({
+                pathname: '/newCategoryFromSheet',
+            });
             // TODO: CALL page where will be inputs for headers for each sheet
         } else {
             const sheetHeaderJson = {[selectedSheet]: headersRow};

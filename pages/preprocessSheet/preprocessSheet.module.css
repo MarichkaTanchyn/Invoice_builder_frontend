@@ -88,10 +88,6 @@
     cursor: pointer;
 }
 
-.x:hover {
-    fill: #ff0000;
-}
-
 .columnWrapper {
     opacity: 1;
     /*max-height: 100px;*/
