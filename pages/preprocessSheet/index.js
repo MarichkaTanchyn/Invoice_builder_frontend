@@ -8,6 +8,7 @@ import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
 import {useRouter} from "next/router";
+import {readExcel} from "../api/csvAPI";
 
 
 const PreprocessSheet = () => {
@@ -20,17 +21,23 @@ const PreprocessSheet = () => {
     const [originalColumnNames, setOriginalColumnNames] = useState([]);
 
     useEffect(() => {
-        const sheetData = JSON.parse(getCookie('sheetData') || '{}');
-        const selectedSheet = Object.keys(sheetData)[0];
-        if (!selectedSheet) return;
-        const columns = sheetData[selectedSheet].map(item => item.column);
-        const columnTypes = sheetData[selectedSheet].map(item => item.dataType);
-        setSelectedSheet(selectedSheet)
-        setSheetsData(sheetData);
-        setOriginalSheetsData(sheetData);
-        setSelectedColumns(columns);
-        setSelectedColumnTypes(columnTypes);
-        setOriginalColumnNames(columns);
+        const fetchData = async () => {
+            const sheetHeaderJson = JSON.parse(getCookie('sheetHeaderJson') || '{}');
+            const fileKey = getCookie('fileKey');
+            const dataArray = await readExcel(fileKey, sheetHeaderJson);
+            const sheetData = dataArray[0];
+            const selectedSheet = Object.keys(sheetData)[0];
+            if (!selectedSheet) return;
+            const columns = sheetData[selectedSheet].map(item => item.column);
+            const columnTypes = sheetData[selectedSheet].map(item => item.dataType);
+            setSelectedSheet(selectedSheet)
+            setSheetsData(sheetData);
+            setOriginalSheetsData(sheetData);
+            setSelectedColumns(columns);
+            setSelectedColumnTypes(columnTypes);
+            setOriginalColumnNames(columns);
+        }
+        fetchData();
     }, []);
 
     const handleColumnTypeChange = (index, newValue) => {
@@ -138,12 +145,12 @@ const PreprocessSheet = () => {
                                     />
                                 </div>
                                 <div className={styles.colLabel}>
-                                    {index === 0 &&<span className={styles.selectLabel}>Type</span>}
-                                <SelectWithLabel
-                                    options={dataTypes}
-                                    value={dataTypes.find(option => option.value === selectedColumnTypes[index])}
-                                    onChange={(value) => handleColumnTypeChange(index, value)}
-                                />
+                                    {index === 0 && <span className={styles.selectLabel}>Type</span>}
+                                    <SelectWithLabel
+                                        options={dataTypes}
+                                        value={dataTypes.find(option => option.value === selectedColumnTypes[index])}
+                                        onChange={(value) => handleColumnTypeChange(index, value)}
+                                    />
                                 </div>
                                 <img src={"/x.svg"}
                                      alt={"x"}
