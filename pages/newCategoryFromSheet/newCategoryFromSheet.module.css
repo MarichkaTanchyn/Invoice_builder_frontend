@@ -10,41 +10,64 @@
     font-size: 28px;
     margin-right: auto;
 }
+
 .hr {
     margin: 0;
 }
 
 .sheetTable {
-    margin-left: 2em;
+    margin-left: 4em;
     /*width: 40em;*/
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1em;
     text-align: left;
 }
+
 .categoryTableHeaders th {
     font-weight: normal;
     font-size: 1em;
     color: #707070;
     padding: .5em 2em .5em 0;
 }
+
+.definedSheets {
+    /*margin-left: 2em;*/
+    margin: 1em 2em 1em;
+}
+
 .input {
     border: .1em solid #ccc !Important;
     border-radius: .5em;
-    height: 2.3em!important;
+    height: 2.3em !important;
     padding-left: .5em;
     width: 20em;
-    margin-bottom: .8em;
 }
+
 .x {
     height: 2.3em;
     cursor: pointer;
-    /*margin-bottom: .8em;*/
 }
+
 .xFirst {
-    margin-top: 1.5em;
     height: 2.3em;
     cursor: pointer;
 }
+
+.deleteSheet {
+    margin: 0.6em 0 0 0;
+    height: 2.3em;
+}
+
+.sheetRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.uniteButton {
+    margin: .8em 3em 0 2em;
+}
+
 .columnBox {
     display: flex;
     flex-direction: column;
@@ -54,10 +77,8 @@
 .columns {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-items: center;
-    /*margin-left: 2em;*/
-    /*margin: 1em;*/
+    align-items: end;
+    margin-left: 2em;
 }
 
 .columns label {
@@ -71,8 +92,30 @@
     color: rgb(131, 131, 131);
 }
 
+
 .selectLabel {
     margin-left: 2em;
+    /*margin-bottom: 1em;*/
+    /*margin-top: 1em;*/
+}
+
+.select {
+    padding-top: .8em;
+}
+
+.buttonContainer {
+    margin-top: 4em;
+    position: relative;
+    /*bottom: 1em;*/
+    right: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    /*justify-content: space-between;*/
+}
+
+.buttonContainer button {
+    margin: 1em;
 }
 
 

@@ -8,24 +8,31 @@ import {readExcel} from "../api/csvAPI";
 import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
+import Button from "../components/util/button/button";
 
 
 const CreateNewCategoryFromSheet = () => {
     const [sheets, setSheets] = useState({});
     const [selectedColumnTypes, setSelectedColumnTypes] = useState({});
     const [loading, setLoading] = useState(true);  // initialize loading state
+    const [originalSheets, setOriginalSheets] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
             const sheetsHeadersJson = JSON.parse(getCookie('sheetsHeadersJson') || '{}');
             const fileKey = getCookie('fileKey');
             const dataArray = await readExcel(fileKey, sheetsHeadersJson);
-            setSheets(Object.assign({}, ...dataArray));
+            const newSheets = Object.assign({}, ...dataArray);
+            setSheets(newSheets);
+            setOriginalSheets(newSheets);
             setLoading(false);
         }
         fetchData();
     }, []);
 
+    const handleCancelChanges = () => {
+        setSheets(originalSheets);
+    };
     const handleDeleteColumn = (sheetName, columnIndex) => {
         setSheets(prevSheets => ({
             ...prevSheets,
@@ -53,7 +60,10 @@ const CreateNewCategoryFromSheet = () => {
     const handleColumnNameChange = (sheetName, columnIndex, value) => {
         setSheets(prevSheets => ({
             ...prevSheets,
-            [sheetName]: prevSheets[sheetName].map((column, i) => i === columnIndex ? {...column, column: value} : column)
+            [sheetName]: prevSheets[sheetName].map((column, i) => i === columnIndex ? {
+                ...column,
+                column: value
+            } : column)
         }));
     };
 
@@ -64,10 +74,14 @@ const CreateNewCategoryFromSheet = () => {
         }));
     };
 
-    const router = useRouter();
-    const onClick = async () => {
-        await router.push("/");
+    const handleSubmit = () => {
+        console.log(sheets);
     }
+
+    const router = useRouter();
+    const onCancel = async () => {
+        await router.push("/fileUpload");
+    };
 
 
     return (
@@ -86,6 +100,7 @@ const CreateNewCategoryFromSheet = () => {
                     </div>
                     :
                     <div>
+                        <h5 className={styles.definedSheets}>Defined sheets</h5>
                         {Object.entries(sheets).map(([sheetName, columns], index) => (
                             <table key={index} className={styles.sheetTable}>
                                 <thead className={styles.categoryTableHeaders}>
@@ -100,13 +115,22 @@ const CreateNewCategoryFromSheet = () => {
                                         <span>{sheetName}</span>
                                     </td>
                                     <td>
-                                        <CustomInput
-                                            type="text"
-                                            value={sheetName}
-                                            onChange={(value) => updateCategoryName(sheetName, value)}
-                                            placeholder="Category name"
-                                            className={styles.input}
-                                        />
+                                        <div className={styles.sheetRow}>
+                                            <CustomInput
+                                                type="text"
+                                                value={sheetName}
+                                                onChange={(value) => updateCategoryName(sheetName, value)}
+                                                placeholder="Category name"
+                                                className={styles.input}
+                                            />
+                                            <div className={styles.uniteButton}>
+                                                <Button label={"Unite"} className={styles.button}/>
+                                            </div>
+                                            <img src={"/x.svg"}
+                                                 alt={"x"}
+                                                 className={styles.deleteSheet}
+                                                 onClick={() => handleDeleteSheet(sheetName)}/>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -128,16 +152,19 @@ const CreateNewCategoryFromSheet = () => {
                                                         />
                                                     </div>
                                                     <div className={styles.colLabel}>
-                                                        {columnIndex === 0 && <span className={styles.selectLabel}>Type</span>}
-                                                        <SelectWithLabel
-                                                            options={dataTypes}
-                                                            value={dataTypes.find(option => option.value === selectedColumnTypes[`${sheetName}_${columnIndex}`])}
-                                                            onChange={(value) => handleColumnTypeChange(sheetName, columnIndex, value)}
-                                                        />
+                                                        {columnIndex === 0 &&
+                                                            <span className={styles.selectLabel}>Type</span>}
+                                                        <div className={styles.select}>
+                                                            <SelectWithLabel
+                                                                options={dataTypes}
+                                                                value={dataTypes.find(option => option.value === selectedColumnTypes[`${sheetName}_${columnIndex}`])}
+                                                                onChange={(value) => handleColumnTypeChange(sheetName, columnIndex, value)}
+                                                            />
+                                                        </div>
                                                     </div>
                                                     <img src={"/x.svg"}
                                                          alt={"x"}
-                                                         className={index !== 0 ? styles.x : styles.xFirst}
+                                                         className={index !== 0 ? styles.xFirst : styles.x}
                                                          onClick={() => handleDeleteColumn(column)}/>
                                                 </div>
                                             </div>
@@ -146,9 +173,16 @@ const CreateNewCategoryFromSheet = () => {
                                 </tr>
                                 </tbody>
                             </table>
-                        ))}</div>
+                        ))}
+                        <div className={styles.buttonContainer}>
+                            {/*{JSON.stringify(originalColumnNames) !== JSON.stringify(selectedColumns) && (*/}
+                            {/*    <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>*/}
+                            {/*)}*/}
+                            <Button onClick={onCancel} label={"Cancel"}/>
+                            <Button onClick={handleSubmit} label={"Submit"}/>
+                        </div>
+                    </div>
                 }
-
             </div>
         </Card>
     )

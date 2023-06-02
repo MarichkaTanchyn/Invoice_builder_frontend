@@ -19,9 +19,9 @@ const SelectWithLabel = ({
             boxShadow: "none",
             padding: '0',
             width: '10em',
-            margin: ' 1em 0',
+            // margin: ' 1em 0',
             border: '.1em solid #ccc',
-            height: '2.3em',
+            height: '2em',
             borderRadius: '.5em',
             '&:hover': {
                 border: '1px solid #ccc',
