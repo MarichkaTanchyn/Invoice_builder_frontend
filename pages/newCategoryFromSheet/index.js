@@ -13,9 +13,14 @@ import Button from "../components/util/button/button";
 
 const CreateNewCategoryFromSheet = () => {
     const [sheets, setSheets] = useState({});
-    const [selectedColumnTypes, setSelectedColumnTypes] = useState({});
     const [loading, setLoading] = useState(true);  // initialize loading state
     const [originalSheets, setOriginalSheets] = useState({});
+    const [categoryNames, setCategoryNames] = useState({});
+    const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
+    const [columnNamesChanged, setColumnNamesChanged] = useState(false);
+    const [sheetDeleted, setSheetDeleted] = useState(false);
+    const [columnDeleted, setColumnDeleted] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +30,16 @@ const CreateNewCategoryFromSheet = () => {
             const newSheets = Object.assign({}, ...dataArray);
             setSheets(newSheets);
             setOriginalSheets(newSheets);
+
+            // Initialize selectedColumnTypes with the data types of the columns
+            const initialColumnTypes = {};
+            for (const sheetName in newSheets) {
+                newSheets[sheetName].forEach((column, columnIndex) => {
+                    initialColumnTypes[`${sheetName}_${columnIndex}`] = column.dataType;
+                });
+            }
+            setSelectedColumnTypes(initialColumnTypes);
+
             setLoading(false);
         }
         fetchData();
@@ -32,50 +47,111 @@ const CreateNewCategoryFromSheet = () => {
 
     const handleCancelChanges = () => {
         setSheets(originalSheets);
+        setColumnNamesChanged(false);
+        setSheetDeleted(false);
+        setColumnDeleted(false);
     };
+
     const handleDeleteColumn = (sheetName, columnIndex) => {
-        setSheets(prevSheets => ({
-            ...prevSheets,
-            [sheetName]: prevSheets[sheetName].filter((_, i) => i !== columnIndex),
-        }));
+        setSheets(prevSheets => {
+            if (!prevSheets[sheetName]) {
+                // if the sheet does not exist, return the previous state
+                return prevSheets;
+            }
+
+            const newColumns = prevSheets[sheetName].filter((_, i) => i !== columnIndex);
+
+            if (newColumns.length === 0) {
+                // if all columns have been deleted, delete the sheet
+                const newSheets = {...prevSheets};
+                delete newSheets[sheetName];
+                setSheetDeleted(true);
+                return newSheets;
+            } else {
+                // otherwise, update the columns of the sheet
+                setColumnDeleted(true);
+                return {
+                    ...prevSheets,
+                    [sheetName]: newColumns,
+                };
+            }
+        });
     };
 
     const handleDeleteSheet = (sheetName) => {
         setSheets(prevSheets => {
             const newSheets = {...prevSheets};
             delete newSheets[sheetName];
+            setSheetDeleted(true);
             return newSheets;
         });
     }
 
-    const updateCategoryName = (sheetName, newSheetName) => {
-        setSheets(prevSheets => {
-            const newSheets = {...prevSheets};
-            newSheets[newSheetName] = [...prevSheets[sheetName]];
-            delete newSheets[sheetName];
-            return newSheets;
+    const updateCategoryName = (sheetName, newCategoryName) => {
+        setCategoryNames(prevCategoryNames => {
+            const newCategoryNames = {...prevCategoryNames};
+            newCategoryNames[sheetName] = newCategoryName;
+            return newCategoryNames;
         });
     };
 
     const handleColumnNameChange = (sheetName, columnIndex, value) => {
-        setSheets(prevSheets => ({
-            ...prevSheets,
-            [sheetName]: prevSheets[sheetName].map((column, i) => i === columnIndex ? {
-                ...column,
-                column: value
-            } : column)
-        }));
+        setSheets(prevSheets => {
+            if (!prevSheets[sheetName]) {
+                // if the sheet does not exist, return the previous state
+                return prevSheets;
+            }
+
+            setColumnNamesChanged(true);
+
+            return {
+                ...prevSheets,
+                [sheetName]: prevSheets[sheetName].map((column, i) => i === columnIndex ? {
+                    ...column,
+                    column: value
+                } : column)
+            };
+        });
     };
 
-    const handleColumnTypeChange = (sheetName, columnIndex, value) => {
+    const handleColumnTypeChange = (sheetName, columnIndex, selectedOption) => {
         setSelectedColumnTypes(prevColumnTypes => ({
             ...prevColumnTypes,
-            [`${sheetName}_${columnIndex}`]: value,
+            [`${sheetName}_${columnIndex}`]: selectedOption.value,
         }));
+
+        // Update the data type in sheets
+        setSheets(prevSheets => {
+            if (!prevSheets[sheetName]) {
+                // if the sheet does not exist, return the previous state
+                return prevSheets;
+            }
+
+            return {
+                ...prevSheets,
+                [sheetName]: prevSheets[sheetName].map((column, i) => i === columnIndex ? {
+                    ...column,
+                    dataType: selectedOption.value
+                } : column)
+            };
+        });
     };
 
+
     const handleSubmit = () => {
-        console.log(sheets);
+        const finalSheets = Object.keys(sheets).reduce((acc, sheetName) => {
+            const categoryName = categoryNames[sheetName] || sheetName;
+            acc[categoryName] = sheets[sheetName].map((column, columnIndex) => {
+                const columnType = selectedColumnTypes[`${sheetName}_${columnIndex}`];
+                return {
+                    ...column,
+                    dataType: columnType,
+                };
+            });
+            return acc;
+        }, {});
+        console.log(finalSheets);
+        //send to backend and crete categories and add products
     }
 
     const router = useRouter();
@@ -118,14 +194,11 @@ const CreateNewCategoryFromSheet = () => {
                                         <div className={styles.sheetRow}>
                                             <CustomInput
                                                 type="text"
-                                                value={sheetName}
+                                                value={categoryNames[sheetName]}
                                                 onChange={(value) => updateCategoryName(sheetName, value)}
                                                 placeholder="Category name"
                                                 className={styles.input}
                                             />
-                                            <div className={styles.uniteButton}>
-                                                <Button label={"Unite"} className={styles.button}/>
-                                            </div>
                                             <img src={"/x.svg"}
                                                  alt={"x"}
                                                  className={styles.deleteSheet}
@@ -146,7 +219,7 @@ const CreateNewCategoryFromSheet = () => {
                                                             defaultValue={column.column}
                                                             type={"text"}
                                                             onChange={(value) => {
-                                                                handleColumnNameChange(index, value)
+                                                                handleColumnNameChange(sheetName, columnIndex, value)
                                                             }}
                                                             className={styles.input}
                                                         />
@@ -158,14 +231,14 @@ const CreateNewCategoryFromSheet = () => {
                                                             <SelectWithLabel
                                                                 options={dataTypes}
                                                                 value={dataTypes.find(option => option.value === selectedColumnTypes[`${sheetName}_${columnIndex}`])}
-                                                                onChange={(value) => handleColumnTypeChange(sheetName, columnIndex, value)}
+                                                                onChange={(selectedOption) => handleColumnTypeChange(sheetName, columnIndex, selectedOption)}
                                                             />
                                                         </div>
                                                     </div>
                                                     <img src={"/x.svg"}
                                                          alt={"x"}
                                                          className={index !== 0 ? styles.xFirst : styles.x}
-                                                         onClick={() => handleDeleteColumn(column)}/>
+                                                         onClick={() => handleDeleteColumn(sheetName, columnIndex)}/>
                                                 </div>
                                             </div>
                                         ))}
@@ -175,9 +248,9 @@ const CreateNewCategoryFromSheet = () => {
                             </table>
                         ))}
                         <div className={styles.buttonContainer}>
-                            {/*{JSON.stringify(originalColumnNames) !== JSON.stringify(selectedColumns) && (*/}
-                            {/*    <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>*/}
-                            {/*)}*/}
+                            {(columnNamesChanged || sheetDeleted || columnDeleted) && (
+                                <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>
+                            )}
                             <Button onClick={onCancel} label={"Cancel"}/>
                             <Button onClick={handleSubmit} label={"Submit"}/>
                         </div>

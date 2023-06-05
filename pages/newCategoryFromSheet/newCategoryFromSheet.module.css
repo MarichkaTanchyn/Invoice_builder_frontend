@@ -31,7 +31,6 @@
 }
 
 .definedSheets {
-    /*margin-left: 2em;*/
     margin: 1em 2em 1em;
 }
 
@@ -54,7 +53,7 @@
 }
 
 .deleteSheet {
-    margin: 0.6em 0 0 0;
+    margin: 0.6em 0 0 2em;
     height: 2.3em;
 }
 
@@ -77,7 +76,7 @@
 .columns {
     display: flex;
     flex-direction: row;
-    align-items: end;
+    align-items: flex-end;
     margin-left: 2em;
 }
 
@@ -95,8 +94,6 @@
 
 .selectLabel {
     margin-left: 2em;
-    /*margin-bottom: 1em;*/
-    /*margin-top: 1em;*/
 }
 
 .select {

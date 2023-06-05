@@ -19,6 +19,8 @@ const PreprocessSheet = () => {
     const [selectedSheet, setSelectedSheet] = useState('');
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
     const [originalColumnNames, setOriginalColumnNames] = useState([]);
+    const [loading, setLoading] = useState(true);  // initialize loading state
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +38,8 @@ const PreprocessSheet = () => {
             setSelectedColumns(columns);
             setSelectedColumnTypes(columnTypes);
             setOriginalColumnNames(columns);
+            setLoading(false);
+
         }
         fetchData();
     }, []);
@@ -127,48 +131,59 @@ const PreprocessSheet = () => {
             <div className={styles.box}>
                 <h1>Customize column mapping</h1>
                 <hr/>
-                <div className={styles.definedCol}>
-                    {selectedColumns.map((column, index) => (
-                        <div key={index}
-                             className={`${styles.columnWrapper} ${deletedColumnIndex === index ? styles.hide : ''}`}>
-                            {index === 0 && <h4>Defined columns</h4>}
-                            <div className={styles.columns}>
-                                <div className={styles.colLabel}>
-                                    {index === 0 && <span>Column Name</span>}
-                                    <CustomInput
-                                        defaultValue={column}
-                                        type={"text"}
-                                        onChange={(value) => {
-                                            handleColumnNameChange(index, value)
-                                        }}
-                                        className={styles.input}
-                                    />
+                {loading ?
+                    <div className={styles.loadingWave}>
+                        <div className={styles.loadingBar}></div>
+                        <div className={styles.loadingBar}></div>
+                        <div className={styles.loadingBar}></div>
+                        <div className={styles.loadingBar}></div>
+                    </div>
+                    :
+                    <div>
+                        <div className={styles.definedCol}>
+                            {selectedColumns.map((column, index) => (
+                                <div key={index}
+                                     className={`${styles.columnWrapper} ${deletedColumnIndex === index ? styles.hide : ''}`}>
+                                    {index === 0 && <h4>Defined columns</h4>}
+                                    <div className={styles.columns}>
+                                        <div className={styles.colLabel}>
+                                            {index === 0 && <span>Column Name</span>}
+                                            <CustomInput
+                                                defaultValue={column}
+                                                type={"text"}
+                                                onChange={(value) => {
+                                                    handleColumnNameChange(index, value)
+                                                }}
+                                                className={styles.input}
+                                            />
+                                        </div>
+                                        <div className={styles.colLabel}>
+                                            {index === 0 && <span className={styles.selectLabel}>Type</span>}
+                                            <SelectWithLabel
+                                                options={dataTypes}
+                                                value={dataTypes.find(option => option.value === selectedColumnTypes[index])}
+                                                onChange={(value) => handleColumnTypeChange(index, value)}
+                                            />
+                                        </div>
+                                        <img src={"/x.svg"}
+                                             alt={"x"}
+                                             className={index !== 0 ? styles.x : styles.xFirst}
+                                             onClick={() => handleDeleteColumn(column)}/>
+                                    </div>
                                 </div>
-                                <div className={styles.colLabel}>
-                                    {index === 0 && <span className={styles.selectLabel}>Type</span>}
-                                    <SelectWithLabel
-                                        options={dataTypes}
-                                        value={dataTypes.find(option => option.value === selectedColumnTypes[index])}
-                                        onChange={(value) => handleColumnTypeChange(index, value)}
-                                    />
-                                </div>
-                                <img src={"/x.svg"}
-                                     alt={"x"}
-                                     className={index !== 0 ? styles.x : styles.xFirst}
-                                     onClick={() => handleDeleteColumn(column)}/>
-                            </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
 
-                <div className={styles.buttonContainer}>
-                    {JSON.stringify(originalColumnNames) !== JSON.stringify(selectedColumns) && (
-                        <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>
-                    )}
-                    <Button onClick={onCancel} label={"Cancel"}/>
-                    <Button onClick={handleSubmit} label={"Submit"}/>
+                        <div className={styles.buttonContainer}>
+                            {JSON.stringify(originalColumnNames) !== JSON.stringify(selectedColumns) && (
+                                <Button onClick={handleCancelChanges} label={"Cancel Changes"}/>
+                            )}
+                            <Button onClick={onCancel} label={"Cancel"}/>
+                            <Button onClick={handleSubmit} label={"Submit"}/>
 
-                </div>
+                        </div>
+                    </div>
+                }
             </div>
         </Card>
     );
