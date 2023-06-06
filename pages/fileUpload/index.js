@@ -9,7 +9,6 @@ import {checkDataIsValid, getFileSheets} from './preprocessFile';
 import SheetsOptionsPopup from "./sheetsOptionsPopup";
 import {setCookie} from "cookies-next";
 import {postFile} from "../api/fileApi";
-import {readExcel} from "../api/csvAPI";
 
 const DragAndDrop = () => {
     const [isDragging, setIsDragging] = useState(false);

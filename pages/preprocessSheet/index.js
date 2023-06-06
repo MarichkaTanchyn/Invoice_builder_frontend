@@ -32,6 +32,10 @@ const PreprocessSheet = () => {
             if (!selectedSheet) return;
             const columns = sheetData[selectedSheet].map(item => item.column);
             const columnTypes = sheetData[selectedSheet].map(item => item.dataType);
+            sheetData[selectedSheet] = sheetData[selectedSheet].map(item => ({
+                ...item,
+                originalColName: item.column
+            }));
             setSelectedSheet(selectedSheet)
             setSheetsData(sheetData);
             setOriginalSheetsData(sheetData);
@@ -91,7 +95,7 @@ const PreprocessSheet = () => {
         const updatedSheetsData = {...sheetsData};
         updatedSheetsData[selectedSheet] = updatedSheetsData[selectedSheet].map(col => {
             if (col.column === oldColumnName) {
-                return {...col, column: newValue};
+                return {...col, column: newValue}; // only change column, originalColName remains the same
             }
             return col;
         });

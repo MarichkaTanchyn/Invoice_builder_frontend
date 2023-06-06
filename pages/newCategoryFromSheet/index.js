@@ -28,6 +28,14 @@ const CreateNewCategoryFromSheet = () => {
             const fileKey = getCookie('fileKey');
             const dataArray = await readExcel(fileKey, sheetsHeadersJson);
             const newSheets = Object.assign({}, ...dataArray);
+
+            // Include originalColumn in sheets
+            for (const sheetName in newSheets) {
+                newSheets[sheetName] = newSheets[sheetName].map(column => ({
+                    ...column,
+                    originalColumn: column.column
+                }));
+            }
             setSheets(newSheets);
             setOriginalSheets(newSheets);
 
@@ -141,13 +149,16 @@ const CreateNewCategoryFromSheet = () => {
     const handleSubmit = () => {
         const finalSheets = Object.keys(sheets).reduce((acc, sheetName) => {
             const categoryName = categoryNames[sheetName] || sheetName;
-            acc[categoryName] = sheets[sheetName].map((column, columnIndex) => {
-                const columnType = selectedColumnTypes[`${sheetName}_${columnIndex}`];
-                return {
-                    ...column,
-                    dataType: columnType,
-                };
-            });
+            acc[sheetName] = [{
+                "categoryName": categoryName,
+                "columns": sheets[sheetName].map((column, columnIndex) => {
+                    const columnType = selectedColumnTypes[`${sheetName}_${columnIndex}`];
+                    return {
+                        ...column,
+                        dataType: columnType,
+                    };
+                }),
+            }];
             return acc;
         }, {});
         console.log(finalSheets);
