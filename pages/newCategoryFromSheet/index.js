@@ -9,6 +9,7 @@ import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
 import Button from "../components/util/button/button";
+import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
 
 const CreateNewCategoryFromSheet = () => {
@@ -20,6 +21,9 @@ const CreateNewCategoryFromSheet = () => {
     const [columnNamesChanged, setColumnNamesChanged] = useState(false);
     const [sheetDeleted, setSheetDeleted] = useState(false);
     const [columnDeleted, setColumnDeleted] = useState(false);
+    const [useInInvoice, setUseInInvoice] = useState({});
+    const [invalidColumns, setInvalidColumns] = useState([]);  // new state
+
 
 
     useEffect(() => {
@@ -39,7 +43,13 @@ const CreateNewCategoryFromSheet = () => {
             setSheets(newSheets);
             setOriginalSheets(newSheets);
 
-            // Initialize selectedColumnTypes with the data types of the columns
+            for (const sheetName in newSheets) {
+                newSheets[sheetName] = newSheets[sheetName].map(column => ({
+                    ...column,
+                    useInInvoice: false
+                }));
+            }
+
             const initialColumnTypes = {};
             for (const sheetName in newSheets) {
                 newSheets[sheetName].forEach((column, columnIndex) => {
@@ -143,11 +153,51 @@ const CreateNewCategoryFromSheet = () => {
                 } : column)
             };
         });
+        setInvalidColumns(prevInvalidColumns => prevInvalidColumns.filter(key => key !== `${sheetName}_${columnIndex}`));
     };
 
+    const handleCheckboxChange = (sheetName, columnIndex) => event => {
+        const checked = event.target.checked;
+        setUseInInvoice(prevState => ({
+            ...prevState,
+            [`${sheetName}_${columnIndex}`]: checked,
+        }));
+
+        // Update the useInInvoice status in sheets
+        setSheets(prevSheets => {
+            if (!prevSheets[sheetName]) {
+                // if the sheet does not exist, return the previous state
+                return prevSheets;
+            }
+            return {
+                ...prevSheets,
+                [sheetName]: prevSheets[sheetName].map((column, i) => i === columnIndex ? {
+                    ...column,
+                    useInInvoice: checked
+                } : column)
+            };
+        });
+    };
 
     const handleSubmit = () => {
         const finalSheets = Object.keys(sheets).reduce((acc, sheetName) => {
+            console.log(categoryNames)
+            console.log(categoryNames["Sheet1"])
+            const newInvalidColumns = [];
+            for (const [sheetName, columns] of Object.entries(sheets)) {
+                columns.forEach((_, columnIndex) => {
+                    const columnType = selectedColumnTypes[`${sheetName}_${columnIndex}`];
+                    if (!columnType) {
+                        newInvalidColumns.push(`${sheetName}_${columnIndex}`);
+                    }
+                });
+            }
+
+            if (newInvalidColumns.length > 0) {
+                setInvalidColumns(newInvalidColumns);
+                return;
+            }
+
             const categoryName = categoryNames[sheetName] || sheetName;
             acc[sheetName] = [{
                 "categoryName": categoryName,
@@ -156,6 +206,7 @@ const CreateNewCategoryFromSheet = () => {
                     return {
                         ...column,
                         dataType: columnType,
+                        useInInvoice: useInInvoice[`${sheetName}_${columnIndex}`] || false,
                     };
                 }),
             }];
@@ -205,9 +256,8 @@ const CreateNewCategoryFromSheet = () => {
                                         <div className={styles.sheetRow}>
                                             <CustomInput
                                                 type="text"
-                                                value={categoryNames[sheetName]}
+                                                defaultValue={sheetName}
                                                 onChange={(value) => updateCategoryName(sheetName, value)}
-                                                placeholder="Category name"
                                                 className={styles.input}
                                             />
                                             <img src={"/x.svg"}
@@ -237,18 +287,29 @@ const CreateNewCategoryFromSheet = () => {
                                                     </div>
                                                     <div className={styles.colLabel}>
                                                         {columnIndex === 0 &&
-                                                            <span className={styles.selectLabel}>Type</span>}
+                                                            <span className={styles.selectLabel}>Type</span>
+                                                        }
                                                         <div className={styles.select}>
                                                             <SelectWithLabel
                                                                 options={dataTypes}
                                                                 value={dataTypes.find(option => option.value === selectedColumnTypes[`${sheetName}_${columnIndex}`])}
                                                                 onChange={(selectedOption) => handleColumnTypeChange(sheetName, columnIndex, selectedOption)}
+                                                                isError={invalidColumns.includes(`${sheetName}_${columnIndex}`)}  // pass true to isError if the current column is invalid
                                                             />
                                                         </div>
                                                     </div>
+                                                    <div className={styles.labelBox}>
+                                                        {columnIndex === 0 &&
+                                                        <span className={styles.label}>Use In Invoice</span>
+                                                        }
+                                                        <CheckboxWithLabel
+                                                            checked={useInInvoice[`${sheetName}_${columnIndex}`] || false}
+                                                            onChange={handleCheckboxChange(sheetName, columnIndex)}
+                                                        />
+                                                    </div>
                                                     <img src={"/x.svg"}
                                                          alt={"x"}
-                                                         className={index !== 0 ? styles.xFirst : styles.x}
+                                                         className={ styles.x}
                                                          onClick={() => handleDeleteColumn(sheetName, columnIndex)}/>
                                                 </div>
                                             </div>

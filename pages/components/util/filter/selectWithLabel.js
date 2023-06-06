@@ -10,7 +10,8 @@ const SelectWithLabel = ({
                              onChange,
                              placeholder,
                              isMulti,
-                            customStyles
+                             isError,
+                             customStyles
                          }) => {
 
     const selectStyle = {
@@ -20,7 +21,7 @@ const SelectWithLabel = ({
             padding: '0',
             width: '10em',
             // margin: ' 1em 0',
-            border: '.1em solid #ccc',
+            border: isError ? '0.1em solid red' : '0.1em solid #ccc',
             height: '2em',
             borderRadius: '.5em',
             '&:hover': {

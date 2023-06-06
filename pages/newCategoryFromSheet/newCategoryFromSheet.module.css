@@ -47,24 +47,16 @@
     cursor: pointer;
 }
 
-.xFirst {
-    height: 2.3em;
-    cursor: pointer;
-}
-
 .deleteSheet {
     margin: 0.6em 0 0 2em;
     height: 2.3em;
+    cursor: pointer;
 }
 
 .sheetRow {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-.uniteButton {
-    margin: .8em 3em 0 2em;
 }
 
 .columnBox {
@@ -113,6 +105,17 @@
 
 .buttonContainer button {
     margin: 1em;
+}
+
+.labelBox {
+    display: flex;
+    flex-direction: column;
+}
+.label {
+    /*margin-top: .2em;*/
+    margin-bottom: 1em;
+    font-size: 1em;
+    color: rgba(27, 27, 27, 0.5);
 }
 
 
