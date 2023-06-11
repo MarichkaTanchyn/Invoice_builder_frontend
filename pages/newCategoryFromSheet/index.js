@@ -4,7 +4,7 @@ import Card from "../components/util/card/card";
 import styles from "./newCategoryFromSheet.module.css";
 import withLayout from "../components/layout/withLayout";
 import {getCookie} from "cookies-next";
-import {readExcel} from "../api/csvAPI";
+import {preprocessCsv, readExcel} from "../api/csvAPI";
 import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
@@ -23,15 +23,16 @@ const CreateNewCategoryFromSheet = () => {
     const [columnDeleted, setColumnDeleted] = useState(false);
     const [useInInvoice, setUseInInvoice] = useState({});
     const [invalidColumns, setInvalidColumns] = useState([]);  // new state
-
+    const [fileKey, setFileKey] = useState('');
 
 
     useEffect(() => {
         const fetchData = async () => {
             const sheetsHeadersJson = JSON.parse(getCookie('sheetsHeadersJson') || '{}');
-            const fileKey = getCookie('fileKey');
+            const fileKey = getCookie('fKey');
             const dataArray = await readExcel(fileKey, sheetsHeadersJson);
             const newSheets = Object.assign({}, ...dataArray);
+            setFileKey(fileKey);
 
             // Include originalColumn in sheets
             for (const sheetName in newSheets) {
@@ -179,7 +180,7 @@ const CreateNewCategoryFromSheet = () => {
         });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const finalSheets = Object.keys(sheets).reduce((acc, sheetName) => {
             console.log(categoryNames)
             console.log(categoryNames["Sheet1"])
@@ -212,8 +213,10 @@ const CreateNewCategoryFromSheet = () => {
             }];
             return acc;
         }, {});
+        const categoryId = getCookie('cId');
+        await preprocessCsv(fileKey, categoryId, finalSheets, 'createNewCategoryFromSheet')
         console.log(finalSheets);
-        //send to backend and crete categories and add products
+        //send to backend and create categories and add products
     }
 
     const router = useRouter();
@@ -300,7 +303,7 @@ const CreateNewCategoryFromSheet = () => {
                                                     </div>
                                                     <div className={styles.labelBox}>
                                                         {columnIndex === 0 &&
-                                                        <span className={styles.label}>Use In Invoice</span>
+                                                            <span className={styles.label}>Use In Invoice</span>
                                                         }
                                                         <CheckboxWithLabel
                                                             checked={useInInvoice[`${sheetName}_${columnIndex}`] || false}
@@ -309,7 +312,7 @@ const CreateNewCategoryFromSheet = () => {
                                                     </div>
                                                     <img src={"/x.svg"}
                                                          alt={"x"}
-                                                         className={ styles.x}
+                                                         className={styles.x}
                                                          onClick={() => handleDeleteColumn(sheetName, columnIndex)}/>
                                                 </div>
                                             </div>

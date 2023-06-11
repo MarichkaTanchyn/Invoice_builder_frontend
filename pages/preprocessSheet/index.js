@@ -8,7 +8,7 @@ import CustomInput from "../components/util/input/customInput";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
 import {useRouter} from "next/router";
-import {readExcel} from "../api/csvAPI";
+import {preprocessCsv, readExcel} from "../api/csvAPI";
 
 
 const PreprocessSheet = () => {
@@ -20,12 +20,12 @@ const PreprocessSheet = () => {
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
     const [originalColumnNames, setOriginalColumnNames] = useState([]);
     const [loading, setLoading] = useState(true);  // initialize loading state
-
+    const [fileKey, setFileKey] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
             const sheetHeaderJson = JSON.parse(getCookie('sheetHeaderJson') || '{}');
-            const fileKey = getCookie('fileKey');
+            const fileKey = getCookie('fKey');
             const dataArray = await readExcel(fileKey, sheetHeaderJson);
             const sheetData = dataArray[0];
             const selectedSheet = Object.keys(sheetData)[0];
@@ -36,6 +36,7 @@ const PreprocessSheet = () => {
                 ...item,
                 originalColName: item.column
             }));
+            setFileKey(fileKey);
             setSelectedSheet(selectedSheet)
             setSheetsData(sheetData);
             setOriginalSheetsData(sheetData);
@@ -43,7 +44,6 @@ const PreprocessSheet = () => {
             setSelectedColumnTypes(columnTypes);
             setOriginalColumnNames(columns);
             setLoading(false);
-
         }
         fetchData();
     }, []);
@@ -124,11 +124,11 @@ const PreprocessSheet = () => {
     const onCancel = async () => {
         await router.push("/fileUpload");
     };
-    const handleSubmit = () => {
-
-        console.log(sheetsData);
-        console.log(selectedSheet);
-        console.log(sheetsData[selectedSheet]);
+    const handleSubmit = async () => {
+    console.log("here")
+        const categoryId = getCookie('cId');
+        console.log(sheetsData)
+        await preprocessCsv(fileKey, categoryId, sheetsData, 'preprocessSelectedSheetData')
     }
     return (
         <Card customStyle={styles.card}>

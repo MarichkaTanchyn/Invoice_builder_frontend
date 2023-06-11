@@ -80,8 +80,9 @@ const DragAndDrop = () => {
     };
 
     const handleHeadersPopupSubmit = async () => {
+        console.log("here")
         const fileKey = await postFile(file, '1');
-        setCookie('fileKey', fileKey, {
+        setCookie('fKey', fileKey, {
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
         });
@@ -105,7 +106,7 @@ const DragAndDrop = () => {
 
     const handleOptionsPopupSubmit = async () => {
         const fileKey = await postFile(file, '1');
-        setCookie('fileKey', fileKey, {
+        setCookie('fKey', fileKey, {
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
         });

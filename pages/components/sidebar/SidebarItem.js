@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import style from './sidebar.module.css';
 import {useRouter} from "next/router";
+import {setCookie} from "cookies-next";
 import {getCategoryProducts} from "../../api/categoriesApi";
 
 const SidebarItem = (props) => {
@@ -14,6 +15,12 @@ const SidebarItem = (props) => {
         //     //     query: { CategoryId: CategoryId }
         //     // })
         // } else {
+
+        // cId -> categoryId
+            setCookie('cId', props.id, {
+                maxAge: 60 * 60 * 24 * 7,
+                path: '/',
+            })
             await router.push({
                 pathname: '/categoryIsEmpty'
                 // query: {CategoryId: CategoryId}
