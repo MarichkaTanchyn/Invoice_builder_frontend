@@ -12,6 +12,7 @@ import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
 import Button from "../components/util/button/button";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import globalStyles from "../global.module.css";
 
 const CreateNewCategoryFromSheet = () => {
   const [sheets, setSheets] = useState({});
@@ -259,11 +260,11 @@ const CreateNewCategoryFromSheet = () => {
         </div>
         <hr className={styles.hr} />
         {loading ? (
-          <div className={styles.loadingWave}>
-            <div className={styles.loadingBar}></div>
-            <div className={styles.loadingBar}></div>
-            <div className={styles.loadingBar}></div>
-            <div className={styles.loadingBar}></div>
+          <div className={globalStyles.loadingWave}>
+            <div className={globalStyles.loadingBar}></div>
+            <div className={globalStyles.loadingBar}></div>
+            <div className={globalStyles.loadingBar}></div>
+            <div className={globalStyles.loadingBar}></div>
           </div>
         ) : (
           <div>

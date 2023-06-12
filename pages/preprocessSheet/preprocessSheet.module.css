@@ -112,6 +112,7 @@
 .columns label {
     margin: 0 2em;
     align-items: center;
+    justify-items: center;
 }
 
 .definedCol {
@@ -121,55 +122,23 @@
 .colLabel {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     color: rgb(131, 131, 131);
+    position: static;
 }
 
 .selectLabel {
     margin-left: 2em;
+    padding-bottom: .5em;
 }
 
-/*loading*/
-.loadingWave {
-    top: 40%;
-    left: 50%;
-    width: 300px;
-    height: 100px;
+.labelBox {
     display: flex;
-    align-items: flex-end;
-    position: absolute;
+    flex-direction: column;
 }
-
-.loadingBar {
-    width: 20px;
-    height: 10px;
-    margin: 0 5px;
-    background-color: #041F47;
-    border-radius: 5px;
-    animation: loadingWave-animation 1s ease-in-out infinite;
-}
-
-.loadingBar:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.loadingBar:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.loadingBar:nth-child(4) {
-    animation-delay: 0.3s;
-}
-
-@keyframes loadingWave-animation {
-    0% {
-        height: 10px;
-    }
-
-    50% {
-        height: 50px;
-    }
-
-    100% {
-        height: 10px;
-    }
+.label {
+    /*margin-top: .2em;*/
+    margin-bottom: .5em;
+    font-size: 1em;
+    color: rgb(131, 131, 131);
 }
