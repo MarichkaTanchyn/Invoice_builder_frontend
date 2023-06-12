@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Card from "../components/util/card/card";
@@ -344,7 +342,7 @@ const CreateNewCategoryFromSheet = () => {
                                       selectedOption
                                     )
                                   }
-                                  isError={invalidColumns.includes(
+                                    isError={invalidColumns.includes(
                                     `${sheetName}_${columnIndex}`
                                   )} // pass true to isError if the current column is invalid
                                 />

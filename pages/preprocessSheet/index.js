@@ -24,6 +24,8 @@ const PreprocessSheet = () => {
   const [loading, setLoading] = useState(true); // initialize loading state
   const [fileKey, setFileKey] = useState("");
   const [useInInvoice, setUseInInvoice] = useState({});
+  const [invalidColumns, setInvalidColumns] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +73,9 @@ const PreprocessSheet = () => {
       }
     );
 
-    console.log(updatedSheetsData);
+    setInvalidColumns((prevInvalidColumns) => {
+      return prevInvalidColumns.filter((invalidIndex) => invalidIndex !== index.toString());
+    });
     // Save the updated sheetsData
     setSheetsData(updatedSheetsData);
   };
@@ -161,6 +165,16 @@ const PreprocessSheet = () => {
     await router.push("/fileUpload");
   };
   const handleSubmit = async () => {
+    const newInvalidColumns = selectedColumnTypes.map((type, index) =>
+        type ? null : index.toString()
+    ).filter(index => index !== null);
+
+    // Proceed with the validation check
+    if (newInvalidColumns.length > 0) {
+      setInvalidColumns(newInvalidColumns);
+      return;
+    }
+
     console.log("here");
     const categoryId = getCookie("cId");
     console.log(sheetsData);
@@ -216,14 +230,10 @@ const PreprocessSheet = () => {
                       )}
                       <div style={{marginBottom: index === 0 ? '1em' : '0' }}>
                         <SelectWithLabel
-                          options={dataTypes}
-                          value={dataTypes.find(
-                            (option) =>
-                              option.value === selectedColumnTypes[index]
-                          )}
-                          onChange={(value) =>
-                            handleColumnTypeChange(index, value)
-                          }
+                            options={dataTypes}
+                            value={dataTypes.find((option) => option.value === selectedColumnTypes[index])}
+                            onChange={(selectedOption) => handleColumnTypeChange(index, selectedOption)} // Pass the selected option to the handler
+                            isError={invalidColumns.includes(`${index}`)}
                         />
                       </div>
                     </div>
