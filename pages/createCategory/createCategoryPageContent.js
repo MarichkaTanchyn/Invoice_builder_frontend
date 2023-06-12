@@ -4,6 +4,8 @@ import CreateCategoryForm from "./createCategoryForm";
 import Button from "../components/util/button/button";
 import React, {useState} from "react";
 import {createCategories} from "../api/categoriesApi";
+import {useRouter} from "next/router";
+
 
 const CreateCategoryPageContent = () => {
     const [selectAllCategories, setSelectAllCategories] = useState(false);
@@ -209,6 +211,7 @@ const CreateCategoryPageContent = () => {
         CompanyId: 1
     }
 
+    const router = useRouter();
     const submitData = async () => {
         // Format the data into the desired structure
         const categoriesData = {
@@ -220,6 +223,7 @@ const CreateCategoryPageContent = () => {
         };
         console.log(categoriesData);
         await createCategories(categoriesData, params.CompanyId);
+        router.push("/");
     };
 
     return (

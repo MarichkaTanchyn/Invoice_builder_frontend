@@ -8,10 +8,6 @@ function HomePage() {
 
     return (
         <InvoicesPage/>
-        // <CreateInvoicePage/>
-        // <CreateCategory/>
-        // <CategoryIsEmpty/>
-        // <CreateNewCategoryFromSheet/>
     )
 }
 
