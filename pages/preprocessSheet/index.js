@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { preprocessCsv, readExcel } from "../api/csvAPI";
 import globalStyles from "../global.module.css";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import WarningPopup from "../components/util/warningPopup/warningPopup";
 import { set } from "date-fns";
 
 const PreprocessSheet = () => {
@@ -25,6 +26,8 @@ const PreprocessSheet = () => {
   const [fileKey, setFileKey] = useState("");
   const [useInInvoice, setUseInInvoice] = useState({});
   const [invalidColumns, setInvalidColumns] = useState([]);
+  const [showWarningPopup, setShowWarningPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
 
   useEffect(() => {
@@ -164,7 +167,9 @@ const PreprocessSheet = () => {
   const onCancel = async () => {
     await router.push("/fileUpload");
   };
+
   const handleSubmit = async () => {
+
     const newInvalidColumns = selectedColumnTypes.map((type, index) =>
         type ? null : index.toString()
     ).filter(index => index !== null);
@@ -174,16 +179,24 @@ const PreprocessSheet = () => {
       setInvalidColumns(newInvalidColumns);
       return;
     }
-
-    console.log("here");
     const categoryId = getCookie("cId");
-    console.log(sheetsData);
-    await preprocessCsv(
+    
+    const response = await preprocessCsv(
       fileKey,
       categoryId,
       sheetsData,
       "preprocessSelectedSheetData"
     );
+
+    console.log(response);
+    if (response === "success") {
+      // await router.push("/categoryData");
+      console.log("success");
+    } else {
+      setShowWarningPopup(true);
+      console.log(response.message)
+      setErrorMessage(response.message);
+    }
   };
   return (
     <Card customStyle={styles.card}>
@@ -258,7 +271,6 @@ const PreprocessSheet = () => {
                 </div>
               ))}
             </div>
-
             <div className={styles.buttonContainer}>
               {JSON.stringify(originalColumnNames) !==
                 JSON.stringify(selectedColumns) && (
@@ -270,6 +282,13 @@ const PreprocessSheet = () => {
               <Button onClick={onCancel} label={"Cancel"} />
               <Button onClick={handleSubmit} label={"Submit"} />
             </div>
+            {showWarningPopup && ( 
+                  <WarningPopup 
+                  type={"Error"} 
+                  message={errorMessage}
+                  actionMessage={"* Please select correct value or remove the column"}
+                  handleClose={() => setShowWarningPopup(false)} />
+              )}
           </div>
         )}
       </div>

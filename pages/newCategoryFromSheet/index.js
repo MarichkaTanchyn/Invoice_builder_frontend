@@ -11,6 +11,7 @@ import dataTypes from "../components/data/dataTypes.json";
 import Button from "../components/util/button/button";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 import globalStyles from "../global.module.css";
+import WarningPopup from "../components/util/warningPopup/warningPopup";
 
 const CreateNewCategoryFromSheet = () => {
   const [sheets, setSheets] = useState({});
@@ -24,6 +25,8 @@ const CreateNewCategoryFromSheet = () => {
   const [useInInvoice, setUseInInvoice] = useState({});
   const [invalidColumns, setInvalidColumns] = useState([]); // new state
   const [fileKey, setFileKey] = useState("");
+  const [showWarningPopup, setShowWarningPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -235,13 +238,22 @@ const CreateNewCategoryFromSheet = () => {
       return acc;
     }, {});
     const categoryId = getCookie("cId");
-    await preprocessCsv(
+
+    const response = await preprocessCsv(
       fileKey,
       categoryId,
       finalSheets,
       "createNewCategoryFromSheet"
     );
-    console.log(finalSheets);
+
+    if (response === "success") {
+    } else {
+      setShowWarningPopup(true);
+      console.log(response.message);
+      setErrorMessage(response.message);
+    }
+
+    console.log(response);
     //send to backend and create categories and add products
   };
 
@@ -342,7 +354,7 @@ const CreateNewCategoryFromSheet = () => {
                                       selectedOption
                                     )
                                   }
-                                    isError={invalidColumns.includes(
+                                  isError={invalidColumns.includes(
                                     `${sheetName}_${columnIndex}`
                                   )} // pass true to isError if the current column is invalid
                                 />
@@ -391,6 +403,16 @@ const CreateNewCategoryFromSheet = () => {
               <Button onClick={onCancel} label={"Cancel"} />
               <Button onClick={handleSubmit} label={"Submit"} />
             </div>
+            {showWarningPopup && (
+              <WarningPopup
+                type={"Error"}
+                message={errorMessage}
+                actionMessage={
+                  "* Please select correct value or remove the column"
+                }
+                handleClose={() => setShowWarningPopup(false)}
+              />
+            )}
           </div>
         )}
       </div>
