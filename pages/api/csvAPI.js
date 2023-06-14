@@ -16,14 +16,14 @@ export const readExcel = async (fileKey, data) => {
     }
 }
 
-export const preprocessCsv = async (fileKey, categoryId, sheetData, processType) => {
+export const preprocessCsv = async (fileKey, categoryId, sheetData, headersRow, processType) => {
 
-    console.log("here2")
     const apiUrl = `http://localhost:3000/${processType}/${fileKey}`;
 
     const data = {
         categoryId: categoryId,
-        data: sheetData
+        data: sheetData,
+        headersRow: headersRow
     }
 
     try {
