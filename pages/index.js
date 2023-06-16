@@ -1,13 +1,11 @@
 import InvoicesPage from "./invoiceList/invoicesPage";
-import CreateInvoicePage from "./createInvoice/index.js";
-import CreateCategory from "./createCategory/index.js";
-import CategoryIsEmpty from "./categoryIsEmpty/index.js";
-import CreateNewCategoryFromSheet from "./newCategoryFromSheet";
+import ProductTable from "./products/productTable";
 
 function HomePage() {
 
     return (
-        <InvoicesPage/>
+        // <InvoicesPage/>
+        <ProductTable/>
     )
 }
 

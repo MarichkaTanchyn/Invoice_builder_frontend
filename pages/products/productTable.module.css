@@ -1,0 +1,135 @@
+
+.container {
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*max-height: 600px;*/
+    /*overflow-y: scroll;*/
+    /*-webkit-transform: translate(-50%, -50%);*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+.table {
+    width: 100%;
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 1.1em;
+    border-collapse: separate;
+    /*border-spacing: 0 1em;*/
+    position: relative;
+    text-align: left;
+    padding: 2em;
+    border: 1px solid black;
+}
+
+.tableHeaders th {
+    font-weight: normal;
+    font-size: 1.1rem;
+    color: rgba(40, 40, 40, 0.5);
+    margin-top: 3em;
+    padding-top: 1em;
+    position: sticky;
+    background-color: #fafafa;
+    z-index: 1;
+    /*top: 5em;*/
+}
+
+
+.tableColumns {
+    padding: 1rem;
+    flex-grow: 1;
+
+}
+
+.rowBox {
+    line-height: 1.7em;
+    border: 1px solid #ccc;
+    background-color: #FFFFFF;
+    box-shadow:  0 2px 4px rgba(128, 128, 128, 0.25);
+}
+
+
+.table thead tr {
+    display: block;
+    /*flex-direction: row;*/
+    /*align-items: center;*/
+    /*justify-content: space-between;*/
+
+}
+
+.table th,
+.table td {
+    margin: 0;
+    padding: 0.5rem;
+    outline: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /*position: relative;*/
+
+    /* Make sure that cells and headers in each row take up equal width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table td > input {
+    outline: none;
+    border: none;
+    background-color: #fafafa;
+}
+
+.table th:last-child,
+.table td:last-child {
+    border-right: 0;
+}
+
+.table th:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background: blue;
+    content: '';
+    transform: translateX(100%);
+    transition: transform 0.2s ease-in-out;
+}
+
+.table th:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background: red;
+    content: '';
+    transform: translateX(0%);
+    transition: transform 0.2s ease-in-out;
+}
+
+.table th:hover:before {
+    transform: translateX(0%);
+}
+
+.table th:hover:after {
+    transform: translateX(100%);
+}
+
+.resizer {
+    display: inline-block;
+    background: blue;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateX(50%);
+    z-index: 1;
+    touch-action :none;
+}
+
+.isResizing {
+    background: red;
+}
+
