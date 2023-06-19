@@ -1,8 +1,7 @@
 import fakeData from "./productsMock.json";
 import * as React from "react";
 import {useMemo, useState} from "react";
-import {useBlockLayout,
-    useRowSelect, useResizeColumns, useTable} from "react-table";
+import {useBlockLayout, useResizeColumns, useSortBy, useTable, useRowSelect} from "react-table";
 import styles from "./productTable.module.css";
 import withLayout from "../components/layout/withLayout";
 
@@ -26,6 +25,8 @@ const EditableCell = ({
     return <input value={value} onChange={onChange} onBlur={onBlur}/>;
 };
 
+const DefaultCell = ({ value }) => <>{value}</>;
+
 const DefaultColumnFilter = ({
                                  column: {filterValue, preFilteredRows, setFilter},
                              }) => {
@@ -43,27 +44,77 @@ const DefaultColumnFilter = ({
 };
 
 const ProductTable = () => {
-    const data = useMemo(() => fakeData, []);
-    const [originalData] = useState(data);
+    const [editMode, setEditMode] = useState(false);
+    const [data, setData] = useState(fakeData);
+    const originalData = useMemo(() => data, [data]);
     const [skipPageReset, setSkipPageReset] = useState(false);
+
+    const IndeterminateCheckbox = React.forwardRef(
+        ({ indeterminate, ...rest }, ref) => {
+            const defaultRef = React.useRef();
+            const resolvedRef = ref || defaultRef;
+
+            React.useEffect(() => {
+                resolvedRef.current.indeterminate = indeterminate;
+            }, [resolvedRef, indeterminate]);
+
+            return (
+                <>
+                    <input type="checkbox" ref={resolvedRef} {...rest} />
+                </>
+            );
+        }
+    )
 
     const columns = useMemo(() => {
         if (data.length > 0) {
-            return Object.keys(data[0]).map((key) => {
-                return {
-                    Header: key.toUpperCase(),
-                    accessor: key,
-                    Filter: DefaultColumnFilter,
-                    Cell: EditableCell,
-                };
-            });
+            return [
+                {
+                    id: "selection",
+                    Header: ({ getToggleAllRowsSelectedProps }) => (
+                        <div>
+                            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                        </div>
+                    ),
+                    Cell: ({ row }) => (
+                        <div>
+                            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                        </div>
+                    )
+                },
+                ...Object.keys(data[0]).map((key) => {
+                    return {
+                        Header: key.toUpperCase(),
+                        accessor: key,
+                        Filter: DefaultColumnFilter,
+                        Cell: editMode
+                            ? (props) => <EditableCell {...props} updateMyData={updateMyData} />
+                            : DefaultCell,
+                    };
+                }),
+            ];
         }
         return [];
+    }, [data, editMode]);
+
+    React.useEffect(() => {
+        // This function will run whenever `data` changes
+        // Put any code here that needs to run after the data has been updated
     }, [data]);
+    const deleteRows = () => {
+        setData(old =>
+            old.filter((row, i) => !selectedFlatRows.some((selectedRow) => selectedRow.index === i))
+        );
+    };
 
     const updateMyData = (rowIndex, columnId, value) => {
         setSkipPageReset(true);
-        data[rowIndex][columnId] = value;
+        setData(old => old.map((row, i) => {
+            if (i === rowIndex) {
+                return { ...row, [columnId]: value };
+            }
+            return row;
+        }));
     };
 
     const {
@@ -72,11 +123,12 @@ const ProductTable = () => {
         headerGroups,
         rows,
         prepareRow,
+        selectedFlatRows,
+        state: { selectedRowIds },
     } = useTable(
         {
             columns,
             data,
-            updateMyData,
             autoResetPage: !skipPageReset,
             autoResetSelectedRows: !skipPageReset,
             defaultColumn: useMemo(
@@ -89,30 +141,48 @@ const ProductTable = () => {
             ),
         },
         useBlockLayout,
-        useResizeColumns
+        useResizeColumns,
+        useSortBy,
+        useRowSelect,
     );
 
     return (
         <div className={styles.container}>
+            <button onClick={deleteRows}>Delete selected rows</button>
+            <button onClick={() => setEditMode(!editMode)}>
+                {editMode ? 'Save changes' : 'Edit rows'}
+            </button>
+
             <table className={styles.table} {...getTableProps()}>
                 <thead>
                 {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                            <th  {...column.getHeaderProps()} {...column.getResizerProps()} {...column.getHeaderProps()}>
-                                {column.render("Header")}
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())} className={styles.header}>
+                                <div className={styles.headerContent}>
+                                    <span>{column.render("Header")}</span>
+                                    {column.isSorted
+                                        ? column.isSortedDesc
+                                            ? ' 🔽'
+                                            : ' 🔼'
+                                        : ''}
+                                    <div {...column.getResizerProps()} className={styles.resizer}>
+                                        <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
+                                    </div>
+                                </div>
                             </th>
                         ))}
                     </tr>
                 ))}
                 </thead>
+
                 <tbody {...getTableBodyProps()}>
                 {rows.map((row, i) => {
                     prepareRow(row);
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell) => (
-                                <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                                <td {...cell.getCellProps()}> {cell.render("Cell")} </td> // Removed extra checkbox
                             ))}
                         </tr>
                     );

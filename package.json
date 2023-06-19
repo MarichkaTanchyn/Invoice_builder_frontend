@@ -41,6 +41,7 @@
     "react-bootstrap": "^2.7.2",
     "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
+    "react-icons": "^4.9.0",
     "react-is": "18.2.0",
     "react-native": "^0.71.2",
     "react-select": "^5.7.0",

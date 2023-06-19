@@ -68,9 +68,9 @@
     /*position: relative;*/
 
     /* Make sure that cells and headers in each row take up equal width */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
 }
 
 .table td > input {
@@ -85,28 +85,12 @@
 }
 
 .table th:before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 3px;
-    height: 100%;
-    background: blue;
-    content: '';
     transform: translateX(100%);
-    transition: transform 0.2s ease-in-out;
-}
+    transition: transform 0.01ms ease;}
 
 .table th:after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 3px;
-    height: 100%;
-    background: red;
-    content: '';
     transform: translateX(0%);
-    transition: transform 0.2s ease-in-out;
-}
+    transition: transform 0.01ms ease;}
 
 .table th:hover:before {
     transform: translateX(0%);
@@ -115,21 +99,27 @@
 .table th:hover:after {
     transform: translateX(100%);
 }
+.img {
+    /*padding-right: .1em;*/
+    height: 1em;
+    /*margin-bottom: .1em;*/
+    font-weight: bold;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.headerContent {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .resizer {
-    display: inline-block;
-    background: blue;
-    width: 10px;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transform: translateX(50%);
-    z-index: 1;
-    touch-action :none;
+    display: flex;
+    align-items: center;
+    cursor: col-resize;
 }
-
-.isResizing {
-    background: red;
-}
-
