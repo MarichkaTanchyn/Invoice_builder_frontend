@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import styles from './customInput.module.css';
 
 
-const CustomInput = ({placeholder, onChange, type, label, defaultValue, className}) => {
+const CustomInput = ({placeholder, onChange, type, label, defaultValue, className, readOnly}) => {
     const [value, setValue] = useState(defaultValue || '');
 
 
@@ -31,6 +31,7 @@ const CustomInput = ({placeholder, onChange, type, label, defaultValue, classNam
                         placeholder={placeholder}
                         value={value}
                         onChange={handleChange}
+                        readOnly={readOnly}
                     />
                 </label>
             ) : (
@@ -40,6 +41,7 @@ const CustomInput = ({placeholder, onChange, type, label, defaultValue, classNam
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
+                    readOnly={readOnly}
                 />
             )}
         </>
