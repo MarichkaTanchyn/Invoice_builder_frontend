@@ -3,6 +3,7 @@ import Button from "../components/util/button/button";
 import React, {useState} from "react";
 import CustomInput from "../components/util/input/customInput";
 import {debounce} from "@mui/material";
+import button from "../components/util/button/button";
 
 
 const AddProductPopup = ({allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows, setTempProduct}) => {
@@ -70,9 +71,13 @@ const AddProductPopup = ({allHeaders, handleClosePopup, handleSubmitPopup, extra
                 ))}
 
                 <div className={styles.popupButtons}>
-                    <Button onClick={handleClosePopup} label={"Cancel"}></Button>
-                    <Button onClick={handleSubmit} label={"Submit"}></Button>
-                    <Button onClick={handleAddNewRow} label={"Add"}></Button>
+                    <div>
+                    <Button onClick={handleAddNewRow} label={"Add Column"}></Button>
+                    </div>
+                    <div>
+                    <Button onClick={handleClosePopup} className={styles.cancelButton} label={"Cancel"}></Button>
+                    <Button onClick={handleSubmit}  label={"Submit"}></Button>
+                    </div>
                 </div>
             </div>
         </div>
