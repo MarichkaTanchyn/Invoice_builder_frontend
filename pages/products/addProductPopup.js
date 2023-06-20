@@ -5,13 +5,10 @@ import CustomInput from "../components/util/input/customInput";
 import {debounce} from "@mui/material";
 
 
-const AddProductPopup = ({data, setData, allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows}) => {
-
-    const [tempProduct, setTempProduct] = useState({});
+const AddProductPopup = ({allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows, setTempProduct}) => {
 
     // Create a debounced version of setExtraRows
     const debouncedSetExtraRows = debounce(setExtraRows, 300);
-
 
     const handlePopupClick = (event) => {
         event.stopPropagation();
