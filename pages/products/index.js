@@ -8,10 +8,10 @@ import DefaultColumnFilter from "./DefaultColumnFilter";
 import {EditableCell, ReadOnlyCell} from "./Cells";
 import {useBlockLayout, useResizeColumns, useRowSelect, useSortBy, useTable} from "react-table";
 import styles from "./productTable.module.css";
-import * as XLSX from 'xlsx';
+import {utils} from 'xlsx';
 import Button from "../components/util/button/button";
-import {utils} from "xlsx";
 import AddProductPopup from "./addProductPopup";
+import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 
 const Products = () => {
     const [editMode, setEditMode] = useState(false);
@@ -21,6 +21,8 @@ const Products = () => {
     const [extraRows, setExtraRows] = React.useState([]);
 
     const [allHeaders, setAllHeaders] = useState(Object.keys(data[0]));
+
+    const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
 
     useEffect(() => {
         let allKeys = [];
@@ -36,7 +38,7 @@ const Products = () => {
         setData((old) =>
             old.map((row, i) => {
                 if (i === rowIndex) {
-                    return { ...old[i], [columnId]: value };
+                    return {...old[i], [columnId]: value};
                 }
                 return row;
             })
@@ -50,12 +52,12 @@ const Products = () => {
                 minWidth: 30,
                 width: 30,
                 maxWidth: 60,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
+                Header: ({getToggleAllRowsSelectedProps}) => (
                     <div>
                         <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
                     </div>
                 ),
-                Cell: ({ row }) => (
+                Cell: ({row}) => (
                     <div>
                         <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
                     </div>
@@ -67,7 +69,7 @@ const Products = () => {
                 width: 40,
                 maxWidth: 60,
                 Header: "Reg",
-                Cell: ({ row }) => (
+                Cell: ({row}) => (
                     <div>{row.index + 1}</div>
                 ),
             },
@@ -75,15 +77,24 @@ const Products = () => {
                 Header: key.toUpperCase(),
                 accessor: key,
                 Filter: DefaultColumnFilter,
-                Cell: editMode ? (props) => <EditableCell {...props} updateMyData={updateMyData} /> : ReadOnlyCell,
+                Cell: editMode ? (props) => <EditableCell {...props} updateMyData={updateMyData}/> : ReadOnlyCell,
             })),
         ],
         [allHeaders, editMode]
     );
 
     const deleteRows = () => {
-        setData(old => old.filter((row, i) => !selectedFlatRows.some((selectedRow) => selectedRow.index === i)));
+        setShowConfirmationBeforeDelete(true);
     };
+
+    const onDeleteAgree = () => {
+        setData(old => old.filter((row, i) => !selectedFlatRows.some((selectedRow) => selectedRow.index === i)));
+        setShowConfirmationBeforeDelete(false);
+    }
+    const onCancelDelete = () => {
+        setShowConfirmationBeforeDelete(false);
+    }
+
 
     const exportToCsv = () => {
         const ws = utils.json_to_sheet(data);
@@ -127,7 +138,7 @@ const Products = () => {
     const [tempProduct, setTempProduct] = useState({});
 
     const handleSubmitPopup = () => {
-        const newProduct = { ...tempProduct };
+        const newProduct = {...tempProduct};
         extraRows.forEach(row => {
             newProduct[row.name] = row.value;
         });
@@ -146,7 +157,7 @@ const Products = () => {
             <div className={styles.pageHeaders}>
                 <h1>Products</h1>
                 <div className={styles.buttonContainer}>
-                    <Button label={"Export to csv"} onClick={exportToCsv} />
+                    <Button label={"Export to csv"} onClick={exportToCsv}/>
                 </div>
             </div>
             <hr/>
@@ -155,26 +166,26 @@ const Products = () => {
                 <table className={styles.table} {...getTableProps()}>
                     <thead>
                     {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())} className={styles.header}>
-                                    <div className={styles.headerContent}>
-                                        <span>{column.render("Header")}</span>
-                                        {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
-                                        {column.id !== "selection" && (
-                                            <div {...column.getResizerProps()} className={styles.resizer}>
-                                                <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
-                                            </div>)}
-                                    </div>
-                                </th>))}
-                        </tr>))}
+                        {headerGroup.headers.map((column) => (
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())} className={styles.header}>
+                                <div className={styles.headerContent}>
+                                    <span>{column.render("Header")}</span>
+                                    {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
+                                    {column.id !== "selection" && (
+                                        <div {...column.getResizerProps()} className={styles.resizer}>
+                                            <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
+                                        </div>)}
+                                </div>
+                            </th>))}
+                    </tr>))}
                     </thead>
 
                     <tbody {...getTableBodyProps()}>
                     {rows.map((row, i) => {
                         prepareRow(row);
                         return (<tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => (<td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
-                            </tr>);
+                            {row.cells.map((cell) => (<td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
+                        </tr>);
                     })}
                     </tbody>
                 </table>
@@ -192,8 +203,19 @@ const Products = () => {
                     setTempProduct={setTempProduct}
                 />
             }
+            {showConfirmationBeforeDelete &&
+                <ConfirmationDialog
+                    type={"Delete"}
+                    header={"Delete rows"}
+                    message={"Are you sure you want to delete the selected rows?"}
+                    onAgree={onDeleteAgree}
+                    onCancel={onCancelDelete}
+                />
+            }
             <div className={styles.bottomButtonContainer}>
-                <Button label={"Delete"} onClick={deleteRows}/>
+                {selectedFlatRows.length > 0 &&
+                    <Button label={"Delete"} onClick={deleteRows}/>
+                }
                 <Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={() => setEditMode(!editMode)}/>
                 <Button label={"Add new product"} onClick={handleOpenPopup}/>
             </div>
