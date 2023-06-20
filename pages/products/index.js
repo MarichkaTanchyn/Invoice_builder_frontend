@@ -1,7 +1,7 @@
 import Card from "../components/util/card/card";
 import withLayout from "../components/layout/withLayout";
 import * as React from "react";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import fakeData from "./productsMock.json";
 import IndeterminateCheckbox from "./IndeterminateCheckbox";
 import DefaultColumnFilter from "./DefaultColumnFilter";
@@ -16,16 +16,34 @@ import AddProductPopup from "./addProductPopup";
 const Products = () => {
     const [editMode, setEditMode] = useState(false);
     const [data, setData] = useState(fakeData);
-    const originalData = useMemo(() => data, [data]);
     const [skipPageReset, setSkipPageReset] = useState(false);
     const [showAddProductPopup, setShowAddProductPopup] = useState(false);
     const [extraRows, setExtraRows] = React.useState([]);
 
+    const [allHeaders, setAllHeaders] = useState(Object.keys(data[0]));
 
-    // Extract all headers from the originalData
-    const allHeaders = useMemo(() => Object.keys(originalData[0]), [originalData]);
+    useEffect(() => {
+        let allKeys = [];
+        data.forEach(row => {
+            allKeys = [...allKeys, ...Object.keys(row)];
+        });
+        const uniqueKeys = [...new Set(allKeys)]; // Removes duplicates
+        setAllHeaders(uniqueKeys);
+    }, [data]);
 
-    const columns = useMemo(
+    const updateMyData = (rowIndex, columnId, value) => {
+        setSkipPageReset(true);
+        setData((old) =>
+            old.map((row, i) => {
+                if (i === rowIndex) {
+                    return { ...old[i], [columnId]: value };
+                }
+                return row;
+            })
+        );
+    };
+
+    const tableColumns = useMemo(
         () => [
             {
                 id: "selection",
@@ -63,18 +81,6 @@ const Products = () => {
         [allHeaders, editMode]
     );
 
-    const updateMyData = (rowIndex, columnId, value) => {
-        setSkipPageReset(true);
-        setData((old) =>
-            old.map((row, i) => {
-                if (i === rowIndex) {
-                    return { ...row, [columnId]: value };
-                }
-                return row;
-            })
-        );
-    };
-
     const deleteRows = () => {
         setData(old => old.filter((row, i) => !selectedFlatRows.some((selectedRow) => selectedRow.index === i)));
     };
@@ -91,9 +97,15 @@ const Products = () => {
     }
 
     const {
-        getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, selectedFlatRows, state: {selectedRowIds},
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        selectedFlatRows,
+        state: {selectedRowIds},
     } = useTable({
-        columns,
+        columns: tableColumns,
         data,
         autoResetPage: !skipPageReset,
         autoResetSelectedRows: !skipPageReset,
@@ -101,6 +113,7 @@ const Products = () => {
             minWidth: 30, width: 150, maxWidth: 400,
         }), []),
     }, useBlockLayout, useResizeColumns, useSortBy, useRowSelect,);
+
 
     const handleOpenPopup = () => {
         setShowAddProductPopup(true);
@@ -110,23 +123,22 @@ const Products = () => {
         setShowAddProductPopup(false);
     };
 
+
+    const [tempProduct, setTempProduct] = useState({});
+
     const handleSubmitPopup = () => {
-        console.log(data)
-        setData(prevData => {
-            const newData = [...prevData];
-
-            // Add the extra rows to the new product
-            extraRows.forEach(row => {
-                newData[newData.length - 1][row.name] = row.value;
-            });
-
-            return newData;
+        const newProduct = { ...tempProduct };
+        extraRows.forEach(row => {
+            newProduct[row.name] = row.value;
         });
 
-        // Reset the extra rows
-        setExtraRows([]);
+        setData(prevData => [...prevData, newProduct]);
 
+        setTempProduct({});
+        setExtraRows([]);
+        setShowAddProductPopup(false);
     };
+
 
     return (
         <Card>
@@ -170,15 +182,19 @@ const Products = () => {
                     </tbody>
                 </table>
             </div>
-            {showAddProductPopup && <AddProductPopup
-                data={data}
-                setData={setData}
-                allHeaders={allHeaders}
-                handleClosePopup={handleClosePopup}
-                handleSubmitPopup={handleSubmitPopup}
-                setExtraRows={setExtraRows}
-                extraRows={extraRows}
-            />}
+            {showAddProductPopup &&
+                <AddProductPopup
+                    data={data}
+                    setData={setData}
+                    allHeaders={allHeaders}
+                    handleClosePopup={handleClosePopup}
+                    handleSubmitPopup={handleSubmitPopup}
+                    setExtraRows={setExtraRows}
+                    extraRows={extraRows}
+                    tempProduct={tempProduct}
+                    setTempProduct={setTempProduct}
+                />
+            }
         </Card>
 
     );

@@ -1,10 +1,16 @@
 import styles from "./productTable.module.css";
 import Button from "../components/util/button/button";
-import React from "react";
+import React, {useState} from "react";
 import CustomInput from "../components/util/input/customInput";
+import {debounce} from "@mui/material";
 
 
-const AddProductPopup = ({data, setData, allHeaders, handleClosePopup, handleSubmitPopup,extraRows, setExtraRows}) => {
+const AddProductPopup = ({data, setData, allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows}) => {
+
+    const [tempProduct, setTempProduct] = useState({});
+
+    // Create a debounced version of setExtraRows
+    const debouncedSetExtraRows = debounce(setExtraRows, 300);
 
 
     const handlePopupClick = (event) => {
@@ -13,8 +19,22 @@ const AddProductPopup = ({data, setData, allHeaders, handleClosePopup, handleSub
 
     const handleAddNewRow = () => {
         setExtraRows([...extraRows, {name: '', value: ''}]);
-    }
+    };
 
+    const handleInputChange = (field, index, value) => {
+        if (field === 'name' || field === 'value') {
+            debouncedSetExtraRows(prevRows => {
+                const newRow = {...prevRows[index], [field]: value};
+                return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
+            });
+        } else {
+            setTempProduct(prevProduct => ({...prevProduct, [field]: value}));
+        }
+    };
+
+    const handleSubmit = () => {
+        handleSubmitPopup();
+    };
 
     return (
         <div className={styles.popupBox}>
@@ -25,14 +45,14 @@ const AddProductPopup = ({data, setData, allHeaders, handleClosePopup, handleSub
                     return (
                         <div key={index} className={styles.popupInput}>
                             <CustomInput defaultValue={header} className={styles.input} readOnly={true}/>
-                            <CustomInput className={styles.input} onChange={(value) => {
-                                setData(prevData => {
+                            <CustomInput className={styles.input} onChange={debounce((value) => {
+                                setTempProduct(prevProduct => {
                                     // directly modify the specific product within the array
-                                    prevData[prevData.length - 1][header] = value;
+                                    prevProduct[header] = value;
                                     // return the modified array
-                                    return [...prevData];
+                                    return {...prevProduct};
                                 });
-                            }}/>
+                            }, 500)}/>
                         </div>
                     )
                 })}
@@ -42,33 +62,19 @@ const AddProductPopup = ({data, setData, allHeaders, handleClosePopup, handleSub
                         <CustomInput
                             value={row.name}
                             className={styles.input}
-                            onChange={(value) => {
-                                setExtraRows(prevRows => {
-                                    // directly modify the specific row within the array
-                                    prevRows[index].name = value;
-                                    // return the modified array
-                                    return [...prevRows];
-                                });
-                            }}
+                            onChange={(value) => handleInputChange('name', index, value)}
                         />
                         <CustomInput
                             value={row.value}
                             className={styles.input}
-                            onChange={(value) => {
-                                setExtraRows(prevRows => {
-                                    // directly modify the specific row within the array
-                                    prevRows[index].value = value;
-                                    // return the modified array
-                                    return [...prevRows];
-                                });
-                            }}
+                            onChange={(value) => handleInputChange('value', index, value)}
                         />
                     </div>
                 ))}
 
                 <div className={styles.popupButtons}>
                     <Button onClick={handleClosePopup} label={"Cancel"}></Button>
-                    <Button onClick={handleSubmitPopup} label={"Submit"}></Button>
+                    <Button onClick={handleSubmit} label={"Submit"}></Button>
                     <Button onClick={handleAddNewRow} label={"Add"}></Button>
                 </div>
             </div>
