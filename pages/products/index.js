@@ -146,9 +146,6 @@ const Products = () => {
             <div className={styles.pageHeaders}>
                 <h1>Products</h1>
                 <div className={styles.buttonContainer}>
-                    <Button label={"Delete"} onClick={deleteRows}/>
-                    <Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={() => setEditMode(!editMode)}/>
-                    <Button label={"Add new product"} onClick={handleOpenPopup}/>
                     <Button label={"Export to csv"} onClick={exportToCsv} />
                 </div>
             </div>
@@ -195,6 +192,11 @@ const Products = () => {
                     setTempProduct={setTempProduct}
                 />
             }
+            <div className={styles.bottomButtonContainer}>
+                <Button label={"Delete"} onClick={deleteRows}/>
+                <Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={() => setEditMode(!editMode)}/>
+                <Button label={"Add new product"} onClick={handleOpenPopup}/>
+            </div>
         </Card>
 
     );
