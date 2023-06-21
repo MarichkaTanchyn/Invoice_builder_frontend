@@ -12,76 +12,94 @@ import {utils} from 'xlsx';
 import Button from "../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import {getCookie} from "cookies-next";
+import {getCategoryProducts} from "../api/productsApi";
+import globalStyles from "../global.module.css";
 
+const normalizeProductData = (product) => {
+    const { other, ...rest } = product;
+
+    // Create new object with desired keys
+    let productData = {
+        id: product.id,
+        ...(product.nameColumnName ? { [product.nameColumnName]: product.name } : {}),
+        ...(product.priceColumnName ? { [product.priceColumnName]: product.price } : {}),
+        ...(product.descriptionColumnName ? { [product.descriptionColumnName]: product.description } : {}),
+    };
+
+    productData = other.reduce((acc, curr) => {
+        const key = Object.keys(curr).find(key => key !== "type" && key !== "useInInvoice");
+        return key ? { ...acc, [key]: curr[key] } : acc;
+    }, productData);
+
+    return productData;
+}
 const Products = () => {
     const [editMode, setEditMode] = useState(false);
-    const [data, setData] = useState(fakeData);
+    const [data, setData] = useState([]);
     const [skipPageReset, setSkipPageReset] = useState(false);
     const [showAddProductPopup, setShowAddProductPopup] = useState(false);
     const [extraRows, setExtraRows] = React.useState([]);
-
-    const [allHeaders, setAllHeaders] = useState(Object.keys(data[0]));
-
+    const [allHeaders, setAllHeaders] = useState([]);
     const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [originalData, setOriginalData] = useState([]);
+
 
     useEffect(() => {
-        let allKeys = [];
-        data.forEach(row => {
-            allKeys = [...allKeys, ...Object.keys(row)];
-        });
-        const uniqueKeys = [...new Set(allKeys)]; // Removes duplicates
-        setAllHeaders(uniqueKeys);
+        if (data.length) {
+            let allKeys = [];
+            data.forEach(row => {
+                allKeys = [...allKeys, ...Object.keys(row)];
+            });
+            // Filter out the 'id' key
+            allKeys = allKeys.filter(key => key !== 'id');
+            const uniqueKeys = [...new Set(allKeys)]; // Removes duplicates
+            setAllHeaders(uniqueKeys);
+        }
     }, [data]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const categoryId = getCookie("cId");
+            const products = await getCategoryProducts(categoryId);
+            setOriginalData(products);
+            const normalizedProducts = products.map(product => normalizeProductData(product));
+            setData(normalizedProducts);
+            setLoading(false);
+        };
+        fetchProducts();
+    }, []);
 
     const updateMyData = (rowIndex, columnId, value) => {
         setSkipPageReset(true);
-        setData((old) =>
-            old.map((row, i) => {
-                if (i === rowIndex) {
-                    return {...old[i], [columnId]: value};
-                }
-                return row;
-            })
-        );
+        setData((old) => old.map((row, i) => {
+            if (i === rowIndex) {
+                return {...old[i], [columnId]: value};
+            }
+            return row;
+        }));
     };
 
-    const tableColumns = useMemo(
-        () => [
-            {
-                id: "selection",
-                minWidth: 30,
-                width: 30,
-                maxWidth: 60,
-                Header: ({getToggleAllRowsSelectedProps}) => (
-                    <div>
-                        <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                    </div>
-                ),
-                Cell: ({row}) => (
-                    <div>
-                        <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                    </div>
-                ),
-            },
-            {
-                id: "index",
-                minWidth: 40,
-                width: 40,
-                maxWidth: 60,
-                Header: "Reg",
-                Cell: ({row}) => (
-                    <div>{row.index + 1}</div>
-                ),
-            },
-            ...allHeaders.map((key) => ({
-                Header: key.toUpperCase(),
-                accessor: key,
-                Filter: DefaultColumnFilter,
-                Cell: editMode ? (props) => <EditableCell {...props} updateMyData={updateMyData}/> : ReadOnlyCell,
-            })),
-        ],
-        [allHeaders, editMode]
-    );
+    const tableColumns = useMemo(() => [{
+        id: "selection", minWidth: 30, width: 30, maxWidth: 60, Header: ({getToggleAllRowsSelectedProps}) => (<div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </div>), Cell: ({row}) => (<div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </div>),
+    }, {
+        id: "index",
+        minWidth: 40,
+        width: 40,
+        maxWidth: 60,
+        Header: "Reg",
+        Cell: ({row}) => (<div>{row.index + 1}</div>),
+    }, ...allHeaders.map((key) => ({
+        Header: key.toUpperCase(),
+        accessor: key,
+        Filter: DefaultColumnFilter,
+        Cell: editMode ? (props) => <EditableCell {...props} updateMyData={updateMyData}/> : ReadOnlyCell,
+    })),], [allHeaders, editMode]);
 
     const deleteRows = () => {
         setShowConfirmationBeforeDelete(true);
@@ -108,13 +126,7 @@ const Products = () => {
     }
 
     const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-        selectedFlatRows,
-        state: {selectedRowIds},
+        getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, selectedFlatRows, state: {selectedRowIds},
     } = useTable({
         columns: tableColumns,
         data,
@@ -150,9 +162,41 @@ const Products = () => {
         setShowAddProductPopup(false);
     };
 
+    const handleSaveChanges = () => {
+        console.log(data)
+        let updatedProducts = [];
 
-    return (
-        <Card>
+        data.forEach((product, index) => {
+            const originalProduct = {...originalData[index]}; // Clone the original product
+            const normalizedProductKeys = Object.keys(product);
+            normalizedProductKeys.forEach(key => {
+                if(key === originalProduct.nameColumnName) {
+                    originalProduct.name = product[key];
+                } else if(key === originalProduct.priceColumnName) {
+                    originalProduct.price = product[key];
+                } else if(key === originalProduct.descriptionColumnName) {
+                    originalProduct.description = product[key];
+                } else {
+                    const otherIndex = originalProduct.other.findIndex(item => Object.keys(item).includes(key));
+                    if(otherIndex !== -1) {
+                        originalProduct.other[otherIndex][key] = product[key];
+                    }
+                }
+            });
+
+            // Compare the original product and the updated product
+            if (JSON.stringify(originalProduct) !== JSON.stringify(originalData[index])) {
+                // If they're not equal, add the updated product to the updatedProducts array
+                updatedProducts.push(originalProduct);
+            }
+        });
+
+        console.log(updatedProducts);
+        setEditMode(false);
+    };
+
+
+    return (<Card>
             {/*TODO: get the category name*/}
             <div className={styles.pageHeaders}>
                 <h1>Products</h1>
@@ -161,64 +205,67 @@ const Products = () => {
                 </div>
             </div>
             <hr/>
-            <div className={styles.container}>
+            {loading ? (<div className={globalStyles.loadingWave}>
+                    <div className={globalStyles.loadingBar}></div>
+                    <div className={globalStyles.loadingBar}></div>
+                    <div className={globalStyles.loadingBar}></div>
+                    <div className={globalStyles.loadingBar}></div>
+                </div>) : (<div>
+                    <div className={styles.container}>
 
-                <table className={styles.table} {...getTableProps()}>
-                    <thead>
-                    {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column) => (
-                            <th {...column.getHeaderProps(column.getSortByToggleProps())} className={styles.header}>
-                                <div className={styles.headerContent}>
-                                    <span>{column.render("Header")}</span>
-                                    {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
-                                    {column.id !== "selection" && (
-                                        <div {...column.getResizerProps()} className={styles.resizer}>
-                                            <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
-                                        </div>)}
-                                </div>
-                            </th>))}
-                    </tr>))}
-                    </thead>
+                        <table className={styles.table} {...getTableProps()}>
+                            <thead>
+                            {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map((column) => (
+                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        className={styles.header}>
+                                        <div className={styles.headerContent}>
+                                            <span>{column.render("Header")}</span>
+                                            {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
+                                            {column.id !== "selection" && (
+                                                <div {...column.getResizerProps()} className={styles.resizer}>
+                                                    <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
+                                                </div>)}
+                                        </div>
+                                    </th>))}
+                            </tr>))}
+                            </thead>
 
-                    <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
-                        prepareRow(row);
-                        return (<tr {...row.getRowProps()}>
-                            {row.cells.map((cell) => (<td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
-                        </tr>);
-                    })}
-                    </tbody>
-                </table>
-            </div>
-            {showAddProductPopup &&
-                <AddProductPopup
-                    data={data}
-                    setData={setData}
-                    allHeaders={allHeaders}
-                    handleClosePopup={handleClosePopup}
-                    handleSubmitPopup={handleSubmitPopup}
-                    setExtraRows={setExtraRows}
-                    extraRows={extraRows}
-                    tempProduct={tempProduct}
-                    setTempProduct={setTempProduct}
-                />
-            }
-            {showConfirmationBeforeDelete &&
-                <ConfirmationDialog
-                    type={"Delete"}
-                    header={"Delete rows"}
-                    message={"Are you sure you want to delete the selected rows?"}
-                    onAgree={onDeleteAgree}
-                    onCancel={onCancelDelete}
-                />
-            }
-            <div className={styles.bottomButtonContainer}>
-                {selectedFlatRows.length > 0 &&
-                    <Button label={"Delete"} onClick={deleteRows}/>
-                }
-                <Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={() => setEditMode(!editMode)}/>
-                <Button label={"Add new product"} onClick={handleOpenPopup}/>
-            </div>
+                            <tbody {...getTableBodyProps()}>
+                            {rows.map((row, i) => {
+                                prepareRow(row);
+                                return (<tr {...row.getRowProps()}>
+                                    {row.cells.map((cell) => (
+                                        <td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
+                                </tr>);
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className={styles.bottomButtonContainer}>
+                        {selectedFlatRows.length > 0 && <Button label={"Delete"} onClick={deleteRows}/>}
+                        <Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>
+                        <Button label={"Add new product"} onClick={handleOpenPopup}/>
+                    </div>
+                </div>)}
+            {showAddProductPopup && <AddProductPopup
+                data={data}
+                setData={setData}
+                allHeaders={allHeaders}
+                handleClosePopup={handleClosePopup}
+                handleSubmitPopup={handleSubmitPopup}
+                setExtraRows={setExtraRows}
+                extraRows={extraRows}
+                tempProduct={tempProduct}
+                setTempProduct={setTempProduct}
+            />}
+            {showConfirmationBeforeDelete && <ConfirmationDialog
+                type={"Delete"}
+                header={"Delete rows"}
+                message={"Are you sure you want to delete the selected rows?"}
+                onAgree={onDeleteAgree}
+                onCancel={onCancelDelete}
+            />}
         </Card>
 
     );

@@ -1,3 +1,4 @@
+import axios from "axios";
 
 export const addProducts = async (productsData, CategoryId) => {
     const apiUrl = `http://localhost:3000/addProducts/${CategoryId}`;
@@ -16,3 +17,26 @@ export const addProducts = async (productsData, CategoryId) => {
     }
 
 }
+
+export const isCategoryEmpty = async (CategoryId) => {
+    const apiUrl = `http://localhost:3000/isCategoryEmpty/${CategoryId}`;
+    try {
+        const response = await axios.get(apiUrl);
+        return response.data;
+    } catch (error) {
+        console.error("Error receiving products data:", error.response || error);
+    }
+}
+
+export const getCategoryProducts = async (CategoryId) => {
+    const apiUrl = `http://localhost:3000/getCategoryProducts/${CategoryId}`;
+    try {
+        const response = await axios.get(apiUrl);
+        console.log("Products data received successfully", response.data);
+
+        return response.data;
+    } catch (error) {
+        console.error("Error receiving products data:", error.response || error);
+    }
+}
+

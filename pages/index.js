@@ -4,8 +4,8 @@ import Products from "./products";
 function HomePage() {
 
     return (
-        // <InvoicesPage/>
-        <Products/>
+        <InvoicesPage/>
+        // <Products/>
     )
 }
 
