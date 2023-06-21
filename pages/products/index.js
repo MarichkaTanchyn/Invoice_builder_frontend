@@ -13,7 +13,7 @@ import Button from "../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
-import {getCategoryProducts} from "../api/productsApi";
+import {deleteProducts, getCategoryProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
 
 const normalizeProductData = (product) => {
@@ -105,7 +105,9 @@ const Products = () => {
         setShowConfirmationBeforeDelete(true);
     };
 
-    const onDeleteAgree = () => {
+    const onDeleteAgree = async () => {
+        const productsIdToDelete = selectedFlatRows.map(row => row.original.id);
+        await deleteProducts(productsIdToDelete);
         setData(old => old.filter((row, i) => !selectedFlatRows.some((selectedRow) => selectedRow.index === i)));
         setShowConfirmationBeforeDelete(false);
     }

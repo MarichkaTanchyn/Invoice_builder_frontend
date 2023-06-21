@@ -40,3 +40,17 @@ export const getCategoryProducts = async (CategoryId) => {
     }
 }
 
+export const deleteProducts = async (data) => {
+    const apiUrl = `http://localhost:3000/deleteProducts`;
+    console.log("Products data sent:", data);
+    try {
+        const response = await axios.post(apiUrl, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log("Products data deleted", response.data);
+    } catch (error) {
+        console.error("Error sending products data:", error.response || error);
+    }
+}

@@ -28,9 +28,9 @@
 }
 
 .bottomButtonContainer {
-    margin-top: 1.5em;
-    display: flex;
-    justify-content: flex-end;
+    position: fixed;
+    bottom: 4em;
+    right: 3em;
 }
 
 .bottomButtonContainer button {
@@ -84,10 +84,6 @@
 
 .table thead tr {
     display: block;
-    /*flex-direction: row;*/
-    /*align-items: center;*/
-    /*justify-content: space-between;*/
-
 }
 
 .table th,
@@ -99,12 +95,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    /*position: relative;*/
-
-    /* Make sure that cells and headers in each row take up equal width */
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
 }
 
 .table td > input {
