@@ -154,15 +154,62 @@ const Products = () => {
     const [tempProduct, setTempProduct] = useState({});
 
     const handleSubmitPopup = () => {
-        const newProduct = {...tempProduct};
-        extraRows.forEach(row => {
-            newProduct[row.name] = row.value;
-        });
+        let newProduct = {...tempProduct};
+        let newColumns = [...tableColumns];  // Clone the current columns
+        if (Object.keys(newProduct).length > 0) {
+            let otherArray = [];
+            extraRows.forEach(row => {
+                // Check if the accessor is part of the 'other' array
+                if (['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(row.name)) {
+                    newProduct[row.name] = row.value;
+                } else {
+                    let otherObject = {};
+                    otherObject[row.name] = row.value;
+                    otherObject["type"] = "name";
+                    otherObject["useInInvoice"] = false;
+                    otherArray.push(otherObject);
 
-        setData(prevData => [...prevData, newProduct]);
+                    // Check if a column with this accessor already exists
+                    const columnExists = newColumns.some(column => column.accessor === row.name);
 
-        setTempProduct({});
-        setExtraRows([]);
+                    // If it doesn't exist, add a new column
+                    if (!columnExists) {
+                        newColumns.push({
+                            Header: row.name,
+                            accessor: row.name,
+                        });
+                    }
+                }
+            });
+            // newProduct["other"] = otherArray;
+
+            console.log(newProduct)
+            //
+            // extraRows.forEach(row => {
+            //     newProduct[row.name] = row.value;
+            //
+            //     // Check if a column with this accessor already exists
+            //     const columnExists = newColumns.some(column => column.accessor === row.name);
+            //
+            //     // If it doesn't exist, add a new column
+            //     if (!columnExists) {
+            //         newColumns.push({
+            //             Header: row.name,
+            //             accessor: row.name,
+            //         });
+            //     }
+            // });
+
+
+            setData(prevData => [...prevData, newProduct]);
+
+
+            console.log(newProduct)
+            setData(prevData => [...prevData, newProduct]);
+
+            setTempProduct({});
+            setExtraRows([]);
+        }
         setShowAddProductPopup(false);
     };
 
