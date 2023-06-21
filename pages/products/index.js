@@ -13,8 +13,10 @@ import Button from "../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
-import {deleteProducts, getCategoryProducts} from "../api/productsApi";
+import {deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
+import _ from 'lodash';
+
 
 const normalizeProductData = (product) => {
     const { other, ...rest } = product;
@@ -164,12 +166,13 @@ const Products = () => {
         setShowAddProductPopup(false);
     };
 
-    const handleSaveChanges = () => {
+    const handleSaveChanges = async () => {
         console.log(data)
         let updatedProducts = [];
 
         data.forEach((product, index) => {
-            const originalProduct = {...originalData[index]}; // Clone the original product
+            // Make a deep copy of the original product object
+            const originalProduct = _.cloneDeep(originalData[index]);
             const normalizedProductKeys = Object.keys(product);
             normalizedProductKeys.forEach(key => {
                 if(key === originalProduct.nameColumnName) {
@@ -187,12 +190,13 @@ const Products = () => {
             });
 
             // Compare the original product and the updated product
-            if (JSON.stringify(originalProduct) !== JSON.stringify(originalData[index])) {
+            if (!_.isEqual(originalProduct, originalData[index])) {
                 // If they're not equal, add the updated product to the updatedProducts array
                 updatedProducts.push(originalProduct);
             }
         });
 
+        await updateProducts(updatedProducts);
         console.log(updatedProducts);
         setEditMode(false);
     };

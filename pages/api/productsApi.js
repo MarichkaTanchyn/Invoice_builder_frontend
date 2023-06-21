@@ -54,3 +54,18 @@ export const deleteProducts = async (data) => {
         console.error("Error sending products data:", error.response || error);
     }
 }
+
+export const updateProducts = async (data) => {
+    const apiUrl = `http://localhost:3000/updateProducts`;
+    console.log("Products data sent:", data);
+    try {
+        const response = await axios.post(apiUrl, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log("Products data updated", response.data);
+    } catch (error) {
+        console.error("Error sending products data:", error.response || error);
+    }
+}
