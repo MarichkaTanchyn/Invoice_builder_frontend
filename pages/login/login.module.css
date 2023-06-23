@@ -1,0 +1,65 @@
+.pageContainer{
+    height: 100vh;
+}
+.pageContentContainer {
+    height: 100%;
+    display: flex;
+    justify-content: stretch;
+    align-content: flex-start;
+    width: 100%;
+    background-color: #fafafa;
+}
+.card {
+    width: 40em;
+    height: 27em;
+    margin: auto;
+    border-radius: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card h1 {
+    color: #041F47;
+}
+
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 3em!important;
+    font-size: 1em;
+    padding-left: .5em;
+    width: 22em;
+    margin-bottom: 2.5em;
+}
+
+.actionsBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: .7em;
+}
+
+.inputsBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 1em;
+}
+
+.buttonsBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /*width: 100%;*/
+}
+.buttonsBox button {
+    margin: 0 2em;
+}

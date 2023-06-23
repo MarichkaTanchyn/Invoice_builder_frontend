@@ -30,7 +30,7 @@
 .bottomButtonContainer {
     position: fixed;
     bottom: 4em;
-    right: 3em;
+    /*right: 3em;*/
 }
 
 .bottomButtonContainer button {

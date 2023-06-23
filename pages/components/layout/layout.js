@@ -23,7 +23,7 @@ const Layout = ({children}) => {
     }, []);
     return (
         <div className={style.pageContainer}>
-            <Header/>
+            <Header withAccounts={true}/>
             <div className={style.pageContentContainer}>
                 <Sidebar categories={categories}/>
                 <div className={style.pageContent}>{children}</div>

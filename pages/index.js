@@ -1,11 +1,10 @@
-import InvoicesPage from "./invoiceList/invoicesPage";
-import Products from "./products";
+import Login from "./login";
 
 function HomePage() {
 
     return (
-        <InvoicesPage/>
-        // <Products/>
+        // <InvoicesPage/>
+        <Login/>
     )
 }
 
