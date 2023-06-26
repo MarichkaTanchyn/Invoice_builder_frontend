@@ -9,13 +9,6 @@ const SidebarItem = (props) => {
     const router = useRouter();
     const handleRedirect = async( CategoryId ) => {
         console.log(CategoryId);
-        // let products = await getCategoryProducts(CategoryId);
-        // if (products.length > 0) {
-        //     // router.push({
-        //     //     pathname: '/products',
-        //     //     query: { CategoryId: CategoryId }
-        //     // })
-        // } else {
 
         // cId -> categoryId
         setCookie('cId', props.id, {
@@ -27,21 +20,18 @@ const SidebarItem = (props) => {
         if (isEmpty) {
             await router.push({
                 pathname: '/categoryIsEmpty'
-                // query: {CategoryId: CategoryId}
             })
         } else {
             await router.push({
                 pathname: '/products',
-                // query: {CategoryId: CategoryId}
             })
         }
-
-        // }
-        // await router.push(link);
     }
+
     return (
         <li className={style.li}>
-            <a className={style.a} onClick={() => handleRedirect(props.id)}><span>{props.name}</span></a>
+            <a className={style.a}
+               onClick={() => handleRedirect(props.id)}><span className={props.parentId ? style.subCategory : ''}>{props.name}</span></a>
         </li>
     )
 }

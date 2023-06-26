@@ -9,7 +9,9 @@ const SidebarList = (props) => {
                 <SidebarItem
                     key={category.id}
                     id={category.id}
-                    name={category.name}/>
+                    name={category.name}
+                    parentId={category.parentId}
+                />
                 ))}
         </ul>
     )

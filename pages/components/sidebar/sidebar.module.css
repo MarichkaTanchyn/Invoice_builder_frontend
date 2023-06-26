@@ -36,6 +36,10 @@
     color: #ffffff;
 }
 
+.subCategory {
+    margin-left: 1em;
+}
+
 .a:hover {
     cursor: default;
     color: #ccc;
@@ -145,6 +149,7 @@
     .aside {
         min-width: 10em;
     }
+
     .mainA {
         position: relative;
         padding: 5px 10px;
