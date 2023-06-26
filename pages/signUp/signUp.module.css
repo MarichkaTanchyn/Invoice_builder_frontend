@@ -1,6 +1,7 @@
-.pageContainer{
+.pageContainer {
     height: 100vh;
 }
+
 .pageContentContainer {
     height: 100%;
     display: flex;
@@ -9,6 +10,7 @@
     width: 100%;
     background-color: #fafafa;
 }
+
 .card {
     width: 40em;
     height: 34em;
@@ -40,7 +42,7 @@
 .input {
     border: .1em solid #ccc !Important;
     border-radius: .5em;
-    height: 3em!important;
+    height: 3em !important;
     font-size: 1em;
     padding-left: .5em;
     width: 22em;
@@ -51,7 +53,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-left: .7em;
+    /*margin-left: 1em;*/
+}
+
+.actionsBox span {
+    font-size: .9em
 }
 
 .inputsBox {
@@ -67,6 +73,7 @@
     justify-content: space-between;
     /*width: 100%;*/
 }
+
 .buttonsBox button {
     margin: 0 2em;
 }

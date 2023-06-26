@@ -154,58 +154,77 @@ const Products = () => {
     const [tempProduct, setTempProduct] = useState({});
 
     const handleSubmitPopup = () => {
+        // get the product from data, products should have filled most of the columns,
+        // get that column structure
+        // then for new product, fill the already existed columns in that structure as in original data from backend
+        // new columns if it has not one of this type name, price, description, then add it to other array
+        // if it is one of name, price, description, then add it to the product object
+
         let newProduct = {...tempProduct};
         let newColumns = [...tableColumns];  // Clone the current columns
+        let newProductDB = {};
+
+        console.log(newProduct)
         if (Object.keys(newProduct).length > 0) {
-            let otherArray = [];
             extraRows.forEach(row => {
-                // Check if the accessor is part of the 'other' array
-                if (['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(row.name)) {
-                    newProduct[row.name] = row.value;
-                } else {
-                    let otherObject = {};
-                    otherObject[row.name] = row.value;
-                    otherObject["type"] = "name";
-                    otherObject["useInInvoice"] = false;
-                    otherArray.push(otherObject);
+                newProduct[row.name] = row.value;
 
-                    // Check if a column with this accessor already exists
-                    const columnExists = newColumns.some(column => column.accessor === row.name);
+                // Check if a column with this accessor already exists
+                const columnExists = newColumns.some(column => column.accessor === row.name);
 
-                    // If it doesn't exist, add a new column
-                    if (!columnExists) {
-                        newColumns.push({
-                            Header: row.name,
-                            accessor: row.name,
-                        });
-                    }
+                // If it doesn't exist, add a new column
+                if (!columnExists) {
+                    newColumns.push({
+                        Header: row.name,
+                        accessor: row.name,
+                    });
                 }
             });
-            // newProduct["other"] = otherArray;
 
-            console.log(newProduct)
-            //
-            // extraRows.forEach(row => {
-            //     newProduct[row.name] = row.value;
-            //
-            //     // Check if a column with this accessor already exists
-            //     const columnExists = newColumns.some(column => column.accessor === row.name);
-            //
-            //     // If it doesn't exist, add a new column
-            //     if (!columnExists) {
-            //         newColumns.push({
-            //             Header: row.name,
-            //             accessor: row.name,
-            //         });
-            //     }
-            // });
+            let maxFilledData = originalData.reduce((prev, current) => {
+                // Count the number of filled fields for the current item
+                let currentFilledCount = Object.values(current).reduce((count, value) => {
+                    return count + (value !== null && value !== undefined ? 1 : 0);
+                }, 0);
 
+                // If the current item has more filled fields than the previous max, return the current item
+                // Otherwise, return the previous max
+                return (currentFilledCount > prev.count) ? { item: current, count: currentFilledCount } : prev;
+            }, { item: null, count: 0 });
 
-            setData(prevData => [...prevData, newProduct]);
+            console.log(maxFilledData)
+            let newProductDB = {
+                "name": null,
+                "nameColumnName": null,
+                "price": null,
+                "priceColumnName": null,
+                "description": null,
+                "descriptionColumnName": null,
+                "other": []
+            };
 
+            // Mapping values based on maxFilledData's column names
+            for (let key in newProduct) {
+                let found = false;
+                for (let columnName in maxFilledData.item) {
+                    if (maxFilledData.item[columnName] === key) {
+                        newProductDB[columnName.replace("ColumnName", "")] = newProduct[key]; // Mapping value to name, price, description based on column names
+                        newProductDB[columnName] = key; // Also assign the column name
+                        found = true;
+                        break;
+                    }
+                }
 
-            console.log(newProduct)
-            setData(prevData => [...prevData, newProduct]);
+                if (!found && !['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(key)) {
+                    let otherObject = {};
+                    otherObject[key] = newProduct[key];
+                    otherObject["type"] = "name";
+                    otherObject["useInInvoice"] = false;
+                    newProductDB["other"].push(otherObject);
+                }
+            }
+            console.log(newProductDB)
+            setData(prevData => [...prevData, newProduct]); // Using newProductDB instead of newProduct
 
             setTempProduct({});
             setExtraRows([]);

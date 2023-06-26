@@ -55,7 +55,10 @@ const AddProductPopup = ({
         if (field === 'name' || field === 'value') {
             debouncedSetExtraRows(prevRows => {
                 const newRow = {...prevRows[index], [field]: value};
-                return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
+                const tmp = [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
+                console.log(tmp);
+                return tmp;
+                // return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
             });
         } else {
             setTempProduct(prevProduct => ({...prevProduct, [field]: value}));
