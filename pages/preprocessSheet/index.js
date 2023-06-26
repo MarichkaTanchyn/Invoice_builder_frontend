@@ -169,7 +169,6 @@ const PreprocessSheet = () => {
     };
 
     const handleSubmit = async () => {
-
         const newInvalidColumns = selectedColumnTypes.map((type, index) =>
             type ? null : index.toString()
         ).filter(index => index !== null);
@@ -191,8 +190,7 @@ const PreprocessSheet = () => {
 
         console.log(response);
         if (response === "success") {
-            // await router.push("/categoryData");
-            console.log("success");
+            await router.push("/products");
         } else {
             setShowWarningPopup(true);
             console.log(response.message)

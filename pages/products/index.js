@@ -2,7 +2,6 @@ import Card from "../components/util/card/card";
 import withLayout from "../components/layout/withLayout";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
-import fakeData from "./productsMock.json";
 import IndeterminateCheckbox from "./IndeterminateCheckbox";
 import DefaultColumnFilter from "./DefaultColumnFilter";
 import {EditableCell, ReadOnlyCell} from "./Cells";
@@ -13,7 +12,7 @@ import Button from "../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
-import {deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
+import {addProduct, deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
 import _ from 'lodash';
 
@@ -46,6 +45,7 @@ const Products = () => {
     const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
     const [loading, setLoading] = useState(false);
     const [originalData, setOriginalData] = useState([]);
+    const [categoryId, setCategoryId] = useState();
 
 
     useEffect(() => {
@@ -68,6 +68,7 @@ const Products = () => {
             setOriginalData(products);
             const normalizedProducts = products.map(product => normalizeProductData(product));
             setData(normalizedProducts);
+            setCategoryId(categoryId)
             setLoading(false);
         };
         fetchProducts();
@@ -153,18 +154,10 @@ const Products = () => {
 
     const [tempProduct, setTempProduct] = useState({});
 
-    const handleSubmitPopup = () => {
-        // get the product from data, products should have filled most of the columns,
-        // get that column structure
-        // then for new product, fill the already existed columns in that structure as in original data from backend
-        // new columns if it has not one of this type name, price, description, then add it to other array
-        // if it is one of name, price, description, then add it to the product object
-
+    const handleSubmitPopup = async () => {
         let newProduct = {...tempProduct};
         let newColumns = [...tableColumns];  // Clone the current columns
-        let newProductDB = {};
 
-        console.log(newProduct)
         if (Object.keys(newProduct).length > 0) {
             extraRows.forEach(row => {
                 newProduct[row.name] = row.value;
@@ -187,8 +180,6 @@ const Products = () => {
                     return count + (value !== null && value !== undefined ? 1 : 0);
                 }, 0);
 
-                // If the current item has more filled fields than the previous max, return the current item
-                // Otherwise, return the previous max
                 return (currentFilledCount > prev.count) ? { item: current, count: currentFilledCount } : prev;
             }, { item: null, count: 0 });
 
@@ -224,6 +215,8 @@ const Products = () => {
                 }
             }
             console.log(newProductDB)
+
+            await addProduct(newProductDB , categoryId);
             setData(prevData => [...prevData, newProduct]); // Using newProductDB instead of newProduct
 
             setTempProduct({});

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const addProducts = async (productsData, CategoryId) => {
-    const apiUrl = `http://localhost:3000/addProducts/${CategoryId}`;
+export const addProduct = async (productsData, CategoryId) => {
+    const apiUrl = `http://localhost:3000/addProduct/${CategoryId}`;
 
     console.log(CategoryId)
     console.log("Products data sent:", productsData);
