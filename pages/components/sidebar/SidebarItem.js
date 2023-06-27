@@ -16,16 +16,19 @@ const SidebarItem = (props) => {
             path: '/',
         })
 
-        const isEmpty = await isCategoryEmpty(CategoryId);
-        if (isEmpty) {
-            await router.push({
-                pathname: '/categoryIsEmpty'
-            })
-        } else {
-            await router.push({
-                pathname: '/products',
-            })
-        }
+        // const isEmpty = await isCategoryEmpty(CategoryId);
+        // if (isEmpty) {
+        //     await router.push({
+        //         pathname: '/categoryIsEmpty'
+        //     })
+        // } else {
+        //     await router.push({
+        //         pathname: '/products',
+        //     })
+        // }
+        await router.push({
+            pathname: '/products',
+        })
     }
 
     return (

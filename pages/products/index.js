@@ -15,6 +15,7 @@ import {getCookie} from "cookies-next";
 import {addProduct, deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
 import _ from 'lodash';
+import {useRouter} from "next/router";
 
 
 const normalizeProductData = (product) => {
@@ -65,10 +66,12 @@ const Products = () => {
         const fetchProducts = async () => {
             const categoryId = getCookie("cId");
             const products = await getCategoryProducts(categoryId);
-            setOriginalData(products);
-            const normalizedProducts = products.map(product => normalizeProductData(product));
-            setData(normalizedProducts);
-            setCategoryId(categoryId)
+            if (products && products.length > 0) {
+                setOriginalData(products);
+                const normalizedProducts = products.map(product => normalizeProductData(product));
+                setData(normalizedProducts);
+                setCategoryId(categoryId)
+            }
             setLoading(false);
         };
         fetchProducts();
@@ -260,12 +263,20 @@ const Products = () => {
         setEditMode(false);
     };
 
+    const router = useRouter();
+    const handleImportFromFile = async () => {
+        await router.push({
+            pathname: '/fileUpload',
+        })
+    }
+
 
     return (<Card>
             {/*TODO: get the category name*/}
             <div className={styles.pageHeaders}>
                 <h1>Products</h1>
                 <div className={styles.buttonContainer}>
+                    <Button label={"Import from file"} onClick={handleImportFromFile}/>
                     <Button label={"Export to csv"} onClick={exportToCsv}/>
                 </div>
             </div>
@@ -277,8 +288,8 @@ const Products = () => {
                     <div className={globalStyles.loadingBar}></div>
                 </div>) : (<div>
                     <div className={styles.container}>
-
-                        <table className={styles.table} {...getTableProps()}>
+                        {data.length !== 0 && (
+                            <table className={styles.table} {...getTableProps()}>
                             <thead>
                             {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
@@ -305,11 +316,11 @@ const Products = () => {
                                 </tr>);
                             })}
                             </tbody>
-                        </table>
+                        </table>)}
                     </div>
                     <div className={styles.bottomButtonContainer}>
                         {selectedFlatRows.length > 0 && <Button label={"Delete"} onClick={deleteRows}/>}
-                        <Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>
+                        {data.length !== 0 && (<Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>)}
                         <Button label={"Add new product"} onClick={handleOpenPopup}/>
                     </div>
                 </div>)}

@@ -13,9 +13,10 @@
 .pageContent {
     background-color: #fafafa;
     height: 100%;
-    width: calc(100% - 14%);
+    width: 99%;
+    padding: 0 1.4em;
     padding-top: 3em;
-    margin-left: 14%;
+    margin-left: 14em;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     overflow: auto;
 }
