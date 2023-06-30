@@ -19,19 +19,16 @@ import {useRouter} from "next/router";
 
 
 const normalizeProductData = (product) => {
-    const { other, ...rest } = product;
+    const {other, ...rest} = product;
 
     // Create new object with desired keys
     let productData = {
-        id: product.id,
-        ...(product.nameColumnName ? { [product.nameColumnName]: product.name } : {}),
-        ...(product.priceColumnName ? { [product.priceColumnName]: product.price } : {}),
-        ...(product.descriptionColumnName ? { [product.descriptionColumnName]: product.description } : {}),
+        id: product.id, ...(product.nameColumnName ? {[product.nameColumnName]: product.name} : {}), ...(product.priceColumnName ? {[product.priceColumnName]: product.price} : {}), ...(product.descriptionColumnName ? {[product.descriptionColumnName]: product.description} : {}),
     };
 
     productData = other.reduce((acc, curr) => {
         const key = Object.keys(curr).find(key => key !== "type" && key !== "useInInvoice");
-        return key ? { ...acc, [key]: curr[key] } : acc;
+        return key ? {...acc, [key]: curr[key]} : acc;
     }, productData);
 
     return productData;
@@ -46,7 +43,6 @@ const Products = () => {
     const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
     const [loading, setLoading] = useState(false);
     const [originalData, setOriginalData] = useState([]);
-    const [categoryId, setCategoryId] = useState();
 
 
     useEffect(() => {
@@ -70,7 +66,6 @@ const Products = () => {
                 setOriginalData(products);
                 const normalizedProducts = products.map(product => normalizeProductData(product));
                 setData(normalizedProducts);
-                setCategoryId(categoryId)
             }
             setLoading(false);
         };
@@ -89,10 +84,10 @@ const Products = () => {
 
     const tableColumns = useMemo(() => [{
         id: "selection", minWidth: 30, width: 30, maxWidth: 60, Header: ({getToggleAllRowsSelectedProps}) => (<div>
-                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-            </div>), Cell: ({row}) => (<div>
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-            </div>),
+            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+        </div>), Cell: ({row}) => (<div>
+            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+        </div>),
     }, {
         id: "index",
         minWidth: 40,
@@ -161,7 +156,7 @@ const Products = () => {
         let newProduct = {...tempProduct};
         let newColumns = [...tableColumns];  // Clone the current columns
 
-        if (Object.keys(newProduct).length > 0) {
+        if (Object.keys(extraRows).length > 0) {
             extraRows.forEach(row => {
                 newProduct[row.name] = row.value;
 
@@ -171,22 +166,11 @@ const Products = () => {
                 // If it doesn't exist, add a new column
                 if (!columnExists) {
                     newColumns.push({
-                        Header: row.name,
-                        accessor: row.name,
+                        Header: row.name, accessor: row.name,
                     });
                 }
             });
 
-            let maxFilledData = originalData.reduce((prev, current) => {
-                // Count the number of filled fields for the current item
-                let currentFilledCount = Object.values(current).reduce((count, value) => {
-                    return count + (value !== null && value !== undefined ? 1 : 0);
-                }, 0);
-
-                return (currentFilledCount > prev.count) ? { item: current, count: currentFilledCount } : prev;
-            }, { item: null, count: 0 });
-
-            console.log(maxFilledData)
             let newProductDB = {
                 "name": null,
                 "nameColumnName": null,
@@ -197,31 +181,66 @@ const Products = () => {
                 "other": []
             };
 
-            // Mapping values based on maxFilledData's column names
-            for (let key in newProduct) {
-                let found = false;
-                for (let columnName in maxFilledData.item) {
-                    if (maxFilledData.item[columnName] === key) {
-                        newProductDB[columnName.replace("ColumnName", "")] = newProduct[key]; // Mapping value to name, price, description based on column names
-                        newProductDB[columnName] = key; // Also assign the column name
-                        found = true;
-                        break;
+            if (originalData.length === 0) {
+                // If no products exist yet
+                extraRows.forEach(row => {
+                    if (row.type === 'name' || row.type === 'price' || row.type === 'description') {
+                        if (newProductDB[row.type] === null) {
+                            newProductDB[row.type] = row.value;
+                            newProductDB[row.type + 'ColumnName'] = row.name;
+                        } else {
+                            let otherObject = {};
+                            otherObject[row.name] = row.value;
+                            otherObject["type"] = "name";
+                            otherObject["useInInvoice"] = false;
+                            newProductDB["other"].push(otherObject);
+                        }
+                    } else {
+                        let otherObject = {};
+                        otherObject[row.name] = row.value;
+                        otherObject["type"] = "name";
+                        otherObject["useInInvoice"] = false;
+                        newProductDB["other"].push(otherObject);
+                    }
+                });
+            } else {
+                // If products exist
+                let maxFilledData = originalData.reduce((prev, current) => {
+                    // Count the number of filled fields for the current item
+                    let currentFilledCount = Object.values(current).reduce((count, value) => {
+                        return count + (value !== null && value !== undefined ? 1 : 0);
+                    }, 0);
+
+                    return (currentFilledCount > prev.count) ? {item: current, count: currentFilledCount} : prev;
+                }, {item: null, count: 0});
+
+                // Mapping values based on maxFilledData's column names
+                for (let key in newProduct) {
+                    let found = false;
+                    for (let columnName in maxFilledData.item) {
+                        if (maxFilledData.item[columnName] === key) {
+                            newProductDB[columnName.replace("ColumnName", "")] = newProduct[key]; // Mapping value to name, price, description based on column names
+                            newProductDB[columnName] = key; // Also assign the column name
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found && !['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(key)) {
+                        let otherObject = {};
+                        otherObject[key] = newProduct[key];
+                        otherObject["type"] = "name";
+                        otherObject["useInInvoice"] = false;
+                        newProductDB["other"].push(otherObject);
                     }
                 }
-
-                if (!found && !['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(key)) {
-                    let otherObject = {};
-                    otherObject[key] = newProduct[key];
-                    otherObject["type"] = "name";
-                    otherObject["useInInvoice"] = false;
-                    newProductDB["other"].push(otherObject);
-                }
             }
-            console.log(newProductDB)
+            originalData.push(newProductDB);
 
-            await addProduct(newProductDB , categoryId);
-            setData(prevData => [...prevData, newProduct]); // Using newProductDB instead of newProduct
+            const categoryId = getCookie("cId");
+            await addProduct(newProductDB, categoryId);
 
+            setData(prevData => [...prevData, newProduct]);
             setTempProduct({});
             setExtraRows([]);
         }
@@ -237,15 +256,15 @@ const Products = () => {
             const originalProduct = _.cloneDeep(originalData[index]);
             const normalizedProductKeys = Object.keys(product);
             normalizedProductKeys.forEach(key => {
-                if(key === originalProduct.nameColumnName) {
+                if (key === originalProduct.nameColumnName) {
                     originalProduct.name = product[key];
-                } else if(key === originalProduct.priceColumnName) {
+                } else if (key === originalProduct.priceColumnName) {
                     originalProduct.price = product[key];
-                } else if(key === originalProduct.descriptionColumnName) {
+                } else if (key === originalProduct.descriptionColumnName) {
                     originalProduct.description = product[key];
                 } else {
                     const otherIndex = originalProduct.other.findIndex(item => Object.keys(item).includes(key));
-                    if(otherIndex !== -1) {
+                    if (otherIndex !== -1) {
                         originalProduct.other[otherIndex][key] = product[key];
                     }
                 }
@@ -282,48 +301,47 @@ const Products = () => {
             </div>
             <hr/>
             {loading ? (<div className={globalStyles.loadingWave}>
-                    <div className={globalStyles.loadingBar}></div>
-                    <div className={globalStyles.loadingBar}></div>
-                    <div className={globalStyles.loadingBar}></div>
-                    <div className={globalStyles.loadingBar}></div>
-                </div>) : (<div>
-                    <div className={styles.container}>
-                        {data.length !== 0 && (
-                            <table className={styles.table} {...getTableProps()}>
-                            <thead>
-                            {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column) => (
-                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}
-                                        className={styles.header}>
-                                        <div className={styles.headerContent}>
-                                            <span>{column.render("Header")}</span>
-                                            {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
-                                            {column.id !== "selection" && (
-                                                <div {...column.getResizerProps()} className={styles.resizer}>
-                                                    <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
-                                                </div>)}
-                                        </div>
-                                    </th>))}
-                            </tr>))}
-                            </thead>
+                <div className={globalStyles.loadingBar}></div>
+                <div className={globalStyles.loadingBar}></div>
+                <div className={globalStyles.loadingBar}></div>
+                <div className={globalStyles.loadingBar}></div>
+            </div>) : (<div>
+                <div className={styles.container}>
+                    {data.length !== 0 && (<table className={styles.table} {...getTableProps()}>
+                        <thead>
+                        {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                                    className={styles.header}>
+                                    <div className={styles.headerContent}>
+                                        <span>{column.render("Header")}</span>
+                                        {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
+                                        {column.id !== "selection" && (
+                                            <div {...column.getResizerProps()} className={styles.resizer}>
+                                                <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
+                                            </div>)}
+                                    </div>
+                                </th>))}
+                        </tr>))}
+                        </thead>
 
-                            <tbody {...getTableBodyProps()}>
-                            {rows.map((row, i) => {
-                                prepareRow(row);
-                                return (<tr {...row.getRowProps()}>
-                                    {row.cells.map((cell) => (
-                                        <td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
-                                </tr>);
-                            })}
-                            </tbody>
-                        </table>)}
-                    </div>
-                    <div className={styles.bottomButtonContainer}>
-                        {selectedFlatRows.length > 0 && <Button label={"Delete"} onClick={deleteRows}/>}
-                        {data.length !== 0 && (<Button label={editMode ? 'Save changes' : 'Edit rows'} onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>)}
-                        <Button label={"Add new product"} onClick={handleOpenPopup}/>
-                    </div>
-                </div>)}
+                        <tbody {...getTableBodyProps()}>
+                        {rows.map((row, i) => {
+                            prepareRow(row);
+                            return (<tr {...row.getRowProps()}>
+                                {row.cells.map((cell) => (<td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
+                            </tr>);
+                        })}
+                        </tbody>
+                    </table>)}
+                </div>
+                <div className={styles.bottomButtonContainer}>
+                    {selectedFlatRows.length > 0 && <Button label={"Delete"} onClick={deleteRows}/>}
+                    {data.length !== 0 && (<Button label={editMode ? 'Save changes' : 'Edit rows'}
+                                                   onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>)}
+                    <Button label={"Add new product"} onClick={handleOpenPopup}/>
+                </div>
+            </div>)}
             {showAddProductPopup && <AddProductPopup
                 data={data}
                 setData={setData}

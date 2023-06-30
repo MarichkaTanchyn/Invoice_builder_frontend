@@ -23,6 +23,12 @@ const AddProductPopup = ({
             newTypes[index] = selectedOption.value;
             return newTypes;
         });
+
+        // Update the type in extra rows
+        setExtraRows(prevRows => {
+            const newRow = { ...prevRows[index], type: selectedOption.value };
+            return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
+        });
     }, []);
 
     // handling checkbox change
@@ -33,8 +39,15 @@ const AddProductPopup = ({
                 newUseInInvoice[index] = !newUseInInvoice[index];
                 return newUseInInvoice;
             });
+
+            // Update the useInInvoice in extra rows
+            setExtraRows(prevRows => {
+                const newRow = { ...prevRows[index], useInInvoice: !prevRows[index].useInInvoice };
+                return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
+            });
         };
     }, []);
+
     // Create a debounced version of setExtraRows
     const debouncedSetExtraRows = debounce(setExtraRows, 300);
 
@@ -49,11 +62,15 @@ const AddProductPopup = ({
     const handleInputChange = (field, index, value) => {
         if (field === 'name' || field === 'value') {
             debouncedSetExtraRows(prevRows => {
-                const newRow = {...prevRows[index], [field]: value};
+                const newRow = {
+                    ...prevRows[index],
+                    [field]: value,
+                    type: selectedColumnTypes[index], // Add the selected column type
+                    useInInvoice: useInInvoice[index] || false // Add the useInInvoice checkbox state
+                };
                 const tmp = [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
-                console.log(tmp);
+                console.log(tmp)
                 return tmp;
-                // return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
             });
         } else {
             setTempProduct(prevProduct => ({...prevProduct, [field]: value}));
