@@ -16,23 +16,15 @@ import {addProduct, deleteProducts, getCategoryProducts, updateProducts} from ".
 import globalStyles from "../global.module.css";
 import _ from 'lodash';
 import {useRouter} from "next/router";
+import {
+    addNewProductToDBAndUI,
+    initializeProductDB,
+    normalizeProductData,
+    processExistingProduct,
+    processExtraRows,
+    processNewProduct
+} from "./productHelpers";
 
-
-const normalizeProductData = (product) => {
-    const {other, ...rest} = product;
-
-    // Create new object with desired keys
-    let productData = {
-        id: product.id, ...(product.nameColumnName ? {[product.nameColumnName]: product.name} : {}), ...(product.priceColumnName ? {[product.priceColumnName]: product.price} : {}), ...(product.descriptionColumnName ? {[product.descriptionColumnName]: product.description} : {}),
-    };
-
-    productData = other.reduce((acc, curr) => {
-        const key = Object.keys(curr).find(key => key !== "type" && key !== "useInInvoice");
-        return key ? {...acc, [key]: curr[key]} : acc;
-    }, productData);
-
-    return productData;
-}
 const Products = () => {
     const [editMode, setEditMode] = useState(false);
     const [data, setData] = useState([]);
@@ -153,96 +145,26 @@ const Products = () => {
     const [tempProduct, setTempProduct] = useState({});
 
     const handleSubmitPopup = async () => {
-        let newProduct = {...tempProduct};
-        let newColumns = [...tableColumns];  // Clone the current columns
-
         if (Object.keys(extraRows).length > 0) {
-            extraRows.forEach(row => {
-                newProduct[row.name] = row.value;
+            let newProduct = {...tempProduct};
+            let newColumns = [...tableColumns];  // Clone the current columns
 
-                // Check if a column with this accessor already exists
-                const columnExists = newColumns.some(column => column.accessor === row.name);
+            processExtraRows(newProduct, newColumns, extraRows);
 
-                // If it doesn't exist, add a new column
-                if (!columnExists) {
-                    newColumns.push({
-                        Header: row.name, accessor: row.name,
-                    });
-                }
-            });
-
-            let newProductDB = {
-                "name": null,
-                "nameColumnName": null,
-                "price": null,
-                "priceColumnName": null,
-                "description": null,
-                "descriptionColumnName": null,
-                "other": []
-            };
-
+            let newProductDB = initializeProductDB();
             if (originalData.length === 0) {
                 // If no products exist yet
-                extraRows.forEach(row => {
-                    if (row.type === 'name' || row.type === 'price' || row.type === 'description') {
-                        if (newProductDB[row.type] === null) {
-                            newProductDB[row.type] = row.value;
-                            newProductDB[row.type + 'ColumnName'] = row.name;
-                        } else {
-                            let otherObject = {};
-                            otherObject[row.name] = row.value;
-                            otherObject["type"] = "name";
-                            otherObject["useInInvoice"] = false;
-                            newProductDB["other"].push(otherObject);
-                        }
-                    } else {
-                        let otherObject = {};
-                        otherObject[row.name] = row.value;
-                        otherObject["type"] = "name";
-                        otherObject["useInInvoice"] = false;
-                        newProductDB["other"].push(otherObject);
-                    }
-                });
+                processNewProduct(newProductDB, extraRows);
             } else {
                 // If products exist
-                let maxFilledData = originalData.reduce((prev, current) => {
-                    // Count the number of filled fields for the current item
-                    let currentFilledCount = Object.values(current).reduce((count, value) => {
-                        return count + (value !== null && value !== undefined ? 1 : 0);
-                    }, 0);
-
-                    return (currentFilledCount > prev.count) ? {item: current, count: currentFilledCount} : prev;
-                }, {item: null, count: 0});
-
-                // Mapping values based on maxFilledData's column names
-                for (let key in newProduct) {
-                    let found = false;
-                    for (let columnName in maxFilledData.item) {
-                        if (maxFilledData.item[columnName] === key) {
-                            newProductDB[columnName.replace("ColumnName", "")] = newProduct[key]; // Mapping value to name, price, description based on column names
-                            newProductDB[columnName] = key; // Also assign the column name
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found && !['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(key)) {
-                        let otherObject = {};
-                        otherObject[key] = newProduct[key];
-                        otherObject["type"] = "name";
-                        otherObject["useInInvoice"] = false;
-                        newProductDB["other"].push(otherObject);
-                    }
-                }
+                processExistingProduct(newProduct, newProductDB, originalData);
             }
-            originalData.push(newProductDB);
-
-            const categoryId = getCookie("cId");
-            await addProduct(newProductDB, categoryId);
-
-            setData(prevData => [...prevData, newProduct]);
-            setTempProduct({});
-            setExtraRows([]);
+            await addNewProductToDBAndUI(newProduct, newProductDB, {
+                setData,
+                originalData,
+                setTempProduct,
+                setExtraRows
+            });
         }
         setShowAddProductPopup(false);
     };
@@ -277,7 +199,8 @@ const Products = () => {
             }
         });
 
-        await updateProducts(updatedProducts);
+        // await updateProducts(updatedProducts);
+        setData(updatedProducts);
         console.log(updatedProducts);
         setEditMode(false);
     };
