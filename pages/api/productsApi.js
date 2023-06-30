@@ -18,16 +18,6 @@ export const addProduct = async (productsData, CategoryId) => {
 
 }
 
-export const isCategoryEmpty = async (CategoryId) => {
-    const apiUrl = `http://localhost:3000/isCategoryEmpty/${CategoryId}`;
-    try {
-        const response = await axios.get(apiUrl);
-        return response.data;
-    } catch (error) {
-        console.error("Error receiving products data:", error.response || error);
-    }
-}
-
 export const getCategoryProducts = async (CategoryId) => {
     const apiUrl = `http://localhost:3000/getCategoryProducts/${CategoryId}`;
     try {

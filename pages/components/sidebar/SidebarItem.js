@@ -2,8 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import style from './sidebar.module.css';
 import {useRouter} from "next/router";
 import {setCookie} from "cookies-next";
-import {getCategoryProducts} from "../../api/categoriesApi";
-import {isCategoryEmpty} from "../../api/productsApi";
 
 const SidebarItem = (props) => {
     const router = useRouter();
@@ -16,16 +14,6 @@ const SidebarItem = (props) => {
             path: '/',
         })
 
-        // const isEmpty = await isCategoryEmpty(CategoryId);
-        // if (isEmpty) {
-        //     await router.push({
-        //         pathname: '/categoryIsEmpty'
-        //     })
-        // } else {
-        //     await router.push({
-        //         pathname: '/products',
-        //     })
-        // }
         await router.push({
             pathname: '/products',
         })
