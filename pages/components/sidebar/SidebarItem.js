@@ -16,6 +16,7 @@ const SidebarItem = (props) => {
 
         await router.push({
             pathname: '/products',
+            query: props.name ,
         })
     }
 

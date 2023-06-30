@@ -49,6 +49,7 @@ const Products = () => {
             setAllHeaders(uniqueKeys);
         }
     }, [data]);
+    const router = useRouter()
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -62,7 +63,7 @@ const Products = () => {
             setLoading(false);
         };
         fetchProducts();
-    }, []);
+    }, [router.query]);
 
     const updateMyData = (rowIndex, columnId, value) => {
         setSkipPageReset(true);
@@ -226,7 +227,6 @@ const Products = () => {
         setEditMode(false);
     };
 
-    const router = useRouter();
     const handleImportFromFile = async () => {
         await router.push({
             pathname: '/fileUpload',
@@ -235,9 +235,8 @@ const Products = () => {
 
 
     return (<Card>
-            {/*TODO: get the category name*/}
             <div className={styles.pageHeaders}>
-                <h1>Products</h1>
+                <h1>{Object.keys(router.query)[0]}</h1>
                 <div className={styles.buttonContainer}>
                     <Button label={"Import from file"} onClick={handleImportFromFile}/>
                     <Button label={"Export to csv"} onClick={exportToCsv}/>
