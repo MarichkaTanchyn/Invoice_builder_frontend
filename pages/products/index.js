@@ -12,7 +12,7 @@ import Button from "../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
-import {addProduct, deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
+import {deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
 import _ from 'lodash';
 import {useRouter} from "next/router";
@@ -170,24 +170,47 @@ const Products = () => {
     };
 
     const handleSaveChanges = async () => {
-        console.log(data)
         let updatedProducts = [];
 
+        // Iterate through each product in data
         data.forEach((product, index) => {
             // Make a deep copy of the original product object
             const originalProduct = _.cloneDeep(originalData[index]);
-            const normalizedProductKeys = Object.keys(product);
-            normalizedProductKeys.forEach(key => {
-                if (key === originalProduct.nameColumnName) {
-                    originalProduct.name = product[key];
-                } else if (key === originalProduct.priceColumnName) {
-                    originalProduct.price = product[key];
-                } else if (key === originalProduct.descriptionColumnName) {
-                    originalProduct.description = product[key];
+
+            // Iterate through each key in the product object
+            Object.entries(product).forEach(([key, value]) => {
+                if (key === 'id') {
+                    return;
+                }
+
+                const {
+                    nameColumnName,
+                    priceColumnName,
+                    descriptionColumnName,
+                    other,
+                } = originalProduct;
+
+                // Assign new values to the fields of the original product
+                if (key === nameColumnName) {
+                    originalProduct.name = value;
+                } else if (key === priceColumnName) {
+                    originalProduct.price = value;
+                } else if (key === descriptionColumnName) {
+                    originalProduct.description = value;
                 } else {
-                    const otherIndex = originalProduct.other.findIndex(item => Object.keys(item).includes(key));
-                    if (otherIndex !== -1) {
-                        originalProduct.other[otherIndex][key] = product[key];
+                    const otherItemIndex = other.findIndex((item) => item.hasOwnProperty(key));
+
+                    if (otherItemIndex === -1) {
+                        const {type, useInInvoice} = other.find(item => item.type && item.useInInvoice) || {};
+
+                        // If the key does not exist in the other array, add it with default values
+                        originalProduct.other.push({
+                            [key]: value,
+                            type: type,
+                            useInInvoice: useInInvoice,
+                        });
+                    } else {
+                        originalProduct.other[otherItemIndex][key] = value;
                     }
                 }
             });
@@ -199,9 +222,7 @@ const Products = () => {
             }
         });
 
-        // await updateProducts(updatedProducts);
-        setData(updatedProducts);
-        console.log(updatedProducts);
+        await updateProducts(updatedProducts);
         setEditMode(false);
     };
 
