@@ -20,6 +20,16 @@
     font-size: 1em;
 }
 
+.validationMessage {
+    color: #e7a4a4;
+    font-size: .8em;
+    margin: .2em 0;
+}
+
+.invalid {
+    border-bottom: .1em solid red;
+}
+
 @media only screen and (min-width: 20000px){
     .input{
          width: 15em;
