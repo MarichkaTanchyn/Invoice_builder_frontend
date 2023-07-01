@@ -239,7 +239,7 @@ const CreateNewCategoryFromSheet = () => {
             ];
             return acc;
         }, {});
-        const categoryId = getCookie("cId");
+        const categoryId = getCookie("categoryId");
 
         const response = await preprocessCsv(
             fileKey,

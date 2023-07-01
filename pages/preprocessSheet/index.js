@@ -178,11 +178,10 @@ const PreprocessSheet = () => {
             setInvalidColumns(newInvalidColumns);
             return;
         }
-        const categoryId = getCookie("cId");
 
+        console.log("selectedSheet", selectedSheet);
         const response = await preprocessCsv(
             fileKey,
-            categoryId,
             sheetsData,
             headersRow,
             "preprocessSelectedSheetData"

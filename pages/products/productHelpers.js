@@ -72,7 +72,7 @@ export const addNewProductToDBAndUI = async (newProduct, newProductDB, {
     setTempProduct,
     setExtraRows
 }) => {
-    const categoryId = getCookie("cId");
+    const categoryId = getCookie("categoryId");
     await addProduct(newProductDB, categoryId);
 
     originalData.push(newProductDB);

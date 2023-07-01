@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getCookie} from "cookies-next";
 
 export const postFile = async (file, companyId) => {
 
@@ -7,7 +8,8 @@ export const postFile = async (file, companyId) => {
 
     const response = await axios.post(`http://localhost:3000/uploadFile/${companyId}`, formData, {
         headers: {
-            "Content-Type": "multipart/form-data"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getCookie("accToken")}`
         }
     });
 

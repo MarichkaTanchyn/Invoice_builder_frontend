@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getCookie} from "cookies-next";
 
 export const addProduct = async (productsData, CategoryId) => {
     const apiUrl = `http://localhost:3000/addProduct/${CategoryId}`;
@@ -8,7 +9,7 @@ export const addProduct = async (productsData, CategoryId) => {
     try {
         const response = await axios.post(apiUrl, productsData, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Products data sent successfully", response.data);
@@ -21,7 +22,11 @@ export const addProduct = async (productsData, CategoryId) => {
 export const getCategoryProducts = async (CategoryId) => {
     const apiUrl = `http://localhost:3000/getCategoryProducts/${CategoryId}`;
     try {
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
         console.log("Products data received successfully", response.data);
 
         return response.data;
@@ -36,7 +41,7 @@ export const deleteProducts = async (data) => {
     try {
         const response = await axios.post(apiUrl, data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Products data deleted", response.data);
@@ -51,7 +56,7 @@ export const updateProducts = async (data) => {
     try {
         const response = await axios.post(apiUrl, data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Products data updated", response.data);

@@ -49,11 +49,8 @@
 }
 
 .button {
-    margin-top: auto;
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-    bottom: -6em;
-    padding-right: 1em;
+    float: right;
+    margin-left: auto;
+    margin-right: 1em;
 }
 

@@ -5,7 +5,7 @@ import Button from "../components/util/button/button";
 import React from "react";
 import style from './signUp.module.css';
 import Link from "next/link";
-import {companySignup} from "../api/signUpApi";
+import {companySignup} from "../api/authorizationApi";
 import {useRouter} from "next/router";
 
 const SignUp = () => {

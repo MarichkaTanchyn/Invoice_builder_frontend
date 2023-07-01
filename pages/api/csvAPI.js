@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getCookie} from "cookies-next";
 
 export const readExcel = async (fileKey, data) => {
     // const apiUrl = process.env.NEXT_PUBLIC_HOST + `readExcelSheet/${fileKey}`;
@@ -6,7 +7,8 @@ export const readExcel = async (fileKey, data) => {
     try {
         const response = await axios.post(apiUrl, data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Sheets data sent successfully", response.data);
@@ -16,12 +18,11 @@ export const readExcel = async (fileKey, data) => {
     }
 }
 
-export const preprocessCsv = async (fileKey, categoryId, sheetData, headersRow, processType) => {
-
+export const preprocessCsv = async (fileKey, sheetData, headersRow, processType) => {
     const apiUrl = `http://localhost:3000/${processType}/${fileKey}`;
 
     const data = {
-        categoryId: categoryId,
+        categoryId: getCookie("categoryId"),
         data: sheetData,
         headersRow: headersRow
     }
@@ -29,7 +30,8 @@ export const preprocessCsv = async (fileKey, categoryId, sheetData, headersRow, 
     try {
         const response = await axios.post(apiUrl, data, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Products data sent successfully", response.data);

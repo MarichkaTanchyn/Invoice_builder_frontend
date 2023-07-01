@@ -8,8 +8,7 @@ const SidebarItem = (props) => {
     const handleRedirect = async( CategoryId ) => {
         console.log(CategoryId);
 
-        // cId -> categoryId
-        setCookie('cId', props.id, {
+        setCookie('categoryId', props.id, {
             maxAge: 60 * 60 * 24 * 7,
             path: '/',
         })

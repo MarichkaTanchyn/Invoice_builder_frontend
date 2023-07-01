@@ -1,8 +1,13 @@
 import axios from "axios";
+import {getCookie} from "cookies-next";
 
-export const getCategories = async ({CompanyId}) => {
+export const getCategories = async () => {
     try {
-        const {data: categories} = await axios.get(`http://localhost:3000/getCategories/${CompanyId}`);
+        const {data: categories} = await axios.get(`http://localhost:3000/getCategories/${getCookie('companyId')}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
         return {
             props: {
                 categories,
@@ -18,15 +23,14 @@ export const getCategories = async ({CompanyId}) => {
     }
 };
 
-export const createCategories = async (categoriesData, CompanyId) => {
-    const apiUrl = `http://localhost:3000/addCategories/${CompanyId}`;
+export const createCategories = async (categoriesData) => {
+    const apiUrl = `http://localhost:3000/addCategories/${getCookie('companyId')}`;
 
-    console.log(CompanyId)
-    console.log("Categories data sent:", categoriesData);
     try {
         const response = await axios.post(apiUrl, categoriesData, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Categories data sent successfully", response.data);
@@ -34,15 +38,4 @@ export const createCategories = async (categoriesData, CompanyId) => {
         console.error("Error sending categories data:", error.response || error);
     }
 
-}
-
-export const getCategoryProducts = async (CategoryId) => {
-    const apiUrl = `http://localhost:3000/getCategoryProducts/${CategoryId}`;
-
-    try {
-        const response = await axios.get(apiUrl);
-        console.log("Categories data sent successfully", response.data);
-    } catch (error) {
-        console.error("Error sending categories data:", error.response || error);
-    }
 }

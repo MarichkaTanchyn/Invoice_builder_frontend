@@ -12,6 +12,7 @@ import useFilter from "../components/util/filter/useFilter";
 import { useRouter } from "next/router";
 import withLayout from "../components/layout/withLayout";
 import globalStyle from "../global.module.css"
+import {getCookie} from "cookies-next";
 
 const SORT_OPTIONS = [
   { value: "oldest", label: "Oldest first" },
@@ -28,15 +29,18 @@ const InvoicesPage = () => {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true); // initialize loading state
 
-  const params = {
-    CompanyId: 1,
-    EmployeeId: 1,
-  };
-
   const { applyFilter, updateFilterSettings } = useFilter();
 
   useEffect(() => {
     async function fetchData() {
+      const companyId = getCookie("companyId");
+      const employeeId = getCookie("employeeId");
+
+      const params = {
+        CompanyId: companyId,
+        EmployeeId: employeeId,
+      };
+
         const data = await getAllDocuments(params)
         setLoading(false);
       return data;

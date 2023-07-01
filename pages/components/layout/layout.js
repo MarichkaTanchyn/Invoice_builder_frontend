@@ -4,17 +4,16 @@ import Header from "../util/header/header";
 import Sidebar from "../sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import {getCategories} from "../../api/categoriesApi";
+import {getCookie} from "cookies-next";
 
 const Layout = ({children}) => {
 
     const [categories, setCategories] = useState([]);
-    const params = {
-        CompanyId: 1
-    }
 
     useEffect(() => {
+
         async function fetchData() {
-            return await getCategories(params);
+            return await getCategories();
         }
 
         fetchData().then(res => {

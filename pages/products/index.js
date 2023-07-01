@@ -53,10 +53,10 @@ const Products = () => {
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const categoryId = getCookie("cId");
+            const categoryId = getCookie("categoryId");
             const products = await getCategoryProducts(categoryId);
+            setOriginalData(products);
             if (products && products.length > 0) {
-                setOriginalData(products);
                 const normalizedProducts = products.map(product => normalizeProductData(product));
                 setData(normalizedProducts);
             }

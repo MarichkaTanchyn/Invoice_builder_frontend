@@ -16,3 +16,19 @@ export const companySignup = async (data) => {
         console.error("Error in signUp process:", error.response || error);
     }
 };
+
+export const login = async (data) => {
+    const apiUrl = `http://localhost:3000/signIn`;
+
+    try {
+        const response = await axios.post(apiUrl, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log("response", response);
+        return response;
+    } catch (error) {
+        console.error("Error in login process:", error.response || error);
+    }
+};

@@ -207,9 +207,6 @@ const CreateCategoryPageContent = () => {
         );
     };
 
-    const params = {
-        CompanyId: 1
-    }
 
     const router = useRouter();
     const submitData = async () => {
@@ -222,8 +219,8 @@ const CreateCategoryPageContent = () => {
             })),
         };
         console.log(categoriesData);
-        await createCategories(categoriesData, params.CompanyId);
-        router.push("/");
+        await createCategories(categoriesData);
+        await router.push("/");
     };
 
     return (
