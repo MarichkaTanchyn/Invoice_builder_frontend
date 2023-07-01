@@ -63,16 +63,9 @@ const Sidebar = (props) => {
                         </span>
                     </a>
                 </li>
-                <li className={style.li}>
-                    <a className={style.a} href="">
-                        <span className={`${style.mainA}`}>
-                            Reports
-                        </span>
-                    </a>
-                </li>
             </ul>
             <div className={style.settings}>
-                <a className={style.a} href="">
+                <a className={style.a} href="/settings">
                     <span className={`${style.mainA}`}>
                          <FontAwesomeIcon icon={faGear} className={`${style.icon} ${style.gear_icon}`}/>
                         Settings

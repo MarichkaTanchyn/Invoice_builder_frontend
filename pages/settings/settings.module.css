@@ -1,0 +1,44 @@
+.headers {
+    display: flex;
+    padding: 1em;
+    width: 100%;
+    z-index: 10;
+    flex-direction: column;
+}
+
+.headers h1 {
+    font-size: 28px;
+    margin-right: auto;
+}
+
+.backToInvoices {
+    padding-left: 1em;
+}
+.headers h2 {
+    text-decoration: none;
+    color: #707070;
+    outline: none;
+    font-size: 18px;
+}
+
+.buttonWithImg {
+    border: none;
+    text-align: center;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    color: #999999;
+    font-size: 1.2em;
+    padding: 0;
+}
+
+.img {
+    padding-right: .4em;
+    height: 1.8em;
+    width: 1.8em;
+    margin-bottom: .4em;
+    font-weight: bold;
+    align-content: center;
+    align-items: center;
+}
