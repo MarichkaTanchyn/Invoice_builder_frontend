@@ -34,7 +34,7 @@ const PreprocessSheet = () => {
             const sheetHeaderJson = JSON.parse(getCookie("sheetHeaderJson") || "{}");
             const fileKey = getCookie("fKey");
             const dataArray = await readExcel(fileKey, sheetHeaderJson);
-            const sheetData = dataArray[0];
+            const sheetData = dataArray ? dataArray[0] : {};
             const selectedSheet = Object.keys(sheetData)[0];
             if (!selectedSheet) return;
             const columns = sheetData[selectedSheet].map((item) => item.column);

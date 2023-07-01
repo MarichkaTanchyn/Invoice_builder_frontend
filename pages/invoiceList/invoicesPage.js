@@ -47,8 +47,10 @@ const InvoicesPage = () => {
     }
 
     fetchData().then((res) => {
-      const allDocuments = Object.values(res.props.documents.documents);
-      setDocuments(applyFilter(allDocuments));
+      if (res && res.props && res.props.documents && res.props.documents.documents) {
+        const allDocuments = Object.values(res.props.documents.documents);
+        setDocuments(applyFilter(allDocuments));
+      }
     });
 
   }, [applyFilter]);

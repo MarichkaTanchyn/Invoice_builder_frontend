@@ -5,17 +5,20 @@ import Sidebar from "../sidebar/Sidebar";
 import {useEffect, useState} from "react";
 import {getCategories} from "../../api/categoriesApi";
 import {getCookie} from "cookies-next";
+import {useRouter} from "next/router";
+
 
 const Layout = ({children}) => {
-
+    const router = useRouter();
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-
-        async function fetchData() {
+        const fetchData = async () => {
+            if (getCookie('accToken') === undefined) {
+                await router.push('login');
+            }
             return await getCategories();
         }
-
         fetchData().then(res => {
             setCategories(Object.values(res.props.categories));
         });

@@ -37,7 +37,7 @@ const CreateNewCategoryFromSheet = () => {
 
             const fileKey = getCookie("fKey");
             const dataArray = await readExcel(fileKey, sheetsHeadersJson);
-            const newSheets = Object.assign({}, ...dataArray);
+            const newSheets = dataArray ? Object.assign({}, ...dataArray) : {};
             setFileKey(fileKey);
 
             // Include originalColumn in sheets
