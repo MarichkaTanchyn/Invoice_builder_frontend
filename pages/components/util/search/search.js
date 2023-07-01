@@ -8,7 +8,7 @@ const Search = ({ placeholder, onSearch }) => {
     return (
         <div>
             <FontAwesomeIcon icon={faSearch} className={styles.icon} />
-            <CustomInput placeholder={placeholder} onInput={onSearch} type={"text"} className={styles.bg}/>
+            <CustomInput placeholder={placeholder} onInput={onSearch} type={"text"} className={styles.bg} isValid={true}/>
         </div>
     );
 };

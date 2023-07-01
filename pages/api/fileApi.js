@@ -8,7 +8,6 @@ export const postFile = async (file, companyId) => {
 
     const response = await axios.post(`http://localhost:3000/uploadFile/${companyId}`, formData, {
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${getCookie("accToken")}`
         }
     });

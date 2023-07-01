@@ -9,7 +9,7 @@
     border-bottom: .1em solid #949bab;
     list-style: none;
     position: fixed;
-    z-index: 1;
+    z-index: 101;
     width: 100%;
 }
 

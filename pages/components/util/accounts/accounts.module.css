@@ -1,0 +1,39 @@
+.popupBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    z-index: 100;
+}
+
+.box {
+    position: fixed;
+    top: 3em;
+    right: 0;
+    padding: 1em;
+    width: 15em;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    z-index: 101;
+    height: 12em;
+    color: #041F47;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.content span {
+    color: black;
+    margin: 1.5em;
+}
+

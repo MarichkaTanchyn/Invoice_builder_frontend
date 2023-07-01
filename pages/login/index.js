@@ -43,6 +43,10 @@ const Login = () => {
                     maxAge: 60 * 60 * 24 * 7,
                     path: '/',
                 });
+                setCookie('email', response.data.email, {
+                    maxAge: 60 * 60 * 24 * 7,
+                    path: '/',
+                });
 
                 await router.push("/")
             } else {
