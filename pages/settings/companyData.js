@@ -57,7 +57,6 @@ const CompanyData = ({userPermissions}) => {
                                  defaultValue={companyData ? companyData.firmName : ''}
                                  readOnly={!editMode}
                                  type="text"
-                                 placeholder="Company Name"
                                  onChange={value => handleChange('firmName', value)}
                     />
                 </div>
@@ -68,7 +67,6 @@ const CompanyData = ({userPermissions}) => {
                                  readOnly={!editMode}
                                  onChange={value => handleChange('nip', value)}
                                  type="number"
-                                 placeholder="NIP"
                     />
                 </div>
                 <div className={styles.rowData}>
@@ -78,7 +76,6 @@ const CompanyData = ({userPermissions}) => {
                                  defaultValue={companyData ? companyData.bankAccount : ''}
                                  onChange={value => handleChange('bankAccount', value)}
                                  type="text"
-                                 placeholder="Bank Account"
                     />
                 </div>
             </div>
@@ -90,7 +87,7 @@ const CompanyData = ({userPermissions}) => {
                                  readOnly={!editMode}
                                  onChange={value => handleChange('country', value)}
                                  type="text"
-                                 placeholder="Country"/>
+                    />
                 </div>
                 <div className={styles.rowData}>
                     <span>City</span>
@@ -99,7 +96,7 @@ const CompanyData = ({userPermissions}) => {
                                  readOnly={!editMode}
                                  onChange={value => handleChange('city', value)}
                                  type="text"
-                                 placeholder="City"/>
+                    />
                 </div>
                 <div className={styles.rowData}>
                     <span>Address</span>
@@ -108,7 +105,7 @@ const CompanyData = ({userPermissions}) => {
                                  readOnly={!editMode}
                                  onChange={value => handleChange('address', value)}
                                  type="text"
-                                 placeholder="Addess"/>
+                    />
                 </div>
                 <div className={styles.rowData}>
                     <span>Postal-Code</span>
@@ -116,7 +113,8 @@ const CompanyData = ({userPermissions}) => {
                                  defaultValue={companyData ? companyData.postalCode : ''}
                                  readOnly={!editMode}
                                  onChange={value => handleChange('postalCode', value)}
-                                 type="postalCode"/>
+                                 type="postalCode"
+                    />
                 </div>
             </div>
         </div>

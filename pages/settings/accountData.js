@@ -45,51 +45,51 @@ const AccountData = () => {
 
     return (
         <>
-                <div className={styles.rowData}>
-                    <span>First Name</span>
-                    <CustomInput className={styles.input}
-                                 defaultValue={userData ? userData.firstName : ''}
-                                 readOnly={!editMode}
-                                 onChange={value => handleChange('firstName', value)}
-                                 type="text"
-                                 placeholder="First Name"/>
-                </div>
-                <div className={styles.rowData}>
-                    <span>Last Name</span>
-                    <CustomInput className={styles.input}
-                                 defaultValue={userData ? userData.middleName : ''}
-                                 readOnly={!editMode}
-                                 onChange={value => handleChange('middleName', value)}
-                                 type="text"
-                                 placeholder="Middle Name"/>
-                </div>
             <div className={styles.rowData}>
-                    <span>Last Name</span>
-                    <CustomInput className={styles.input}
-                                 defaultValue={userData ? userData.lastName : ''}
-                                 readOnly={!editMode}
-                                 onChange={value => handleChange('lastName', value)}
-                                 type="text"
-                                 placeholder="Last Name"/>
-                </div>
-                <div className={styles.rowData}>
-                    <span>Phone Number</span>
-                    <CustomInput className={styles.input}
-                                 defaultValue={userData ? userData.phoneNumber : ''}
-                                 readOnly={!editMode}
-                                 onChange={value => handleChange('phoneNumber', value)}
-                                 type="number"
-                                 placeholder="Phone Number"/>
-                </div>
-                <div className={styles.rowData}>
-                    <span>Email</span>
-                    <CustomInput className={styles.input}
-                                 defaultValue={userData ? userData.email : ''}
-                                 readOnly={true}
-                                 onChange={value => handleChange('email', value)}
-                                 placeholder="Email"
-                                 type="text"/>
-                </div>
+                <span>First Name</span>
+                <CustomInput className={styles.input}
+                             defaultValue={userData ? userData.firstName : ''}
+                             readOnly={!editMode}
+                             onChange={value => handleChange('firstName', value)}
+                             type="text"
+                />
+            </div>
+            <div className={styles.rowData}>
+                <span>Last Name</span>
+                <CustomInput className={styles.input}
+                             defaultValue={userData ? userData.middleName : ''}
+                             readOnly={!editMode}
+                             onChange={value => handleChange('middleName', value)}
+                             type="text"
+                />
+            </div>
+            <div className={styles.rowData}>
+                <span>Last Name</span>
+                <CustomInput className={styles.input}
+                             defaultValue={userData ? userData.lastName : ''}
+                             readOnly={!editMode}
+                             onChange={value => handleChange('lastName', value)}
+                             type="text"
+                />
+            </div>
+            <div className={styles.rowData}>
+                <span>Phone Number</span>
+                <CustomInput className={styles.input}
+                             defaultValue={userData ? userData.phoneNumber : ''}
+                             readOnly={!editMode}
+                             onChange={value => handleChange('phoneNumber', value)}
+                             type="number"
+                />
+            </div>
+            <div className={styles.rowData}>
+                <span>Email</span>
+                <CustomInput className={styles.input}
+                             defaultValue={userData ? userData.email : ''}
+                             readOnly={true}
+                             onChange={value => handleChange('email', value)}
+                             type="text"
+                />
+            </div>
 
             <div className={styles.buttonContainer}>
                 {editMode ? (
