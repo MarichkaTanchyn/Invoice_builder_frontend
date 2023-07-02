@@ -10,6 +10,7 @@ import {useRouter} from "next/router";
 import {getCookie} from "cookies-next";
 import TabPanel from "./tabPanel";
 import CompanyData from "./companyData";
+import AccountData from "./accountData";
 
 
 const Settings = () => {
@@ -56,7 +57,7 @@ const Settings = () => {
                     }}
                 >
                     <Tab label="Company's Data"/>
-                    <Tab label="Leader's Data"/>
+                    <Tab label="Account Data"/>
                     <Tab label="Invoice form"/>
                     {/*{userPermissions.some((permission) => permission === "PERMISSION_ADMIN") && <>*/}
                         <Tab label="Accounts"/>
@@ -67,7 +68,7 @@ const Settings = () => {
                     <CompanyData userPermissions={userPermissions}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Leader's Data Content
+                    <AccountData/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     Invoice form Content

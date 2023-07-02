@@ -37,8 +37,8 @@ const CompanyData = ({userPermissions}) => {
 
     const handleSave = async () => {
         setCompanyData(editedData);
-        await updateCompanyData(companyData);
-        // console.log(resp);
+        const resp = await updateCompanyData(editedData);
+        console.log(resp);
         setEditMode(false);
     };
 
