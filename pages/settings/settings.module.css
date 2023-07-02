@@ -42,3 +42,45 @@
     align-content: center;
     align-items: center;
 }
+
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 2.3em !Important;
+    font-size: 1em;
+    padding-left: .5em;
+    width: 22em;
+    margin-top: .5em!Important;
+}
+
+.buttonContainer {
+    position: fixed;
+/*text-align: right;*/
+    bottom: 3em;
+    right: 5em;
+    margin: 1em;
+}
+
+.buttonContainer button {
+    margin: 1em;
+}
+
+/*CompanyData panel*/
+
+.companyDataContent {
+    display: flex;
+    flex-direction: row;
+    /*align-items: center;*/
+    /*padding: 1em;*/
+}
+
+.rowData {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1em;
+}
+
+.rowData span {
+    color: #707070;
+}

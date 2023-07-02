@@ -71,24 +71,26 @@ const CustomInput = ({placeholder, onChange, type, label, defaultValue, classNam
                 <label className={styles.label}>
                     <span>{label}</span>
                     <input
-                        type={type === 'number' ? 'text' : type}
+                        type={type === 'number' || 'postalCode' ? 'text' : type}
                         className={mergedClassNames}
                         placeholder={placeholder}
                         value={value}
                         onChange={handleChange}
                         readOnly={readOnly}
+                        pattern={type === 'postalCode' ? '[0-9]{5}' : ""}
                     />
                     {!isValid && <span className={styles.validationMessage} dangerouslySetInnerHTML={{__html: validationMessage}}></span>}
                 </label>
             ) : (
                 <>
                 <input
-                    type={type === 'number' ? 'text' : type}
+                    type={type === 'number' || 'postalCode' ? 'text' : type}
                     className={mergedClassNames}
                     placeholder={placeholder}
                     value={value}
                     onChange={handleChange}
                     readOnly={readOnly}
+                    pattern={type === 'postalCode' ? '[0-9]{5}' : ""}
                 />
                 {!isValid && <span>{validationMessage}</span>}
                 </>
