@@ -8,7 +8,7 @@ import {getRegisterToken} from "../api/authorizationApi";
 const Accounts = ({userPermissions}) => {
 
     const [hasEditPermission, setHasEditPermission] = useState(false)
-    const [admins, setAdmins] = useState({})
+    const [admins, setAdmins] = useState([])
     const [users, setUsers] = useState([])
     const [registerLink, setRegisterLink] = useState('')
 
@@ -29,11 +29,8 @@ const Accounts = ({userPermissions}) => {
                 setHasEditPermission(true)
             }
 
-            console.log(users)
-            console.log(admins)
             setAdmins(admins)
             setUsers(users)
-
             setRegisterLink(`http://localhost:3001/userSignUp/${token.data.token}`)
         }
 
@@ -46,17 +43,17 @@ const Accounts = ({userPermissions}) => {
         <div className={styles.accountsContent}>
             <div className={styles.section}>
                 <span className={styles.sectionSpan}>Admin-User</span>
-                {/*<div>*/}
-                {/*    {admins && admins.map(admin => {*/}
-                {/*        return (*/}
-                {/*            <div className={styles.sectionContent}>*/}
-                {/*                /!*<span>{admin.Person.firstName}</span>*!/*/}
-                {/*                <span>{admin.Person.lastName}</span>*/}
-                {/*                <span>{admin.email}</span>*/}
-                {/*                /!*<img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}/>*!/*/}
-                {/*            </div>*/}
-                {/*        )})}*/}
-                {/*</div>*/}
+                <div>
+                    {admins.map(admin => {
+                        return (
+                            <div className={styles.sectionContent}>
+                                <span>{admin.Person.firstName}</span>
+                                <span>{admin.Person.lastName}</span>
+                                <span>{admin.email}</span>
+                                {/*<img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}/>*/}
+                            </div>
+                        )})}
+                </div>
             </div>
             <div className={styles.section}>
                 <span className={styles.sectionSpan}>Users</span>
