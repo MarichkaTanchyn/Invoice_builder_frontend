@@ -1,0 +1,92 @@
+.pageContainer {
+    height: 100vh;
+}
+
+.pageContentContainer {
+    height: 100%;
+    display: flex;
+    justify-content: stretch;
+    align-content: flex-start;
+    width: 100%;
+    background-color: #fafafa;
+}
+
+.card {
+    width: 40em;
+    height: 40em;
+    margin: auto;
+    border-radius: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.loginLink {
+    text-decoration: underline;
+    color: #041F47;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card h1 {
+    color: #041F47;
+}
+
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 3em !important;
+    font-size: 1em;
+    padding-left: .5em;
+    width: 22em;
+    /*margin-bottom: 2em;*/
+}
+
+.inputValid {
+    margin-bottom: 1.75em;
+}
+
+/*.errorMessage {*/
+/*    color: #ff0000;*/
+/*    font-size: 1em;*/
+/*    margin: 1em 0;*/
+/*}*/
+.passwordValid {
+    margin-bottom: 3em;
+}
+
+.actionsBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /*margin-left: 1em;*/
+}
+
+.actionsBox span {
+    font-size: .9em
+}
+
+.inputsBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 1em;
+}
+
+.buttonsBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /*width: 100%;*/
+}
+
+.buttonsBox button {
+    margin: 0 2em;
+}

@@ -121,3 +121,7 @@
     margin-top: .3em;
     margin-left: 3em;
 }
+
+.linkInput {
+    width: 30em!important;
+}
