@@ -119,7 +119,7 @@ const CompanyData = ({userPermissions}) => {
             </div>
         </div>
     <div className={styles.buttonContainer}>
-        {userPermissions.some((permission) => permission === "PERMISSION_ADMIN") &&
+        {hasEditPermission &&
         <>
         {editMode ? (
             <>

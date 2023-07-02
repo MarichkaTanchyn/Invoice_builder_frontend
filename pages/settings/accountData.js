@@ -55,7 +55,7 @@ const AccountData = () => {
                 />
             </div>
             <div className={styles.rowData}>
-                <span>Last Name</span>
+                <span>Middle Name</span>
                 <CustomInput className={styles.input}
                              defaultValue={userData ? userData.middleName : ''}
                              readOnly={!editMode}

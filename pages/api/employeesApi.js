@@ -1,25 +1,20 @@
 import axios from "axios";
 import {getCookie} from "cookies-next";
 
-export const getEmployees = async ({CompanyId}) => {
+export const getEmployees = async () => {
     try {
-        const { data: employees } = await axios.get(`http://localhost:3000/getCompanyEmployees/${CompanyId}`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${getCookie("accToken")}`
-                }
-            });
+        const {data: employees} = await axios.get(`http://localhost:3000/getCompanyEmployees/${getCookie('companyId')}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
         return {
-            props: {
-                employees,
-            },
+            employees,
         };
     } catch (error) {
         console.error(error);
         return {
-            props: {
-                employees: [],
-            },
+            employees: [],
         };
     }
 }
@@ -31,15 +26,14 @@ export const getEmployeeData = async () => {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
-        console.log(data);
-        console.log(data.data);
+
         return {
             data: data.data,
         };
     } catch (error) {
         console.error(error);
         return {
-            data : []
+            data: []
         };
     }
 }

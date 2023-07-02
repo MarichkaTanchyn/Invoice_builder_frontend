@@ -11,6 +11,7 @@ import {getCookie} from "cookies-next";
 import TabPanel from "./tabPanel";
 import CompanyData from "./companyData";
 import AccountData from "./accountData";
+import Accounts from "./accounts";
 
 
 const Settings = () => {
@@ -74,7 +75,7 @@ const Settings = () => {
                     Invoice form Content
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                    Accounts Content
+                    <Accounts userPermissions={userPermissions}/>
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>
