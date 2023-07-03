@@ -1,0 +1,6 @@
+[
+  {"label" : "all_invoices_access", "value" : "all_invoices_access"},
+  {"label" : "category_management", "value" : "category_management"},
+  {"label" : "products_management", "value" : "products_management"},
+  {"label" : "admin", "value" : "admin"}
+]

@@ -27,7 +27,7 @@ const AccountsPopup = ({setShowAccountsPopup}) => {
     const email = getCookie('email');
 
 
-    return (<div className={styles.popupBox}>
+    return (<div className={styles.popupBox} onClick={() => setShowAccountsPopup(false)}>
             <div className={styles.box} onClick={handlePopupClick}>
                 <div className={styles.content}>
                     <h4>Accounts</h4>

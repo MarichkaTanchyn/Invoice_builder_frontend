@@ -12,15 +12,20 @@ import TabPanel from "./tabPanel";
 import CompanyData from "./companyData";
 import AccountData from "./accountData";
 import Accounts from "./accounts";
+import Permissions from "./permissions";
 
 
 const Settings = () => {
 
     const [value, setValue] = React.useState(0);
     const [userPermissions, setUserPermissions] = React.useState([]);
+    const [hasAdminPermission, setHasAdminPermission] = React.useState(false);
 
     React.useEffect(() => {
         const userPermissions = JSON.parse(getCookie("roles"));
+        if (userPermissions.some((permission) => permission === "PERMISSION_ADMIN")) {
+            setHasAdminPermission(true);
+        }
         setUserPermissions(userPermissions);
     }, []);
 
@@ -60,26 +65,32 @@ const Settings = () => {
                     <Tab label="Company's Data"/>
                     <Tab label="Account Data"/>
                     <Tab label="Invoice form"/>
-                    {/*{userPermissions.some((permission) => permission === "PERMISSION_ADMIN") && <>*/}
+                    {hasAdminPermission &&
                         <Tab label="Accounts"/>
+                    }
+                    {hasAdminPermission &&
                         <Tab label="Permissions"/>
-                    {/*</>}*/}
+                    }
+
                 </Tabs>
                 <TabPanel value={value} index={0}>
                     <CompanyData userPermissions={userPermissions}/>
                 </TabPanel>
+
                 <TabPanel value={value} index={1}>
                     <AccountData/>
                 </TabPanel>
+
                 <TabPanel value={value} index={2}>
                     Invoice form Content
                 </TabPanel>
+
                 <TabPanel value={value} index={3}>
                     <Accounts/>
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>
-                    Permissions Content
+                    <Permissions/>
                 </TabPanel>
 
             </Box>

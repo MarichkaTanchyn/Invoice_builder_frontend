@@ -117,9 +117,7 @@
 }
 
 .bin {
-    /*margin-top: .3em;*/
     justify-self: center;
-    /*margin-left: 3em;*/
 }
 
 .linkInput {
@@ -144,4 +142,117 @@
 
 .invalidEmailButton {
     margin-bottom: 1.9em;
+}
+
+
+/*Permissions*/
+
+.permissionsContent {
+
+}
+
+.userRow {
+    display: grid;
+    grid-template-columns: .7fr 4fr 1.5fr;
+    margin: 1em 0;
+    /*border: .1em solid #fafafa;*/
+    /*border-radius: .5em;*/
+    /*background-color: #fafafa;*/
+}
+
+.permissionHeaders {
+    display: grid;
+    grid-template-columns: 1.1fr 4.4fr 1.5fr;
+    padding: 10px;
+}
+
+.userCell span{
+    margin-right: 1em;
+}
+
+.userCell, .permissionsCell {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.permissionsCell {
+    display: grid;
+    grid-template-columns: .7fr .7fr .7fr .7fr ;
+    grid-auto-rows: auto;
+    grid-gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.permissionItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: .3em .5em;
+    border: .1em solid #CFEFE0;
+    background-color: #CFEFE0;
+    border-radius: .5em;
+}
+
+/*popup*/
+
+.popupBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.headersPopup {
+    position: absolute;
+    top: 50%;
+    left: 56%;
+    padding: 1em;
+    width: 20em;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    overflow-y: auto;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    height: 21em;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.headersPopup h4 {
+    /*margin: 0;*/
+    text-align: center;
+}
+
+.popupBody {
+    align-items: center;
+}
+
+
+.popupButtons {
+    display: flex;
+    justify-content: space-between;
+    /*position: fixed;*/
+    margin-top: 1.5em;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.center label span {
+    margin-bottom: .5em;
 }

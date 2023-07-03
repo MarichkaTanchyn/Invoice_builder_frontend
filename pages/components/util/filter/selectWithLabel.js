@@ -19,10 +19,11 @@ const SelectWithLabel = ({
             ...base,
             boxShadow: "none",
             padding: '0',
-            width: '10em',
+            width: '12em',
             // margin: ' 1em 0',
             border: isError ? '0.1em solid red' : '0.1em solid #ccc',
-            height: '2em',
+            // height: '2em',
+            maxHeight: '12em',
             borderRadius: '.5em',
             '&:hover': {
                 border: '1px solid #ccc',
@@ -61,6 +62,7 @@ const SelectWithLabel = ({
             },
 
         }),
+
         option: (base, state) => ({
             ...base,
             backgroundColor: state.isFocused ? "#f5f5f5" : "white",

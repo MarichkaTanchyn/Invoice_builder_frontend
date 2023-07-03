@@ -5,7 +5,7 @@ import styles from "./fileUpload.module.css"
 const HeadersPopup = ({setHeadersRow, handlePopupSubmit, handleClose, defaultValue}) => {
 
     const handlePopupClick = (event) => {
-        event.stopPropagation(); // Add this line to prevent the popup from closing
+        event.stopPropagation();
     };
 
     return (
