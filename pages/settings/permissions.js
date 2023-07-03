@@ -1,8 +1,9 @@
-import {useEffect, useState} from "react";
-import {getEmployees, updateEmployeePermissions} from "../api/employeesApi";
+import React, {useEffect, useState} from "react";
+import {deleteEmployee, getEmployees, updateEmployeePermissions} from "../api/employeesApi";
 import ButtonWithImg from "../components/util/button/buttonWithImg";
 import styles from './settings.module.css'
 import ModifyPermissionsPopup from "./modifyPermissionsPopup";
+import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 
 const Permissions = () => {
 
@@ -10,6 +11,8 @@ const Permissions = () => {
     const [showModifyPopup, setShowModifyPopup] = useState(false);
     const [selectedPermissions, setSelectedPermissions] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [showConfirmationDialogBeforeUserDelete, setShowConfirmationDialogBeforeUserDelete] = useState(false)
+    const [deleteUser, setDeleteUser] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,8 +25,28 @@ const Permissions = () => {
 
     const handleModify = (user) => {
         setSelectedUser(user)
-        setSelectedPermissions(user.Permissions.map(permission => ({ label: permission.name, value: permission.name })));
+        setSelectedPermissions(user.Permissions.map(permission => ({label: permission.name, value: permission.name})));
         setShowModifyPopup(true)
+    }
+
+    const onCancelDeleteEmployee = () => {
+        setDeleteUser('')
+        setShowConfirmationDialogBeforeUserDelete(false)
+    }
+
+    const onConfirmDeleteEmployee = async () => {
+        await deleteEmployee(deleteUser.id);
+
+        const updatedUsers = users.filter(user => user.id !== deleteUser.id);
+        setUsers(updatedUsers);
+
+        setDeleteUser('')
+        setShowConfirmationDialogBeforeUserDelete(false)
+    }
+
+    const handleDeleteEmployee = async (user) => {
+        setShowConfirmationDialogBeforeUserDelete(true)
+        setDeleteUser(user)
     }
 
     const handleSubmitPopup = async () => {
@@ -35,8 +58,7 @@ const Permissions = () => {
             setUsers(users.map(user => {
                 if (user.id === selectedUser.id) {
                     return {
-                        ...user,
-                        Permissions: selectedPermissions.map(permission => {
+                        ...user, Permissions: selectedPermissions.map(permission => {
                             return {
                                 name: permission.value
                             }
@@ -59,15 +81,13 @@ const Permissions = () => {
 
     return (<div className={styles.permissionsContent}>
         {users.map((user, index) => {
-            return (
-                // user.id !== parseInt(getCookie('employeeId')) &&
+            return (// user.id !== parseInt(getCookie('employeeId')) &&
                 <div>
-                    {index === 0 &&
-                        <div className={styles.permissionHeaders}>
-                            <span>User</span>
-                            <span>Permissions</span>
-                            <span>Actions</span>
-                        </div>}
+                    {index === 0 && <div className={styles.permissionHeaders}>
+                        <span>User</span>
+                        <span>Permissions</span>
+                        <span>Actions</span>
+                    </div>}
                     <div className={styles.userRow}>
                         <div className={styles.userCell}>
                             <span>{user.Person.firstName}</span>
@@ -81,8 +101,10 @@ const Permissions = () => {
                             })}
                         </div>
                         <div className={styles.userCell}>
-                            <ButtonWithImg label={"Modify"} imgSrc={'/settings.svg'} onClick={() => handleModify(user)}/>
-                            <ButtonWithImg label={"Delete"} imgSrc={'/bin.svg'}/>
+                            <ButtonWithImg label={"Modify"} imgSrc={'/settings.svg'}
+                                           onClick={() => handleModify(user)}/>
+                            <ButtonWithImg label={"Delete"} imgSrc={'/bin.svg'}
+                                           onClick={() => handleDeleteEmployee(user)}/>
                         </div>
                     </div>
                     {showModifyPopup && <ModifyPermissionsPopup user={selectedUser}
@@ -91,6 +113,12 @@ const Permissions = () => {
                                                                 selectedPermissions={selectedPermissions}
                                                                 setSelectedPermissions={setSelectedPermissions}
                                                                 handleClose={handleCancelPopup}
+                    />}
+                    {showConfirmationDialogBeforeUserDelete && <ConfirmationDialog type={'Delete'}
+                                                                                   onCancel={onCancelDeleteEmployee}
+                                                                                   onAgree={onConfirmDeleteEmployee}
+                                                                                   message={`Are you sure you want to delete ${deleteUser.Person.firstName} ${deleteUser.Person.lastName}?`}
+                                                                                   header={'Delete User'}
                     />}
                 </div>)
         })}
