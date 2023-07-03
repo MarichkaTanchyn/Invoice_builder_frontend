@@ -105,23 +105,43 @@
 }
 
 .sectionContent {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
     padding: 1em 0;
     width: 100%;
+    gap: 1em;
 }
 
 .sectionContent span {
-    margin-left: 3em;
+    margin-left: 1em;
 }
 
 .bin {
-    margin-top: .3em;
-    margin-left: 3em;
+    /*margin-top: .3em;*/
+    justify-self: center;
+    /*margin-left: 3em;*/
 }
 
 .linkInput {
     width: 30em!important;
+}
+
+.emailInput {
+    width: 24.5em!important;
+}
+
+.sendViaEmailBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1em 0;
+}
+
+.sendViaEmailBox button {
+    margin-left: 1em;
+    margin-top: 2em;
+}
+
+.invalidEmailButton {
+    margin-bottom: 1.9em;
 }

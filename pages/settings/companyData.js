@@ -113,7 +113,7 @@ const CompanyData = ({userPermissions}) => {
                                  defaultValue={companyData ? companyData.postalCode : ''}
                                  readOnly={!editMode}
                                  onChange={value => handleChange('postalCode', value)}
-                                 type="postalCode"
+                                 type="text"
                     />
                 </div>
             </div>

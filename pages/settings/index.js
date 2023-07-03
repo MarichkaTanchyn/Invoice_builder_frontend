@@ -75,7 +75,7 @@ const Settings = () => {
                     Invoice form Content
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                    <Accounts userPermissions={userPermissions}/>
+                    <Accounts/>
                 </TabPanel>
 
                 <TabPanel value={value} index={4}>

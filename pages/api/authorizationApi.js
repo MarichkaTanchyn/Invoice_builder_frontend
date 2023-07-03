@@ -60,3 +60,19 @@ export const employeeSignUp = async (data, token) => {
         console.error("Error in login process:", error.response || error);
     }
 };
+
+export const sendRegisterLinkViaEmail = async (email) => {
+const apiUrl = `http://localhost:3000/sendRegisterLinkViaEmail/${getCookie("companyId")}`;
+
+    try {
+        const response = await axios.post(apiUrl, email, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error("Error in login process:", error.response || error);
+    }
+};

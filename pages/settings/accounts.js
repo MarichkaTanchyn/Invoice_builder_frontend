@@ -1,16 +1,23 @@
 import React, {useEffect, useState} from "react";
-import {getEmployees} from "../api/employeesApi";
+import {deleteEmployee, getEmployees} from "../api/employeesApi";
 import styles from './settings.module.css'
-import ButtonWithImg from "../components/util/button/buttonWithImg";
 import CustomInput from "../components/util/input/customInput";
-import {getRegisterToken} from "../api/authorizationApi";
+import {getRegisterToken, sendRegisterLinkViaEmail} from "../api/authorizationApi";
+import {getCookie} from "cookies-next";
+import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import Button from "../components/util/button/button";
 
-const Accounts = ({userPermissions}) => {
+const Accounts = () => {
 
-    const [hasEditPermission, setHasEditPermission] = useState(false)
     const [admins, setAdmins] = useState([])
     const [users, setUsers] = useState([])
     const [registerLink, setRegisterLink] = useState('')
+    const [showConfirmationDialogBeforeUserDelete, setShowConfirmationDialogBeforeUserDelete] = useState(false)
+    const [deleteUserId, setDeleteUserId] = useState('')
+    const [email, setEmail] = useState('')
+    const [emailValid, setEmailValid] = React.useState(true);
+    const [emailMessage, setEmailMessage] = React.useState('');
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,10 +32,6 @@ const Accounts = ({userPermissions}) => {
                 employee.Permissions.every(permission => permission.name !== 'admin')
             )
 
-            if (userPermissions.some((permission) => permission === "PERMISSION_ADMIN")) {
-                setHasEditPermission(true)
-            }
-
             setAdmins(admins)
             setUsers(users)
             setRegisterLink(`http://localhost:3001/userSignUp/${token.data.token}`)
@@ -37,7 +40,43 @@ const Accounts = ({userPermissions}) => {
         fetchData()
     }, [])
 
+    const handleDeleteEmployee = async (id) => {
+        setShowConfirmationDialogBeforeUserDelete(true)
+        setDeleteUserId(id)
+    }
 
+    const validateEmail = (email) => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    };
+
+    const onCancelDeleteEmployee = () => {
+        setDeleteUserId('')
+        setShowConfirmationDialogBeforeUserDelete(false)
+    }
+
+    const onConfirmDeleteEmployee = async () => {
+        await deleteEmployee(deleteUserId);
+
+        const updatedAdmins = admins.filter(admin => admin.id !== deleteUserId);
+        setAdmins(updatedAdmins);
+        const updatedUsers = users.filter(user => user.id !== deleteUserId);
+        setUsers(updatedUsers);
+
+        setDeleteUserId('')
+        setShowConfirmationDialogBeforeUserDelete(false)
+    }
+
+
+    const handleSendEmail = async () => {
+        const isEmailValid = validateEmail(email);
+        setEmailValid(isEmailValid);
+        if (!isEmailValid) {
+            setEmailMessage('Please enter a valid email.');
+        } else {
+            await sendRegisterLinkViaEmail({email: email})
+        }
+    }
 
     return (
         <div className={styles.accountsContent}>
@@ -50,9 +89,13 @@ const Accounts = ({userPermissions}) => {
                                 <span>{admin.Person.firstName}</span>
                                 <span>{admin.Person.lastName}</span>
                                 <span>{admin.email}</span>
-                                {/*<img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}/>*/}
+                                {admin.id !== parseInt(getCookie('employeeId')) &&
+                                    <img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}
+                                         onClick={() => handleDeleteEmployee(admin.id)}/>
+                                }
                             </div>
-                        )})}
+                        )
+                    })}
                 </div>
             </div>
             <div className={styles.section}>
@@ -64,21 +107,39 @@ const Accounts = ({userPermissions}) => {
                                 <span>{user.Person.firstName}</span>
                                 <span>{user.Person.lastName}</span>
                                 <span>{user.email}</span>
-                                <img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}/>
+                                <img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}
+                                     onClick={() => handleDeleteEmployee(user.id)}/>
                             </div>
-                        )})}
+                        )
+                    })}
                 </div>
             </div>
             <div className={styles.section}>
                 <span className={styles.sectionSpan}>Add New User</span>
                 <div>
-                    <CustomInput defaultValue={registerLink} className={`${styles.input} ${styles.linkInput}`} label={"Copy link to send personally"} readOnly={true}/>
+                    <CustomInput defaultValue={registerLink} className={`${styles.input} ${styles.linkInput}`}
+                                 label={"Copy link to send personally"} readOnly={true}/>
                 </div>
                 <span>or</span>
-                <div>
-                    {/* Copy link to send personally */}
+                <div className={styles.sendViaEmailBox}>
+                    <CustomInput defaultValue={email}
+                                 onChange={setEmail}
+                                 isValid={emailValid}
+                                 validationMessage={emailMessage}
+                                 type={"email"}
+                                 className={`${styles.input} ${styles.emailInput}`}
+                                 label={"Send link via Email"} placeholder={"Email"}/>
+                    <Button className={!emailValid ? styles.invalidEmailButton : ''} label={"Send"}
+                            onClick={handleSendEmail}/>
                 </div>
             </div>
+            {showConfirmationDialogBeforeUserDelete &&
+                <ConfirmationDialog type={'Delete'}
+                                    onCancel={onCancelDeleteEmployee}
+                                    onAgree={onConfirmDeleteEmployee}
+                                    message={'Are you sure you want to delete this user?'}
+                                    header={'Delete User'}
+                />}
         </div>
     )
 }

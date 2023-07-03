@@ -52,3 +52,17 @@ export const updatePersonData = async (data) => {
     }
 
 }
+
+export const deleteEmployee = async (EmployeeId) => {
+    const apiUrl = `http://localhost:3000/deleteEmployee/${EmployeeId}`;
+    try {
+        return await axios.delete(apiUrl, {
+            headers: {
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+
+    } catch (error) {
+        console.error("Error sending products data:", error.response || error);
+    }
+}

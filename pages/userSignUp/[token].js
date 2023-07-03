@@ -61,7 +61,7 @@ const UserSignUp = () => {
             }
             const response = await employeeSignUp(signUpdData , token);
             if (response !== 'success') {
-                setEmailMessage(response)
+                setEmailMessage(response.data.message)
                 setEmailValid(false)
             } else {
                 await router.push("login")
