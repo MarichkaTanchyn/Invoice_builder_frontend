@@ -4,6 +4,7 @@ import ButtonWithImg from "../components/util/button/buttonWithImg";
 import styles from './settings.module.css'
 import ModifyPermissionsPopup from "./modifyPermissionsPopup";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import {getCookie} from "cookies-next";
 
 const Permissions = () => {
 
@@ -81,7 +82,8 @@ const Permissions = () => {
 
     return (<div className={styles.permissionsContent}>
         {users.map((user, index) => {
-            return (// user.id !== parseInt(getCookie('employeeId')) &&
+            return (
+                user.id !== parseInt(getCookie('employeeId')) && user.accepted &&
                 <div>
                     {index === 0 && <div className={styles.permissionHeaders}>
                         <span>User</span>

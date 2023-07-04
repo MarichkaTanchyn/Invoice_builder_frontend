@@ -60,11 +60,12 @@ const UserSignUp = () => {
                 firstName, lastName, email, password
             }
             const response = await employeeSignUp(signUpdData , token);
-            if (response !== 'success') {
+            console.log(response)
+            if (response.data !== 'success') {
                 setEmailMessage(response.data.message)
                 setEmailValid(false)
             } else {
-                await router.push("login")
+                await router.push("/waitForAcceptance")
             }
         } else {
             if (!isFirstNameValid) {

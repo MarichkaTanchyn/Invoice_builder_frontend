@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {deleteEmployee, getEmployees} from "../api/employeesApi";
+import {acceptEmployee, deleteEmployee, getEmployees} from "../api/employeesApi";
 import styles from './settings.module.css'
 import CustomInput from "../components/util/input/customInput";
 import {getRegisterToken, sendRegisterLinkViaEmail} from "../api/authorizationApi";
 import {getCookie} from "cookies-next";
 import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
 import Button from "../components/util/button/button";
+import ButtonWithImg from "../components/util/button/buttonWithImg";
 
 const Accounts = () => {
 
@@ -17,6 +18,7 @@ const Accounts = () => {
     const [email, setEmail] = useState('')
     const [emailValid, setEmailValid] = React.useState(true);
     const [emailMessage, setEmailMessage] = React.useState('');
+    const [copySuccess, setCopySuccess] = useState('');
 
 
     useEffect(() => {
@@ -78,6 +80,20 @@ const Accounts = () => {
         }
     }
 
+    const handleAcceptUser = async (acceptedUser) => {
+        const resp = await acceptEmployee(acceptedUser.id)
+        if (!resp.message) {
+            setUsers(users.map(user => {
+                if (user.id === acceptedUser.id) {
+                    return {
+                        ...user, accepted: true
+                    }
+                }
+                return user
+            }))
+        }
+    }
+
     return (
         <div className={styles.accountsContent}>
             <div className={styles.section}>
@@ -107,6 +123,10 @@ const Accounts = () => {
                                 <span>{user.Person.firstName}</span>
                                 <span>{user.Person.lastName}</span>
                                 <span>{user.email}</span>
+                                {user.accepted ?
+                                    <span style={{visibility:'hidden'}}></span> :
+                                    <span className={styles.accept} onClick={() => handleAcceptUser(user)}>Accept</span>
+                                }
                                 <img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}
                                      onClick={() => handleDeleteEmployee(user.id)}/>
                             </div>
@@ -116,9 +136,18 @@ const Accounts = () => {
             </div>
             <div className={styles.section}>
                 <span className={styles.sectionSpan}>Add New User</span>
-                <div>
+                <div className={styles.sendViaEmailBox}>
                     <CustomInput defaultValue={registerLink} className={`${styles.input} ${styles.linkInput}`}
                                  label={"Copy link to send personally"} readOnly={true}/>
+                    <Button onClick={() => {
+                        navigator.clipboard.writeText(registerLink)
+                            .then(() => {
+                                setCopySuccess('Copied!');
+                                setTimeout(() => setCopySuccess(''), 1000);
+                            })
+                            .catch(err => console.error('Copy failed!', err));
+                    }} className={ styles.copy} label={"Copy"}/>
+                    {copySuccess && <div style={{color: 'green'}}>{copySuccess}</div>}
                 </div>
                 <span>or</span>
                 <div className={styles.sendViaEmailBox}>

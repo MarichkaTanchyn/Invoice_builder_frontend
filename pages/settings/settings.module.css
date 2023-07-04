@@ -106,7 +106,7 @@
 
 .sectionContent {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-columns: .7fr .7fr 1fr .4fr auto;
     padding: 1em 0;
     width: 100%;
     gap: 1em;
@@ -125,7 +125,11 @@
 }
 
 .emailInput {
-    width: 24.5em!important;
+    width: 30em!important;
+}
+
+.copy {
+margin-bottom: .4em
 }
 
 .sendViaEmailBox {
@@ -138,12 +142,18 @@
 .sendViaEmailBox button {
     margin-left: 1em;
     margin-top: 2em;
+    height: 2.3em;
 }
 
 .invalidEmailButton {
     margin-bottom: 1.9em;
 }
 
+.accept {
+    color: #041F47;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 /*Permissions*/
 

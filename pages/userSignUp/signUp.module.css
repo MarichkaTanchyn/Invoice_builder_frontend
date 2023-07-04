@@ -1,15 +1,3 @@
-.pageContainer {
-    height: 100vh;
-}
-
-.pageContentContainer {
-    height: 100%;
-    display: flex;
-    justify-content: stretch;
-    align-content: flex-start;
-    width: 100%;
-    background-color: #fafafa;
-}
 
 .card {
     width: 40em;

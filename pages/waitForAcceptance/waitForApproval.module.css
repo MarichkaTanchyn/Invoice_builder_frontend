@@ -1,0 +1,19 @@
+
+.card {
+    width: 40em!important;
+    height: 14em!important;
+    margin: auto!important;
+    border-radius: 1.5em!important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card h1{
+    color: #041F47;
+    margin: 1em;
+}
+
+.card span {
+    margin-left: 1.9em;
+}

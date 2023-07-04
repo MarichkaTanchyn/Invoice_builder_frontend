@@ -80,3 +80,18 @@ export const updateEmployeePermissions = async (EmployeeId, permissions) => {
         console.error("Error sending products data:", error.response || error);
     }
 }
+
+export const acceptEmployee = async (EmployeeId) => {
+    const apiUrl = `http://localhost:3000/acceptEmployee/${EmployeeId}`;
+
+    try {
+        return await axios.post(apiUrl, {},{
+            headers: {
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+
+    } catch (error) {
+        console.error("Error sending products data:", error.response || error);
+    }
+}

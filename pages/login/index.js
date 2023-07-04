@@ -7,14 +7,15 @@ import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 import WithAuthenticationLayout from "../components/authenticationLayout/withAuthenticationLayout";
 import {useRouter} from "next/router";
 import {login} from "../api/authorizationApi";
-import {setCookie} from "cookies-next";
+import {getCookie, setCookie} from "cookies-next";
 
 const Login = () => {
     const router = useRouter();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [errorMessage, setErrorMessage] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const handleLoginClick = async () => {
 
         if (email && password) {
@@ -43,15 +44,16 @@ const Login = () => {
                     maxAge: 60 * 60 * 24 * 7,
                     path: '/',
                 });
-                setCookie('email', response.data.email, {
-                    maxAge: 60 * 60 * 24 * 7,
-                    path: '/',
-                });
+                if (rememberMe) {
+                    setCookie('email', response.data.email, {
+                        maxAge: 60 * 60 * 24 * 7,
+                        path: '/',
+                    });
+                }
 
                 await router.push("/")
             } else {
-                //setErrorMessage(response.data.message);
-
+                setErrorMessage(response.data.message);
             }
         }
     };
@@ -69,7 +71,7 @@ const Login = () => {
                         className={style.input}
                         label={'Email'}
                         placeholder={'Email'}
-                        value={email}
+                        defaultValue={getCookie('email') ? getCookie('email') :email}
                         type={'email'}
                         onChange={value => setEmail(value)}
 
@@ -78,13 +80,14 @@ const Login = () => {
                         className={style.input}
                         label={'Password'}
                         placeholder={'Password'}
-                        value={password}
+                        defaultValue={password}
                         type={'password'}
                         onChange={value => setPassword(value)}
+                        validationMessage={errorMessage}
                     />
                 </div>
                 <div className={style.actionsBox}>
-                    <CheckboxWithLabel label={'Remember me'}/>
+                    <CheckboxWithLabel label={'Remember me'} onChange={setRememberMe}/>
                     <div className={style.buttonsBox}>
                         <Button label={'Sign Up'} onClick={handleSignUpClick}/>
                         <Button label={'Log In'} onClick={handleLoginClick}/>

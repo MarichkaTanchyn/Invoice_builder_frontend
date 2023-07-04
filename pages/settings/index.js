@@ -22,7 +22,7 @@ const Settings = () => {
     const [hasAdminPermission, setHasAdminPermission] = React.useState(false);
 
     React.useEffect(() => {
-        const userPermissions = JSON.parse(getCookie("roles"));
+        const userPermissions = JSON.parse(getCookie("roles") || "[]");
         if (userPermissions.some((permission) => permission === "PERMISSION_ADMIN")) {
             setHasAdminPermission(true);
         }
