@@ -13,15 +13,8 @@ import { useRouter } from "next/router";
 import withLayout from "../components/layout/withLayout";
 import globalStyle from "../global.module.css"
 import {getCookie} from "cookies-next";
+import sortOptions from "../components/data/sortOptions";
 
-const SORT_OPTIONS = [
-  { value: "oldest", label: "Oldest first" },
-  { value: "newest", label: "Newest first" },
-  { value: "lowprice", label: "Price: Low to high" },
-  { value: "highprice", label: "Price: High to low" },
-  { value: "az", label: "Name: A to Z" },
-  { value: "za", label: "Name: Z to A" },
-];
 
 const InvoicesPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +77,7 @@ const InvoicesPage = () => {
         <div className={styles.actions}>
           <Search placeholder="Search" onSearch={handleSearch} />
           <SortSelect
-            options={SORT_OPTIONS}
+            options={sortOptions}
             value={sortSelect}
             onChange={handleSortSelectChange}
           />
@@ -94,7 +87,6 @@ const InvoicesPage = () => {
             {isOpen && <Filter updateFilterSettings={updateFilterSettings} />}
           </div>
           <div className={styles.createInvoiceButton}>
-            {/*TODO: redirect to create Invoice page*/}
             <Button label={"Create Invoice"} onClick={handleCreateInvoice} />
           </div>
         </div>

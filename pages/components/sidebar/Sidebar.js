@@ -57,7 +57,7 @@ const Sidebar = (props) => {
                     </Collapse>
                 </li>
                 <li className={style.li}>
-                    <a className={style.a} href="">
+                    <a className={style.a} href={"/customers"}>
                         <span className={`${style.mainA}`}>
                             Customers
                         </span>
