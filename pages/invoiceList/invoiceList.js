@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./invoices.module.css"
 import InvoiceListItem from "./invoiceListItem";
 import { format } from 'date-fns';
+import {getCookie} from "cookies-next";
 const InvoiceList = ({invoiceList}) => {
     console.log(invoiceList)
     return (
@@ -27,7 +28,7 @@ const InvoiceList = ({invoiceList}) => {
                     id={index + 1}
                     invoiceNumber={invoice.invoiceNumber}
                     type={invoice.typeOfDocument}
-                    createdBy={invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
+                    createdBy={parseInt(getCookie('employeeId')) === invoice.Employee.id ? 'You' : invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
                     clientName={invoice.Customer.name}
                     creationDate={format(new Date(invoice.creationDate), 'dd/MM/yyyy')}
                     totalAmount={invoice.totalAmount}
