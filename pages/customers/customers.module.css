@@ -1,0 +1,93 @@
+.headers {
+    display: flex;
+    position: fixed;
+    padding: 2em 0 2em 2em;
+    width: 85%;
+    z-index: 10;
+    background-color: #fafafa;
+}
+
+.headers h1 {
+    font-size: 28px;
+    margin-right: auto;
+}
+
+.actions {
+    display: inherit;
+}
+
+.img {
+    padding-right: .5em;
+    height: 1.5em;
+}
+
+.select {
+    /*margin-left: 2em;*/
+}
+
+.buttons {
+    margin-top: .15em;
+    font-size: 1em;
+}
+
+.buttons button {
+    margin-right: 1em;
+}
+
+.pageContent::-webkit-scrollbar {
+    width: .6em;
+}
+
+.pageContent::-webkit-scrollbar-thumb {
+    background-color: rgba(105, 105, 105, 0.25);
+    border-radius: 5px;
+}
+
+.pageContent::-webkit-scrollbar-track {
+    border-radius: 5px;
+    margin-top: 13em;
+}
+
+
+.table {
+    margin-top: 2em;
+    width: 100%;
+    font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 1.1em;
+    border-collapse: separate;
+    border-spacing: 0 1em;
+    position: relative;
+    text-align: left;
+    padding: 2em;
+}
+
+.tableHeaders th {
+    font-weight: normal;
+    font-size: 1.1rem;
+    color: rgba(40, 40, 40, 0.5);
+    margin-top: 3em;
+    padding-top: 1em;
+    position: sticky;
+    background-color: #fafafa;
+    z-index: 1;
+    top: 5em;
+}
+
+.tableColumns {
+    padding: 1rem;
+}
+
+.lastTableColumns {
+    position: relative;
+}
+.rowBox {
+    line-height: 1.7em;
+    border: 1px solid #ccc;
+    background-color: #FFFFFF;
+    box-shadow:  0 2px 4px rgba(128, 128, 128, 0.25);
+}
+
+.imgDetails{
+    height: 1.5em;
+    margin-top: .4em;
+}
