@@ -1,0 +1,62 @@
+.headers {
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+    padding: 1em;
+}
+
+.accountIcon {
+    height: 7em;
+}
+
+.avatar {
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #D9D9D9;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.back {
+    padding-left: 1em;
+}
+
+.buttonWithImg {
+    border: none;
+    text-align: center;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    color: #999999;
+    font-size: 1.2em;
+    padding: 0;
+}
+
+.img {
+    padding-right: .4em;
+    height: 1.8em;
+    width: 1.8em;
+    margin-bottom: .4em;
+    font-weight: bold;
+    align-content: center;
+    align-items: center;
+}
+
+.companyContacts {
+    display: flex;
+    flex-direction: column;
+}
+.representativeData {
+    display: flex;
+    flex-direction: column;
+}
+.representative{
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+    padding: 1em;
+}

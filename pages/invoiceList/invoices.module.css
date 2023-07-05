@@ -100,6 +100,7 @@
     border: 1px solid #ccc;
     background-color: #FFFFFF;
     box-shadow:  0 2px 4px rgba(128, 128, 128, 0.25);
+    cursor: pointer;
 }
 
 .imgDetails{

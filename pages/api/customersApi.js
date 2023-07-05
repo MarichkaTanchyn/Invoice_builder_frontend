@@ -19,3 +19,15 @@ export const getCustomers = async () => {
         };
     }
 }
+
+export const getCustomer = async (CustomerId) => {
+    try {
+        return await axios.get(`http://localhost:3000/getCustomer/${CustomerId}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}

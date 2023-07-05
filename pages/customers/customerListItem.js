@@ -1,5 +1,7 @@
 import styles from "../invoiceList/invoices.module.css";
 import React, {useState} from "react";
+import Link from "next/link";
+import {useRouter} from "next/router";
 
 
 const CustomerListItem = ({key, id, representative, company, location, contactNumber, email}) => {
@@ -9,9 +11,15 @@ const CustomerListItem = ({key, id, representative, company, location, contactNu
         setShowPopup(true);
     };
 
+    const router = useRouter();
+
+    const handleRowClick = async () => {
+        await router.push(`/customer?companyName=${company}&id=${id}`);
+    };
+
     return (
         <>
-            <tr className={styles.rowBox}>
+            <tr className={styles.rowBox} onClick={handleRowClick}>
                 <td style={{padding: '1em'}} className={styles.tableColumns}>
                     {id}
                 </td>
