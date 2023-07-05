@@ -3,6 +3,7 @@
     flex-direction: row;
     /*justify-content: space-between;*/
     padding: 1em;
+    margin: 1em;
 }
 
 .accountIcon {
@@ -10,14 +11,16 @@
 }
 
 .avatar {
-    width: 8em;
-    height: 8em;
+    width: 8.5em;
+    height: 8.5em;
     border-radius: 50%;
     overflow: hidden;
     background-color: #D9D9D9;
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    margin-right: 1em;
+    margin-top: 1em;
 }
 
 .back {
@@ -45,18 +48,32 @@
     align-content: center;
     align-items: center;
 }
+.companyDetails {
+    margin: 2em;
+}
 
 .companyContacts {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-left: 1em;
 }
-.representativeData {
-    display: flex;
-    flex-direction: column;
+
+.tmp {
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1em;
+
 }
-.representative{
-    display: flex;
-    flex-direction: row;
-    /*justify-content: space-between;*/
-    padding: 1em;
+
+.companyData {
+    display: grid;
+    grid-template-rows: repeat(1, .1fr);
+    grid-gap: 1em;
+    margin-right: 2em;
+}
+
+.spanHeader {
+    /*font-weight: bold;*/
+    color: #9BA5B5;
 }

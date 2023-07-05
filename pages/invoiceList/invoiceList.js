@@ -2,9 +2,8 @@ import React from "react";
 import styles from "./invoices.module.css"
 import InvoiceListItem from "./invoiceListItem";
 import { format } from 'date-fns';
-
-
 const InvoiceList = ({invoiceList}) => {
+    console.log(invoiceList)
     return (
         <table className={styles.table}>
             <thead>
@@ -29,7 +28,7 @@ const InvoiceList = ({invoiceList}) => {
                     invoiceNumber={invoice.invoiceNumber}
                     type={invoice.typeOfDocument}
                     createdBy={invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
-                    clientName={invoice.clientName}
+                    clientName={invoice.Customer.name}
                     creationDate={format(new Date(invoice.creationDate), 'dd/MM/yyyy')}
                     totalAmount={invoice.totalAmount}
                     status={invoice.status}

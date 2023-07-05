@@ -41,3 +41,19 @@ export const sendInvoiceData = async ({invoiceData, EmployeeId}) => {
         console.error("Error sending invoice data:", error.response || error);
     }
 }
+
+export const getCustomerInvoices = async (CustomerId) => {
+    const apiUrl = `http://localhost:3000/getCustomerInvoices/${CustomerId}`;
+
+    try {
+        return await axios.get(apiUrl,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getCookie("accToken")}`
+                }
+            });
+    } catch (error) {
+        console.error("Error sending invoice data:", error.response || error);
+    }
+
+}

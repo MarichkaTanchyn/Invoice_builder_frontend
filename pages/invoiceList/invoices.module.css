@@ -65,7 +65,6 @@
 
 
 .table {
-    margin-top: 2em;
     width: 100%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1.1em;
@@ -73,7 +72,6 @@
     border-spacing: 0 1em;
     position: relative;
     text-align: left;
-    padding: 2em;
 }
 
 .tableHeaders th {

@@ -99,7 +99,9 @@ const InvoicesPage = () => {
           <div className={globalStyle.loadingBar}></div>
         </div>
       ) : (
+          <div style={{marginTop: '2em', padding: '2em'}}>
         <InvoiceList invoiceList={documents} />
+          </div>
       )}
     </>
   );
