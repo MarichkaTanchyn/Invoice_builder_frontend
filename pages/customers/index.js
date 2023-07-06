@@ -6,7 +6,7 @@ import sortOptions from "../components/data/sortOptions.json";
 import Button from "../components/util/button/button";
 import globalStyle from "../global.module.css";
 import React, {useEffect, useState} from "react";
-import {getCustomers} from "../api/customersApi";
+import {addCustomer, getCustomers} from "../api/customersApi";
 import CustomerList from "./customerList";
 import {utils} from "xlsx";
 import AddCustomerPopup from "../customer/addCustomerPopup";
@@ -64,7 +64,29 @@ const Customers = () => {
     };
 
     const handleSubmitPopup = async () => {
-        console.log(newCustomer)
+        const res = await addCustomer(newCustomer);
+        if (!res.data.message) {
+            setCustomers([...customers, res.data]);
+            setNewCustomer({
+                "name": '',
+                "description": '',
+                "companyNumber": '',
+                "country": '',
+                "city": '',
+                "postalCode": '',
+                "nip": '',
+                "address": '',
+                "Person": {
+                    "firstName": '',
+                    "lastName": '',
+                    "middleName": '',
+                    "email": '',
+                    "phoneNumber": '',
+                }
+            });
+            setShowAddCustomerPopup(false);
+        }
+
     };
 
     const handleClosePopup = () => {

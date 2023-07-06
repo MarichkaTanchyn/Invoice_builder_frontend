@@ -4,7 +4,7 @@ import Card from "../components/util/card/card";
 import styles from "./customer.module.css"
 import Link from "next/link";
 import React, {useEffect} from "react";
-import {getCustomer} from "../api/customersApi";
+import {getCustomer, updateCustomer} from "../api/customersApi";
 import {getCustomerInvoices} from "../api/invoicesAPI";
 import InvoiceList from "../invoiceList/invoiceList";
 import AddCustomerPopup from "./addCustomerPopup";
@@ -13,7 +13,7 @@ const Customer = () => {
 
     const [customer, setCustomer] = React.useState(null);
     const [customerInvoices, setCustomerInvoices] = React.useState(null);
-    const [newCustomer, setNewCustomer] = React.useState(customer);
+    const [newCustomer, setNewCustomer] = React.useState(null);
 
     const [showEditCustomerPopup, setShowEditCustomerPopup] = React.useState(false);
 
@@ -26,26 +26,30 @@ const Customer = () => {
                 const res = await getCustomer(id);
                 setCustomer(res.data);
                 const data = await getCustomerInvoices(id);
-                console.log(data);
                 setCustomerInvoices(data.data);
-                // console.log(id)
             }
         }
-
         if (router.isReady) { // This checks whether the router instance is ready
             fetchData();
         }
     }, [router.isReady, router.query.id]);
 
     const handleSubmitPopup = async () => {
-        console.log(customer);
-        console.log(newCustomer);
-        // setNewCustomer(customer);
-        // setShowEditCustomerPopup(false);
+        const res = await updateCustomer(customer.id,newCustomer);
+        if (!res.data.message) {
+            setCustomer(res.data);
+            setShowEditCustomerPopup(false);
+        }
+
     };
 
     const handleClosePopup = () => {
         setShowEditCustomerPopup(false);
+    };
+
+    const handleOpenPopup = () => {
+        setNewCustomer(customer)
+        setShowEditCustomerPopup(true);
     };
 
     return (<Card>
@@ -67,7 +71,7 @@ const Customer = () => {
                         <div className={styles.companyNameEdit}>
                             <h4>{customer && customer.name}</h4>
                             <img className={styles.img} src="/edit.svg" alt={"edit"}
-                                 onClick={() => setShowEditCustomerPopup(true)}
+                                 onClick={handleOpenPopup}
                             />
                         </div>
                         <div className={styles.tmp}>

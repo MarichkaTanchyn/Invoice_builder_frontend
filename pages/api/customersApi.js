@@ -31,3 +31,36 @@ export const getCustomer = async (CustomerId) => {
         console.error(error);
     }
 }
+
+export const addCustomer = async (data) => {
+    const apiUrl = `http://localhost:3000/addCustomer/${getCookie('companyId')}`;
+
+    try {
+        return await axios.post(apiUrl, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+    } catch (error) {
+        console.error("Error sending categories data:", error.response || error);
+    }
+
+}
+
+export const updateCustomer = async (CustomerId, data) => {
+
+    const apiUrl = `http://localhost:3000/updateCustomer/${CustomerId}`;
+
+    try {
+        return await axios.post(apiUrl, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+    } catch (error) {
+        console.error("Error sending categories data:", error.response || error);
+    }
+
+}
