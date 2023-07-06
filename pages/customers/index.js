@@ -9,11 +9,31 @@ import React, {useEffect, useState} from "react";
 import {getCustomers} from "../api/customersApi";
 import CustomerList from "./customerList";
 import {utils} from "xlsx";
+import AddCustomerPopup from "../customer/addCustomerPopup";
 
 const Customers = () => {
     const [sortSelect, setSortSelect] = useState(null);
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [showAddCustomerPopup, setShowAddCustomerPopup] = React.useState(false);
+    const [newCustomer, setNewCustomer] = React.useState({
+            "name": '',
+            "description": '',
+            "companyNumber": '',
+            "country": '',
+            "city": '',
+            "postalCode": '',
+            "nip": '',
+            "address": '',
+            "Person": {
+                "firstName": '',
+                "lastName": '',
+                "middleName": '',
+                "email": '',
+                "phoneNumber": '',
+        }
+    });
 
 
     useEffect(() => {
@@ -40,13 +60,28 @@ const Customers = () => {
     };
 
     const handleAddCustomer = async () => {
+        setShowAddCustomerPopup(true);
+    };
 
+    const handleSubmitPopup = async () => {
+        console.log(newCustomer)
+    };
+
+    const handleClosePopup = () => {
+        setShowAddCustomerPopup(false);
     };
 
     const exportToCsv = () => {
         // Map through the customers array and create a new object for each customer
         // Exclude the properties you don't want and flatten the Person object
-        const formattedCustomers = customers.map(({ PersonId, CompanyId, Person, createdAt, updatedAt, ...customer }) => ({
+        const formattedCustomers = customers.map(({
+                                                      PersonId,
+                                                      CompanyId,
+                                                      Person,
+                                                      createdAt,
+                                                      updatedAt,
+                                                      ...customer
+                                                  }) => ({
             ...customer,
             representativeFirstName: Person.firstName,
             representativeLastName: Person.lastName,
@@ -67,35 +102,33 @@ const Customers = () => {
         link.click();
     }
 
-    return (
-        <>
+    return (<>
             <div className={styles.headers}>
                 <h1>Customers</h1>
                 <div className={styles.actions}>
-                    <Search placeholder="Search" onSearch={handleSearch} />
+                    <Search placeholder="Search" onSearch={handleSearch}/>
                     <SortSelect
                         options={sortOptions}
                         value={sortSelect}
                         onChange={handleSortSelectChange}
                     />
                     <div className={styles.buttons}>
-                        <Button label={"Add New Customer"} onClick={handleAddCustomer} />
-                        <Button label={"Export to csv"} onClick={exportToCsv} />
+                        <Button label={"Add New Customer"} onClick={handleAddCustomer}/>
+                        <Button label={"Export to csv"} onClick={exportToCsv}/>
                     </div>
                 </div>
             </div>
-            {loading ? (
-                <div className={globalStyle.loadingWave}>
+            {loading ? (<div className={globalStyle.loadingWave}>
                     <div className={globalStyle.loadingBar}></div>
                     <div className={globalStyle.loadingBar}></div>
                     <div className={globalStyle.loadingBar}></div>
                     <div className={globalStyle.loadingBar}></div>
-                </div>
-            ) : (
-                <CustomerList customers={customers} />
-            )}
-        </>
-    )
+                </div>) : (<CustomerList customers={customers}/>)}
+            {showAddCustomerPopup &&
+                <AddCustomerPopup
+                    newCustomer={newCustomer} setNewCustomer={setNewCustomer}
+                    handleSubmitPopup={handleSubmitPopup} handleClosePopup={handleClosePopup}/>}
+        </>)
 
 }
 

@@ -23,6 +23,11 @@
     margin-top: 1em;
 }
 
+.link {
+    display: flex;
+    width: 5.5em;
+}
+
 .back {
     padding-left: 1em;
 }
@@ -41,7 +46,7 @@
 
 .img {
     padding-right: .4em;
-    height: 1.8em;
+    /*height: 1.5em;*/
     width: 1.8em;
     margin-bottom: .4em;
     font-weight: bold;
@@ -61,7 +66,7 @@
 .tmp {
     margin-top: 1em;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-gap: 1em;
 
 }
@@ -76,4 +81,78 @@
 .spanHeader {
     /*font-weight: bold;*/
     color: #9BA5B5;
+}
+
+/*Add customer popup */
+
+.popupBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.popupContent {
+    position: absolute;
+    top: 50%;
+    left: 56%;
+    padding: 1em;
+    width: 43.8em;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    overflow-y: auto;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    height: 32em;
+}
+
+.popupContent h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rowData span {
+    color: #707070;
+    /*margin-bottom: 0em;*/
+}
+
+.input {
+    border: .1em solid #ccc !Important;
+    border-radius: .5em;
+    height: 2.3em !important;
+    padding-left: .5em;
+    margin-bottom: .5em;
+}
+
+.addCustomerFields {
+    margin: 2em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1em;
+    margin-bottom: 1.5em;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonsContainer button {
+    margin-right: 2em;
+}
+
+.companyNameEdit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /*border: .1em solid #041F47 !Important;*/
+}
+
+.companyNameEdit h4 {
+    margin-right: .8em;
 }

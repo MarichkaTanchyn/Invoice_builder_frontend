@@ -7,11 +7,15 @@ import React, {useEffect} from "react";
 import {getCustomer} from "../api/customersApi";
 import {getCustomerInvoices} from "../api/invoicesAPI";
 import InvoiceList from "../invoiceList/invoiceList";
+import AddCustomerPopup from "./addCustomerPopup";
 
 const Customer = () => {
 
     const [customer, setCustomer] = React.useState(null);
     const [customerInvoices, setCustomerInvoices] = React.useState(null);
+    const [newCustomer, setNewCustomer] = React.useState(customer);
+
+    const [showEditCustomerPopup, setShowEditCustomerPopup] = React.useState(false);
 
     const router = useRouter();
 
@@ -33,10 +37,20 @@ const Customer = () => {
         }
     }, [router.isReady, router.query.id]);
 
+    const handleSubmitPopup = async () => {
+        console.log(customer);
+        console.log(newCustomer);
+        // setNewCustomer(customer);
+        // setShowEditCustomerPopup(false);
+    };
+
+    const handleClosePopup = () => {
+        setShowEditCustomerPopup(false);
+    };
 
     return (<Card>
         <div>
-            <Link href={"/customers"} passHref>
+            <Link className={styles.link} href={"/customers"} passHref>
                 <div className={styles.back}>
                     <img className={styles.img} src="/arrowLeft.svg" alt={"arrowBack"}/>
                     <button className={styles.buttonWithImg}>Back</button>
@@ -50,7 +64,12 @@ const Customer = () => {
                 </div>
                 {customer && <>
                     <div className={styles.companyContacts}>
-                        <h4>{customer && customer.name}</h4>
+                        <div className={styles.companyNameEdit}>
+                            <h4>{customer && customer.name}</h4>
+                            <img className={styles.img} src="/edit.svg" alt={"edit"}
+                                 onClick={() => setShowEditCustomerPopup(true)}
+                            />
+                        </div>
                         <div className={styles.tmp}>
                             <div className={styles.companyData}>
                                 <span>{customer.Person.firstName} {customer.Person.lastName}</span>
@@ -67,20 +86,28 @@ const Customer = () => {
                                 <span>{customer.companyNumber}</span>
                             </div>
                             <div className={styles.companyData}>
-                                <span className={styles.spanHeader} >Tax Identification Number:</span>
+                                <span className={styles.spanHeader}>Tax Identification Number:</span>
                                 <span>{customer.nip}</span>
+                            </div>
+                            <div className={styles.companyData}>
+                                <span className={styles.spanHeader}>Description:</span>
+                                <span>{customer.description}</span>
                             </div>
                         </div>
                     </div>
-                </>
-                }
+                </>}
             </div>
-            <hr style={{margin: 0}} />
+            <hr style={{margin: 0}}/>
             <div className={styles.invoiceList}>
-                {customerInvoices &&
-                <InvoiceList invoiceList={customerInvoices} />
-                }
+                {customerInvoices && <InvoiceList invoiceList={customerInvoices}/>}
             </div>
+            {showEditCustomerPopup &&
+                <AddCustomerPopup handleClosePopup={handleClosePopup}
+                                  handleSubmitPopup={handleSubmitPopup}
+                                  customer={customer}
+                                  newCustomer={newCustomer}
+                                  setNewCustomer={setNewCustomer}
+                />}
         </div>
     </Card>)
 }
