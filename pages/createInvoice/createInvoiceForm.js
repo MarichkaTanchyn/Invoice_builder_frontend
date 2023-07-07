@@ -3,11 +3,10 @@ import React, {useEffect, useState} from 'react';
 import styles from "./createInvoice.module.css"
 import CustomInput from "../components/util/input/customInput";
 import SelectWithUnderline from "../components/util/select/selectWithUnderline";
-import CountryOptions from "../components/data/countries";
 import ProductTable from './productTable';
 import Button from "../components/util/button/button";
 import {useRouter} from "next/router";
-import {sendInvoiceData} from "../api/invoicesAPI";
+import {getCustomer} from "../api/customersApi";
 
 
 const TERMS_OPTIONS = [
@@ -19,11 +18,19 @@ const TERMS_OPTIONS = [
 
 const CreateInvoiceForm = ({customers, products}) => {
 
-    //TODO: add onclick to add && delete item button, add listeners for selects and inputs
+    const [customer, setCustomer] = useState(null)
+
     const router = useRouter();
     const handleCancelButton = async () => {
         await router.push("/")
     }
+
+    useEffect(() => {
+        console.log(customers)
+        console.log(products)
+    }, [])
+
+
     const [rows, setRows] = useState([
         {
             id: 1,
@@ -175,6 +182,11 @@ const CreateInvoiceForm = ({customers, products}) => {
     }
 
 
+    const handleCustomerChange = async (value) => {
+        const data = await getCustomer(value.value)
+        setCustomer(data.data)
+    }
+
     return (
         <>
             <div className={styles.invoiceHeaders}>
@@ -191,15 +203,20 @@ const CreateInvoiceForm = ({customers, products}) => {
             </div>
             <div className={styles.customerInfo}>
                 <SelectWithUnderline
-                    label={"Customer"} placeholder={"Customer"} options={customers}
+                    label={"Customer"} placeholder={"Customer"} options={customers} onChange={handleCustomerChange}
                     customStyles={styles.selectLabel}/>
-                <CustomInput label={"NIP"} type={"text"}/>
-                <CustomInput label={"Street"} type={"text"}/>
-                <SelectWithUnderline
-                    label={"Country"} placeholder={"Country"} options={CountryOptions.countries}
-                    customStyles={styles.selectLabel}/>
-                <CustomInput label={"City"} type={"text"}/>
-                <CustomInput label={"Postcode"} type={"text"}/>
+                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.nip : ''}
+                             label={"NIP"} type={"text"}/>
+                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.address : ''}
+                             label={"Address"} type={"text"}/>
+                <CustomInput
+                    label={"Country"} placeholder={"Country"} isValid={true}
+                    defaultValue={customer ? customer.country : ''}
+                    customStyles={styles.selectLabel} className={styles.input}/>
+                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.city : ''}
+                             label={"City"} type={"text"}/>
+                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.postalCode : ''}
+                             label={"Postcode"} type={"text"}/>
 
             </div>
             <div className={styles.items}>

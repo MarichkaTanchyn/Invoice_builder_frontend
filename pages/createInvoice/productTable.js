@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import CustomInput from "../components/util/input/customInput";
-import SelectWithUnderline from "../components/util/select/selectWithUnderline";
 import SmallSelectWithUnderline from "../components/util/select/smallSelectWithUnderline";
 import styles from "./createInvoice.module.css";
 import ButtonWithImg from "../components/util/button/buttonWithImg";
 import units from "../components/data/units.json";
 import PaymentActions from "./paymentActions";
-import ProductSelect from "../components/util/select/productSelect";
-import productsMock from "..//components/mock/products.json";
 import { Cascader } from 'antd';
 
 
@@ -21,13 +18,6 @@ const ProductTable = ({
                           selectAllRows,
     products
                       }) => {
-    const productOptions = productsMock.map(product => ({
-        value: product.name,
-        label: product.name,
-        unit: product.unit,
-        unitPrice: product.unitPrice,
-        vat: product.vat
-    }));
 
     const vatOptions = [
         // Add your VAT options here
@@ -81,9 +71,10 @@ const ProductTable = ({
                                 <span>{index + 1}</span>
                             </label>
                         </td>
-                        <td>
-                            <div className={styles.select}>
+                        <td style={{textAlign: 'center'}}>
+                            <div className={styles.container}>
                                 {products && <Cascader
+                                    className={styles.selectProduct}
                                     options={products}
                                     onChange={handleCascadeChange}
                                     placeholder="Please select"
