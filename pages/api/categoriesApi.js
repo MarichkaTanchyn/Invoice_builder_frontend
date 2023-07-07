@@ -23,6 +23,22 @@ export const getCategories = async () => {
     }
 };
 
+export const getCategoriesWithSubcategories = async () => {
+    try {
+        return await axios.get(`http://localhost:3000/getCategoriesWithSubcategories/${getCookie('companyId')}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+
+    } catch (error) {
+        console.error(error);
+        return {
+            data: [],
+        };
+    }
+}
+
 export const createCategories = async (categoriesData) => {
     const apiUrl = `http://localhost:3000/addCategories/${getCookie('companyId')}`;
 

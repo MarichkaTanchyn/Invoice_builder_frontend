@@ -8,6 +8,8 @@ import units from "../components/data/units.json";
 import PaymentActions from "./paymentActions";
 import ProductSelect from "../components/util/select/productSelect";
 import productsMock from "..//components/mock/products.json";
+import { Cascader } from 'antd';
+
 
 const ProductTable = ({
                           summary,
@@ -16,7 +18,8 @@ const ProductTable = ({
                           deleteSelectedRows,
                           handleInputChange,
                           toggleRowSelection,
-                          selectAllRows
+                          selectAllRows,
+    products
                       }) => {
     const productOptions = productsMock.map(product => ({
         value: product.name,
@@ -35,7 +38,9 @@ const ProductTable = ({
         {value: 23, label: '23%'},
     ];
 
-
+    const handleCascadeChange = (value, selectedOptions) => {
+        console.log(value, selectedOptions);
+    };
     return (
         <>
             <h2>Items</h2>
@@ -78,15 +83,13 @@ const ProductTable = ({
                         </td>
                         <td>
                             <div className={styles.select}>
-                                <ProductSelect
-                                    options={productOptions}
-                                    onChange={(e) => {
-                                        const selectedProduct = productOptions.find(
-                                            (option) => option.value === e.value
-                                        );
-                                        handleInputChange(row.id, 'product', e.value, selectedProduct);
-                                    }}
-                                />
+                                {products && <Cascader
+                                    options={products}
+                                    onChange={handleCascadeChange}
+                                    placeholder="Please select"
+                                    showSearch
+                                />}
+
                             </div>
                         </td>
                         <td>

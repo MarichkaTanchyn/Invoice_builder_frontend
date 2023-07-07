@@ -17,7 +17,7 @@ const TERMS_OPTIONS = [
     {value: "90", label: "90 days"},
 ]
 
-const CreateInvoiceForm = () => {
+const CreateInvoiceForm = ({customers, products}) => {
 
     //TODO: add onclick to add && delete item button, add listeners for selects and inputs
     const router = useRouter();
@@ -191,7 +191,7 @@ const CreateInvoiceForm = () => {
             </div>
             <div className={styles.customerInfo}>
                 <SelectWithUnderline
-                    label={"Customer"} placeholder={"Customer"} options={TERMS_OPTIONS}
+                    label={"Customer"} placeholder={"Customer"} options={customers}
                     customStyles={styles.selectLabel}/>
                 <CustomInput label={"NIP"} type={"text"}/>
                 <CustomInput label={"Street"} type={"text"}/>
@@ -210,6 +210,7 @@ const CreateInvoiceForm = () => {
                               handleInputChange={handleInputChange}
                               toggleRowSelection={toggleRowSelection}
                               selectAllRows={selectAllRows}
+                              products={products}
                 />
             </div>
             <div className={styles.actionButtons}>
