@@ -11,7 +11,6 @@ import {getCategoryProducts} from "../api/productsApi";
 const CreateInvoice = () => {
 
     const [customers, setCustomers] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -28,8 +27,6 @@ const CreateInvoice = () => {
 
         async function fetchProducts() {
             const data = await getCategoriesWithSubcategories();
-            console.log(data);
-
             const transformedData = [];
 
             for (const category of data.data) {

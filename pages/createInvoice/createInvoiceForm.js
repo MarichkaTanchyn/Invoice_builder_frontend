@@ -7,18 +7,37 @@ import ProductTable from './productTable';
 import Button from "../components/util/button/button";
 import {useRouter} from "next/router";
 import {getCustomer} from "../api/customersApi";
-
-
-const TERMS_OPTIONS = [
-    {value: "10", label: "10 days"},
-    {value: "30", label: "30 days"},
-    {value: "60", label: "60 days"},
-    {value: "90", label: "90 days"},
-]
+import TERMS_OPTIONS from "../components/data/paymentTerms";
 
 const CreateInvoiceForm = ({customers, products}) => {
 
     const [customer, setCustomer] = useState(null)
+    const [documentType, setDocumentType] = useState("invoice")
+    const [documentNumber, setDocumentNumber] = useState(`INV-${Date.now()}`);
+    const today = new Date().toISOString().substr(0, 10);
+    const [validFrom, setValidFrom] = useState(today);
+    const [validUntil, setValidUntil] = useState('');
+    const [paymentTerm, setPaymentTerm] = useState(null);
+
+    useEffect(() => {
+        let newValidUntil;
+        if (paymentTerm && paymentTerm.value !== 'custom') {
+            const daysToAdd = paymentTerm.value === 'net30' ? 30 : paymentTerm.value === 'net60' ? 60 : 90;
+            newValidUntil = new Date(new Date(validFrom).setDate(new Date(validFrom).getDate() + daysToAdd));
+            setValidUntil(newValidUntil.toISOString().substr(0, 10));
+        } else if (!paymentTerm) {
+            newValidUntil = new Date(new Date(validFrom).setDate(new Date(validFrom).getDate() + 20));
+            setValidUntil(newValidUntil.toISOString().substr(0, 10));
+        }
+    }, [validFrom, paymentTerm]);
+
+    // Effect to handle changes in validUntil
+    useEffect(() => {
+        const diffDays = Math.ceil((new Date(validUntil) - new Date(validFrom)) / (1000 * 60 * 60 * 24));
+        if (diffDays !== 30 && diffDays !== 60 && diffDays !== 90) {
+            setPaymentTerm(TERMS_OPTIONS.find(option => option.value === 'custom'));
+        }
+    }, [validUntil, validFrom]);
 
     const router = useRouter();
     const handleCancelButton = async () => {
@@ -30,21 +49,18 @@ const CreateInvoiceForm = ({customers, products}) => {
         console.log(products)
     }, [])
 
-
-    const [rows, setRows] = useState([
-        {
-            id: 1,
-            product: '',
-            unit: '',
-            amount: '1',
-            unitPrice: '0.00',
-            vat: '',
-            netValue: '0.00',
-            vatValue: '0.00',
-            grossValue: '0.00',
-            discount: '0',
-        },
-    ]);
+    const [rows, setRows] = useState([{
+        id: 1,
+        product: '',
+        unit: '',
+        amount: '1',
+        unitPrice: '0.00',
+        vat: '',
+        netValue: '0.00',
+        vatValue: '0.00',
+        grossValue: '0.00',
+        discount: '0',
+    },]);
     const addRow = () => {
         const newRow = {
             id: rows.length + 1,
@@ -61,10 +77,7 @@ const CreateInvoiceForm = ({customers, products}) => {
         setRows((prevRows) => [...prevRows, newRow]);
     };
     const [summary, setSummary] = useState({
-        totalAmount: 0,
-        totalNetValue: 0,
-        totalVatValue: 0,
-        totalGrossValue: 0,
+        totalAmount: 0, totalNetValue: 0, totalVatValue: 0, totalGrossValue: 0,
     });
 
 
@@ -79,71 +92,51 @@ const CreateInvoiceForm = ({customers, products}) => {
     };
 
     const handleInputChange = (id, field, value, selectedProduct) => {
-        const productData = selectedProduct
-            ? {
-                unit: selectedProduct.unit,
-                unitPrice: selectedProduct.unitPrice,
-                vat: selectedProduct.vat
-            }
-            : {};
+        const productData = selectedProduct ? {
+            unit: selectedProduct.unit, unitPrice: selectedProduct.unitPrice, vat: selectedProduct.vat
+        } : {};
 
-        setRows((prevRows) =>
-            prevRows.map((row) => {
-                if (row.id === id) {
-                    const updatedRow = {...row, [field]: value, ...productData};
+        setRows((prevRows) => prevRows.map((row) => {
+            if (row.id === id) {
+                const updatedRow = {...row, [field]: value, ...productData};
 
-                    // Ensure amount is greater than 0 or not null
-                    const amount = (field === 'amount' && (parseFloat(value) <= 0 || !value))
-                        ? 1
-                        : parseFloat(updatedRow.amount);
+                // Ensure amount is greater than 0 or not null
+                const amount = (field === 'amount' && (parseFloat(value) <= 0 || !value)) ? 1 : parseFloat(updatedRow.amount);
 
-                    // Calculate Net Value before applying the discount
-                    const netValueBeforeDiscount = amount * parseFloat(updatedRow.unitPrice);
+                // Calculate Net Value before applying the discount
+                const netValueBeforeDiscount = amount * parseFloat(updatedRow.unitPrice);
 
-                    // Calculate discount amount
-                    const discountValue = updatedRow.discount ? parseFloat(updatedRow.discount) : 0;
-                    const discountAmount = netValueBeforeDiscount * (discountValue * 0.01);
+                // Calculate discount amount
+                const discountValue = updatedRow.discount ? parseFloat(updatedRow.discount) : 0;
+                const discountAmount = netValueBeforeDiscount * (discountValue * 0.01);
 
-                    // Calculate Net Value after applying the discount
-                    updatedRow.netValue = (netValueBeforeDiscount - discountAmount).toFixed(2);
+                // Calculate Net Value after applying the discount
+                updatedRow.netValue = (netValueBeforeDiscount - discountAmount).toFixed(2);
 
-                    // Calculate VAT Value
-                    updatedRow.vatValue = (
-                        parseFloat(updatedRow.netValue) *
-                        parseFloat(updatedRow.vat) *
-                        0.01
-                    ).toFixed(2);
+                // Calculate VAT Value
+                updatedRow.vatValue = (parseFloat(updatedRow.netValue) * parseFloat(updatedRow.vat) * 0.01).toFixed(2);
 
-                    // Calculate Gross Value
-                    updatedRow.grossValue = (
-                        parseFloat(updatedRow.netValue) + parseFloat(updatedRow.vatValue)
-                    ).toFixed(2);
+                // Calculate Gross Value
+                updatedRow.grossValue = (parseFloat(updatedRow.netValue) + parseFloat(updatedRow.vatValue)).toFixed(2);
 
-                    // Update amount if it was changed in the previous check
-                    if (field === 'amount') {
-                        updatedRow.amount = amount;
-                    }
-
-                    return updatedRow;
-                } else {
-                    return row;
+                // Update amount if it was changed in the previous check
+                if (field === 'amount') {
+                    updatedRow.amount = amount;
                 }
-            })
-        );
+
+                return updatedRow;
+            } else {
+                return row;
+            }
+        }));
     };
 
     const toggleRowSelection = (id) => {
-        setRows((prevRows) =>
-            prevRows.map((row) =>
-                row.id === id ? {...row, checked: !row.checked} : row
-            )
-        );
+        setRows((prevRows) => prevRows.map((row) => row.id === id ? {...row, checked: !row.checked} : row));
     };
 
     const selectAllRows = () => {
-        setRows((prevRows) =>
-            prevRows.map((row) => ({...row, checked: true}))
-        );
+        setRows((prevRows) => prevRows.map((row) => ({...row, checked: true})));
     };
 
     useEffect(() => {
@@ -158,16 +151,19 @@ const CreateInvoiceForm = ({customers, products}) => {
         const totalGrossValue = rows.reduce((sum, row) => sum + parseFloat(row.grossValue || 0), 0);
 
         return {
-            totalAmount,
-            totalNetValue,
-            totalVatValue,
-            totalGrossValue,
+            totalAmount, totalNetValue, totalVatValue, totalGrossValue,
         };
     };
 
 
     const collectInvoiceData = () => {
         const invoiceData = {
+            documentType: documentType,
+            documentNumber: documentNumber,
+            validFrom: validFrom,
+            validUntil: validUntil,
+            paymentTerm: paymentTerm.value,
+            customer: customer,
             products: rows,
             summary
         };
@@ -187,36 +183,89 @@ const CreateInvoiceForm = ({customers, products}) => {
         setCustomer(data.data)
     }
 
-    return (
-        <>
+    return (<>
             <div className={styles.invoiceHeaders}>
-                <Radio.Group label={"Type"} defaultValue={"invoice"} className={styles.blackRadio}>
+                <Radio.Group label={"Type"} defaultValue={"invoice"} className={styles.blackRadio}
+                             onChange={(value) => setDocumentType(value)}>
                     <Radio value={"invoice"} size={"sm"}>Invoice</Radio>
                     <Radio value={"quote"} size={"sm"}>Quote</Radio>
                 </Radio.Group>
-                <CustomInput label={"Document Num"} placeholder={"Document Number"} type={"text"}/>
-                <CustomInput label={"Valid from"} placeholder={"Valid from"} type={"date"}/>
-                <CustomInput label={"Valid until"} placeholder={"Valid until"} type={"date"}/>
+                <CustomInput
+                    isValid={true}
+                    className={styles.input}
+                    defaultValue={documentNumber ? documentNumber : ''}
+                    onChange={(value) => setDocumentNumber(value)}
+                    label={"Document Num"}
+                    placeholder={"Document Number"}
+                    type={"text"}
+                />
+                <CustomInput
+                    label={"Valid from"}
+                    isValid={true}
+                    defaultValue={validFrom}
+                    placeholder={"Valid from"}
+                    type={"date"}
+                    onChange={(value) => setValidFrom(value)}
+                />
+                <CustomInput
+                    label={"Valid until"}
+                    isValid={true}
+                    defaultValue={validUntil}
+                    placeholder={"Valid until"}
+                    type={"date"}
+                    onChange={(value) => setValidUntil(value)}
+                />
                 <SelectWithUnderline
-                    label={"Payment terms"} placeholder={"Payment terms"} options={TERMS_OPTIONS}
-                    customStyles={styles.selectLabel}/>
+                    label={"Payment terms"}
+                    placeholder={"Payment terms"}
+                    options={TERMS_OPTIONS}
+                    value={paymentTerm}
+                    onChange={option => setPaymentTerm(option)}
+                    customStyles={styles.selectLabel}
+                />
             </div>
             <div className={styles.customerInfo}>
                 <SelectWithUnderline
-                    label={"Customer"} placeholder={"Customer"} options={customers} onChange={handleCustomerChange}
-                    customStyles={styles.selectLabel}/>
-                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.nip : ''}
-                             label={"NIP"} type={"text"}/>
-                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.address : ''}
-                             label={"Address"} type={"text"}/>
+                    label={"Customer"}
+                    placeholder={"Customer"}
+                    options={customers}
+                    onChange={handleCustomerChange}
+                    customStyles={styles.selectLabel}
+                />
                 <CustomInput
-                    label={"Country"} placeholder={"Country"} isValid={true}
+                    className={styles.input}
+                    isValid={true}
+                    defaultValue={customer ? customer.nip : ''}
+                    label={"NIP"}
+                    type={"text"}
+                />
+                <CustomInput
+                    className={styles.input}
+                    isValid={true}
+                    defaultValue={customer ? customer.address : ''}
+                    label={"Address"}
+                    type={"text"}
+                />
+                <CustomInput
+                    label={"Country"}
+                    placeholder={"Country"}
+                    isValid={true}
                     defaultValue={customer ? customer.country : ''}
-                    customStyles={styles.selectLabel} className={styles.input}/>
-                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.city : ''}
-                             label={"City"} type={"text"}/>
-                <CustomInput className={styles.input} isValid={true} defaultValue={customer ? customer.postalCode : ''}
-                             label={"Postcode"} type={"text"}/>
+                    customStyles={styles.selectLabel}
+                    className={styles.input}
+                />
+                <CustomInput className={styles.input}
+                             isValid={true}
+                             defaultValue={customer ? customer.city : ''}
+                             label={"City"}
+                             type={"text"}
+                />
+                <CustomInput className={styles.input}
+                             isValid={true}
+                             defaultValue={customer ? customer.postalCode : ''}
+                             label={"Postcode"}
+                             type={"text"}
+                />
 
             </div>
             <div className={styles.items}>
@@ -238,8 +287,7 @@ const CreateInvoiceForm = ({customers, products}) => {
                     <Button label={"Cancel"} onClick={handleCancelButton}/>
                 </div>
             </div>
-        </>
-    )
+        </>)
 }
 
 export default CreateInvoiceForm;
