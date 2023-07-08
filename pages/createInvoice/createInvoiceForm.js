@@ -9,8 +9,9 @@ import {useRouter} from "next/router";
 import {getCustomer} from "../api/customersApi";
 import TERMS_OPTIONS from "../components/data/paymentTerms";
 import PaymentActions from "./paymentActions";
+import InvoicePreview from "../components/invoicePreview/invoicePreview";
 
-const CreateInvoiceForm = ({customers, products, bankAccount}) => {
+const CreateInvoiceForm = ({customers, products, bankAccount, clickedOpenPreview, setClickedOpenPreview, companyDetails, employee}) => {
 
     const [customer, setCustomer] = useState(null)
     const [documentType, setDocumentType] = useState("invoice")
@@ -21,6 +22,13 @@ const CreateInvoiceForm = ({customers, products, bankAccount}) => {
     const [paymentTerm, setPaymentTerm] = useState(null);
     const [currency, setCurrency] = useState();
     const [paymentMethod, setPaymentMethod] = useState(null);
+    const [openPreview, setOpenPreview] = useState(false);
+
+    useEffect(() => {
+        if( clickedOpenPreview ) {
+            setOpenPreview(true);
+        }
+    }, [clickedOpenPreview])
 
     useEffect(() => {
         let newValidUntil;
@@ -163,20 +171,21 @@ const CreateInvoiceForm = ({customers, products, bankAccount}) => {
 
 
     const collectInvoiceData = () => {
-        const invoiceData = {
+        return {
             documentType: documentType,
             documentNumber: documentNumber,
             validFrom: validFrom,
             validUntil: validUntil,
-            paymentTerm: paymentTerm.value,
+            paymentTerm: paymentTerm.value ? paymentTerm.value : '',
             customer: customer,
             products: rows,
-            bankAccount: bankAccount,
-            currency: currency.value,
-            paymentMethod: paymentMethod.value,
-            summary
+            bankAccount: companyDetails.bankAccount,
+            currency: currency ? currency.value : '',
+            paymentMethod: paymentMethod ? paymentMethod.value : '',
+            companyDetails: companyDetails,
+            employee: employee,
+            summary: summary
         };
-        return invoiceData;
     };
 
     const handleSubmitButton = async () => {
@@ -185,6 +194,10 @@ const CreateInvoiceForm = ({customers, products, bankAccount}) => {
         // await sendInvoiceData(invoiceData);
     }
 
+    const handleClosePreview = async () => {
+        setOpenPreview(false)
+        setClickedOpenPreview(false)
+    }
 
     const handleCustomerChange = async (value) => {
         const data = await getCustomer(value.value)
@@ -301,6 +314,7 @@ const CreateInvoiceForm = ({customers, products, bankAccount}) => {
                     <Button label={"Cancel"} onClick={handleCancelButton}/>
                 </div>
             </div>
+        {openPreview && <InvoicePreview invoiceData={collectInvoiceData()} handleClosePreview={handleClosePreview}/>}
         </>)
 }
 

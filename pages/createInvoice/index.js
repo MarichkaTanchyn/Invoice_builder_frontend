@@ -8,18 +8,26 @@ import {getCustomers} from "../api/customersApi";
 import {getCategoriesWithSubcategories} from "../api/categoriesApi";
 import {getCategoryProducts} from "../api/productsApi";
 import {getCompanyData} from "../api/companyAPI";
+import {getEmployeeData} from "../api/employeesApi";
 
 const CreateInvoice = () => {
 
     const [customers, setCustomers] = useState([]);
     const [products, setProducts] = useState([]);
-    const [bankAccount, setBankAccount] = useState();
+    const [companyData, setCompanyData] = useState({});
+    const [employee, setEmployee] = useState([]);
+    const [clickedOpenPreview, setClickedOpenPreview] = useState(false);
 
     useEffect(() => {
 
-        async function fetchBankAccount() {
+        async function fetchCompanyDetails() {
             const data = await getCompanyData();
-            setBankAccount(data.data.bankAccountNumber);
+            setCompanyData(data.data);
+        }
+
+        async function fetchEmployee() {
+            const data = await getEmployeeData();
+            setEmployee(data.data);
         }
 
         async function fetchCustomers() {
@@ -72,16 +80,13 @@ const CreateInvoice = () => {
             }
             setProducts(transformedData);
         }
-
-        fetchBankAccount();
+        fetchEmployee();
+        fetchCompanyDetails();
         fetchCustomers();
         fetchProducts();
     }, [])
 
 
-    const handlePreviewInvoice = () => {
-        console.log("Preview");
-    }
 
     return (
         <Card>
@@ -89,12 +94,19 @@ const CreateInvoice = () => {
                 <div className={styles.headers}>
                     <h1>Create Invoice</h1>
                     <div className={styles.actions}>
-                        <Button label={"Preview"} onClick={handlePreviewInvoice}/>
+                        <Button label={"Preview"} onClick={() => setClickedOpenPreview(true)}/>
                     </div>
                 </div>
                 <hr/>
             </div>
-            <CreateInvoiceForm bankAccount={bankAccount} customers={customers} products={products}/>
+            <CreateInvoiceForm
+                companyDetails={companyData}
+                employee={employee}
+                setClickedOpenPreview={setClickedOpenPreview}
+                clickedOpenPreview={clickedOpenPreview}
+                customers={customers}
+                products={products}
+            />
         </Card>
     );
 }
