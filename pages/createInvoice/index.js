@@ -7,13 +7,21 @@ import {useEffect, useState} from "react";
 import {getCustomers} from "../api/customersApi";
 import {getCategoriesWithSubcategories} from "../api/categoriesApi";
 import {getCategoryProducts} from "../api/productsApi";
+import {getCompanyData} from "../api/companyAPI";
 
 const CreateInvoice = () => {
 
     const [customers, setCustomers] = useState([]);
     const [products, setProducts] = useState([]);
+    const [bankAccount, setBankAccount] = useState();
 
     useEffect(() => {
+
+        async function fetchBankAccount() {
+            const data = await getCompanyData();
+            setBankAccount(data.data.bankAccountNumber);
+        }
+
         async function fetchCustomers() {
             const data = await getCustomers();
             const transformedData = data.employees.map(customer => {
@@ -38,8 +46,10 @@ const CreateInvoice = () => {
                         children.push({
                             value: subcategory.id,
                             label: subcategory.name,
+                            type: "subcategory",
                             children: products.map(product => ({
                                 value: product.id,
+                                type: "product",
                                 label: `${product.name}, price: ${product.price}, description: ${product.description}`
                             })),
                         });
@@ -48,6 +58,7 @@ const CreateInvoice = () => {
                     const products = await getCategoryProducts(category.id);
                     children.push(...products.map(product => ({
                         value: product.id,
+                        type: "product",
                         label: `${product.name}, price: ${product.price}, description: ${product.description}`
                     })));
                 }
@@ -55,12 +66,14 @@ const CreateInvoice = () => {
                 transformedData.push({
                     value: category.id,
                     label: category.name,
+                    type: "category",
                     children: children,
                 });
             }
             setProducts(transformedData);
         }
 
+        fetchBankAccount();
         fetchCustomers();
         fetchProducts();
     }, [])
@@ -81,7 +94,7 @@ const CreateInvoice = () => {
                 </div>
                 <hr/>
             </div>
-            <CreateInvoiceForm customers={customers} products={products}/>
+            <CreateInvoiceForm bankAccount={bankAccount} customers={customers} products={products}/>
         </Card>
     );
 }

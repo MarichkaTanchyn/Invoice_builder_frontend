@@ -64,3 +64,17 @@ export const updateProducts = async (data) => {
         console.error("Error sending products data:", error.response || error);
     }
 }
+
+export const getProduct = async (ProductId) => {
+    const apiUrl = `http://localhost:3000/getProduct/${ProductId}`;
+    try {
+        const response = await axios.get(apiUrl, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error receiving products data:", error.response || error);
+    }
+}

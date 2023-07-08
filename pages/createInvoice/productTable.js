@@ -6,6 +6,7 @@ import ButtonWithImg from "../components/util/button/buttonWithImg";
 import units from "../components/data/units.json";
 import PaymentActions from "./paymentActions";
 import { Cascader } from 'antd';
+import {getProduct} from "../api/productsApi";
 
 
 const ProductTable = ({
@@ -16,8 +17,9 @@ const ProductTable = ({
                           handleInputChange,
                           toggleRowSelection,
                           selectAllRows,
-    products
+                          products,
                       }) => {
+
 
     const vatOptions = [
         // Add your VAT options here
@@ -28,9 +30,40 @@ const ProductTable = ({
         {value: 23, label: '23%'},
     ];
 
-    const handleCascadeChange = (value, selectedOptions) => {
+    const handleCascadeChange = async (value, selectedOptions) => {
         console.log(value, selectedOptions);
+
+        const lastObject = getLastChild(selectedOptions);
+
+        console.log(lastObject);
+
+        if (lastObject.type !== "product") {
+            //deselect value
+        } else {
+            rows[rows.length - 1].id = lastObject.value;
+            rows[rows.length - 1].product = await getProduct(lastObject.value)
+            rows[rows.length - 1].unitPrice = rows[rows.length - 1].product.price;
+
+            rows[rows.length - 1].selectedProduct = value;
+            handleInputChange(rows[rows.length - 1].id, 'unitPrice', rows[rows.length - 1].unitPrice)
+        }
+
     };
+
+    function getLastChild(arr) {
+        // Get the last element of the array
+        const last = arr[arr.length - 1];
+
+        // If it has children, recursively call this function again
+        if (last.children && last.children.length > 0) {
+            return getLastChild(last.children);
+        } else {
+            // If it doesn't have children, return the element
+            return last;
+        }
+    }
+
+
     return (
         <>
             <h2>Items</h2>
@@ -73,10 +106,11 @@ const ProductTable = ({
                         </td>
                         <td style={{textAlign: 'center'}}>
                             <div className={styles.container}>
-                                {products && <Cascader
+                                {products &&  <Cascader
                                     className={styles.selectProduct}
                                     options={products}
-                                    onChange={handleCascadeChange}
+                                    value={row.selectedProduct}
+                                    onChange={(value, selectedOptions) => handleCascadeChange(value, selectedOptions, index)}
                                     placeholder="Please select"
                                     showSearch
                                 />}
@@ -98,29 +132,26 @@ const ProductTable = ({
                         <td>
                             <CustomInput
                                 type={"number"}
-                                value={row.amount}
+                                defaultValue={row.amount}
                                 onChange={(value) =>
                                     handleInputChange(row.id, 'amount', value)
                                 }
                                 className={styles.itemsInput}
-                                placeholder={"1"}
                             />
                         </td>
                         <td className={styles.tableDisabledInput}>{row.unitPrice}
                             <hr/>
                         </td>
                         <td>
-                            <div className={styles.select}>
-                                <SmallSelectWithUnderline
-                                    placeholder={"%"}
-                                    options={vatOptions}
-                                    value={vatOptions.find((option) => option.value === row.vat)}
-                                    onChange={(e) =>
-                                        handleInputChange(row.id, 'vat', e.value)
-                                    }
-                                    className={styles.itemsInput}
-                                />
-                            </div>
+                            <SmallSelectWithUnderline
+                                placeholder={"%"}
+                                options={vatOptions}
+                                value={vatOptions.find((option) => option.value === parseInt(row.vat))}
+                                onChange={(e) =>
+                                    handleInputChange(row.id, 'vat', e.value)
+                                }
+                                className={styles.itemsInput}
+                            />
                         </td>
                         <td className={styles.tableDisabledInput}>{row.netValue}
                             <hr/>
@@ -159,7 +190,6 @@ const ProductTable = ({
                 </tr>
                 </tfoot>
             </table>
-            <PaymentActions totalGrossValue={summary.totalGrossValue}/>
         </>
     );
 };

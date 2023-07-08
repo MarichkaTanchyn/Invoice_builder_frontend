@@ -7,7 +7,7 @@ import CustomInput from "../components/util/input/customInput";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
 
-const PaymentActions = ({totalGrossValue}) => {
+const PaymentActions = ({totalGrossValue, bankAccount, setCurrency, setPaymentMethod}) => {
 
     const [paid, setPaid] = React.useState(0);
     const [partiallyPaid, setPartiallyPaid] = React.useState(false);
@@ -26,12 +26,12 @@ const PaymentActions = ({totalGrossValue}) => {
     return (
         <div className={styles.paymentActions}>
             {/*    select currency, select payment method, select bankAccount, input paid, input left to pay, checkBox paid*/}
-            <SelectWithUnderline options={currencies} label={"Currency"} placeholder={"Currency"}/>
-            <SelectWithUnderline options={paymentMethods} label={"Payment Methods"} placeholder={"Payment Methods"}/>
+            <SelectWithUnderline options={currencies} label={"Currency"} placeholder={"Currency"} onChange={(option) => setCurrency(option)}/>
+            <SelectWithUnderline options={paymentMethods} label={"Payment Methods"} placeholder={"Payment Methods"} onChange={(option) => setPaymentMethod(option)}/>
 
             <div className={styles.labelBox}>
                 <span className={styles.label}>Bank Account </span>
-                <span>92 3842 3232 3203 9132 0000 3422 <hr/></span>
+                <span>{bankAccount ? bankAccount : ''} <hr/></span>
             </div>
             <div className={styles.labelBox}>
                 <span className={styles.label}>Partially paid</span>

@@ -8,8 +8,9 @@ import Button from "../components/util/button/button";
 import {useRouter} from "next/router";
 import {getCustomer} from "../api/customersApi";
 import TERMS_OPTIONS from "../components/data/paymentTerms";
+import PaymentActions from "./paymentActions";
 
-const CreateInvoiceForm = ({customers, products}) => {
+const CreateInvoiceForm = ({customers, products, bankAccount}) => {
 
     const [customer, setCustomer] = useState(null)
     const [documentType, setDocumentType] = useState("invoice")
@@ -18,6 +19,8 @@ const CreateInvoiceForm = ({customers, products}) => {
     const [validFrom, setValidFrom] = useState(today);
     const [validUntil, setValidUntil] = useState('');
     const [paymentTerm, setPaymentTerm] = useState(null);
+    const [currency, setCurrency] = useState();
+    const [paymentMethod, setPaymentMethod] = useState(null);
 
     useEffect(() => {
         let newValidUntil;
@@ -51,28 +54,30 @@ const CreateInvoiceForm = ({customers, products}) => {
 
     const [rows, setRows] = useState([{
         id: 1,
-        product: '',
+        product: [],
         unit: '',
         amount: '1',
         unitPrice: '0.00',
-        vat: '',
+        vat: '23',
         netValue: '0.00',
         vatValue: '0.00',
         grossValue: '0.00',
         discount: '0',
+        selectedProduct: null,
     },]);
     const addRow = () => {
         const newRow = {
             id: rows.length + 1,
-            product: '',
+            product: [],
             unit: '',
             amount: '1',
             unitPrice: '0.00',
-            vat: '',
+            vat: '23',
             netValue: '0.00',
             vatValue: '0.00',
             grossValue: '0.00',
             discount: '0',
+            selectedProduct: null,
         };
         setRows((prevRows) => [...prevRows, newRow]);
     };
@@ -141,14 +146,15 @@ const CreateInvoiceForm = ({customers, products}) => {
 
     useEffect(() => {
         const updatedSummary = calculateSummary();
+
         setSummary(updatedSummary);
     }, [rows]);
 
     const calculateSummary = () => {
-        const totalAmount = rows.reduce((sum, row) => sum + parseFloat(row.amount || 0), 0);
-        const totalNetValue = rows.reduce((sum, row) => sum + parseFloat(row.netValue || 0), 0);
-        const totalVatValue = rows.reduce((sum, row) => sum + parseFloat(row.vatValue || 0), 0);
-        const totalGrossValue = rows.reduce((sum, row) => sum + parseFloat(row.grossValue || 0), 0);
+        const totalAmount = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.amount || 0), 0)).toFixed(2);
+        const totalNetValue = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.netValue || 0), 0)).toFixed(2);
+        const totalVatValue = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.vatValue || 0), 0)).toFixed(2);
+        const totalGrossValue = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.grossValue || 0), 0)).toFixed(2);
 
         return {
             totalAmount, totalNetValue, totalVatValue, totalGrossValue,
@@ -165,9 +171,11 @@ const CreateInvoiceForm = ({customers, products}) => {
             paymentTerm: paymentTerm.value,
             customer: customer,
             products: rows,
+            bankAccount: bankAccount,
+            currency: currency.value,
+            paymentMethod: paymentMethod.value,
             summary
         };
-        //todo: add payment details and invoice&client details
         return invoiceData;
     };
 
@@ -277,6 +285,12 @@ const CreateInvoiceForm = ({customers, products}) => {
                               toggleRowSelection={toggleRowSelection}
                               selectAllRows={selectAllRows}
                               products={products}
+                />
+                <PaymentActions bankAccount={bankAccount}
+                                setCurrency={setCurrency}
+                                currency={currency}
+                                totalGrossValue={summary.totalGrossValue}
+                                setPaymentMethod={setPaymentMethod}
                 />
             </div>
             <div className={styles.actionButtons}>
