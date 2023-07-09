@@ -206,10 +206,10 @@ const CreateInvoiceForm = ({customers, products, bankAccount, clickedOpenPreview
 
     return (<>
             <div className={styles.invoiceHeaders}>
-                <Radio.Group label={"Type"} defaultValue={"invoice"} className={styles.blackRadio}
+                <Radio.Group label={"Type"} defaultValue={"Invoice"} className={styles.blackRadio}
                              onChange={(value) => setDocumentType(value)}>
-                    <Radio value={"invoice"} size={"sm"}>Invoice</Radio>
-                    <Radio value={"quote"} size={"sm"}>Quote</Radio>
+                    <Radio value={"Invoice"} size={"sm"}>Invoice</Radio>
+                    <Radio value={"Quote"} size={"sm"}>Quote</Radio>
                 </Radio.Group>
                 <CustomInput
                     isValid={true}

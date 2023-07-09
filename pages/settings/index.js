@@ -64,7 +64,6 @@ const Settings = () => {
                 >
                     <Tab label="Company's Data"/>
                     <Tab label="Account Data"/>
-                    <Tab label="Invoice form"/>
                     {hasAdminPermission &&
                         <Tab label="Accounts"/>
                     }
@@ -81,15 +80,12 @@ const Settings = () => {
                     <AccountData/>
                 </TabPanel>
 
-                <TabPanel value={value} index={2}>
-                    Invoice form Content
-                </TabPanel>
 
-                <TabPanel value={value} index={3}>
+                <TabPanel value={value} index={2}>
                     <Accounts/>
                 </TabPanel>
 
-                <TabPanel value={value} index={4}>
+                <TabPanel value={value} index={3}>
                     <Permissions/>
                 </TabPanel>
 

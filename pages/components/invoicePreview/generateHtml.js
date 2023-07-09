@@ -1,16 +1,7 @@
 import React from "react";
 
 export const generateHTML = (invoiceDetails, template) => {
-    switch (template) {
-        case 'template1':
-            return template1(invoiceDetails);
-        case 'template2':
-            return template2(invoiceDetails);
-        case 'template3':
-            return template3(invoiceDetails);
-        default:
-            throw new Error('Invalid template selected.');
-    }
+    return template1(invoiceDetails);
 };
 const template1 = (invoiceDetails) => {
     const {
@@ -94,58 +85,58 @@ const template1 = (invoiceDetails) => {
                 margin: 0 auto;
                 font-family: Arial, sans-serif;
             }
-
+            
             .invoice-header {
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 20px;
             }
-
+            
             .invoice-header-left {
             }
-
+            
             .invoice-title {
                 margin: 0;
             }
-
+            
             .invoice-date {
                 margin: 0;
             }
-
+            
             .invoice-header-right {
             }
-
+            
             .invoice-company-details {
                 list-style-type: none;
                 padding: 0;
             }
-
+            
             .invoice-info {
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 20px;
             }
-
+            
             .invoice-info-company {
             }
-
+            
             .invoice-info-customer {
             }
-
+            
             .invoice-info-details {
                 list-style-type: none;
                 padding: 0;
             }
-
+            
             .invoice-table-wrapper {
             }
-
+            
             .invoice-table {
                 width: 100%;
                 text-align: left;
                 border-collapse: collapse;
             }
-
+            
             .invoice-payment-details {
                 margin-top: 20px;
             }
@@ -244,55 +235,3 @@ const template1 = (invoiceDetails) => {
 
     `
 };
-
-const template2 = (invoiceDetails) => `
-  <div style="font-family: Arial, sans-serif;">
-    <h1 style="color: blue;">${invoiceDetails.customer.name}</h1>
-    <p>Invoice Number: ${invoiceDetails.documentNumber}</p>
-  
-    <h2 style="color: green;">Billing Details:</h2>
-    <p>Company Number: ${invoiceDetails.customer.companyNumber}</p>
-    <p>Phone: ${invoiceDetails.customer.Person.phoneNumber}</p>
-    <p>Email: ${invoiceDetails.customer.Person.email}</p>
-  
-    <h2 style="color: green;">Products:</h2>
-    ${invoiceDetails.products.map(product => `
-      <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
-        <h3>Product Name: ${product.product.name}</h3>
-        <p>Price: ${product.unitPrice}</p>
-        <p>Quantity: ${product.amount}</p>
-      </div>
-    `).join('')}
-  
-    <h2 style="color: green;">Total Due:</h2>
-    <p>${invoiceDetails.summary.totalGrossValue}</p>
-  </div>
-`;
-
-
-const template3 = (invoiceDetails) => `
-  <div style="font-family: Arial, sans-serif;">
-    <h1 style="color: blue;">${invoiceDetails.documentNumber}</h1>
-    <p>Valid From: ${invoiceDetails.validFrom}</p>
-    <p>Valid Until: ${invoiceDetails.validUntil}</p>
-  
-    <h2 style="color: green;">${invoiceDetails.customer.name} Details:</h2>
-    <p>Phone: ${invoiceDetails.customer.Person.phoneNumber}</p>
-    <p>Email: ${invoiceDetails.customer.Person.email}</p>
-  
-    <h2 style="color: green;">Products Purchased:</h2>
-    ${invoiceDetails.products.map(product => `
-      <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
-        <h3>Product Name: ${product.product.name}</h3>
-        <p>Price: ${product.unitPrice}</p>
-        <p>Quantity: ${product.amount}</p>
-      </div>
-    `).join('')}
-  
-    <h2 style="color: green;">Invoice Summary:</h2>
-    <p>Total Amount: ${invoiceDetails.summary.totalAmount}</p>
-    <p>Total Net Value: ${invoiceDetails.summary.totalNetValue}</p>
-    <p>Total VAT Value: ${invoiceDetails.summary.totalVatValue}</p>
-    <p>Total Gross Value: ${invoiceDetails.summary.totalGrossValue}</p>
-  </div>
-`;
