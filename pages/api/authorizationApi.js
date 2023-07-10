@@ -2,10 +2,8 @@ import axios from "axios";
 import {getCookie} from "cookies-next";
 
 export const companySignup = async (data) => {
-    const apiUrl = `http://localhost:3000/companySignup`;
-
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `companySignup`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -19,10 +17,8 @@ export const companySignup = async (data) => {
 };
 
 export const login = async (data) => {
-    const apiUrl = `http://localhost:3000/signIn`;
-
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `signIn`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -35,21 +31,16 @@ export const login = async (data) => {
 };
 
 export const getRegisterToken = async () => {
-    const apiUrl = `http://localhost:3000/createInvite/${getCookie("companyId")}`;
-
     try {
-        const response = await axios.get(apiUrl);
-        return response;
+        return await axios.get(process.env.API_URL + `createInvite/${getCookie("companyId")}`);
     } catch (error) {
         console.error("Error in login process:", error.response || error);
     }
 };
 
 export const employeeSignUp = async (data, token) => {
-    const apiUrl = `http://localhost:3000/employeeSignup/${token}`;
-
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `employeeSignup/${token}`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -62,16 +53,12 @@ export const employeeSignUp = async (data, token) => {
 };
 
 export const sendRegisterLinkViaEmail = async (email) => {
-const apiUrl = `http://localhost:3000/sendRegisterLinkViaEmail/${getCookie("companyId")}`;
-
     try {
-        const response = await axios.post(apiUrl, email, {
+        return await axios.post(process.env.API_URL + `sendRegisterLinkViaEmail/${getCookie("companyId")}`, email, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie("accToken")}`
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
-        return response;
     } catch (error) {
         console.error("Error in login process:", error.response || error);
     }

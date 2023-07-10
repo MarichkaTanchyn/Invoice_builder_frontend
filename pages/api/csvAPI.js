@@ -2,13 +2,10 @@ import axios from "axios";
 import {getCookie} from "cookies-next";
 
 export const readExcel = async (fileKey, data) => {
-    // const apiUrl = process.env.NEXT_PUBLIC_HOST + `readExcelSheet/${fileKey}`;
-    const apiUrl = `http://localhost:3000/readExcelSheet/${fileKey}`;
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `readExcelSheet/${fileKey}`, data, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie("accToken")}`
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Sheets data sent successfully", response.data);
@@ -19,19 +16,13 @@ export const readExcel = async (fileKey, data) => {
 }
 
 export const preprocessCsv = async (fileKey, sheetData, headersRow, processType) => {
-    const apiUrl = `http://localhost:3000/${processType}/${fileKey}`;
-
     const data = {
-        categoryId: getCookie("categoryId"),
-        data: sheetData,
-        headersRow: headersRow
+        categoryId: getCookie("categoryId"), data: sheetData, headersRow: headersRow
     }
-
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `${processType}/${fileKey}`, data, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie("accToken")}`
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         console.log("Products data sent successfully", response.data);

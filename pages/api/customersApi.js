@@ -1,10 +1,9 @@
 import axios from "axios";
 import {getCookie} from "cookies-next";
 
-
 export const getCustomers = async () => {
     try {
-        const {data: employees} = await axios.get(`http://localhost:3000/getCompanyCustomers/${getCookie('companyId')}`, {
+        const {data: employees} = await axios.get(process.env.API_URL + `getCompanyCustomers/${getCookie('companyId')}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -22,7 +21,7 @@ export const getCustomers = async () => {
 
 export const getCustomer = async (CustomerId) => {
     try {
-        return await axios.get(`http://localhost:3000/getCustomer/${CustomerId}`, {
+        return await axios.get(process.env.API_URL + `getCustomer/${CustomerId}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -33,13 +32,10 @@ export const getCustomer = async (CustomerId) => {
 }
 
 export const addCustomer = async (data) => {
-    const apiUrl = `http://localhost:3000/addCustomer/${getCookie('companyId')}`;
-
     try {
-        return await axios.post(apiUrl, data, {
+        return await axios.post(process.env.API_URL + `addCustomer/${getCookie('companyId')}`, data, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie("accToken")}`
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
     } catch (error) {
@@ -49,14 +45,10 @@ export const addCustomer = async (data) => {
 }
 
 export const updateCustomer = async (CustomerId, data) => {
-
-    const apiUrl = `http://localhost:3000/updateCustomer/${CustomerId}`;
-
     try {
-        return await axios.post(apiUrl, data, {
+        return await axios.post(process.env.API_URL + `updateCustomer/${CustomerId}`, data, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${getCookie("accToken")}`
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
     } catch (error) {

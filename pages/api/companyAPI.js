@@ -3,7 +3,7 @@ import {getCookie} from "cookies-next";
 
 export const getCompanyData = async () => {
     try {
-        const data = await axios.get(`http://localhost:3000/getCompany/${getCookie('companyId')}`, {
+        const data = await axios.get(process.env.API_URL + `getCompany/${getCookie('companyId')}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -14,15 +14,14 @@ export const getCompanyData = async () => {
     } catch (error) {
         console.error(error);
         return {
-            data : []
+            data: []
         };
     }
 };
 
 export const updateCompanyData = async (data) => {
-    const apiUrl = `http://localhost:3000/updateCompany/${getCookie('companyId')}`;
     try {
-        return await axios.post(apiUrl, data, {
+        return await axios.post(process.env.API_URL + `updateCompany/${getCookie('companyId')}`, data, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }

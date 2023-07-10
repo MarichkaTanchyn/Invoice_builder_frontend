@@ -2,12 +2,10 @@ import axios from "axios";
 import {getCookie} from "cookies-next";
 
 export const addProduct = async (productsData, CategoryId) => {
-    const apiUrl = `http://localhost:3000/addProduct/${CategoryId}`;
-
     console.log(CategoryId)
     console.log("Products data sent:", productsData);
     try {
-        const response = await axios.post(apiUrl, productsData, {
+        const response = await axios.post(process.env.API_URL + `addProduct/${CategoryId}`, productsData, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -20,9 +18,8 @@ export const addProduct = async (productsData, CategoryId) => {
 }
 
 export const getCategoryProducts = async (CategoryId) => {
-    const apiUrl = `http://localhost:3000/getCategoryProducts/${CategoryId}`;
     try {
-        const response = await axios.get(apiUrl, {
+        const response = await axios.get(process.env.API_URL + `getCategoryProducts/${CategoryId}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -36,10 +33,9 @@ export const getCategoryProducts = async (CategoryId) => {
 }
 
 export const deleteProducts = async (data) => {
-    const apiUrl = `http://localhost:3000/deleteProducts`;
     console.log("Products data sent:", data);
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `deleteProducts`, data, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -51,10 +47,9 @@ export const deleteProducts = async (data) => {
 }
 
 export const updateProducts = async (data) => {
-    const apiUrl = `http://localhost:3000/updateProducts`;
     console.log("Products data sent:", data);
     try {
-        const response = await axios.post(apiUrl, data, {
+        const response = await axios.post(process.env.API_URL + `updateProducts`, data, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -66,9 +61,8 @@ export const updateProducts = async (data) => {
 }
 
 export const getProduct = async (ProductId) => {
-    const apiUrl = `http://localhost:3000/getProduct/${ProductId}`;
     try {
-        const response = await axios.get(apiUrl, {
+        const response = await axios.get(process.env.API_URL + `getProduct/${ProductId}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }

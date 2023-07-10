@@ -6,7 +6,7 @@ export const postFile = async (file, companyId) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axios.post(`http://localhost:3000/uploadFile/${companyId}`, formData, {
+    const response = await axios.post(process.env.API_URL + `uploadFile/${companyId}`, formData, {
         headers: {
             'Authorization': `Bearer ${getCookie("accToken")}`
         }

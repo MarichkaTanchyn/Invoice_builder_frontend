@@ -3,7 +3,7 @@ import {getCookie} from "cookies-next";
 
 export const getEmployees = async () => {
     try {
-        const {data: employees} = await axios.get(`http://localhost:3000/getCompanyEmployees/${getCookie('companyId')}`, {
+        const {data: employees} = await axios.get(process.env.API_URL + `getCompanyEmployees/${getCookie('companyId')}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -21,7 +21,7 @@ export const getEmployees = async () => {
 
 export const getEmployeeData = async () => {
     try {
-        const data = await axios.get(`http://localhost:3000/getEmployee/${getCookie('employeeId')}`, {
+        const data = await axios.get(process.env.API_URL + `getEmployee/${getCookie('employeeId')}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -39,9 +39,8 @@ export const getEmployeeData = async () => {
 }
 
 export const updatePersonData = async (data) => {
-    const apiUrl = `http://localhost:3000/updateEmployeePerson/${getCookie('employeeId')}`;
     try {
-        return await axios.post(apiUrl, data, {
+        return await axios.post(process.env.API_URL + `updateEmployeePerson/${getCookie('employeeId')}`, data, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -54,9 +53,8 @@ export const updatePersonData = async (data) => {
 }
 
 export const deleteEmployee = async (EmployeeId) => {
-    const apiUrl = `http://localhost:3000/deleteEmployee/${EmployeeId}`;
     try {
-        return await axios.delete(apiUrl, {
+        return await axios.delete(process.env.API_URL + `deleteEmployee/${EmployeeId}`, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -68,9 +66,8 @@ export const deleteEmployee = async (EmployeeId) => {
 }
 
 export const updateEmployeePermissions = async (EmployeeId, permissions) => {
-    const apiUrl = `http://localhost:3000/updateEmployeePermissions/${EmployeeId}`;
     try {
-        return await axios.post(apiUrl, permissions, {
+        return await axios.post(process.env.API_URL + `updateEmployeePermissions/${EmployeeId}`, permissions, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
@@ -82,10 +79,8 @@ export const updateEmployeePermissions = async (EmployeeId, permissions) => {
 }
 
 export const acceptEmployee = async (EmployeeId) => {
-    const apiUrl = `http://localhost:3000/acceptEmployee/${EmployeeId}`;
-
     try {
-        return await axios.post(apiUrl, {},{
+        return await axios.post(process.env.API_URL + `acceptEmployee/${EmployeeId}`, {}, {
             headers: {
                 'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
             }
