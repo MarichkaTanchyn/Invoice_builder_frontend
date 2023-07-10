@@ -10,8 +10,18 @@ import {getCustomer} from "../api/customersApi";
 import TERMS_OPTIONS from "../components/data/paymentTerms";
 import PaymentActions from "./paymentActions";
 import InvoicePreview from "../components/invoicePreview/invoicePreview";
+import {generateHTML} from "../components/invoicePreview/generateHtml";
+import {sendInvoiceData} from "../api/invoicesAPI";
 
-const CreateInvoiceForm = ({customers, products, bankAccount, clickedOpenPreview, setClickedOpenPreview, companyDetails, employee}) => {
+const CreateInvoiceForm = ({
+                               customers,
+                               products,
+                               bankAccount,
+                               clickedOpenPreview,
+                               setClickedOpenPreview,
+                               companyDetails,
+                               employee
+                           }) => {
 
     const [customer, setCustomer] = useState(null)
     const [documentType, setDocumentType] = useState("invoice")
@@ -25,7 +35,7 @@ const CreateInvoiceForm = ({customers, products, bankAccount, clickedOpenPreview
     const [openPreview, setOpenPreview] = useState(false);
 
     useEffect(() => {
-        if( clickedOpenPreview ) {
+        if (clickedOpenPreview) {
             setOpenPreview(true);
         }
     }, [clickedOpenPreview])
@@ -189,9 +199,11 @@ const CreateInvoiceForm = ({customers, products, bankAccount, clickedOpenPreview
     };
 
     const handleSubmitButton = async () => {
-        const invoiceData = collectInvoiceData();
+        let invoiceData = collectInvoiceData();
+        const htmlString = generateHTML(invoiceData);
+        invoiceData = [{...invoiceData, html: htmlString}];
         console.log(invoiceData);
-        // await sendInvoiceData(invoiceData);
+        await sendInvoiceData(invoiceData);
     }
 
     const handleClosePreview = async () => {
@@ -205,117 +217,117 @@ const CreateInvoiceForm = ({customers, products, bankAccount, clickedOpenPreview
     }
 
     return (<>
-            <div className={styles.invoiceHeaders}>
-                <Radio.Group label={"Type"} defaultValue={"Invoice"} className={styles.blackRadio}
-                             onChange={(value) => setDocumentType(value)}>
-                    <Radio value={"Invoice"} size={"sm"}>Invoice</Radio>
-                    <Radio value={"Quote"} size={"sm"}>Quote</Radio>
-                </Radio.Group>
-                <CustomInput
-                    isValid={true}
-                    className={styles.input}
-                    defaultValue={documentNumber ? documentNumber : ''}
-                    onChange={(value) => setDocumentNumber(value)}
-                    label={"Document Num"}
-                    placeholder={"Document Number"}
-                    type={"text"}
-                />
-                <CustomInput
-                    label={"Valid from"}
-                    isValid={true}
-                    defaultValue={validFrom}
-                    placeholder={"Valid from"}
-                    type={"date"}
-                    onChange={(value) => setValidFrom(value)}
-                />
-                <CustomInput
-                    label={"Valid until"}
-                    isValid={true}
-                    defaultValue={validUntil}
-                    placeholder={"Valid until"}
-                    type={"date"}
-                    onChange={(value) => setValidUntil(value)}
-                />
-                <SelectWithUnderline
-                    label={"Payment terms"}
-                    placeholder={"Payment terms"}
-                    options={TERMS_OPTIONS}
-                    value={paymentTerm}
-                    onChange={option => setPaymentTerm(option)}
-                    customStyles={styles.selectLabel}
-                />
-            </div>
-            <div className={styles.customerInfo}>
-                <SelectWithUnderline
-                    label={"Customer"}
-                    placeholder={"Customer"}
-                    options={customers}
-                    onChange={handleCustomerChange}
-                    customStyles={styles.selectLabel}
-                />
-                <CustomInput
-                    className={styles.input}
-                    isValid={true}
-                    defaultValue={customer ? customer.nip : ''}
-                    label={"NIP"}
-                    type={"text"}
-                />
-                <CustomInput
-                    className={styles.input}
-                    isValid={true}
-                    defaultValue={customer ? customer.address : ''}
-                    label={"Address"}
-                    type={"text"}
-                />
-                <CustomInput
-                    label={"Country"}
-                    placeholder={"Country"}
-                    isValid={true}
-                    defaultValue={customer ? customer.country : ''}
-                    customStyles={styles.selectLabel}
-                    className={styles.input}
-                />
-                <CustomInput className={styles.input}
-                             isValid={true}
-                             defaultValue={customer ? customer.city : ''}
-                             label={"City"}
-                             type={"text"}
-                />
-                <CustomInput className={styles.input}
-                             isValid={true}
-                             defaultValue={customer ? customer.postalCode : ''}
-                             label={"Postcode"}
-                             type={"text"}
-                />
+        <div className={styles.invoiceHeaders}>
+            <Radio.Group label={"Type"} defaultValue={"Invoice"} className={styles.blackRadio}
+                         onChange={(value) => setDocumentType(value)}>
+                <Radio value={"Invoice"} size={"sm"}>Invoice</Radio>
+                <Radio value={"Quote"} size={"sm"}>Quote</Radio>
+            </Radio.Group>
+            <CustomInput
+                isValid={true}
+                className={styles.input}
+                defaultValue={documentNumber ? documentNumber : ''}
+                onChange={(value) => setDocumentNumber(value)}
+                label={"Document Num"}
+                placeholder={"Document Number"}
+                type={"text"}
+            />
+            <CustomInput
+                label={"Valid from"}
+                isValid={true}
+                defaultValue={validFrom}
+                placeholder={"Valid from"}
+                type={"date"}
+                onChange={(value) => setValidFrom(value)}
+            />
+            <CustomInput
+                label={"Valid until"}
+                isValid={true}
+                defaultValue={validUntil}
+                placeholder={"Valid until"}
+                type={"date"}
+                onChange={(value) => setValidUntil(value)}
+            />
+            <SelectWithUnderline
+                label={"Payment terms"}
+                placeholder={"Payment terms"}
+                options={TERMS_OPTIONS}
+                value={paymentTerm}
+                onChange={option => setPaymentTerm(option)}
+                customStyles={styles.selectLabel}
+            />
+        </div>
+        <div className={styles.customerInfo}>
+            <SelectWithUnderline
+                label={"Customer"}
+                placeholder={"Customer"}
+                options={customers}
+                onChange={handleCustomerChange}
+                customStyles={styles.selectLabel}
+            />
+            <CustomInput
+                className={styles.input}
+                isValid={true}
+                defaultValue={customer ? customer.nip : ''}
+                label={"NIP"}
+                type={"text"}
+            />
+            <CustomInput
+                className={styles.input}
+                isValid={true}
+                defaultValue={customer ? customer.address : ''}
+                label={"Address"}
+                type={"text"}
+            />
+            <CustomInput
+                label={"Country"}
+                placeholder={"Country"}
+                isValid={true}
+                defaultValue={customer ? customer.country : ''}
+                customStyles={styles.selectLabel}
+                className={styles.input}
+            />
+            <CustomInput className={styles.input}
+                         isValid={true}
+                         defaultValue={customer ? customer.city : ''}
+                         label={"City"}
+                         type={"text"}
+            />
+            <CustomInput className={styles.input}
+                         isValid={true}
+                         defaultValue={customer ? customer.postalCode : ''}
+                         label={"Postcode"}
+                         type={"text"}
+            />
 
+        </div>
+        <div className={styles.items}>
+            <ProductTable summary={summary}
+                          rows={rows}
+                          addRow={addRow}
+                          deleteSelectedRows={deleteSelectedRows}
+                          handleInputChange={handleInputChange}
+                          toggleRowSelection={toggleRowSelection}
+                          selectAllRows={selectAllRows}
+                          products={products}
+            />
+            <PaymentActions bankAccount={bankAccount}
+                            setCurrency={setCurrency}
+                            currency={currency}
+                            totalGrossValue={summary.totalGrossValue}
+                            setPaymentMethod={setPaymentMethod}
+            />
+        </div>
+        <div className={styles.actionButtons}>
+            <div className={styles.button}>
+                <Button label={"Submit"} onClick={handleSubmitButton}/>
             </div>
-            <div className={styles.items}>
-                <ProductTable summary={summary}
-                              rows={rows}
-                              addRow={addRow}
-                              deleteSelectedRows={deleteSelectedRows}
-                              handleInputChange={handleInputChange}
-                              toggleRowSelection={toggleRowSelection}
-                              selectAllRows={selectAllRows}
-                              products={products}
-                />
-                <PaymentActions bankAccount={bankAccount}
-                                setCurrency={setCurrency}
-                                currency={currency}
-                                totalGrossValue={summary.totalGrossValue}
-                                setPaymentMethod={setPaymentMethod}
-                />
+            <div className={styles.button}>
+                <Button label={"Cancel"} onClick={handleCancelButton}/>
             </div>
-            <div className={styles.actionButtons}>
-                <div className={styles.button}>
-                    <Button label={"Submit"} onClick={handleSubmitButton}/>
-                </div>
-                <div className={styles.button}>
-                    <Button label={"Cancel"} onClick={handleCancelButton}/>
-                </div>
-            </div>
+        </div>
         {openPreview && <InvoicePreview invoiceData={collectInvoiceData()} handleClosePreview={handleClosePreview}/>}
-        </>)
+    </>)
 }
 
 export default CreateInvoiceForm;

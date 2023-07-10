@@ -25,7 +25,7 @@ export const getAllDocuments = async ({CompanyId, EmployeeId}) => {
     }
 }
 
-export const sendInvoiceData = async ({invoiceData, EmployeeId}) => {
+export const sendInvoiceData = async (invoiceData, EmployeeId) => {
     const apiUrl = `http://localhost:3000/createInvoice/${EmployeeId}`;
 
     try {
@@ -36,7 +36,7 @@ export const sendInvoiceData = async ({invoiceData, EmployeeId}) => {
                     'Authorization': `Bearer ${getCookie("accToken")}`
                 }
             });
-        console.log("Invoice data sent successfully:", response.data);
+        return response;
     } catch (error) {
         console.error("Error sending invoice data:", error.response || error);
     }

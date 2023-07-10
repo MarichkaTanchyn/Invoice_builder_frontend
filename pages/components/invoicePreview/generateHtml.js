@@ -1,6 +1,6 @@
 import React from "react";
 
-export const generateHTML = (invoiceDetails, template) => {
+export const generateHTML = (invoiceDetails) => {
     return template1(invoiceDetails);
 };
 const template1 = (invoiceDetails) => {

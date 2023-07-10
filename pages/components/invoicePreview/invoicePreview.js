@@ -4,7 +4,7 @@ import {generateHTML} from "./generateHtml";
 
 const InvoicePreview = ({invoiceData, handleClosePreview}) => {
 
-    const htmlString = generateHTML(invoiceData, 'template1');
+    const htmlString = generateHTML(invoiceData);
 
     return (
         <div className={styles.popupBox}>
