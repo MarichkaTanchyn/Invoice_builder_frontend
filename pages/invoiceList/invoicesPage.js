@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Search from "../components/util/search/search";
 import styles from "./invoices.module.css";
 import Filter from "../components/util/filter/filter";
@@ -7,9 +6,9 @@ import Button from "../components/util/button/button";
 import SortSelect from "../components/util/sort/sortSelect";
 import sortDocuments from "../components/util/sort/sortDocuments";
 import InvoiceList from "./invoiceList";
-import { getAllDocuments } from "../api/invoicesAPI";
+import {getAllDocuments} from "../api/invoicesAPI";
 import useFilter from "../components/util/filter/useFilter";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import withLayout from "../components/layout/withLayout";
 import globalStyle from "../global.module.css"
 import {getCookie} from "cookies-next";
@@ -17,94 +16,91 @@ import sortOptions from "../components/data/sortOptions";
 
 
 const InvoicesPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [sortSelect, setSortSelect] = useState(null);
-  const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(true); // initialize loading state
+    const [isOpen, setIsOpen] = useState(false);
+    const [sortSelect, setSortSelect] = useState(null);
+    const [documents, setDocuments] = useState([]);
+    const [loading, setLoading] = useState(true); // initialize loading state
 
-  const { applyFilter, updateFilterSettings } = useFilter();
+    const {applyFilter, updateFilterSettings} = useFilter();
 
-  useEffect(() => {
-    async function fetchData() {
-      const companyId = getCookie("companyId");
-      const employeeId = getCookie("employeeId");
+    useEffect(() => {
+        async function fetchData() {
+            const companyId = getCookie("companyId");
+            const employeeId = getCookie("employeeId");
 
-      const params = {
-        CompanyId: companyId,
-        EmployeeId: employeeId,
-      };
+            const params = {
+                CompanyId: companyId,
+                EmployeeId: employeeId,
+            };
 
-        const data = await getAllDocuments(params)
-        setLoading(false);
-      return data;
-    }
+            const data = await getAllDocuments(params)
+            setDocuments(data.documents.invoices);
+            console.log(data.documents.invoices);
+            setLoading(
+                false);
+            return data;
+        }
 
-    fetchData().then((res) => {
-      if (res && res.props && res.props.documents && res.props.documents.documents) {
-        const allDocuments = Object.values(res.props.documents.documents);
-        setDocuments(applyFilter(allDocuments));
-      }
-    });
+        fetchData();
+    }, [applyFilter]);
 
-  }, [applyFilter]);
+    const handleSearch = (searchTerm) => {
+        console.log(`Searching for: ${searchTerm}`);
+        // make a request to back server and search there
+    };
 
-  const handleSearch = (searchTerm) => {
-    console.log(`Searching for: ${searchTerm}`);
-    // make a request to back server and search there
-  };
+    const handleSortSelectChange = (option) => {
+        // on change sort the documents list
+        setSortSelect(option);
+        setDocuments(sortDocuments(documents, option.value));
+    };
 
-  const handleSortSelectChange = (option) => {
-    // on change sort the documents list
-    setSortSelect(option);
-    setDocuments(sortDocuments(documents, option.value));
-  };
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
 
-  const togglePopup = () => {
-    setIsOpen(!isOpen);
-  };
+    const router = useRouter();
 
-  const router = useRouter();
+    const handleCreateInvoice = async () => {
+        // Replace '/create-invoice' with the path to your Create Invoice page
+        await router.push("/createInvoice");
+    };
 
-  const handleCreateInvoice = async () => {
-    // Replace '/create-invoice' with the path to your Create Invoice page
-    await router.push("/createInvoice");
-  };
-
-  return (
-    <>
-      <div className={styles.headers}>
-        <h1>Invoices</h1>
-        <div className={styles.actions}>
-          <Search placeholder="Search" onSearch={handleSearch} />
-          <SortSelect
-            options={sortOptions}
-            value={sortSelect}
-            onChange={handleSortSelectChange}
-          />
-          <div onClick={togglePopup} className={styles.filter}>
-            <img className={styles.img} src="/filter.svg" alt="Filter" />
-            <span>Filter</span>
-            {isOpen && <Filter updateFilterSettings={updateFilterSettings} />}
-          </div>
-          <div className={styles.createInvoiceButton}>
-            <Button label={"Create Invoice"} onClick={handleCreateInvoice} />
-          </div>
-        </div>
-      </div>
-      {loading ? (
-        <div className={globalStyle.loadingWave}>
-          <div className={globalStyle.loadingBar}></div>
-          <div className={globalStyle.loadingBar}></div>
-          <div className={globalStyle.loadingBar}></div>
-          <div className={globalStyle.loadingBar}></div>
-        </div>
-      ) : (
-          <div style={{marginTop: '2em', padding: '2em'}}>
-        <InvoiceList invoiceList={documents} />
-          </div>
-      )}
-    </>
-  );
+    return (
+        <>
+            <div className={styles.headers}>
+                <h1>Invoices</h1>
+                <div className={styles.actions}>
+                    <Search placeholder="Search" onSearch={handleSearch}/>
+                    <SortSelect
+                        options={sortOptions}
+                        value={sortSelect}
+                        onChange={handleSortSelectChange}
+                    />
+                    <div onClick={togglePopup} className={styles.filter}>
+                        <img className={styles.img} src="/filter.svg" alt="Filter"/>
+                        <span>Filter</span>
+                        {isOpen && <Filter updateFilterSettings={updateFilterSettings}/>}
+                    </div>
+                    <div className={styles.createInvoiceButton}>
+                        <Button label={"Create Invoice"} onClick={handleCreateInvoice}/>
+                    </div>
+                </div>
+            </div>
+            {loading ? (
+                <div className={globalStyle.loadingWave}>
+                    <div className={globalStyle.loadingBar}></div>
+                    <div className={globalStyle.loadingBar}></div>
+                    <div className={globalStyle.loadingBar}></div>
+                    <div className={globalStyle.loadingBar}></div>
+                </div>
+            ) : (
+                <div style={{marginTop: '2em', padding: '2em'}}>
+                    <InvoiceList invoiceList={documents}/>
+                </div>
+            )}
+        </>
+    );
 };
 
 export default withLayout(InvoicesPage);

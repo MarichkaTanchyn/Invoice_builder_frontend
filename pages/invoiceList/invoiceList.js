@@ -25,11 +25,11 @@ const InvoiceList = ({invoiceList}) => {
                 <InvoiceListItem
                     key={invoice.id}
                     id={index + 1}
-                    invoiceNumber={invoice.invoiceNumber}
-                    type={invoice.typeOfDocument}
+                    invoiceNumber={invoice.documentNumber}
+                    type={invoice.documentType}
                     createdBy={parseInt(getCookie('employeeId')) === invoice.Employee.id ? 'You' : invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
                     clientName={invoice.Customer.name}
-                    creationDate={format(new Date(invoice.creationDate), 'dd/MM/yyyy')}
+                    creationDate={format(new Date(invoice.createdAt), 'dd/MM/yyyy')}
                     totalAmount={invoice.totalAmount}
                     status={invoice.status}
                 />

@@ -12,6 +12,7 @@ import PaymentActions from "./paymentActions";
 import InvoicePreview from "../components/invoicePreview/invoicePreview";
 import {generateHTML} from "../components/invoicePreview/generateHtml";
 import {sendInvoiceData} from "../api/invoicesAPI";
+import globalStyle from "../global.module.css";
 
 const CreateInvoiceForm = ({
                                customers,
@@ -33,6 +34,7 @@ const CreateInvoiceForm = ({
     const [currency, setCurrency] = useState();
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [openPreview, setOpenPreview] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (clickedOpenPreview) {
@@ -203,7 +205,13 @@ const CreateInvoiceForm = ({
         const htmlString = generateHTML(invoiceData);
         invoiceData = [{...invoiceData, html: htmlString}];
         console.log(invoiceData);
-        await sendInvoiceData(invoiceData);
+        setLoading(true)
+        const response = await sendInvoiceData(invoiceData);
+        console.log(response)
+        if (response.message === "success") {
+            setOpenPreview(true)
+        }
+        await router.push("/")
     }
 
     const handleClosePreview = async () => {
@@ -217,7 +225,14 @@ const CreateInvoiceForm = ({
     }
 
     return (<>
-        <div className={styles.invoiceHeaders}>
+    {loading && (<div className={globalStyle.loadingWave}>
+            <div className={globalStyle.loadingBar}></div>
+            <div className={globalStyle.loadingBar}></div>
+            <div className={globalStyle.loadingBar}></div>
+            <div className={globalStyle.loadingBar}></div>
+        </div>) }
+        {/*// <>*/}
+            <div className={styles.invoiceHeaders}>
             <Radio.Group label={"Type"} defaultValue={"Invoice"} className={styles.blackRadio}
                          onChange={(value) => setDocumentType(value)}>
                 <Radio value={"Invoice"} size={"sm"}>Invoice</Radio>
@@ -327,7 +342,9 @@ const CreateInvoiceForm = ({
             </div>
         </div>
         {openPreview && <InvoicePreview invoiceData={collectInvoiceData()} handleClosePreview={handleClosePreview}/>}
-    </>)
+        {/*</>}*/}
+
+        </>)
 }
 
 export default CreateInvoiceForm;

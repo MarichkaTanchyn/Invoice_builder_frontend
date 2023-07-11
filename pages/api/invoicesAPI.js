@@ -10,16 +10,12 @@ export const getAllDocuments = async ({CompanyId, EmployeeId}) => {
             }
         });
         return {
-            props: {
-                documents,
-            },
+            documents,
         };
     } catch (error) {
         console.error(error);
         return {
-            props: {
-                documents: [],
-            },
+            documents: [],
         };
     }
 }
