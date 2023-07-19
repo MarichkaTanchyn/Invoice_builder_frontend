@@ -20,7 +20,6 @@ const CompanyData = ({userPermissions}) => {
             }
             setCompanyData(data.data[0])
             setEditedData(data.data[0]);
-            console.log(data.data[0])
         }
         fetchData()
     }, [])
