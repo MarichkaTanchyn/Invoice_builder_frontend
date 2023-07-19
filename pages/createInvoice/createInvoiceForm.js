@@ -17,7 +17,6 @@ import globalStyle from "../global.module.css";
 const CreateInvoiceForm = ({
                                customers,
                                products,
-                               bankAccount,
                                clickedOpenPreview,
                                setClickedOpenPreview,
                                companyDetails,
@@ -66,11 +65,6 @@ const CreateInvoiceForm = ({
     const handleCancelButton = async () => {
         await router.push("/")
     }
-
-    useEffect(() => {
-        console.log(customers)
-        console.log(products)
-    }, [])
 
     const [rows, setRows] = useState([{
         id: 1,
@@ -183,6 +177,7 @@ const CreateInvoiceForm = ({
 
 
     const collectInvoiceData = () => {
+        console.log(companyDetails.bankAccountNumber)
         return {
             documentType: documentType,
             documentNumber: documentNumber,
@@ -191,7 +186,7 @@ const CreateInvoiceForm = ({
             paymentTerm: paymentTerm.value ? paymentTerm.value : '',
             customer: customer,
             products: rows,
-            bankAccount: companyDetails.bankAccount,
+            bankAccount: companyDetails.bankAccountNumber,
             currency: currency ? currency.value : '',
             paymentMethod: paymentMethod ? paymentMethod.value : '',
             companyDetails: companyDetails,
@@ -326,7 +321,7 @@ const CreateInvoiceForm = ({
                           selectAllRows={selectAllRows}
                           products={products}
             />
-            <PaymentActions bankAccount={bankAccount}
+            <PaymentActions bankAccount={companyDetails[0].bankAccountNumber}
                             setCurrency={setCurrency}
                             currency={currency}
                             totalGrossValue={summary.totalGrossValue}

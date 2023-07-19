@@ -22,7 +22,7 @@ const PaymentActions = ({totalGrossValue, bankAccount, setCurrency, setPaymentMe
 
     const leftToPay = totalGrossValue - (parseFloat(paid) || 0);
 
-
+console.log(bankAccount)
     return (
         <div className={styles.paymentActions}>
             {/*    select currency, select payment method, select bankAccount, input paid, input left to pay, checkBox paid*/}

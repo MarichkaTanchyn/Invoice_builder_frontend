@@ -21,11 +21,11 @@ const AccountData = () => {
 
     const handleChange = (field, value) => {
         setEditedData({
-            ...userData,
+            ...editedData,
             [field]: value,
         });
-
     };
+
 
     const handleEdit = () => {
         setEditMode(true);

@@ -20,16 +20,18 @@ const CompanyData = ({userPermissions}) => {
             }
             setCompanyData(data.data[0])
             setEditedData(data.data[0]);
+            console.log(data.data[0])
         }
         fetchData()
     }, [])
 
     const handleChange = (field, value) => {
         setEditedData({
-            ...companyData,
+            ...editedData,
             [field]: value,
         });
     };
+
 
     const handleEdit = () => {
         setEditMode(true);
@@ -73,8 +75,8 @@ const CompanyData = ({userPermissions}) => {
                     <span>Bank Account</span>
                     <CustomInput className={styles.input}
                                  readOnly={!editMode}
-                                 defaultValue={companyData ? companyData.bankAccount : ''}
-                                 onChange={value => handleChange('bankAccount', value)}
+                                 defaultValue={companyData ? companyData.bankAccountNumber : ''}
+                                 onChange={value => handleChange('bankAccountNumber', value)}
                                  type="text"
                     />
                 </div>
