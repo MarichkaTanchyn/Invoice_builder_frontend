@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faChevronRight, faPencil, faPlus, faGear} from '@fortawesome/free-solid-svg-icons'
 import Link from "next/link";
 
-const Sidebar = (props) => {
+const Sidebar = ({categories}) => {
     const [collapse1, setCollapse1] = useState(false);
 
     const toggle1 = () => {
@@ -53,7 +53,7 @@ const Sidebar = (props) => {
                         </Link>
                     </div>
                     <Collapse isOpen={collapse1}>
-                            <SidebarList categories={props.categories}/>
+                            <SidebarList categories={categories}/>
                     </Collapse>
                 </li>
                 <li className={style.li}>

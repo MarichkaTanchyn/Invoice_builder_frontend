@@ -36,9 +36,6 @@
     color: #ffffff;
 }
 
-.subCategory {
-    margin-left: 1em;
-}
 
 .a:hover {
     cursor: default;
@@ -125,6 +122,10 @@
 
 .dropdownContent li a span:hover {
     border-radius: 5px;
+}
+
+.subcategoryUl {
+    list-style-type: none;
 }
 
 @media (min-width: 1200px) and (max-width: 1650px) {

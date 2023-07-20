@@ -5,24 +5,39 @@ import {setCookie} from "cookies-next";
 
 const SidebarItem = (props) => {
     const router = useRouter();
-    const handleRedirect = async( CategoryId ) => {
+    const handleRedirect = async(CategoryId) => {
         console.log(CategoryId);
 
-        setCookie('categoryId', props.id, {
-            maxAge: 60 * 60 * 24 * 7,
-            path: '/',
-        })
+        if (!props.subcategories || props.subcategories.length === 0) {
+            setCookie('categoryId', props.id, {
+                maxAge: 60 * 60 * 24 * 7,
+                path: '/',
+            })
 
-        await router.push({
-            pathname: '/products',
-            query: props.name ,
-        })
+            await router.push({
+                pathname: '/products',
+                query: props.name,
+            })
+        }
     }
 
     return (
         <li className={style.li}>
             <a className={style.a}
-               onClick={() => handleRedirect(props.id)}><span className={props.parentId ? style.subCategory : ''}>{props.name}</span></a>
+               onClick={() => handleRedirect(props.id)}><span>{props.name}</span></a>
+            {props.subcategories && props.subcategories.length > 0 && (
+                <ul className={`${style.subcategoryUl}`}>
+                    {props.subcategories.map(subcategory => (
+                        <SidebarItem
+                            key={subcategory.id}
+                            id={subcategory.id}
+                            name={subcategory.name}
+                            parentId={subcategory.parentId}
+                            subcategories={subcategory.Subcategories}
+                        />
+                    ))}
+                </ul>
+            )}
         </li>
     )
 }

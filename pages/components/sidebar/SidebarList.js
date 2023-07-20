@@ -2,17 +2,19 @@ import SidebarItem from "./SidebarItem";
 import style from './sidebar.module.css';
 
 
-const SidebarList = (props) => {
+const SidebarList = ({categories}) => {
+    console.log(categories)
     return (
         <ul className={`${style.ul} ${style.dropdownContent}`}>
-            {props.categories.map((category) => (
+            {categories.map((category) => (
                 <SidebarItem
                     key={category.id}
                     id={category.id}
                     name={category.name}
                     parentId={category.parentId}
+                    subcategories={category.Subcategories}
                 />
-                ))}
+            ))}
         </ul>
     )
 }

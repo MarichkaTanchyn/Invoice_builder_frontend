@@ -3,7 +3,7 @@ import style from "./layout.module.css";
 import Header from "../util/header/header";
 import Sidebar from "../sidebar/Sidebar";
 import {useEffect, useState} from "react";
-import {getCategories} from "../../api/categoriesApi";
+import { getCategoriesWithSubcategories} from "../../api/categoriesApi";
 import {getCookie} from "cookies-next";
 import {useRouter} from "next/router";
 
@@ -17,11 +17,10 @@ const Layout = ({children}) => {
             if (getCookie('accToken') === undefined) {
                 await router.push('login');
             }
-            return await getCategories();
+            const resp = await getCategoriesWithSubcategories()
+            setCategories(resp.data)
         }
-        fetchData().then(res => {
-            setCategories(Object.values(res.props.categories));
-        });
+        fetchData();
     }, []);
     return (
         <div className={style.pageContainer}>
