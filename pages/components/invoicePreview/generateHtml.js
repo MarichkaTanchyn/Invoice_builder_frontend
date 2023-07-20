@@ -89,18 +89,22 @@ const template1 = (invoiceDetails) => {
             .invoice-header {
                 display: flex;
                 justify-content: space-between;
-                margin-bottom: 20px;
+                margin-bottom: .5em;
             }
             
             .invoice-header-left {
+            
             }
             
             .invoice-title {
-                margin: 0;
+                margin-bottom: .2em;
+                font-size: 1.5em;
+                
             }
             
             .invoice-date {
                 margin: 0;
+                font-size: 1em;
             }
             
             .invoice-header-right {
@@ -126,6 +130,8 @@ const template1 = (invoiceDetails) => {
             .invoice-info-details {
                 list-style-type: none;
                 padding: 0;
+                display: flex;
+                flex-direction: column;
             }
             
             .invoice-table-wrapper {
@@ -139,6 +145,28 @@ const template1 = (invoiceDetails) => {
             
             .invoice-payment-details {
                 margin-top: 20px;
+            }
+            
+            .fieldLabel {
+                color: rgba(27, 27, 27, 0.5);
+                margin-right: 1em;
+            }
+            
+            /*.fieldLine {*/
+            /*    display: flex;*/
+            /*    flex-direction: row;*/
+            /*    justify-content: space-between;*/
+            /*    */
+            /*}*/
+            
+            .fieldLine {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                /*justify-content: space-between;*/
+                
+            }
+            .fieldText {
+                /*align-items: left;*/
             }
         </style>
     </head>
@@ -160,25 +188,44 @@ const template1 = (invoiceDetails) => {
             </div>
             <div class="invoice-info">
                 <div class="invoice-info-company">
-                    <h3>Company Details</h3>
+                    <h3 class="invoice-title">Company Details</h3>
                     <ul class="invoice-info-details">
-                        <li><strong>Name: </strong> ${companyDetails.firmName}</li>
-                        <li><strong>Address: </strong> ${companyDetails.address}</li>
-                        <li><strong>Phone: </strong> ${employee.phoneNumber}</li>
-                        <li><strong>Email: </strong> ${employee.email}</li>
-                        <li><strong>Contact: </strong> ${employee.firstName} ${employee.lastName}</li>
+                        <li class="fieldLine">
+                            <span class="fieldLabel">Name: </span>
+                            <span class="fieldText">${companyDetails.firmName} </span>
+                        </li>
+                        <li class="fieldLine"><span class="fieldLabel">Address: </span> <span class="fieldText">${companyDetails.address} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Phone: </span> <span class="fieldText">${employee.phoneNumber} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Email: </span> <span class="fieldText">${employee.email} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Contact: </span> <span class="fieldText">${employee.firstName} ${employee.lastName} </span></li>
                     </ul>
                 </div>
                 <div class="invoice-info-customer">
-                    <h3>Customer Details</h3>
+                    <h3 class="invoice-title">Customer Details</h3>
                     <ul class="invoice-info-details">
-                        <li><strong>Name: </strong> ${customer ? customer.name : ''}</li>
-                        <li><strong>Address: </strong> ${customer ? customer.address : ''}</li>
-                        <li><strong>Phone: </strong> ${customer ? customer.Person.phoneNumber : ''}</li>
-                        <li><strong>Email: </strong> ${customer ? customer.Person.email : ''}</li>
-                        <li><strong>Contact: </strong> ${customer ? customer.Person.firstName : ''} ${customer ? customer.Person.lastName : ''}</li>
+                        <li class="fieldLine">
+                            <span class="fieldLabel">Name: </span>
+                            <span>${customer ? customer.name : ''}</span>
+                        </li>
+                        <li class="fieldLine">
+                            <span class="fieldLabel">Address: </span>
+                            <span>${customer ? customer.address : '' }</span>
+                        </li>
+                        <li class="fieldLine">
+                            <span class="fieldLabel">Phone: </span>
+                            <span>${customer ? customer.Person.phoneNumber : ''}</span>
+                        </li>
+                        <li class="fieldLine">
+                            <span class="fieldLabel">Email: </span>
+                            <span>${customer ? customer.Person.email : ''}</span>
+                        </li>
+                        <li class="fieldLine">
+                            <span class="fieldLabel">Contact: </span>
+                            <span>${customer ? customer.Person.firstName : ''} ${customer ? customer.Person.lastName : ''}</span>
+                        </li>
                     </ul>
                 </div>
+
             </div>
             <div class="invoice-table-wrapper">
                 <table class="invoice-table">

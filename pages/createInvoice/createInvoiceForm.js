@@ -177,7 +177,6 @@ const CreateInvoiceForm = ({
 
 
     const collectInvoiceData = () => {
-        console.log(companyDetails.bankAccountNumber)
         return {
             documentType: documentType,
             documentNumber: documentNumber,
@@ -186,10 +185,10 @@ const CreateInvoiceForm = ({
             paymentTerm: paymentTerm.value ? paymentTerm.value : '',
             customer: customer,
             products: rows,
-            bankAccount: companyDetails.bankAccountNumber,
+            bankAccount: companyDetails[0].bankAccountNumber,
             currency: currency ? currency.value : '',
             paymentMethod: paymentMethod ? paymentMethod.value : '',
-            companyDetails: companyDetails,
+            companyDetails: companyDetails[0],
             employee: employee,
             summary: summary
         };
@@ -321,7 +320,7 @@ const CreateInvoiceForm = ({
                           selectAllRows={selectAllRows}
                           products={products}
             />
-            <PaymentActions bankAccount={companyDetails[0].bankAccountNumber}
+            <PaymentActions bankAccount={companyDetails[0] ? companyDetails[0].bankAccountNumber : ''}
                             setCurrency={setCurrency}
                             currency={currency}
                             totalGrossValue={summary.totalGrossValue}
