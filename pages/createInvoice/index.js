@@ -54,7 +54,7 @@ const CreateInvoice = () => {
                         children.push({
                             value: subcategory.id,
                             label: subcategory.name,
-                            type: "subcategory",
+                            name: subcategory.name,
                             children: products.map(product => ({
                                 value: product.id,
                                 type: "product",
@@ -74,7 +74,7 @@ const CreateInvoice = () => {
                 transformedData.push({
                     value: category.id,
                     label: category.name,
-                    type: "category",
+                    name: category.name,
                     children: children,
                 });
             }

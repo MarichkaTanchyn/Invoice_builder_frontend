@@ -29,14 +29,14 @@ const template1 = (invoiceDetails) => {
             table {
                 width: 100%;
                 font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-                font-size: 1.1em;
+                font-size: 1em;
                 border-collapse: separate;
                 border-spacing: 0 1em;
                 text-align: center;
             }
             table thead {
                 font-weight: normal;
-                font-size: 1rem;
+                font-size: .8rem;
                 color: rgba(27, 27, 27, 0.5);
                 padding: 1em 0;
                 background-color: #fafafa;
@@ -74,7 +74,7 @@ const template1 = (invoiceDetails) => {
             }
             table tfoot td {
                 font-weight: normal;
-                font-size: 1rem;
+                font-size: .8rem;
                 color: rgba(27, 27, 27, 0.5);
                 padding: 1em 0;
                 background-color: #fafafa;
@@ -82,6 +82,7 @@ const template1 = (invoiceDetails) => {
             }
             .invoice-wrapper {
                 width: 100%;
+                font-size: .9em;
                 margin: 0 auto;
                 font-family: Arial, sans-serif;
             }
@@ -91,28 +92,22 @@ const template1 = (invoiceDetails) => {
                 justify-content: space-between;
                 margin-bottom: .5em;
             }
-            
-            .invoice-header-left {
-            
-            }
-            
+
             .invoice-title {
                 margin-bottom: .2em;
-                font-size: 1.5em;
+                font-size: 1.4em;
                 
             }
             
             .invoice-date {
                 margin: 0;
-                font-size: 1em;
+                font-size: .9em;
             }
-            
-            .invoice-header-right {
-            }
-            
+
             .invoice-company-details {
                 list-style-type: none;
                 padding: 0;
+                
             }
             
             .invoice-info {
@@ -121,22 +116,12 @@ const template1 = (invoiceDetails) => {
                 margin-bottom: 20px;
             }
             
-            .invoice-info-company {
-            }
-            
-            .invoice-info-customer {
-            }
-            
             .invoice-info-details {
                 list-style-type: none;
                 padding: 0;
                 display: flex;
                 flex-direction: column;
             }
-            
-            .invoice-table-wrapper {
-            }
-            
             .invoice-table {
                 width: 100%;
                 text-align: left;
@@ -152,32 +137,24 @@ const template1 = (invoiceDetails) => {
                 margin-right: 1em;
             }
             
-            /*.fieldLine {*/
-            /*    display: flex;*/
-            /*    flex-direction: row;*/
-            /*    justify-content: space-between;*/
-            /*    */
-            /*}*/
-            
             .fieldLine {
                 display: grid;
                 grid-template-columns: 1fr 2fr;
-                /*justify-content: space-between;*/
-                
             }
-            .fieldText {
-                /*align-items: left;*/
+        
+            .detailsTitle {
+                font-size: 1em;
             }
         </style>
     </head>
     <body>
         <div class="invoice-wrapper">
             <div class="invoice-header">
-                <div class="invoice-header-left">
+                <div>
                     <h1 class="invoice-title">${documentType} <small>${documentNumber}</small></h1>
                     <h4 class="invoice-date">Valid From: ${validFrom}</h4>
                 </div>
-                <div class="invoice-header-right">
+                <div>
                     <ul class="invoice-company-details">
                         <li><strong>${companyDetails.firmName}</strong></li>
                         <li>${companyDetails.city},${companyDetails.country}</li>
@@ -187,21 +164,21 @@ const template1 = (invoiceDetails) => {
                 </div>
             </div>
             <div class="invoice-info">
-                <div class="invoice-info-company">
-                    <h3 class="invoice-title">Company Details</h3>
+                <div>
+                    <h6 class="detailsTitle">Company Details</h6>
                     <ul class="invoice-info-details">
                         <li class="fieldLine">
                             <span class="fieldLabel">Name: </span>
                             <span class="fieldText">${companyDetails.firmName} </span>
                         </li>
-                        <li class="fieldLine"><span class="fieldLabel">Address: </span> <span class="fieldText">${companyDetails.address} </span></li>
-                        <li class="fieldLine"><span class="fieldLabel">Phone: </span> <span class="fieldText">${employee.phoneNumber} </span></li>
-                        <li class="fieldLine"><span class="fieldLabel">Email: </span> <span class="fieldText">${employee.email} </span></li>
-                        <li class="fieldLine"><span class="fieldLabel">Contact: </span> <span class="fieldText">${employee.firstName} ${employee.lastName} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Address: </span> <span>${companyDetails.address} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Phone: </span> <span>${employee.phoneNumber} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Email: </span> <span>${employee.email} </span></li>
+                        <li class="fieldLine"><span class="fieldLabel">Contact: </span> <span>${employee.firstName} ${employee.lastName} </span></li>
                     </ul>
                 </div>
-                <div class="invoice-info-customer">
-                    <h3 class="invoice-title">Customer Details</h3>
+                <div>
+                    <h6 class="detailsTitle">Customer Details</h6>
                     <ul class="invoice-info-details">
                         <li class="fieldLine">
                             <span class="fieldLabel">Name: </span>
@@ -209,7 +186,7 @@ const template1 = (invoiceDetails) => {
                         </li>
                         <li class="fieldLine">
                             <span class="fieldLabel">Address: </span>
-                            <span>${customer ? customer.address : '' }</span>
+                            <span>${customer ? customer.address : ''}</span>
                         </li>
                         <li class="fieldLine">
                             <span class="fieldLabel">Phone: </span>
@@ -227,7 +204,7 @@ const template1 = (invoiceDetails) => {
                 </div>
 
             </div>
-            <div class="invoice-table-wrapper">
+            <div>
                 <table class="invoice-table">
                     <thead>
                         <tr>
@@ -245,7 +222,8 @@ const template1 = (invoiceDetails) => {
                     <tbody>
                         ${products.map(item => `
                         <tr>
-                            <td colspan="3">${item.product.name ? item.product.name : ''} ${item.product.description ? item.product.description : ''}</td>
+                            <td colspan="3">
+                            ${item.categories} ${item.product.name ? item.product.name : ''} ${item.product.description ? item.product.description : ''}</td>
                             <td>${item.amount}</td>
                             <td>${item.unitPrice}</td>
                             <td>${item.vat}</td>
@@ -271,10 +249,14 @@ const template1 = (invoiceDetails) => {
                 </table>
             </div>
             <div class="invoice-payment-details">
-                <h3>Payment Details</h3>
-                <p><strong>Payment Method: </strong> ${paymentMethod}</p>
-                <p><strong>Payment Term: </strong> untill ${validUntil}</p>
-                <p><strong>Account Number: </strong> ${bankAccount}</p>
+                <h6>Payment Details</h6>
+                <span class="fieldLine"><span class="fieldLabel">Payment Method: </span> ${paymentMethod}</span>
+                <span class="fieldLine"><span class="fieldLabel">Payment Term: </span> untill ${validUntil}</span>
+                <span class="fieldLine"><span class="fieldLabel">Account Number: </span> ${bankAccount}</span>
+                <span class="fieldLine"><span class="fieldLabel">Currency: </span> ${currency.label}</span>
+                <span class="fieldLine"><span class="fieldLabel">Overall: </span> ${summary.totalGrossValue} ${currency.value}</span>
+                <span class="fieldLine"><span class="fieldLabel">Paid: </span> ${summary.paid === null ? '0' : summary.paid} ${currency.value}</span>
+                <span class="fieldLine"><span class="fieldLabel">Left to Pay: </span> ${summary.leftToPay} ${currency.value}</span>
             </div>
         </div>
     </body>

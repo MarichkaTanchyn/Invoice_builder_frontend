@@ -34,6 +34,7 @@ const CreateInvoiceForm = ({
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [openPreview, setOpenPreview] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [paid, setPaid] = useState(null);
 
     useEffect(() => {
         if (clickedOpenPreview) {
@@ -78,6 +79,7 @@ const CreateInvoiceForm = ({
         grossValue: '0.00',
         discount: '0',
         selectedProduct: null,
+        categories: '',
     },]);
     const addRow = () => {
         const newRow = {
@@ -92,6 +94,7 @@ const CreateInvoiceForm = ({
             grossValue: '0.00',
             discount: '0',
             selectedProduct: null,
+            categories: '',
         };
         setRows((prevRows) => [...prevRows, newRow]);
     };
@@ -169,9 +172,9 @@ const CreateInvoiceForm = ({
         const totalNetValue = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.netValue || 0), 0)).toFixed(2);
         const totalVatValue = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.vatValue || 0), 0)).toFixed(2);
         const totalGrossValue = parseFloat(rows.reduce((sum, row) => sum + parseFloat(row.grossValue || 0), 0)).toFixed(2);
-
+        const leftToPay = parseFloat(totalGrossValue - paid).toFixed(2);
         return {
-            totalAmount, totalNetValue, totalVatValue, totalGrossValue,
+            totalAmount, totalNetValue, totalVatValue, totalGrossValue, leftToPay, paid
         };
     };
 
@@ -182,12 +185,12 @@ const CreateInvoiceForm = ({
             documentNumber: documentNumber,
             validFrom: validFrom,
             validUntil: validUntil,
-            paymentTerm: paymentTerm.value ? paymentTerm.value : '',
+            paymentTerm: paymentTerm.value ? paymentTerm.label : '',
             customer: customer,
             products: rows,
             bankAccount: companyDetails[0].bankAccountNumber,
-            currency: currency ? currency.value : '',
-            paymentMethod: paymentMethod ? paymentMethod.value : '',
+            currency: currency ? currency : '',
+            paymentMethod: paymentMethod ? paymentMethod.label : '',
             companyDetails: companyDetails[0],
             employee: employee,
             summary: summary
@@ -198,10 +201,8 @@ const CreateInvoiceForm = ({
         let invoiceData = collectInvoiceData();
         const htmlString = generateHTML(invoiceData);
         invoiceData = [{...invoiceData, html: htmlString}];
-        console.log(invoiceData);
         setLoading(true)
         const response = await sendInvoiceData(invoiceData);
-        console.log(response)
         if (response.message === "success") {
             setOpenPreview(true)
         }
@@ -323,8 +324,9 @@ const CreateInvoiceForm = ({
             <PaymentActions bankAccount={companyDetails[0] ? companyDetails[0].bankAccountNumber : ''}
                             setCurrency={setCurrency}
                             currency={currency}
-                            totalGrossValue={summary.totalGrossValue}
                             setPaymentMethod={setPaymentMethod}
+                            leftToPay={summary.leftToPay}
+                            setPaid={setPaid}
             />
         </div>
         <div className={styles.actionButtons}>

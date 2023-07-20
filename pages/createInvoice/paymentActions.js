@@ -7,22 +7,14 @@ import CustomInput from "../components/util/input/customInput";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 
 
-const PaymentActions = ({totalGrossValue, bankAccount, setCurrency, setPaymentMethod}) => {
+const PaymentActions = ({ leftToPay, setPaid, bankAccount, setCurrency, setPaymentMethod}) => {
 
-    const [paid, setPaid] = React.useState(0);
     const [partiallyPaid, setPartiallyPaid] = React.useState(false);
 
     const handleCheckboxChange = (setter) => (event) => {
         setter(event.target.checked);
     };
 
-    const handlePaid = (value) => {
-        setPaid(value);
-    }
-
-    const leftToPay = totalGrossValue - (parseFloat(paid) || 0);
-
-console.log(bankAccount)
     return (
         <div className={styles.paymentActions}>
             {/*    select currency, select payment method, select bankAccount, input paid, input left to pay, checkBox paid*/}
@@ -41,7 +33,7 @@ console.log(bankAccount)
                 <div style={{display: "flex", flexDirection: "row"}}>
                     <div className={styles.labelBox}>
                         <span className={styles.label}>Paid</span>
-                        <CustomInput type="text" placeholder="0" onChange={handlePaid} className={styles.payInput}/>
+                        <CustomInput type="text" placeholder="0" onChange={(value) => setPaid(value)} className={styles.payInput}/>
                     </div>
                     <div className={styles.labelBox}>
                         <span className={styles.label}>Left to Pay</span>

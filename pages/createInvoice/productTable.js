@@ -31,24 +31,32 @@ const ProductTable = ({
     ];
 
     const handleCascadeChange = async (value, selectedOptions) => {
-        console.log(value, selectedOptions);
 
         const lastObject = getLastChild(selectedOptions);
-
-        console.log(lastObject);
-
         if (lastObject.type !== "product") {
             //deselect value
         } else {
             rows[rows.length - 1].id = lastObject.value;
             rows[rows.length - 1].product = await getProduct(lastObject.value)
             rows[rows.length - 1].unitPrice = rows[rows.length - 1].product.price;
-
             rows[rows.length - 1].selectedProduct = value;
+            rows[rows.length - 1].categories = getNonProductLabels(selectedOptions).join("/");
             handleInputChange(rows[rows.length - 1].id, 'unitPrice', rows[rows.length - 1].unitPrice)
         }
 
     };
+
+    const getNonProductLabels = (arr, parentLabel = '') => {
+        let labels = [];
+        for (let item of arr) {
+            if (item.type !== 'product') {
+                let newLabel = parentLabel ? `${parentLabel}/${item.label}` : item.label;
+                labels.push(newLabel);
+            }
+        }
+        return labels;
+    }
+
 
     function getLastChild(arr) {
         // Get the last element of the array
