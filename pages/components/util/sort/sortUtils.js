@@ -1,5 +1,4 @@
-
-const sortDocuments = (documents, sortOption) => {
+export const sortDocuments = (documents, sortOption) => {
     switch (sortOption) {
         case "oldest":
             return documents.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate));
@@ -18,4 +17,17 @@ const sortDocuments = (documents, sortOption) => {
     }
 }
 
-export default sortDocuments;
+export const sortCustomers = (customers, option) => {
+    switch(option){
+        case 'oldest':
+            return [...customers].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        case 'newest':
+            return [...customers].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        case 'az':
+            return [...customers].sort((a, b) => a.name.localeCompare(b.name));
+        case 'za':
+            return [...customers].sort((a, b) => b.name.localeCompare(a.name));
+        default:
+            return customers;
+    }
+}

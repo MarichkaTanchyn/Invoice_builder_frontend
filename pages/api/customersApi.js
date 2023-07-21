@@ -3,18 +3,18 @@ import {getCookie} from "cookies-next";
 
 export const getCustomers = async () => {
     try {
-        const {data: employees} = await axios.get(process.env.API_URL + `getCompanyCustomers/${getCookie('companyId')}`, {
+        const {data: customers} = await axios.get(process.env.API_URL + `getCompanyCustomers/${getCookie('companyId')}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`
             }
         });
         return {
-            employees,
+            customers,
         };
     } catch (error) {
         console.error(error);
         return {
-            employees: [],
+            customers: [],
         };
     }
 }

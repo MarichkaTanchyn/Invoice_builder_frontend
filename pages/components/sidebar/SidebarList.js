@@ -3,7 +3,6 @@ import style from './sidebar.module.css';
 
 
 const SidebarList = ({categories}) => {
-    console.log(categories)
     return (
         <ul className={`${style.ul} ${style.dropdownContent}`}>
             {categories.map((category) => (

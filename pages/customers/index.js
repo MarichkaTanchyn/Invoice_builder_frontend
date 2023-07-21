@@ -2,7 +2,7 @@ import withLayout from "../components/layout/withLayout";
 import styles from "./customers.module.css";
 import Search from "../components/util/search/search";
 import SortSelect from "../components/util/sort/sortSelect";
-import sortOptions from "../components/data/sortOptions.json";
+import sortOptions from "../components/data/sortCustomersOptions.json";
 import Button from "../components/util/button/button";
 import globalStyle from "../global.module.css";
 import React, {useEffect, useState} from "react";
@@ -11,6 +11,7 @@ import CustomerList from "./customerList";
 import {utils} from "xlsx";
 import AddCustomerPopup from "../customer/addCustomerPopup";
 import {objectIncludes} from "../components/util/search/searchUtil";
+import {sortCustomers} from "../components/util/sort/sortUtils";
 
 const Customers = () => {
     const [sortSelect, setSortSelect] = useState(null);
@@ -41,9 +42,8 @@ const Customers = () => {
     useEffect(() => {
         async function fetchData() {
             const data = await getCustomers();
-            setOriginalCustomers(data.employees);
-            setDisplayedCustomers(data.employees);
-            console.log(data.employees)
+            setOriginalCustomers(data.customers);
+            setDisplayedCustomers(data.customers);
         }
 
         fetchData()
@@ -60,14 +60,13 @@ const Customers = () => {
         }
 
         const filteredCustomers = originalCustomers.filter(customer => objectIncludes(customer, searchTerm));
-
         setDisplayedCustomers(filteredCustomers);
     };
 
     const handleSortSelectChange = (option) => {
         // on change sort the customers list
         setSortSelect(option);
-        // setCustomers(sortDocuments(customers, option.value));
+        setDisplayedCustomers(sortCustomers(displayedCustomers, option.value));
     };
 
     const handleAddCustomer = async () => {
