@@ -81,7 +81,7 @@ const Permissions = () => {
     }
 
     return (<div className={styles.permissionsContent}>
-        {users.map((user, index) => {
+        {users.length>1 ? users.map((user, index) => {
             return (
                 user.id !== parseInt(getCookie('employeeId')) && user.accepted &&
                 <div>
@@ -123,7 +123,7 @@ const Permissions = () => {
                                                                                    header={'Delete User'}
                     />}
                 </div>)
-        })}
+        }) : <span>No employees have been added yet.</span>}
     </div>)
 
 }
