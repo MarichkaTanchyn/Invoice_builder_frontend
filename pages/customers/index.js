@@ -10,10 +10,12 @@ import {addCustomer, getCustomers} from "../api/customersApi";
 import CustomerList from "./customerList";
 import {utils} from "xlsx";
 import AddCustomerPopup from "../customer/addCustomerPopup";
+import {objectIncludes} from "../components/util/search/searchUtil";
 
 const Customers = () => {
     const [sortSelect, setSortSelect] = useState(null);
-    const [customers, setCustomers] = useState([]);
+    const [originalCustomers, setOriginalCustomers] = useState([]);
+    const [displayedCustomers, setDisplayedCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [showAddCustomerPopup, setShowAddCustomerPopup] = React.useState(false);
@@ -38,9 +40,9 @@ const Customers = () => {
 
     useEffect(() => {
         async function fetchData() {
-
             const data = await getCustomers();
-            setCustomers(data.employees);
+            setOriginalCustomers(data.employees);
+            setDisplayedCustomers(data.employees);
             console.log(data.employees)
         }
 
@@ -49,8 +51,17 @@ const Customers = () => {
 
     }, []);
 
-    const handleSearch = (searchTerm) => {
-        console.log(`Searching for: ${searchTerm}`);
+    const handleSearch = (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+
+        if (!searchTerm) {
+            setDisplayedCustomers(originalCustomers);
+            return;
+        }
+
+        const filteredCustomers = originalCustomers.filter(customer => objectIncludes(customer, searchTerm));
+
+        setDisplayedCustomers(filteredCustomers);
     };
 
     const handleSortSelectChange = (option) => {
@@ -145,7 +156,9 @@ const Customers = () => {
                     <div className={globalStyle.loadingBar}></div>
                     <div className={globalStyle.loadingBar}></div>
                     <div className={globalStyle.loadingBar}></div>
-                </div>) : (<CustomerList customers={customers}/>)}
+                </div>) : (
+                    <CustomerList customers={displayedCustomers}/>
+            )}
             {showAddCustomerPopup &&
                 <AddCustomerPopup
                     newCustomer={newCustomer} setNewCustomer={setNewCustomer}
