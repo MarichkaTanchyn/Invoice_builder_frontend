@@ -26,6 +26,7 @@ import {
 } from "./productHelpers";
 
 const Products = () => {
+    const router = useRouter();
     const [editMode, setEditMode] = useState(false);
     const [data, setData] = useState([]);
     const [skipPageReset, setSkipPageReset] = useState(false);
@@ -35,6 +36,8 @@ const Products = () => {
     const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
     const [loading, setLoading] = useState(false);
     const [originalData, setOriginalData] = useState([]);
+    const { categoryName, parentCategoryName } = router.query; // Extract query parameters
+    const [title, setTitle] = useState('');
 
 
     useEffect(() => {
@@ -49,9 +52,13 @@ const Products = () => {
             setAllHeaders(uniqueKeys);
         }
     }, [data]);
-    const router = useRouter()
 
     useEffect(() => {
+        if(categoryName && parentCategoryName) {
+            setTitle(`${parentCategoryName}/${categoryName}`);
+        } else if (categoryName) { // If only category is defined
+            setTitle(categoryName);
+        }
         const fetchProducts = async () => {
             const categoryId = getCookie("categoryId");
             const products = await getCategoryProducts(categoryId);
@@ -236,7 +243,7 @@ const Products = () => {
 
     return (<Card>
             <div className={styles.pageHeaders}>
-                <h1>{Object.keys(router.query)[0]}</h1>
+                <h1>{title}</h1>
                 <div className={styles.buttonContainer}>
                     <Button label={"Import from file"} onClick={handleImportFromFile}/>
                     <Button label={"Export to csv"} onClick={exportToCsv}/>

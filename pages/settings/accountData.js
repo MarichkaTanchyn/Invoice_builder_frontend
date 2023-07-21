@@ -44,7 +44,7 @@ const AccountData = () => {
     };
 
     return (
-        <>
+        <div className={styles.parentContainer}>
             <div className={styles.rowData}>
                 <span>First Name</span>
                 <CustomInput className={styles.input}
@@ -103,7 +103,7 @@ const AccountData = () => {
 
             </div>
 
-        </>
+        </div>
 
     )
 }

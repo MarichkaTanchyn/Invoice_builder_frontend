@@ -55,8 +55,7 @@
 
 .buttonContainer {
     position: fixed;
-/*text-align: right;*/
-    bottom: 3em;
+    bottom: 1.5em;
     right: 5em;
     margin: 1em;
 }

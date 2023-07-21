@@ -6,7 +6,6 @@ import {setCookie} from "cookies-next";
 const SidebarItem = (props) => {
     const router = useRouter();
     const handleRedirect = async(CategoryId) => {
-        console.log(CategoryId);
 
         if (!props.subcategories || props.subcategories.length === 0) {
             setCookie('categoryId', props.id, {
@@ -14,9 +13,19 @@ const SidebarItem = (props) => {
                 path: '/',
             })
 
+            // Construct the query object
+            let queryObj = {
+                categoryName: props.name,
+            };
+
+            // Add the parentCategoryName only if it exists
+            if(props.parentCategoryName){
+                queryObj.parentCategoryName = props.parentCategoryName;
+            }
+
             await router.push({
                 pathname: '/products',
-                query: props.name,
+                query: queryObj
             })
         }
     }
@@ -34,6 +43,7 @@ const SidebarItem = (props) => {
                             name={subcategory.name}
                             parentId={subcategory.parentId}
                             subcategories={subcategory.Subcategories}
+                            parentCategoryName={subcategory.parentCategoryName}
                         />
                     ))}
                 </ul>
