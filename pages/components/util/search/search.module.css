@@ -2,6 +2,27 @@
     font-size: .9em;
     padding-right: .1em;
 }
-.bg {
+
+.input {
+    font-size: 1em;
+    /*padding: 10px;*/
+    border: none;
     background-color: #fafafa;
+    border-bottom: .1em solid #949bab;
+    outline: none;
+    margin-top: .8em ;
+    height: 1.3em;
+    /* width: 15em; */
+}
+
+@media only screen and (min-width: 20000px){
+    .input{
+        width: 15em;
+    }
+}
+
+@media (max-width: 1000px) {
+    .input{
+        width: 10em;
+    }
 }

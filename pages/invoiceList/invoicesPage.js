@@ -13,12 +13,14 @@ import withLayout from "../components/layout/withLayout";
 import globalStyle from "../global.module.css"
 import {getCookie} from "cookies-next";
 import sortOptions from "../components/data/sortOptions";
+import {objectIncludes} from "../components/util/search/searchUtil";
 
 
 const InvoicesPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [sortSelect, setSortSelect] = useState(null);
-    const [documents, setDocuments] = useState([]);
+    const [originalDocuments, setOriginalDocuments] = useState([]);
+    const [displayedDocuments, setDisplayedDocuments] = useState([]);
     const [loading, setLoading] = useState(true); // initialize loading state
 
     const {applyFilter, updateFilterSettings} = useFilter();
@@ -34,8 +36,8 @@ const InvoicesPage = () => {
             };
 
             const data = await getAllDocuments(params)
-            setDocuments(data.documents.invoices);
-            console.log(data.documents.invoices);
+            setOriginalDocuments(data.documents.invoices);
+            setDisplayedDocuments(data.documents.invoices);
             setLoading(
                 false);
             return data;
@@ -44,15 +46,22 @@ const InvoicesPage = () => {
         fetchData();
     }, [applyFilter]);
 
-    const handleSearch = (searchTerm) => {
-        console.log(`Searching for: ${searchTerm}`);
-        // make a request to back server and search there
+    const handleSearch = (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+
+        if (!searchTerm) {
+            setDisplayedDocuments(originalDocuments);
+            return;
+        }
+
+        const filteredDocuments = originalDocuments.filter(doc => objectIncludes(doc, searchTerm));
+
+        setDisplayedDocuments(filteredDocuments);
     };
 
     const handleSortSelectChange = (option) => {
-        // on change sort the documents list
         setSortSelect(option);
-        setDocuments(sortDocuments(documents, option.value));
+        setDisplayedDocuments(sortDocuments(displayedDocuments, option.value));
     };
 
     const togglePopup = () => {
@@ -62,7 +71,6 @@ const InvoicesPage = () => {
     const router = useRouter();
 
     const handleCreateInvoice = async () => {
-        // Replace '/create-invoice' with the path to your Create Invoice page
         await router.push("/createInvoice");
     };
 
@@ -96,7 +104,7 @@ const InvoicesPage = () => {
                 </div>
             ) : (
                 <div style={{marginTop: '2em', padding: '2em'}}>
-                    <InvoiceList invoiceList={documents}/>
+                    <InvoiceList invoiceList={displayedDocuments}/>
                 </div>
             )}
         </>
