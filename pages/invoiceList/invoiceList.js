@@ -32,6 +32,7 @@ const InvoiceList = ({invoiceList}) => {
                     creationDate={format(new Date(invoice.createdAt), 'dd/MM/yyyy')}
                     totalAmount={invoice.totalAmount}
                     status={invoice.status}
+                    invoiceData={invoice}
                 />
             ))}
             </tbody>

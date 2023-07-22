@@ -206,6 +206,15 @@
     margin-right: .5em;
 }
 
+.previewInvoice {
+    margin: auto;
+    margin-top: 2.5em;
+    padding: 2em;
+    width: 95%;
+    height: 90%;
+    background-color: #fff;
+}
+
 /*Select*/
 
 .container {

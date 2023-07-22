@@ -33,10 +33,12 @@ const CreateInvoiceForm = ({
     const [paid, setPaid] = useState(null);
     const [showFillDataPopup, setShowFillDataPopup] = useState(false);
     const [showFillCompanyDataPopup, setShowFillCompanyDataPopup] = useState(false);
+    const [htmlString, setHtmlString] = useState('');
 
     useEffect(() => {
         if (clickedOpenPreview) {
             setOpenPreview(true);
+            setHtmlString(generateHTML(collectInvoiceData()));
         }
     }, [clickedOpenPreview])
 
@@ -235,6 +237,7 @@ const CreateInvoiceForm = ({
         setCustomer(data.data)
     }
 
+
     return (<>
         {loading && (<div className={globalStyle.loadingWave}>
             <div className={globalStyle.loadingBar}></div>
@@ -353,7 +356,10 @@ const CreateInvoiceForm = ({
                 <Button label={"Cancel"} onClick={handleCancelButton}/>
             </div>
         </div>
-        {openPreview && <InvoicePreview invoiceData={collectInvoiceData()} handleClosePreview={handleClosePreview}/>}
+        {openPreview && <InvoicePreview handleClosePreview={handleClosePreview}>
+            <div className={styles.previewInvoice} dangerouslySetInnerHTML={{ __html: htmlString }} />
+        </InvoicePreview>
+        }
         {showFillCompanyDataPopup && <WarningPopup type={"Error"}
                                                    handleClose={() => setShowFillCompanyDataPopup(false)}
                                                    actionMessage={"Please complete the company data fields or consult with your manager to do so before proceeding."}

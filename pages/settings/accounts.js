@@ -77,6 +77,7 @@ const Accounts = () => {
             setEmailMessage('Please enter a valid email.');
         } else {
             await sendRegisterLinkViaEmail({email: email})
+            setEmail("")
         }
     }
 

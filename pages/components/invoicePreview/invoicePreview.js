@@ -2,15 +2,14 @@ import styles from './invoicePreview.module.css';
 import {generateHTML} from "./generateHtml";
 
 
-const InvoicePreview = ({invoiceData, handleClosePreview}) => {
+const InvoicePreview = ({handleClosePreview, children}) => {
 
-    const htmlString = generateHTML(invoiceData);
 
     return (
         <div className={styles.popupBox}>
             <div className={styles.previewContainer}>
                 <img src={"/x.svg"} className={styles.img} alt={"x"} onClick={handleClosePreview} />
-                <div className={styles.invoice} dangerouslySetInnerHTML={{ __html: htmlString }} />
+                {children}
             </div>
         </div>)
 
