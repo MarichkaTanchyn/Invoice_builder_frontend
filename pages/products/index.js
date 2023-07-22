@@ -153,7 +153,7 @@ const Products = () => {
     const [tempProduct, setTempProduct] = useState({});
 
     const handleSubmitPopup = async () => {
-        if (Object.keys(extraRows).length > 0) {
+        if (Object.keys(extraRows).length > 0 || Object.keys(tempProduct).length > 0) {
             let newProduct = {...tempProduct};
             let newColumns = [...tableColumns];  // Clone the current columns
 

@@ -32,7 +32,7 @@ const CreateInvoice = () => {
 
         async function fetchCustomers() {
             const data = await getCustomers();
-            const transformedData = data.employees.map(customer => {
+            const transformedData = data.customers.map(customer => {
                 return {
                     value: customer.id,
                     label: `${customer.name}, ${customer.Person.firstName} ${customer.Person.lastName}`

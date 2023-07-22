@@ -69,12 +69,9 @@ const AddProductPopup = ({
                 const newRow = {
                     ...prevRows[index],
                     [field]: value,
-                    type: selectedColumnTypes[index], // Add the selected column type
                     useInInvoice: useInInvoice[index] || false // Add the useInInvoice checkbox state
                 };
-                const tmp = [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
-                console.log(tmp)
-                return tmp;
+                return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
             });
         } else {
             setTempProduct(prevProduct => ({...prevProduct, [field]: value}));
@@ -82,7 +79,8 @@ const AddProductPopup = ({
     };
 
     const handleSubmit = () => {
-        handleSubmitPopup();
+        const filteredExtraRows = extraRows.filter(row => row.name && row.value);
+        handleSubmitPopup(filteredExtraRows);
     };
 
     return (<div className={styles.popupBox}>
