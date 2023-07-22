@@ -12,12 +12,10 @@ import {getCookie, setCookie} from "cookies-next";
 const Login = () => {
     const router = useRouter();
 
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(getCookie("email"));
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
     const handleLoginClick = async () => {
-
         if (email && password) {
             const data = {
                 email: email, password: password
@@ -79,7 +77,7 @@ const Login = () => {
                     />
                 </div>
                 <div className={style.actionsBox}>
-                    <CheckboxWithLabel label={'Remember me'} onChange={setRememberMe}/>
+                    <CheckboxWithLabel label={'Remember me'}/>
                     <div className={style.buttonsBox}>
                         <Button label={'Sign Up'} onClick={handleSignUpClick}/>
                         <Button label={'Log In'} onClick={handleLoginClick}/>

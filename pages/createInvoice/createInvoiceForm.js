@@ -13,14 +13,10 @@ import InvoicePreview from "../components/invoicePreview/invoicePreview";
 import {generateHTML} from "../components/invoicePreview/generateHtml";
 import {sendInvoiceData} from "../api/invoicesAPI";
 import globalStyle from "../global.module.css";
+import WarningPopup from "../components/util/warningPopup/warningPopup";
 
 const CreateInvoiceForm = ({
-                               customers,
-                               products,
-                               clickedOpenPreview,
-                               setClickedOpenPreview,
-                               companyDetails,
-                               employee
+                               customers, products, clickedOpenPreview, setClickedOpenPreview, companyDetails, employee
                            }) => {
 
     const [customer, setCustomer] = useState(null)
@@ -35,6 +31,8 @@ const CreateInvoiceForm = ({
     const [openPreview, setOpenPreview] = useState(false);
     const [loading, setLoading] = useState(false);
     const [paid, setPaid] = useState(null);
+    const [showFillDataPopup, setShowFillDataPopup] = useState(false);
+    const [showFillCompanyDataPopup, setShowFillCompanyDataPopup] = useState(false);
 
     useEffect(() => {
         if (clickedOpenPreview) {
@@ -197,19 +195,32 @@ const CreateInvoiceForm = ({
     };
 
     const handleSubmitButton = async () => {
+        let notEnoughData = false;
 
-        if (companyDetails[0].include(null)) {
-            console.log("NULL")
+        for (let key in companyDetails[0]) {
+            if (companyDetails[0][key] === null) {
+                setShowFillCompanyDataPopup(true)
+            }
         }
-        else {
-            // let invoiceData = collectInvoiceData();
-            // const htmlString = generateHTML(invoiceData);
-            // invoiceData = [{...invoiceData, html: htmlString}];
-            // setLoading(true)
-            // const response = await sendInvoiceData(invoiceData);
-            // if (response.message === "success") {
-            //     setOpenPreview(true)
-            // }
+        for (let key in rows) {
+            if (rows[key].selectedProduct === null) {
+                notEnoughData = true
+            }
+        }
+        if (!customer) {
+            notEnoughData = true
+        }
+        if (notEnoughData) {
+            setShowFillDataPopup(true)
+        } else {
+            let invoiceData = collectInvoiceData();
+            const htmlString = generateHTML(invoiceData);
+            invoiceData = [{...invoiceData, html: htmlString}];
+            setLoading(true)
+            const response = await sendInvoiceData(invoiceData);
+            if (response.message === "success") {
+                setOpenPreview(true)
+            }
             await router.push("/")
         }
     }
@@ -225,14 +236,14 @@ const CreateInvoiceForm = ({
     }
 
     return (<>
-    {loading && (<div className={globalStyle.loadingWave}>
+        {loading && (<div className={globalStyle.loadingWave}>
             <div className={globalStyle.loadingBar}></div>
             <div className={globalStyle.loadingBar}></div>
             <div className={globalStyle.loadingBar}></div>
             <div className={globalStyle.loadingBar}></div>
-        </div>) }
+        </div>)}
         {/*// <>*/}
-            <div className={styles.invoiceHeaders}>
+        <div className={styles.invoiceHeaders}>
             <Radio.Group label={"Type"} defaultValue={"Invoice"} className={styles.blackRadio}
                          onChange={(value) => setDocumentType(value)}>
                 <Radio value={"Invoice"} size={"sm"}>Invoice</Radio>
@@ -343,9 +354,16 @@ const CreateInvoiceForm = ({
             </div>
         </div>
         {openPreview && <InvoicePreview invoiceData={collectInvoiceData()} handleClosePreview={handleClosePreview}/>}
-        {/*</>}*/}
-
-        </>)
+        {showFillCompanyDataPopup && <WarningPopup type={"Error"}
+                                                   handleClose={() => setShowFillCompanyDataPopup(false)}
+                                                   actionMessage={"Please complete the company data fields or consult with your manager to do so before proceeding."}
+                                                   message={"Without filled company data, invoice creation is not possible."}
+        />}
+        {showFillDataPopup && <WarningPopup actionMessage={"To create an invoice successfully, enter essential data like customer details and product descriptions."}
+                                            message={"Invoice creation requires all necessary information to be properly filled in."}
+                                            handleClose={() => {setShowFillDataPopup(false)}}
+                                            type={"Error"} /> }
+    </>)
 }
 
 export default CreateInvoiceForm;
