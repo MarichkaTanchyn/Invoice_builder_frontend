@@ -23,11 +23,8 @@ const Login = () => {
                 email: email,
                 password: password
             };
-            // Perform a POST request to the backend with the input values
             const response = await login(data)
-
-            console.log(response.data);
-            if (!response.data.message) {
+            if (response && !response.data.message) {
                 setCookie('companyId', response.data.companyId, {
                     maxAge: 60 * 60 * 24 * 7,
                     path: '/',
@@ -50,10 +47,13 @@ const Login = () => {
                         path: '/',
                     });
                 }
-
                 await router.push("/")
             } else {
-                setErrorMessage(response.data.message);
+                if (!response){
+                    setErrorMessage("User does not exist");
+                } else {
+                    setErrorMessage(response.data.message);
+                }
             }
         }
     };
