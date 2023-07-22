@@ -18,7 +18,12 @@ const Layout = ({children}) => {
                 await router.push('login');
             }
             const resp = await getCategoriesWithSubcategories()
-            setCategories(resp.data)
+            if (resp.status === 200) {
+                setCategories(resp.data)
+            }else {
+                await router.push('login');
+            }
+
         }
         fetchData();
     }, []);

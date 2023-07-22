@@ -21,7 +21,7 @@ const InvoiceList = ({invoiceList}) => {
             </tr>
             </thead>
             <tbody>
-            {invoiceList.map((invoice, index) => (
+            {invoiceList && invoiceList.map((invoice, index) => (
                 <InvoiceListItem
                     key={invoice.id}
                     id={index + 1}
