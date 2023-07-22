@@ -4,9 +4,9 @@ import {useEffect, useState} from "react";
 import {getCompanyData, updateCompanyData} from "../api/companyAPI";
 import Button from "../components/util/button/button";
 
-const CompanyData = ({userPermissions}) => {
+const CompanyData = ({adminPermission}) => {
 
-    const [hasEditPermission, setHasEditPermission] = useState(false)
+    const [hasEditPermission, setHasEditPermission] = useState(adminPermission)
     const [companyData, setCompanyData] = useState();
     const [editedData, setEditedData] = useState();
     const [editMode, setEditMode] = useState(false);
@@ -15,9 +15,6 @@ const CompanyData = ({userPermissions}) => {
     useEffect(() => {
         const fetchData = async () => {
             const data = await getCompanyData()
-            if (userPermissions.some((permission) => permission === "PERMISSION_ADMIN")) {
-                setHasEditPermission(true)
-            }
             setCompanyData(data.data[0])
             setEditedData(data.data[0]);
         }

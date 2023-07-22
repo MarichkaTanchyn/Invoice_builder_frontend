@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import withLayout from "../components/layout/withLayout";
 import Card from "../components/util/card/card";
 import Tabs from '@mui/material/Tabs';
@@ -18,15 +18,13 @@ import Permissions from "./permissions";
 const Settings = () => {
 
     const [value, setValue] = React.useState(0);
-    const [userPermissions, setUserPermissions] = React.useState([]);
     const [hasAdminPermission, setHasAdminPermission] = React.useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const userPermissions = JSON.parse(getCookie("roles") || "[]");
         if (userPermissions.some((permission) => permission === "PERMISSION_ADMIN")) {
             setHasAdminPermission(true);
         }
-        setUserPermissions(userPermissions);
     }, []);
 
     const handleChange = (event, newValue) => {
@@ -73,13 +71,12 @@ const Settings = () => {
 
                 </Tabs>
                 <TabPanel value={value} index={0}>
-                    <CompanyData userPermissions={userPermissions}/>
+                    <CompanyData adminPermission={hasAdminPermission}/>
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
                     <AccountData/>
                 </TabPanel>
-
 
                 <TabPanel value={value} index={2}>
                     <Accounts/>

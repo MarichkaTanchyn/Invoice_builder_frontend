@@ -20,36 +20,29 @@ const Login = () => {
 
         if (email && password) {
             const data = {
-                email: email,
-                password: password
+                email: email, password: password
             };
             const response = await login(data)
             if (response && !response.data.message) {
                 setCookie('companyId', response.data.companyId, {
-                    maxAge: 60 * 60 * 24 * 7,
-                    path: '/',
+                    maxAge: 60 * 60 * 24 * 7, path: '/',
                 });
                 setCookie('employeeId', response.data.employeeId, {
-                    maxAge: 60 * 60 * 24 * 7,
-                    path: '/',
+                    maxAge: 60 * 60 * 24 * 7, path: '/',
                 });
                 setCookie('accToken', response.data.accessToken, {
-                    maxAge: 60 * 60 * 24 * 7,
-                    path: '/',
+                    maxAge: 60 * 60 * 24 * 7, path: '/',
                 });
                 setCookie('roles', response.data.roles, {
-                    maxAge: 60 * 60 * 24 * 7,
-                    path: '/',
+                    maxAge: 60 * 60 * 24 * 7, path: '/',
                 });
-                if (rememberMe) {
-                    setCookie('email', response.data.email, {
-                        maxAge: 60 * 60 * 24 * 7,
-                        path: '/',
-                    });
-                }
+                setCookie('email', response.data.email, {
+                    maxAge: 60 * 60 * 24 * 7, path: '/',
+                });
+
                 await router.push("/")
             } else {
-                if (!response){
+                if (!response) {
                     setErrorMessage("User does not exist");
                 } else {
                     setErrorMessage(response.data.message);
@@ -62,8 +55,7 @@ const Login = () => {
         await router.push("signUp")
     };
 
-    return (
-        <Card customStyle={style.card}>
+    return (<Card customStyle={style.card}>
             <div className={style.cardBody}>
                 <h1>Log In</h1>
                 <div className={style.inputsBox}>
@@ -71,7 +63,7 @@ const Login = () => {
                         className={style.input}
                         label={'Email'}
                         placeholder={'Email'}
-                        defaultValue={getCookie('email') ? getCookie('email') :email}
+                        defaultValue={getCookie('email') ? getCookie('email') : email}
                         type={'email'}
                         onChange={value => setEmail(value)}
 
@@ -94,8 +86,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-        </Card>
-    )
+        </Card>)
 };
 
 export default WithAuthenticationLayout(Login);

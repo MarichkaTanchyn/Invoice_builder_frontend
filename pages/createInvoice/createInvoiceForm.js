@@ -54,7 +54,6 @@ const CreateInvoiceForm = ({
         }
     }, [validFrom, paymentTerm]);
 
-    // Effect to handle changes in validUntil
     useEffect(() => {
         const diffDays = Math.ceil((new Date(validUntil) - new Date(validFrom)) / (1000 * 60 * 60 * 24));
         if (diffDays !== 30 && diffDays !== 60 && diffDays !== 90) {
@@ -198,15 +197,21 @@ const CreateInvoiceForm = ({
     };
 
     const handleSubmitButton = async () => {
-        let invoiceData = collectInvoiceData();
-        const htmlString = generateHTML(invoiceData);
-        invoiceData = [{...invoiceData, html: htmlString}];
-        setLoading(true)
-        const response = await sendInvoiceData(invoiceData);
-        if (response.message === "success") {
-            setOpenPreview(true)
+
+        if (companyDetails[0].include(null)) {
+            console.log("NULL")
         }
-        await router.push("/")
+        else {
+            // let invoiceData = collectInvoiceData();
+            // const htmlString = generateHTML(invoiceData);
+            // invoiceData = [{...invoiceData, html: htmlString}];
+            // setLoading(true)
+            // const response = await sendInvoiceData(invoiceData);
+            // if (response.message === "success") {
+            //     setOpenPreview(true)
+            // }
+            await router.push("/")
+        }
     }
 
     const handleClosePreview = async () => {
