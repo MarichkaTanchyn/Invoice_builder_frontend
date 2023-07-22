@@ -1,6 +1,6 @@
 
 .container {
-    max-height: 600px;
+    max-height: 60vh;
     overflow-y: auto;
     position: relative;
     margin: auto;
@@ -30,13 +30,47 @@
 .bottomButtonContainer {
     position: fixed;
     bottom: 4em;
-    /*right: 3em;*/
 }
 
 .bottomButtonContainer button {
     margin-right: 2em;
 }
 
+@media only screen and (min-height: 900px) {
+    .container {
+        max-height: 580px;
+    }
+}
+
+@media only screen and (min-height: 1000px) {
+    .container {
+        max-height: 680px;
+    }
+}
+@media only screen and (min-height: 1100px) {
+    .container {
+        max-height: 780px;
+    }
+    .bottomButtonContainer {
+        bottom: 5em;
+    }
+}
+@media only screen and (min-height: 1200px) {
+    .container {
+        max-height: 850px;
+    }
+    .bottomButtonContainer {
+        bottom: 5.5em;
+    }
+}
+@media only screen and (min-height: 1300px) {
+    .container {
+        max-height: 940px;
+    }
+    .bottomButtonContainer {
+        bottom: 6em;
+    }
+}
 .table {
     align-items: center;
     align-self: center;
