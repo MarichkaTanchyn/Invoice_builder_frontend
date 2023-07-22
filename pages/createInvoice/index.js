@@ -48,7 +48,7 @@ const CreateInvoice = () => {
             for (const category of data.data) {
                 const children = [];
 
-                if (category.Subcategories) {
+                if (category.Subcategories && category.Subcategories.length > 0) {
                     for (const subcategory of category.Subcategories) {
                         const products = await getCategoryProducts(subcategory.id);
                         children.push({
@@ -64,11 +64,13 @@ const CreateInvoice = () => {
                     }
                 } else {
                     const products = await getCategoryProducts(category.id);
-                    children.push(...products.map(product => ({
-                        value: product.id,
-                        type: "product",
-                        label: `${product.name}, price: ${product.price}, description: ${product.description}`
-                    })));
+                    products.forEach(product => {
+                        children.push({
+                            value: product.id,
+                            type: "product",
+                            label: `${product.name}, price: ${product.price}, description: ${product.description}`
+                        });
+                    });
                 }
 
                 transformedData.push({
@@ -80,6 +82,8 @@ const CreateInvoice = () => {
             }
             setProducts(transformedData);
         }
+
+
         fetchEmployee();
         fetchCompanyDetails();
         fetchCustomers();
