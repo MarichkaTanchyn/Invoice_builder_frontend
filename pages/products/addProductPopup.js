@@ -1,13 +1,11 @@
 import styles from "./productTable.module.css";
 import Button from "../components/util/button/button";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CustomInput from "../components/util/input/customInput";
 import {debounce} from "@mui/material";
 import button from "../components/util/button/button";
 import SelectWithLabel from "../components/util/filter/selectWithLabel";
 import dataTypes from "../components/data/dataTypes.json";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
-
 
 const AddProductPopup = ({
                              allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows, setTempProduct
@@ -15,6 +13,13 @@ const AddProductPopup = ({
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
     const [invalidColumns, setInvalidColumns] = useState([]);
     const [useInInvoice, setUseInInvoice] = useState([]);
+
+    // Add an extra row when the popup opens if all headers are empty
+    useEffect(() => {
+        if (allHeaders.length === 0 && extraRows.length === 0) {
+            handleAddNewRow();
+        }
+    }, [allHeaders]);
 
     // handling column type change
     const handleColumnTypeChange = useCallback((index, selectedOption) => {
@@ -40,7 +45,6 @@ const AddProductPopup = ({
                 return newUseInInvoice;
             });
 
-            // Update the useInInvoice in extra rows
             setExtraRows(prevRows => {
                 const newRow = { ...prevRows[index], useInInvoice: !prevRows[index].useInInvoice };
                 return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
