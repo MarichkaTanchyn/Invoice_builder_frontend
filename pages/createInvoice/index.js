@@ -65,11 +65,13 @@ const CreateInvoice = () => {
                 } else {
                     const products = await getCategoryProducts(category.id);
                     products.forEach(product => {
-                        children.push({
-                            value: product.id,
-                            type: "product",
-                            label: `${product.name}, price: ${product.price}, description: ${product.description}`
-                        });
+                        if (product.price) {
+                            children.push({
+                                value: product.id,
+                                type: "product",
+                                label: `${product.name}, price: ${product.price}, description: ${product.description}`
+                            });
+                        }
                     });
                 }
 
