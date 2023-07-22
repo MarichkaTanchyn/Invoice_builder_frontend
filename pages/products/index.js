@@ -36,9 +36,19 @@ const Products = () => {
     const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
     const [loading, setLoading] = useState(false);
     const [originalData, setOriginalData] = useState([]);
-    const { categoryName, parentCategoryName } = router.query; // Extract query parameters
+    const {categoryName, parentCategoryName} = router.query; // Extract query parameters
     const [title, setTitle] = useState('');
+    const [hasPermission, setHasPermission] = React.useState(false);
 
+    useEffect(() => {
+        const userPermissions = JSON.parse(getCookie("roles") || "[]");
+        if (userPermissions.some((permission) =>
+            permission === "PERMISSION_ADMIN"
+            || permission === "PERMISSION_PRODUCTS_MANAGEMENT"
+        )) {
+            setHasPermission(true);
+        }
+    }, []);
 
     useEffect(() => {
         if (data.length) {
@@ -54,7 +64,7 @@ const Products = () => {
     }, [data]);
 
     useEffect(() => {
-        if(categoryName && parentCategoryName) {
+        if (categoryName && parentCategoryName) {
             setTitle(`${parentCategoryName}/${categoryName}`);
         } else if (categoryName) { // If only category is defined
             setTitle(categoryName);
@@ -245,9 +255,13 @@ const Products = () => {
             <div className={styles.pageHeaders}>
                 <h1>{title}</h1>
                 <div className={styles.buttonContainer}>
-                    <Button label={"Import from file"} onClick={handleImportFromFile}/>
+                    {hasPermission &&
+                        <Button label={"Import from file"} onClick={handleImportFromFile}/>
+                    }
                     <Button label={"Export to csv"} onClick={exportToCsv}/>
+
                 </div>
+
             </div>
             <hr/>
             {loading ? (<div className={globalStyles.loadingWave}>
@@ -285,12 +299,14 @@ const Products = () => {
                         </tbody>
                     </table>)}
                 </div>
-                <div className={styles.bottomButtonContainer}>
-                    {selectedFlatRows.length > 0 && <Button label={"Delete"} onClick={deleteRows}/>}
-                    {data.length !== 0 && (<Button label={editMode ? 'Save changes' : 'Edit rows'}
-                                                   onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>)}
-                    <Button label={"Add new product"} onClick={handleOpenPopup}/>
-                </div>
+                {hasPermission &&
+                    <div className={styles.bottomButtonContainer}>
+                        {selectedFlatRows.length > 0 && <Button label={"Delete"} onClick={deleteRows}/>}
+                        {data.length !== 0 && (<Button label={editMode ? 'Save changes' : 'Edit rows'}
+                                                       onClick={editMode ? handleSaveChanges : () => setEditMode(true)}/>)}
+                        <Button label={"Add new product"} onClick={handleOpenPopup}/>
+                    </div>
+                }
             </div>)}
             {showAddProductPopup && <AddProductPopup
                 data={data}

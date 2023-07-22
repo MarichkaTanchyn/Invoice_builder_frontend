@@ -88,6 +88,9 @@
 .dropdown {
     position: relative;
 }
+.withoutPermission {
+    margin-right: 5em;
+}
 
 .mainCategory {
     display: flex;
