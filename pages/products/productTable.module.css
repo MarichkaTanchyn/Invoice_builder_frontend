@@ -1,5 +1,6 @@
 
 .container {
+    height: 64vh;
     max-height: 76vh;
     overflow-y: auto;
     position: relative;
@@ -29,16 +30,27 @@
 
 .bottomButtonContainer {
     position: fixed;
-    bottom: 4em;
+    bottom: 2em;
 }
 
 .bottomButtonContainer button {
     margin-right: 2em;
 }
 
+@media only screen and (min-height: 1000px) {
+    .container {
+        max-height: 78vh;
+    }
+    .bottomButtonContainer {
+        bottom: 4em;
+    }
+}
 @media only screen and (min-height: 1500px) {
     .container {
         max-height: 78vh;
+    }
+    .bottomButtonContainer {
+        bottom: 5em;
     }
 }
 @media only screen and (min-height: 1700px) {
