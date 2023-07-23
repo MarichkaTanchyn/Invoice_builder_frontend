@@ -17,6 +17,7 @@ const CategoryRow = ({field,toggleSelectedCategory, updateCategoryField}) => (
             <CustomInput
                 type="text"
                 value={field.name}
+                defaultValue={field.name}
                 onChange={(value) => updateCategoryField(field.id, "name", value)}
                 placeholder="Enter name"
                 className={styles.input}

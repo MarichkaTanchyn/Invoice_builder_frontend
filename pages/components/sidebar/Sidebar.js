@@ -59,7 +59,9 @@ const Sidebar = ({categories}) => {
                         </div>
                     </a>
                     {hasPermission && <>
+                    <Link href={"/editCategories"}>
                         <FontAwesomeIcon icon={faPencil} className={`${style.icon}`}/>
+                    </Link>
                         <Link href={"/createCategory"}>
                             <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize: `15px`}}/>
                         </Link>

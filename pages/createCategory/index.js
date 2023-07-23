@@ -25,7 +25,7 @@ const CreateCategory = () => {
                     <h1>Add Categories</h1>
                 </div>
                 <hr className={styles.hr}/>
-                <CreateCategoryPageContent />
+                <CreateCategoryPageContent/>
             </div>
         </Card>
     )
