@@ -11,30 +11,18 @@
 
 .previewContainer {
     position: fixed;
-    top: 3em;
+    top: 2.5em;
     right: 0;
     width: 45%;
     height: 100vh;
     overflow: auto;
-    background-color: #f2f2f2;
+    background-color: #333639;
     padding: 20px;
-    border-left: 1px solid #ccc;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-}
-
-.invoice {
-    margin: auto;
-    margin-top: 2.5em;
-    padding: 2em;
-    width: 95%;
-    height: 90%;
-    background-color: #fff;
 }
 
 .img {
     height: 2em;
     cursor: pointer;
     position: fixed;
-    right: 1em;
-    margin-bottom: 1em;
+    right: .5em;
 }

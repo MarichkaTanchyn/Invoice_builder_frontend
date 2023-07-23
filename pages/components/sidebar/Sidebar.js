@@ -34,10 +34,10 @@ const Sidebar = ({categories}) => {
         setMoveDown(!moveDown);
     };
     return (<div className={style.aside}>
-        <ul className={style.ul}>
+        <ul className={style.ul} style={{borderTop: '.1em solid #949bab'}}>
             <li className={style.li}>
                 <Link className={`${style.a}`} href="/">
-                    <span className={`${style.mainA}`}>
+                    <span className={`${style.mainA}`} >
                         Invoices
                     </span>
                 </Link>

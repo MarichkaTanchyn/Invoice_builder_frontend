@@ -1,10 +1,11 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from "./invoices.module.css"
 import numeral from "numeral";
 import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
 import OptionsPopup from "../components/util/optionsPopup/optionsPopup";
 import InvoicePreview from "../components/invoicePreview/invoicePreview";
 import { Document, Page } from 'react-pdf';
+import {getInvoicePdf} from "../api/invoicesAPI";
 
 const InvoiceListItem = ({
                              id,
@@ -15,10 +16,19 @@ const InvoiceListItem = ({
                              totalAmount,
                              createdBy,
                              status,
-                             invoiceData
                          }) => {
 
-    // TODO: add popup details for each, with options depends from document status - draft
+    const [pdfUrl, setPdfUrl] = useState(null);
+
+    useEffect(() => {
+        async function fetchPdf() {
+            const url = await getInvoicePdf(id);
+            setPdfUrl(url);
+            console.log(url)
+        }
+        fetchPdf();
+    }, [id]);
+
 
     const [showPopup, setShowPopup] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
@@ -65,13 +75,9 @@ const InvoiceListItem = ({
                 </td>
             </tr>
             {showPreview && <InvoicePreview handleClosePreview={() => setShowPreview(false)}>
-                <Document
-                    file={invoiceData.invoiceFileLink}
-                    onLoadSuccess={(pdf) => console.log('Loaded document', pdf)}
-                    onLoadError={(error) => console.error('Could not load document', error)}
-                >
-                    <Page pageNumber={1} />
-                </Document>
+                <iframe src={pdfUrl} style={{width: '100%', height: '90vh',border: 'none',
+                    boxShadow: '0px 0px 10px 2px rgba(0,0,0,0.1)',
+                    borderRadius: '5px'}} />
             </InvoicePreview>}
         </>
     )

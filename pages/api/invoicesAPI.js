@@ -44,3 +44,23 @@ export const getCustomerInvoices = async (CustomerId) => {
     }
 
 }
+
+export const getInvoicePdf = async (InvoiceId) => {
+    try {
+        const { data: pdfData } = await axios.get(process.env.API_URL + `getInvoicePdf/${InvoiceId}`, {
+            headers: {
+                'Authorization': `Bearer ${getCookie("accToken")}`,
+                'Accept': 'application/pdf',
+            },
+            responseType: 'arraybuffer', // This is important because the data is a PDF file
+        });
+
+        // This will create a blob URL for the PDF
+        const blob = new Blob([pdfData], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        return url;
+    } catch (error) {
+        console.error("Error getting invoice pdf:", error.response || error);
+    }
+}
