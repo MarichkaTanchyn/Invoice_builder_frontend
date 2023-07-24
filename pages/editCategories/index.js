@@ -1,6 +1,6 @@
 import withLayout from "../components/layout/withLayout";
 import React, {useEffect, useState} from "react";
-import {getCategoriesWithSubcategories} from "../api/categoriesApi";
+import {getCategoriesWithSubcategories, updateCategory} from "../api/categoriesApi";
 import {useRouter} from "next/router";
 import Card from "../components/util/card/card";
 import Link from "next/link";
@@ -94,8 +94,7 @@ const EditCategories = () => {
         for(let categoryId in selectedCategories) {
             if(selectedCategories[categoryId].selected) {
                 const categoryData = categoryFields[categoryId];
-                // Call to edit API
-                await editCategory(categoryId, categoryData);
+                await updateCategory(categoryId, categoryData);
             }
         }
         fetchCategories();

@@ -30,3 +30,19 @@ export const createCategories = async (categoriesData) => {
     }
 
 }
+
+
+export const updateCategory = async (CategoryId, data) => {
+    console.log(data)
+    try {
+        const response = await axios.post(process.env.API_URL + `updateCategories/${CategoryId}`, data, {
+            headers: {
+                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
+            }
+        });
+        console.log("Category updated successfully", response.data);
+    } catch (error) {
+        console.error("Error sending category data:", error.response || error);
+    }
+
+}
