@@ -161,7 +161,7 @@ const EditCategories = () => {
                                     </div>
                                 </tr>
                                 <tr>
-                                    <td colSpan={2}>
+                                    <td colSpan={2} >
                                         {field.Subcategories.map((subCategory, subCategoryIndex) => (
                                             <tr key={subCategory.id}>
                                                 <div style={{marginLeft: "2em"}}>
@@ -198,19 +198,20 @@ const EditCategories = () => {
                                 </tr>
                                 </tbody>
                             </table>
+                            <div className={styles.actionButtons}>
+                                <div>
+                                    <Button label={"Cancel"} onClick={handleClick}/>
+                                </div>
+                                <div className={styles.button}>
+                                    <Button label={"Submit"}
+                                            onClick={submitData}
+                                    />
+                                </div>
+                            </div>
                         </React.Fragment>
                     ))}
                 </div>
-                <div className={styles.actionButtons}>
-                    <div>
-                        <Button label={"Cancel"} onClick={handleClick}/>
-                    </div>
-                    <div className={styles.button}>
-                        <Button label={"Submit"}
-                                onClick={submitData}
-                        />
-                    </div>
-                </div>
+
                 {showConfirmationDialogBeforeCategoryDelete && <ConfirmationDialog type={'Delete'}
                                                                                    onCancel={onCancelDeleteCategory}
                                                                                    onAgree={onConfirmDeleteCategory}

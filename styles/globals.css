@@ -85,6 +85,15 @@ body {
   overflow-x: hidden;
 }
 
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  color-scheme: light;
+}
+
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
