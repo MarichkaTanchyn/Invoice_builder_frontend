@@ -1,107 +1,113 @@
 import withLayout from "../components/layout/withLayout";
-import React, {useEffect, useState} from "react";
-import {getCategoriesWithSubcategories, updateCategory} from "../api/categoriesApi";
+import React, {useCallback, useEffect, useState} from "react";
+import {deleteCategory, getCategoriesWithSubcategories, updateCategory} from "../api/categoriesApi";
 import {useRouter} from "next/router";
 import Card from "../components/util/card/card";
 import Link from "next/link";
 import styles from "../createCategory/createCategory.module.css";
 import CustomInput from "../components/util/input/customInput";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
-import SubCategoryHeaders from "../createCategory/subCategoryHeaders";
 import Button from "../components/util/button/button";
+import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import _ from 'lodash';
 
 
 const EditCategories = () => {
-    const [originalData, setOriginalData] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState({});
-    const [categoryFields, setCategoryFields] = useState({});
     const router = useRouter();
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
+    const [originalData, setOriginalData] = useState([]);
+    const [categoryFields, setCategoryFields] = useState({});
+    const [subCategoryFields, setSubCategoryFields] = useState({});
+    const [categoryToDelete, setCategoryToDelete] = useState(null);
+    const [showConfirmationDialogBeforeCategoryDelete, setShowConfirmationDialogBeforeCategoryDelete] = useState(false);
 
-    const fetchCategories = async () => {
-        const resp = await getCategoriesWithSubcategories();
-        setOriginalData(resp.data);
-        initCategoryFields(resp.data);
-    }
-
-    const initCategoryFields = (data) => {
-        const categories = data.reduce((acc, curr) => ({
+    const formatData = useCallback((data) => {
+        return data.reduce((acc, curr) => ({
             ...acc,
             [curr.id]: {
-                selected: false,
                 name: curr.name,
                 subcategories: curr.Subcategories.reduce((subAcc, subCurr) => ({
                     ...subAcc,
                     [subCurr.id]: {
-                        selected: false,
                         name: subCurr.name
                     }
                 }), {})
             }
         }), {});
-        setSelectedCategories(categories);
-        setCategoryFields(categories);
-    }
+    }, []);
 
-    const updateCategoryField = (id, fieldName, value) => {
+    const fetchCategories = useCallback(async () => {
+        const resp = await getCategoriesWithSubcategories();
+        const categories = formatData(resp.data)
+        setOriginalData(resp.data);
+        setCategoryFields(categories);
+    }, [formatData]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]);
+
+    const updateCategoryField = useCallback((id, value) => {
         setCategoryFields(prevState => ({
             ...prevState,
             [id]: {
                 ...prevState[id],
-                [fieldName]: value
+                name: value
             }
         }));
-    };
+    }, []);
 
-    const toggleSelectedCategory = (id, subcategoryId = null) => {
-        setSelectedCategories(prevState => {
-            if (subcategoryId) {
-                return {
-                    ...prevState,
-                    [id]: {
-                        ...prevState[id],
-                        subcategories: {
-                            ...prevState[id].subcategories,
-                            [subcategoryId]: {
-                                ...prevState[id].subcategories[subcategoryId],
-                                selected: !prevState[id].subcategories[subcategoryId].selected
-                            }
-                        }
-                    }
-                }
-            } else {
-                return {
-                    ...prevState,
-                    [id]: {
-                        ...prevState[id],
-                        selected: !prevState[id].selected
-                    }
-                }
+    const updateSubCategoryField = useCallback((categoryId, subCategoryId, value) => {
+        setSubCategoryFields(prevState => ({
+            ...prevState,
+            [subCategoryId]: {
+                categoryId,
+                name: value
             }
-        });
-    };
+        }));
+    }, []);
 
-    const handleDeleteColumn = async (categoryId, subcategoryId = null) => {
-        // Call to delete API
-        await deleteCategory(categoryId, subcategoryId);
+    const handleDeleteColumn = useCallback((category) => {
+        setShowConfirmationDialogBeforeCategoryDelete(true);
+        setCategoryToDelete(category);
+    }, []);
+
+    const onConfirmDeleteCategory = useCallback(async () => {
+        await deleteCategory(categoryToDelete.id);
         fetchCategories();
-    }
+        setCategoryToDelete(null);
+        setShowConfirmationDialogBeforeCategoryDelete(false);
+    }, [categoryToDelete, fetchCategories]);
 
-    const submitData = async () => {
-        for(let categoryId in selectedCategories) {
-            if(selectedCategories[categoryId].selected) {
-                const categoryData = categoryFields[categoryId];
-                await updateCategory(categoryId, categoryData);
+    const onCancelDeleteCategory = useCallback(() => {
+        setCategoryToDelete(null);
+        setShowConfirmationDialogBeforeCategoryDelete(false);
+    }, []);
+
+    // Submit Data
+    const submitData = useCallback(async () => {
+        const formattedOriginalData = formatData(originalData)
+
+        const changedCategories = Object.entries(categoryFields).reduce((acc, [id, value]) => {
+            if (!_.isEqual(value, formattedOriginalData[id])) {
+                acc[id] = value;
             }
+            return acc;
+        }, {});
+
+        for (const [id, data] of Object.entries(subCategoryFields)) {
+            await updateCategory(id, data);
         }
-        fetchCategories();
-    }
-    const onClick = async () => {
+
+        for (const [id, data] of Object.entries(changedCategories)) {
+            await updateCategory(id, data);
+        }
+
+        await handleClick()
+    }, [categoryFields, subCategoryFields, fetchCategories]);
+
+    const handleClick = useCallback(async () => {
         await router.push("/");
-    }
+    }, [router]);
 
     return (
         <Card>
@@ -109,7 +115,7 @@ const EditCategories = () => {
                 <Link href={"/"} passHref>
                     <div className={styles.backToInvoices}>
                         <img className={styles.img} src="/arrowLeft.svg" alt={"arrowBack"}/>
-                        <button onClick={onClick} className={styles.buttonWithImg}>Back to Invoices</button>
+                        <button onClick={handleClick} className={styles.buttonWithImg}>Back to Invoices</button>
                     </div>
                 </Link>
                 <div className={styles.headers}>
@@ -117,45 +123,42 @@ const EditCategories = () => {
                 </div>
                 <hr className={styles.hr}/>
                 <div>
-                    <h5>Categories</h5>
+                    <h5 className={styles.header}>Categories</h5>
                     {originalData && originalData.map((field, index) => (
                         <React.Fragment key={field.id}>
                             <table className={styles.categoryTable}>
                                 <thead className={styles.categoryTableHeaders}>
                                 {(index === 0) && (
-                                    <tr>
-                                        <th><CheckboxWithLabel label={"REG"}/>
-                                        </th>
-                                        <th>Name</th>
+                                    <tr className={styles.categoryTableHeaders}>
+                                        <th><span>REG</span> <span style={{marginLeft: '1.5em'}}>Name</span></th>
                                     </tr>
+
                                 )}
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>
-                                        <div className={styles.checkBox} style={{marginRight: ".8em"}}>
-                                            <CheckboxWithLabel checked={selectedCategories[field.id].selected}
-                                                               onChange={() => toggleSelectedCategory(field.id)}
-                                                               label={`#${index + 1}`}/>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <CustomInput
-                                            type="text"
-                                            defaultValue={categoryFields[field.id].name}
-                                            onChange={(value) => updateCategoryField(field.id, "name", value)}
-                                            placeholder="Enter name"
-                                            className={styles.input}
-                                        />
-                                    </td>
-                                    <td>
-                                        <img
-                                            src={"/x.svg"}
-                                            alt={"x"}
-                                            className={index !== 0 ? styles.x : styles.xFirst}
-                                            onClick={() => handleDeleteColumn(column)}
-                                        />
-                                    </td>
+                                    <div>
+                                        <td>
+                                            <span className={styles.spanBox}>#{index + 1}</span>
+                                        </td>
+                                        <td>
+                                            <CustomInput
+                                                type="text"
+                                                defaultValue={categoryFields[field.id].name}
+                                                onChange={(value) => updateCategoryField(field.id, value)}
+                                                placeholder="Enter name"
+                                                className={styles.input}
+                                            />
+                                        </td>
+                                        <td>
+                                            <img
+                                                src={"/x.svg"}
+                                                alt={"x"}
+                                                className={styles.x}
+                                                onClick={() => handleDeleteColumn(field)}
+                                            />
+                                        </td>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <td colSpan={2}>
@@ -163,25 +166,19 @@ const EditCategories = () => {
                                             <tr key={subCategory.id}>
                                                 <div style={{marginLeft: "2em"}}>
                                                     {(subCategoryIndex === 0) && (
-                                                        <tr>
-                                                            <th><CheckboxWithLabel label={"REG"}/>
-                                                            </th>
+                                                        <tr className={styles.categoryTableHeaders}>
+                                                            <th><span>REG</span></th>
                                                             <th>Name</th>
                                                         </tr>
                                                     )}
                                                     <td>
-                                                        <div className={styles.checkBox} style={{marginRight: ".8em"}}>
-                                                            <CheckboxWithLabel
-                                                                checked={selectedCategories[field.id].subcategories[subCategory.id].selected}
-                                                                onChange={() => toggleSelectedCategory(field.id, subCategory.id)}
-                                                                label={`#${subCategoryIndex + 1}`}/>
-                                                        </div>
+                                                        <span className={styles.spanBox}>#{subCategoryIndex + 1}</span>
                                                     </td>
                                                     <td>
                                                         <CustomInput
                                                             type="text"
                                                             defaultValue={categoryFields[field.id].subcategories[subCategory.id].name}
-                                                            onChange={(value) => updateCategoryField(field.id, "name", value)}
+                                                            onChange={(value) => updateSubCategoryField(field.id, subCategory.id, value)}
                                                             placeholder="Enter name"
                                                             className={styles.input}
                                                         />
@@ -190,8 +187,8 @@ const EditCategories = () => {
                                                         <img
                                                             src={"/x.svg"}
                                                             alt={"x"}
-                                                            className={index !== 0 ? styles.x : styles.xFirst}
-                                                            onClick={() => handleDeleteColumn(column)}
+                                                            className={styles.x}
+                                                            onClick={() => handleDeleteColumn(subCategory.id)}
                                                         />
                                                     </td>
                                                 </div>
@@ -206,7 +203,7 @@ const EditCategories = () => {
                 </div>
                 <div className={styles.actionButtons}>
                     <div>
-                        <Button label={"Cancel"} onClick={onClick}/>
+                        <Button label={"Cancel"} onClick={handleClick}/>
                     </div>
                     <div className={styles.button}>
                         <Button label={"Submit"}
@@ -214,6 +211,12 @@ const EditCategories = () => {
                         />
                     </div>
                 </div>
+                {showConfirmationDialogBeforeCategoryDelete && <ConfirmationDialog type={'Delete'}
+                                                                                   onCancel={onCancelDeleteCategory}
+                                                                                   onAgree={onConfirmDeleteCategory}
+                                                                                   message={`Confirm deletion of "${categoryToDelete.name}" ? Please note that this action will also erase any associated subcategories.`}
+                                                                                   header={'Delete Category'}
+                />}
             </div>
         </Card>
     )
