@@ -88,7 +88,7 @@ const AddProductPopup = ({
                 <h4>Add New Product</h4>
 
                 <div className={styles.inputs}>
-                {allHeaders.map((header, index) => {
+                    {allHeaders && allHeaders.map((header, index) => {
                     return (<div key={index} className={styles.popupInput}>
                         <div className={styles.inputBox}>
                             <span className={styles.inputLabel}>Column Name</span>
@@ -108,7 +108,7 @@ const AddProductPopup = ({
                     </div>)
                 })}
 
-                {extraRows.map((row, index) => (<div key={`extra-${index}`} className={styles.popupInput}>
+                {extraRows && extraRows.map((row, index) => (<div key={`extra-${index}`} className={styles.popupInput}>
                     <div className={styles.inputBox}>
                         <span className={styles.inputLabel}>Column Name</span>
                             <CustomInput

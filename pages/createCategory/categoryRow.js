@@ -6,11 +6,13 @@ import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 const CategoryRow = ({field,toggleSelectedCategory, updateCategoryField}) => (
 
     <tr>
+        {field && <>
         <td>
             <div className={styles.checkBox} style={{marginRight:".8em"}}>
-            <CheckboxWithLabel checked={field.reg}
-                               onChange={() => toggleSelectedCategory(field.id)}
-                               label={`#${field.id}`}/>
+                 <CheckboxWithLabel checked={field.reg}
+                                             onChange={() => toggleSelectedCategory(field.id)}
+                                             label={`#${field.id}`}/>
+
             </div>
         </td>
         <td>
@@ -23,6 +25,8 @@ const CategoryRow = ({field,toggleSelectedCategory, updateCategoryField}) => (
                 className={styles.input}
             />
         </td>
+        </>
+        }
     </tr>
 );
 

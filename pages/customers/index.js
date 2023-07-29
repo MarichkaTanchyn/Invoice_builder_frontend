@@ -76,7 +76,7 @@ const Customers = () => {
     const handleSubmitPopup = async () => {
         const res = await addCustomer(newCustomer);
         if (!res.data.message) {
-            setCustomers([...customers, res.data]);
+            setDisplayedCustomers([...displayedCustomers, res.data]);
             setNewCustomer({
                 "name": '',
                 "description": '',

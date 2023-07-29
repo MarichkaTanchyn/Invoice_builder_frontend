@@ -16,7 +16,7 @@ import globalStyle from "../global.module.css";
 import WarningPopup from "../../components/util/warningPopup/warningPopup";
 
 const CreateInvoiceForm = ({
-                               customers, products, clickedOpenPreview, setClickedOpenPreview, companyDetails, employee
+                               customers, products, clickedOpenPreview, setClickedOpenPreview, companyDetails = [{}], employee
                            }) => {
 
     const [customer, setCustomer] = useState(null)
@@ -34,6 +34,7 @@ const CreateInvoiceForm = ({
     const [showFillDataPopup, setShowFillDataPopup] = useState(false);
     const [showFillCompanyDataPopup, setShowFillCompanyDataPopup] = useState(false);
     const [htmlString, setHtmlString] = useState('');
+
 
     useEffect(() => {
         if (clickedOpenPreview) {
@@ -331,7 +332,8 @@ const CreateInvoiceForm = ({
 
         </div>
         <div className={styles.items}>
-            <ProductTable summary={summary}
+            {summary &&
+                <ProductTable summary={summary}
                           rows={rows}
                           addRow={addRow}
                           deleteSelectedRows={deleteSelectedRows}
@@ -339,7 +341,7 @@ const CreateInvoiceForm = ({
                           toggleRowSelection={toggleRowSelection}
                           selectAllRows={selectAllRows}
                           products={products}
-            />
+            />}
             <PaymentActions bankAccount={companyDetails[0] ? companyDetails[0].bankAccountNumber : ''}
                             setCurrency={setCurrency}
                             currency={currency}

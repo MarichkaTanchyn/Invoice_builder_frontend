@@ -29,7 +29,7 @@ const CreateCategoryForm = ({
         <>
             <CategoryHeaders addCategoryField={addCategoryField}
                              deleteCategoryField={deleteCategoryField}/>
-            {categoryFields.map((field, index) => (
+            {categoryFields && categoryFields.map((field, index) => (
                 <React.Fragment key={field.id}>
                     <table className={styles.categoryTable}>
                         <thead className={styles.categoryTableHeaders}>

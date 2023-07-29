@@ -18,7 +18,7 @@ const CustomerList = ({customers}) => {
             </tr>
             </thead>
             <tbody>
-            {customers.map((customer, index) => (
+            {customers && customers.map((customer, index) => (
                 <CustomerListItem key={customer.id} id={index + 1}
                                   company={customer.name}
                                   representative={customer.Person.firstName + " " + customer.Person.lastName}

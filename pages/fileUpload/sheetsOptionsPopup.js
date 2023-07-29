@@ -22,7 +22,7 @@ const SheetsOptionsPopup = ({
         {value: 'newCategoryFromEach', label: 'Create new category for each sheet'},
     ];
 
-    const sheetsOptions = listOfSheets.map((key) => {
+    const sheetsOptions = listOfSheets && listOfSheets.map((key) => {
         return {
             label: key,
             value: key
@@ -75,7 +75,7 @@ const SheetsOptionsPopup = ({
                 }
                 {selectedOption === 'newCategoryFromEach' &&
                     <div className={styles.selectedSheetOptions}>
-                        {selectedSheets.map((key, index) => {
+                        {selectedSheets && selectedSheets.map((key, index) => {
                             return (
                                 <div key={index}>
                                     <div className={styles.sheetName}>

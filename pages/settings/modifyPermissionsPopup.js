@@ -15,8 +15,10 @@ const ModifyPermissionsPopup = ({user, handleClose, handleSubmit, selectedPermis
                     <h4>Modify Permissions</h4>
                     <div className={styles.center}>
                         <div className={styles.userCell}>
-                            <span>{user.Person.firstName}</span>
-                            <span>{user.Person.lastName}</span>
+                            {user && user.Person && <>
+                                <span>{user.Person.firstName}</span>
+                                <span>{user.Person.lastName}</span>
+                            </> }
                         </div>
                         <SelectWithLabel
                             options={permissions}

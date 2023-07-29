@@ -99,7 +99,7 @@ const ProductTable = ({
                 </tr>
                 </thead>
                 <tbody>
-                {rows.map((row, index) => (
+                {rows && rows.map((row, index) => (
                     <tr key={row.id}>
                         <td>
                             <label className={styles.checkbox}>
@@ -184,18 +184,20 @@ const ProductTable = ({
                 ))}
                 </tbody>
                 <tfoot className={styles.tableFooters}>
-                <tr>
-                    <td>Summary</td>
-                    <td></td>
-                    <td></td>
-                    <td>{summary.totalAmount}</td>
-                    <td></td>
-                    <td></td>
-                    <td>{summary.totalNetValue}</td>
-                    <td>{summary.totalVatValue}</td>
-                    <td>{summary.totalGrossValue}</td>
-                    <td></td>
-                </tr>
+                {summary &&
+                    <tr>
+                        <td>Summary</td>
+                        <td></td>
+                        <td></td>
+                        <td>{summary.totalAmount}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{summary.totalNetValue}</td>
+                        <td>{summary.totalVatValue}</td>
+                        <td>{summary.totalGrossValue}</td>
+                        <td></td>
+                    </tr>}
+
                 </tfoot>
             </table>
         </>

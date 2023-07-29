@@ -1,13 +1,17 @@
 import * as React from "react";
 
 const DefaultColumnFilter = ({
-                                 column: {filterValue, preFilteredRows, setFilter},
+                                 column,
                              }) => {
+    const filterValue = column?.filterValue || '';
+    const preFilteredRows = column?.preFilteredRows || [];
+    const setFilter = column?.setFilter || function() {};
+
     const count = preFilteredRows.length;
 
     return (
         <input
-            value={filterValue || ""}
+            value={filterValue}
             onChange={(e) => {
                 setFilter(e.target.value || undefined);
             }}
