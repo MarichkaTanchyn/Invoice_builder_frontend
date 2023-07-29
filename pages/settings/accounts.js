@@ -36,7 +36,7 @@ const Accounts = () => {
 
             setAdmins(admins)
             setUsers(users)
-            setRegisterLink(`http://localhost:3001/userSignUp/${token.data.token}`)
+            setRegisterLink(`https://invoice-builder-blue.vercel.app/userSignUp/${token.data.token}`)
         }
 
         fetchData()
