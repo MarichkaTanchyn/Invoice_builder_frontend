@@ -1,7 +1,7 @@
 import styles from "./createCategory.module.css";
 import {Switch} from "@nextui-org/react";
 import CreateCategoryForm from "./createCategoryForm";
-import Button from "../components/util/button/button";
+import Button from "../../components/util/button/button";
 import React, {useState} from "react";
 import {createCategories} from "../api/categoriesApi";
 import {useRouter} from "next/router";

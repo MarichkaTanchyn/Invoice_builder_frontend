@@ -4,7 +4,7 @@ import CategoryRow from "./categoryRow";
 import SubCategoryHeaders from "./subCategoryHeaders";
 import CategoryHeaders from "./categoryHeaders";
 import SubcategoryTable from "./subCategoryTable";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 
 const CreateCategoryForm = ({
                                 showSubcategories,

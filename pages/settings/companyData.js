@@ -1,8 +1,8 @@
-import CustomInput from "../components/util/input/customInput";
+import CustomInput from "../../components/util/input/customInput";
 import styles from "./settings.module.css";
 import {useEffect, useState} from "react";
 import {getCompanyData, updateCompanyData} from "../api/companyAPI";
-import Button from "../components/util/button/button";
+import Button from "../../components/util/button/button";
 
 const CompanyData = ({adminPermission}) => {
 

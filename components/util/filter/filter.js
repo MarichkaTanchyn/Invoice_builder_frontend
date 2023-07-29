@@ -6,7 +6,7 @@ import InputWithLabel from "./inputWithLabel";
 import SelectWithLabel from "./selectWithLabel";
 import Button from "../button/button";
 import useFilter from "./useFilter";
-import {getEmployees} from "../../../api/employeesApi";
+import {getEmployees} from "../../../pages/api/employeesApi";
 
 
 const CURRENCY_OPTIONS = [

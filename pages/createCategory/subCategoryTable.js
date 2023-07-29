@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "./createCategory.module.css";
 
-import CustomInput from "../components/util/input/customInput";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import CustomInput from "../../components/util/input/customInput";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 
 const SubcategoryTable = ({
                               index,

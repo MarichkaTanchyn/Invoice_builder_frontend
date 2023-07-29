@@ -1,16 +1,16 @@
-import Card from "../components/util/card/card";
-import withLayout from "../components/layout/withLayout";
+import Card from "../../components/util/card/card";
+import withLayout from "../../components/layout/withLayout";
 import * as React from "react";
 import {useEffect, useMemo, useState} from "react";
 import IndeterminateCheckbox from "./IndeterminateCheckbox";
 import DefaultColumnFilter from "./DefaultColumnFilter";
-import {EditableCell, ReadOnlyCell} from "./Cells";
+import {EditableCell, ReadOnlyCell} from "../../components/util/table/Cells";
 import {useBlockLayout, useResizeColumns, useRowSelect, useSortBy, useTable} from "react-table";
 import styles from "./productTable.module.css";
 import {utils} from 'xlsx';
-import Button from "../components/util/button/button";
+import Button from "../../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
-import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import ConfirmationDialog from "../../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
 import {deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
@@ -23,7 +23,7 @@ import {
     processExistingProduct,
     processExtraRows,
     processNewProduct
-} from "./productHelpers";
+} from "../../components/util/table/productHelpers";
 
 const Products = () => {
     const router = useRouter();

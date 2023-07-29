@@ -1,8 +1,8 @@
-import CustomInput from "../components/util/input/customInput";
-import Button from "../components/util/button/button";
+import CustomInput from "../../components/util/input/customInput";
+import Button from "../../components/util/button/button";
 import styles from "./fileUpload.module.css"
 import React, {useState} from "react";
-import SelectWithUnderline from "../components/util/select/selectWithUnderline";
+import SelectWithUnderline from "../../components/util/select/selectWithUnderline";
 
 const SheetsOptionsPopup = ({
                                 setHeadersRow,

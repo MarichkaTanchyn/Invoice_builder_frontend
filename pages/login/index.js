@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import Card from "../components/util/card/card";
+import Card from "../../components/util/card/card";
 import style from './login.module.css'
-import CustomInput from "../components/util/input/customInput";
-import Button from "../components/util/button/button";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
-import WithAuthenticationLayout from "../components/authenticationLayout/withAuthenticationLayout";
+import CustomInput from "../../components/util/input/customInput";
+import Button from "../../components/util/button/button";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
+import WithAuthenticationLayout from "../../components/authenticationLayout/withAuthenticationLayout";
 import {useRouter} from "next/router";
 import {login} from "../api/authorizationApi";
 import {getCookie, setCookie} from "cookies-next";

@@ -1,19 +1,19 @@
 import {Radio} from '@nextui-org/react';
 import React, {useEffect, useState} from 'react';
 import styles from "./createInvoice.module.css"
-import CustomInput from "../components/util/input/customInput";
-import SelectWithUnderline from "../components/util/select/selectWithUnderline";
+import CustomInput from "../../components/util/input/customInput";
+import SelectWithUnderline from "../../components/util/select/selectWithUnderline";
 import ProductTable from './productTable';
-import Button from "../components/util/button/button";
+import Button from "../../components/util/button/button";
 import {useRouter} from "next/router";
 import {getCustomer} from "../api/customersApi";
-import TERMS_OPTIONS from "../components/data/paymentTerms";
+import TERMS_OPTIONS from "../../components/data/paymentTerms";
 import PaymentActions from "./paymentActions";
-import InvoicePreview from "../components/invoicePreview/invoicePreview";
-import {generateHTML} from "../components/invoicePreview/generateHtml";
+import InvoicePreview from "../../components/invoicePreview/invoicePreview";
+import {generateHTML} from "../../components/invoicePreview/generateHtml";
 import {sendInvoiceData} from "../api/invoicesAPI";
 import globalStyle from "../global.module.css";
-import WarningPopup from "../components/util/warningPopup/warningPopup";
+import WarningPopup from "../../components/util/warningPopup/warningPopup";
 
 const CreateInvoiceForm = ({
                                customers, products, clickedOpenPreview, setClickedOpenPreview, companyDetails, employee

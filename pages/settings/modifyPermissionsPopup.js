@@ -1,7 +1,7 @@
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
+import SelectWithLabel from "../../components/util/filter/selectWithLabel";
 import styles from "./settings.module.css";
-import Button from "../components/util/button/button";
-import permissions from "../components/data/permissions";
+import Button from "../../components/util/button/button";
+import permissions from "../../components/data/permissions";
 
 const ModifyPermissionsPopup = ({user, handleClose, handleSubmit, selectedPermissions, setSelectedPermissions}) => {
 

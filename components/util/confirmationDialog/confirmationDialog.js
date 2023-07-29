@@ -15,7 +15,7 @@ const ConfirmationDialog = ({type, header,message, onAgree, onCancel}) => {
                     <div className={styles.header}>
                         {type === "Delete" &&
                         <div>
-                            <img className={styles.img}  src="/redBin.svg" alt="confirmation icon"/>
+                            <img className={styles.img} src="/redBin.svg" alt="confirmation icon"/>
                         </div>
                         }
                         <div className={styles.title}>

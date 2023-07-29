@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
-import withLayout from "../components/layout/withLayout";
+import withLayout from "../../components/layout/withLayout";
 import styles from "./fileUpload.module.css";
 import {v4 as uuidv4} from 'uuid';
 import {useRouter} from "next/router";
-import Button from "../components/util/button/button.js";
+import Button from "../../components/util/button/button.js";
 import HeadersPopup from "./headersPopup";
-import {checkDataIsValid, getFileSheets} from './preprocessFile';
+import {checkDataIsValid, getFileSheets} from '../../components/util/preprocessFile';
 import SheetsOptionsPopup from "./sheetsOptionsPopup";
 import {setCookie} from "cookies-next";
 import {postFile} from "../api/fileApi";

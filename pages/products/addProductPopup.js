@@ -1,11 +1,11 @@
 import styles from "./productTable.module.css";
-import Button from "../components/util/button/button";
+import Button from "../../components/util/button/button";
 import React, {useCallback, useEffect, useState} from "react";
-import CustomInput from "../components/util/input/customInput";
+import CustomInput from "../../components/util/input/customInput";
 import {debounce} from "@mui/material";
-import button from "../components/util/button/button";
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
-import dataTypes from "../components/data/dataTypes.json";
+import button from "../../components/util/button/button";
+import SelectWithLabel from "../../components/util/filter/selectWithLabel";
+import dataTypes from "../../components/data/dataTypes.json";
 
 const AddProductPopup = ({
                              allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows, setTempProduct

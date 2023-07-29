@@ -3,7 +3,7 @@ import style from "./layout.module.css";
 import Header from "../util/header/header";
 import Sidebar from "../sidebar/Sidebar";
 import {useEffect, useState} from "react";
-import { getCategoriesWithSubcategories} from "../../api/categoriesApi";
+import { getCategoriesWithSubcategories} from "../../pages/api/categoriesApi";
 import {getCookie} from "cookies-next";
 import {useRouter} from "next/router";
 

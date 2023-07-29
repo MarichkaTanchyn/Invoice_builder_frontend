@@ -1,7 +1,7 @@
 import React from 'react';
-import CustomInput from "../components/util/input/customInput";
+import CustomInput from "../../components/util/input/customInput";
 import styles from "./createCategory.module.css";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 
 const CategoryRow = ({field,toggleSelectedCategory, updateCategoryField}) => (
 

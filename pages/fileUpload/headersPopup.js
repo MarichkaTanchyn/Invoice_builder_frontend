@@ -1,5 +1,5 @@
-import CustomInput from "../components/util/input/customInput";
-import Button from "../components/util/button/button";
+import CustomInput from "../../components/util/input/customInput";
+import Button from "../../components/util/button/button";
 import styles from "./fileUpload.module.css"
 
 const HeadersPopup = ({setHeadersRow, handlePopupSubmit, handleClose, defaultValue}) => {

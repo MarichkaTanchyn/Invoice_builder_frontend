@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import CustomInput from "../components/util/input/customInput";
-import SmallSelectWithUnderline from "../components/util/select/smallSelectWithUnderline";
+import CustomInput from "../../components/util/input/customInput";
+import SmallSelectWithUnderline from "../../components/util/select/smallSelectWithUnderline";
 import styles from "./createInvoice.module.css";
-import ButtonWithImg from "../components/util/button/buttonWithImg";
-import units from "../components/data/units.json";
+import ButtonWithImg from "../../components/util/button/buttonWithImg";
+import units from "../../components/data/units.json";
 import PaymentActions from "./paymentActions";
 import { Cascader } from 'antd';
 import {getProduct} from "../api/productsApi";

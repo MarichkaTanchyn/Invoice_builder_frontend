@@ -1,6 +1,6 @@
-import withLayout from "../components/layout/withLayout";
+import withLayout from "../../components/layout/withLayout";
 import {useRouter} from "next/router";
-import Card from "../components/util/card/card";
+import Card from "../../components/util/card/card";
 import styles from "./customer.module.css"
 import Link from "next/link";
 import React, {useEffect} from "react";

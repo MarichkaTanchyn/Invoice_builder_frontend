@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
-import withLayout from "../components/layout/withLayout";
-import Card from "../components/util/card/card";
+import withLayout from "../../components/layout/withLayout";
+import Card from "../../components/util/card/card";
 import styles from "./preprocessSheet.module.css";
-import Button from "../components/util/button/button";
+import Button from "../../components/util/button/button";
 import {getCookie} from "cookies-next";
-import CustomInput from "../components/util/input/customInput";
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
-import dataTypes from "../components/data/dataTypes.json";
+import CustomInput from "../../components/util/input/customInput";
+import SelectWithLabel from "../../components/util/filter/selectWithLabel";
+import dataTypes from "../../components/data/dataTypes.json";
 import {useRouter} from "next/router";
 import {preprocessCsv, readExcel} from "../api/csvAPI";
 import globalStyles from "../global.module.css";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
-import WarningPopup from "../components/util/warningPopup/warningPopup";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
+import WarningPopup from "../../components/util/warningPopup/warningPopup";
 
 const PreprocessSheet = () => {
     const [deletedColumnIndex, setDeletedColumnIndex] = useState(null);

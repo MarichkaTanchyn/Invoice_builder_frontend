@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {deleteEmployee, getEmployees, updateEmployeePermissions} from "../api/employeesApi";
-import ButtonWithImg from "../components/util/button/buttonWithImg";
+import ButtonWithImg from "../../components/util/button/buttonWithImg";
 import styles from './settings.module.css'
 import ModifyPermissionsPopup from "./modifyPermissionsPopup";
-import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import ConfirmationDialog from "../../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
 
 const Permissions = () => {

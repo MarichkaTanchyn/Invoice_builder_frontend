@@ -1,10 +1,10 @@
 import React from 'react';
-import SelectWithUnderline from "../components/util/select/selectWithUnderline";
-import currencies from "../components/data/currency.json";
-import paymentMethods from "../components/data/paymentMethods.json";
+import SelectWithUnderline from "../../components/util/select/selectWithUnderline";
+import currencies from "../../components/data/currency.json";
+import paymentMethods from "../../components/data/paymentMethods.json";
 import styles from "./createInvoice.module.css"
-import CustomInput from "../components/util/input/customInput";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import CustomInput from "../../components/util/input/customInput";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 
 
 const PaymentActions = ({ leftToPay, setPaid, bankAccount, setCurrency, setPaymentMethod}) => {

@@ -1,5 +1,5 @@
-import withLayout from "../components/layout/withLayout";
-import Card from "../components/util/card/card";
+import withLayout from "../../components/layout/withLayout";
+import Card from "../../components/util/card/card";
 import React from 'react';
 import styles from "./createCategory.module.css";
 import Link from "next/link";

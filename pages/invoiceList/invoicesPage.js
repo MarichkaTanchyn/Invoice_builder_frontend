@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from "react";
-import Search from "../components/util/search/search";
+import Search from "../../components/util/search/search";
 import styles from "./invoices.module.css";
-import Filter from "../components/util/filter/filter";
-import Button from "../components/util/button/button";
-import SortSelect from "../components/util/sort/sortSelect";
-import {sortDocuments} from "../components/util/sort/sortUtils";
+import Filter from "../../components/util/filter/filter";
+import Button from "../../components/util/button/button";
+import SortSelect from "../../components/util/sort/sortSelect";
+import {sortDocuments} from "../../components/util/sort/sortUtils";
 import InvoiceList from "./invoiceList";
 import {getAllDocuments} from "../api/invoicesAPI";
-import useFilter from "../components/util/filter/useFilter";
+import useFilter from "../../components/util/filter/useFilter";
 import {useRouter} from "next/router";
-import withLayout from "../components/layout/withLayout";
+import withLayout from "../../components/layout/withLayout";
 import globalStyle from "../global.module.css"
 import {getCookie} from "cookies-next";
-import sortOptions from "../components/data/sortOptions";
-import {objectIncludes} from "../components/util/search/searchUtil";
+import sortOptions from "../../components/data/sortOptions";
+import {objectIncludes} from "../../components/util/search/searchUtil";
 
 
 const InvoicesPage = () => {

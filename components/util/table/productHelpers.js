@@ -1,5 +1,5 @@
 import {getCookie} from "cookies-next";
-import {addProduct} from "../api/productsApi";
+import {addProduct} from "../../../pages/api/productsApi";
 
 
 export const processExtraRows = (newProduct, newColumns, extraRows) => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import withAuthenticationLayout from "../components/authenticationLayout/withAuthenticationLayout";
+import withAuthenticationLayout from "../../components/authenticationLayout/withAuthenticationLayout";
 import style from "./waitForApproval.module.css";
-import Card from "../components/util/card/card";
+import Card from "../../components/util/card/card";
 
 const WaitForAcceptance = () => {
 

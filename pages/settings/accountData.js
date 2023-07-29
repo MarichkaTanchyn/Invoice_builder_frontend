@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import styles from "./settings.module.css";
-import CustomInput from "../components/util/input/customInput";
-import Button from "../components/util/button/button";
+import CustomInput from "../../components/util/input/customInput";
+import Button from "../../components/util/button/button";
 import {getEmployeeData, updatePersonData} from "../api/employeesApi";
 
 

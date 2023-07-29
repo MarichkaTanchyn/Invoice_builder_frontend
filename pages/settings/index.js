@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
-import withLayout from "../components/layout/withLayout";
-import Card from "../components/util/card/card";
+import withLayout from "../../components/layout/withLayout";
+import Card from "../../components/util/card/card";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';

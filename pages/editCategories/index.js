@@ -1,13 +1,13 @@
-import withLayout from "../components/layout/withLayout";
+import withLayout from "../../components/layout/withLayout";
 import React, {useCallback, useEffect, useState} from "react";
 import {deleteCategory, getCategoriesWithSubcategories, updateCategory} from "../api/categoriesApi";
 import {useRouter} from "next/router";
-import Card from "../components/util/card/card";
+import Card from "../../components/util/card/card";
 import Link from "next/link";
 import styles from "../createCategory/createCategory.module.css";
-import CustomInput from "../components/util/input/customInput";
-import Button from "../components/util/button/button";
-import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
+import CustomInput from "../../components/util/input/customInput";
+import Button from "../../components/util/button/button";
+import ConfirmationDialog from "../../components/util/confirmationDialog/confirmationDialog";
 import _ from 'lodash';
 
 

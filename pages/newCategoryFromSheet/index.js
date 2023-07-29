@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import Card from "../components/util/card/card";
+import Card from "../../components/util/card/card";
 import styles from "./newCategoryFromSheet.module.css";
-import withLayout from "../components/layout/withLayout";
+import withLayout from "../../components/layout/withLayout";
 import {getCookie} from "cookies-next";
 import {preprocessCsv, readExcel} from "../api/csvAPI";
-import CustomInput from "../components/util/input/customInput";
-import SelectWithLabel from "../components/util/filter/selectWithLabel";
-import dataTypes from "../components/data/dataTypes.json";
-import Button from "../components/util/button/button";
-import CheckboxWithLabel from "../components/util/filter/checkboxWithLabel";
+import CustomInput from "../../components/util/input/customInput";
+import SelectWithLabel from "../../components/util/filter/selectWithLabel";
+import dataTypes from "../../components/data/dataTypes.json";
+import Button from "../../components/util/button/button";
+import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 import globalStyles from "../global.module.css";
-import WarningPopup from "../components/util/warningPopup/warningPopup";
+import WarningPopup from "../../components/util/warningPopup/warningPopup";
 
 const CreateNewCategoryFromSheet = () => {
     const [sheets, setSheets] = useState({});

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {acceptEmployee, deleteEmployee, getEmployees} from "../api/employeesApi";
 import styles from './settings.module.css'
-import CustomInput from "../components/util/input/customInput";
+import CustomInput from "../../components/util/input/customInput";
 import {getRegisterToken, sendRegisterLinkViaEmail} from "../api/authorizationApi";
 import {getCookie} from "cookies-next";
-import ConfirmationDialog from "../components/util/confirmationDialog/confirmationDialog";
-import Button from "../components/util/button/button";
-import ButtonWithImg from "../components/util/button/buttonWithImg";
+import ConfirmationDialog from "../../components/util/confirmationDialog/confirmationDialog";
+import Button from "../../components/util/button/button";
+import ButtonWithImg from "../../components/util/button/buttonWithImg";
 
 const Accounts = () => {
 

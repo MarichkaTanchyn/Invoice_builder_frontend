@@ -1,17 +1,17 @@
-import withLayout from "../components/layout/withLayout";
+import withLayout from "../../components/layout/withLayout";
 import styles from "./customers.module.css";
-import Search from "../components/util/search/search";
-import SortSelect from "../components/util/sort/sortSelect";
-import sortOptions from "../components/data/sortCustomersOptions.json";
-import Button from "../components/util/button/button";
+import Search from "../../components/util/search/search";
+import SortSelect from "../../components/util/sort/sortSelect";
+import sortOptions from "../../components/data/sortCustomersOptions.json";
+import Button from "../../components/util/button/button";
 import globalStyle from "../global.module.css";
 import React, {useEffect, useState} from "react";
 import {addCustomer, getCustomers} from "../api/customersApi";
 import CustomerList from "./customerList";
 import {utils} from "xlsx";
 import AddCustomerPopup from "../customer/addCustomerPopup";
-import {objectIncludes} from "../components/util/search/searchUtil";
-import {sortCustomers} from "../components/util/sort/sortUtils";
+import {objectIncludes} from "../../components/util/search/searchUtil";
+import {sortCustomers} from "../../components/util/sort/sortUtils";
 
 const Customers = () => {
     const [sortSelect, setSortSelect] = useState(null);
