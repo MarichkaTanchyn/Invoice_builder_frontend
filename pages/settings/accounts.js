@@ -102,7 +102,7 @@ const Accounts = () => {
                 <div>
                     {admins.map(admin => {
                         return (
-                            <div className={styles.sectionContent}>
+                            <div className={styles.sectionContent} key={admin.id}>
                                 <span>{admin.Person.firstName}</span>
                                 <span>{admin.Person.lastName}</span>
                                 <span>{admin.email}</span>
@@ -120,7 +120,7 @@ const Accounts = () => {
                 <div>
                     {users && users.map(user => {
                         return (
-                            <div className={styles.sectionContent}>
+                            <div className={styles.sectionContent} key={user.id}>
                                 <span>{user.Person.firstName}</span>
                                 <span>{user.Person.lastName}</span>
                                 <span>{user.email}</span>

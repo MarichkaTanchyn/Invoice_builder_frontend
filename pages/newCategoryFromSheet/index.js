@@ -318,7 +318,7 @@ const CreateNewCategoryFromSheet = () => {
                                     <td></td>
                                     <td colSpan="4">
                                         {columns.map((column, columnIndex) => (
-                                            <div className={styles.columnBox}>
+                                            <div key={columnIndex} className={styles.columnBox}>
                                                 {columnIndex === 0 && <h6>Defined columns</h6>}
                                                 <div className={styles.columns}>
                                                     <div className={styles.colLabel}>

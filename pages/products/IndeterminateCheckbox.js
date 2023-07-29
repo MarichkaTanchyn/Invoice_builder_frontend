@@ -17,4 +17,6 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 )
 
+IndeterminateCheckbox.displayName = 'IndeterminateCheckbox';
+
 export default IndeterminateCheckbox;

@@ -97,7 +97,7 @@ const Permissions = () => {
                         </div>
                         <div className={styles.permissionsCell}>
                             {user.Permissions.map(permission => {
-                                return (<div className={styles.permissionItem}>
+                                return (<div key={permission.id} className={styles.permissionItem}>
                                     <span>{permission.name}</span>
                                 </div>)
                             })}

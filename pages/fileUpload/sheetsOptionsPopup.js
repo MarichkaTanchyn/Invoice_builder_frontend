@@ -75,14 +75,14 @@ const SheetsOptionsPopup = ({
                 }
                 {selectedOption === 'newCategoryFromEach' &&
                     <div className={styles.selectedSheetOptions}>
-                        {selectedSheets.map((key) => {
+                        {selectedSheets.map((key, index) => {
                             return (
-                                <div>
+                                <div key={index}>
                                     <div className={styles.sheetName}>
                                         <span>{key}</span>
                                         <img src={"/x.svg"}
                                              alt={"x"}
-                                                className={styles.x}
+                                             className={styles.x}
                                              onClick={() => handleDeleteSheet(key)}/>
                                     </div>
                                     <CustomInput

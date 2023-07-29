@@ -15,10 +15,7 @@ const Sidebar = ({categories}) => {
 
     useEffect(() => {
         const userPermissions = JSON.parse(getCookie("roles") || "[]");
-        if (userPermissions.some((permission) =>
-            permission === "PERMISSION_ADMIN"
-            || permission === "PERMISSION_CATEGORY_MANAGEMENT"
-        )) {
+        if (userPermissions.some((permission) => permission === "PERMISSION_ADMIN" || permission === "PERMISSION_CATEGORY_MANAGEMENT")) {
             setHasPermission(true);
         }
     }, []);
@@ -37,7 +34,7 @@ const Sidebar = ({categories}) => {
         <ul className={style.ul} style={{borderTop: '.1em solid #949bab'}}>
             <li className={style.li}>
                 <Link className={`${style.a}`} href="/">
-                    <span className={`${style.mainA}`} >
+                    <span className={`${style.mainA}`}>
                         Invoices
                     </span>
                 </Link>
@@ -59,9 +56,9 @@ const Sidebar = ({categories}) => {
                         </div>
                     </a>
                     {hasPermission && <>
-                    <Link href={"/editCategories"}>
-                        <FontAwesomeIcon icon={faPencil} className={`${style.icon}`}/>
-                    </Link>
+                        <Link href={"/editCategories"}>
+                            <FontAwesomeIcon icon={faPencil} className={`${style.icon}`}/>
+                        </Link>
                         <Link href={"/createCategory"}>
                             <FontAwesomeIcon icon={faPlus} className={style.icon} style={{fontSize: `15px`}}/>
                         </Link>
@@ -72,20 +69,20 @@ const Sidebar = ({categories}) => {
                 </Collapse>
             </li>
             <li className={style.li}>
-                <a className={style.a} href={"/customers"}>
-                        <span className={`${style.mainA}`}>
-                            Customers
-                        </span>
-                </a>
+                <Link className={style.a} href="/customers">
+                    <span className={`${style.mainA}`}>
+                        Customers
+                    </span>
+                </Link>
             </li>
         </ul>
         <div className={style.settings}>
-            <a className={style.a} href="/settings">
-                    <span className={`${style.mainA}`}>
-                         <FontAwesomeIcon icon={faGear} className={`${style.icon} ${style.gear_icon}`}/>
-                        Settings
-                    </span>
-            </a>
+            <Link className={style.a} href="/settings">
+                <span className={`${style.mainA}`}>
+                    <FontAwesomeIcon icon={faGear} className={`${style.icon} ${style.gear_icon}`}/>
+                    Settings
+                </span>
+            </Link>
         </div>
     </div>);
 };

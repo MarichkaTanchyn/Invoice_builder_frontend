@@ -273,28 +273,35 @@ const Products = () => {
                 <div className={styles.container}>
                     {data.length !== 0 && (<table className={styles.table} {...getTableProps()}>
                         <thead>
-                        {headerGroups.map((headerGroup) => (<tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}
-                                    className={styles.header}>
-                                    <div className={styles.headerContent}>
-                                        <span>{column.render("Header")}</span>
-                                        {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
-                                        {column.id !== "selection" && (
-                                            <div {...column.getResizerProps()} className={styles.resizer}>
-                                                <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
-                                            </div>)}
-                                    </div>
-                                </th>))}
-                        </tr>))}
+                        {headerGroups.map((headerGroup, index) => (
+                            <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                                {headerGroup.headers.map((column, i) => (
+                                    <th {...column.getHeaderProps(column.getSortByToggleProps())} className={styles.header} key={i}>
+                                        <div className={styles.headerContent}>
+                                            <span>{column.render("Header")}</span>
+                                            {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}
+                                            {column.id !== "selection" && (
+                                                <div {...column.getResizerProps()} className={styles.resizer}>
+                                                    <img className={styles.img} src={"/resize.svg"} alt={"resize"}/>
+                                                </div>)}
+                                        </div>
+                                    </th>))}
+                            </tr>
+                        ))}
                         </thead>
 
                         <tbody {...getTableBodyProps()}>
                         {rows.map((row, i) => {
                             prepareRow(row);
-                            return (<tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => (<td {...cell.getCellProps()}> {cell.render("Cell")} </td>))}
-                            </tr>);
+                            return (
+                                <tr {...row.getRowProps()} key={i}>
+                                    {row.cells.map((cell, j) => (
+                                        <td {...cell.getCellProps()} key={`${i}-${j}`}>
+                                            {cell.render("Cell")}
+                                        </td>
+                                    ))}
+                                </tr>
+                            );
                         })}
                         </tbody>
                     </table>)}
