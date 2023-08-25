@@ -25,6 +25,17 @@ import {
     processNewProduct
 } from "../../components/util/table/productHelpers";
 
+const SelectionHeader = ({getToggleAllRowsSelectedProps}) => (
+    <div>
+        <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+    </div>
+);
+
+const SelectionCell = ({row}) => (
+    <div>
+        <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+    </div>
+);
 const Products = () => {
     const router = useRouter();
     const [editMode, setEditMode] = useState(false);
@@ -92,11 +103,9 @@ const Products = () => {
     };
 
     const tableColumns = useMemo(() => [{
-        id: "selection", minWidth: 30, width: 30, maxWidth: 60, Header: ({getToggleAllRowsSelectedProps}) => (<div>
-            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-        </div>), Cell: ({row}) => (<div>
-            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-        </div>),
+        id: "selection", minWidth: 30, width: 30, maxWidth: 60,
+        Header: SelectionHeader,
+        Cell: SelectionCell,
     }, {
         id: "index",
         minWidth: 40,

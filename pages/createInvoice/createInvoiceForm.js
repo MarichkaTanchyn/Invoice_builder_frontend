@@ -27,7 +27,7 @@ const CreateInvoiceForm = ({
     const [customer, setCustomer] = useState(null)
     const [documentType, setDocumentType] = useState("invoice")
     const [documentNumber, setDocumentNumber] = useState(`INV-${Date.now()}`);
-    const today = new Date().toISOString().substr(0, 10);
+    const today = new Date().toISOString().substring(0, 10);
     const [validFrom, setValidFrom] = useState(today);
     const [validUntil, setValidUntil] = useState('');
     const [paymentTerm, setPaymentTerm] = useState(null);
@@ -53,10 +53,10 @@ const CreateInvoiceForm = ({
         if (paymentTerm && paymentTerm.value !== 'custom') {
             const daysToAdd = paymentTerm.value === 'net30' ? 30 : paymentTerm.value === 'net60' ? 60 : 90;
             newValidUntil = new Date(new Date(validFrom).setDate(new Date(validFrom).getDate() + daysToAdd));
-            setValidUntil(newValidUntil.toISOString().substr(0, 10));
+            setValidUntil(newValidUntil.toISOString().substring(0, 10));
         } else if (!paymentTerm) {
             newValidUntil = new Date(new Date(validFrom).setDate(new Date(validFrom).getDate() + 20));
-            setValidUntil(newValidUntil.toISOString().substr(0, 10));
+            setValidUntil(newValidUntil.toISOString().substring(0, 10));
         }
     }, [validFrom, paymentTerm]);
 

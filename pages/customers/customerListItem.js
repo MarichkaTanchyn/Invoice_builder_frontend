@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {useRouter} from "next/router";
 
 
-const CustomerListItem = ({key, id, representative, company, location, contactNumber, email}) => {
+const CustomerListItem = ({id, representative, company, location, contactNumber, email}) => {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleDetailsClick = () => {

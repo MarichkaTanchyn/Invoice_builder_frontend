@@ -3,9 +3,8 @@ import * as XLSX from 'xlsx';
 
 export const checkDataIsValid = async (data, {setErrorMessage}) => {
     const wb = XLSX.read(data);
-    // Loop through the sheets
-    for (let i = 0; i < wb.SheetNames.length; ++i) {
-        let SheetName = wb.SheetNames[i];
+
+    for (const SheetName of wb.SheetNames) {
         const jsonData = XLSX.utils.sheet_to_json(wb.Sheets[SheetName]);
 
         // Validate column names
@@ -24,8 +23,7 @@ export const checkDataIsValid = async (data, {setErrorMessage}) => {
 export const getFileSheets = async (data) => {
     const wb = XLSX.read(data);
     const sheets = [];
-    for (let i = 0; i < wb.SheetNames.length; ++i) {
-        let SheetName = wb.SheetNames[i];
+    for (const SheetName of wb.SheetNames) {
         sheets.push(SheetName);
     }
     return sheets;

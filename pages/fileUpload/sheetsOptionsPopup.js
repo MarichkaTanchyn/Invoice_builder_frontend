@@ -77,7 +77,7 @@ const SheetsOptionsPopup = ({
                     <div className={styles.selectedSheetOptions}>
                         {selectedSheets && selectedSheets.map((key, index) => {
                             return (
-                                <div key={index}>
+                                <div key={key}>
                                     <div className={styles.sheetName}>
                                         <span>{key}</span>
                                         <img src={"/x.svg"}

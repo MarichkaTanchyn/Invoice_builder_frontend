@@ -38,6 +38,7 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -85,16 +86,8 @@ body {
   overflow-x: hidden;
 }
 
-:root {
-  color-scheme: light dark;
-}
-
 body {
   color-scheme: light;
-}
-
-
-body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

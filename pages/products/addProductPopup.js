@@ -85,7 +85,7 @@ const AddProductPopup = ({
 
             <div className={styles.inputs}>
                 {allHeaders && allHeaders.map((header, index) => {
-                    return (<div key={index} className={styles.popupInput}>
+                    return (<div key={header} className={styles.popupInput}>
                         <div className={styles.inputBox}>
                             <span className={styles.inputLabel}>Column Name</span>
                             <CustomInput defaultValue={header} className={styles.input} readOnly={true}/>

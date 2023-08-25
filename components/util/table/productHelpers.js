@@ -44,15 +44,15 @@ export const processExistingProduct = (newProduct, newProductDB, originalData) =
 
     // Mapping values based on maxFilledData's column names
     for (let key in newProduct) {
-        let found = false;
-        for (let columnName in maxFilledData.item) {
+        const found = Object.keys(maxFilledData.item).some(columnName => {
             if (maxFilledData.item[columnName] === key) {
-                newProductDB[columnName.replace("ColumnName", "")] = newProduct[key]; // Mapping value to name, price, description based on column names
+                const cleanColumnName = columnName.replace("ColumnName", "");
+                newProductDB[cleanColumnName] = newProduct[key]; // Mapping value to name, price, description based on column names
                 newProductDB[columnName] = key; // Also assign the column name
-                found = true;
-                break;
+                return true;
             }
-        }
+            return false;
+        });
 
         if (!found && !['nameColumnName', 'priceColumnName', 'descriptionColumnName'].includes(key)) {
             newProductDB["other"].push(createOtherObject(key, newProduct[key]));

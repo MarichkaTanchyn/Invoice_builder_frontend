@@ -205,7 +205,7 @@ const PreprocessSheet = () => {
                         <div className={styles.definedCol}>
                             {selectedColumns.map((column, index) => (
                                 <div
-                                    key={index}
+                                    key={column}
                                     className={`${styles.columnWrapper} ${
                                         deletedColumnIndex === index ? styles.hide : ""
                                     }`}

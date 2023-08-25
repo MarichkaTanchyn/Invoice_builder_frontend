@@ -277,7 +277,7 @@ const CreateNewCategoryFromSheet = () => {
                     <div>
                         <h5 className={styles.definedSheets}>Defined sheets</h5>
                         {Object.entries(sheets).map(([sheetName, columns], index) => (
-                            <table key={index} className={styles.sheetTable}>
+                            <table key={sheetName} className={styles.sheetTable}>
                                 <thead className={styles.categoryTableHeaders}>
                                 <tr>
                                     <th>Sheet Name</th>
@@ -312,7 +312,7 @@ const CreateNewCategoryFromSheet = () => {
                                     <td></td>
                                     <td colSpan="4">
                                         {columns.map((column, columnIndex) => (
-                                            <div key={columnIndex} className={styles.columnBox}>
+                                            <div key={column.column} className={styles.columnBox}>
                                                 {columnIndex === 0 && <h6>Defined columns</h6>}
                                                 <div className={styles.columns}>
                                                     <div className={styles.colLabel}>
