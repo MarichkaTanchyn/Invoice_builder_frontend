@@ -218,7 +218,6 @@ const CreateCategoryPageContent = () => {
                 subcategories: subcategories.filter((subcategory) => subcategory.categoryId === category.id),
             })),
         };
-        console.log(categoriesData);
         await createCategories(categoriesData);
         await router.push("/");
     };

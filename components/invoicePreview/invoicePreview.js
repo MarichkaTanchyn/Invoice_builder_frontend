@@ -1,6 +1,4 @@
 import styles from './invoicePreview.module.css';
-import {generateHTML} from "./generateHtml";
-
 
 const InvoicePreview = ({handleClosePreview, children}) => {
 

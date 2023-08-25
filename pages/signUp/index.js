@@ -23,12 +23,10 @@ const SignUp = () => {
     const router = useRouter();
 
     const validateFirmName = (firmName) => {
-        // Check if the firm name is not empty
         return firmName.trim() !== '';
     };
 
     const validateEmail = (email) => {
-        // Check if the email is in a valid format
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return regex.test(email);
     };

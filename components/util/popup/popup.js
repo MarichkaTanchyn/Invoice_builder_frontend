@@ -3,7 +3,7 @@ import styles from "./popup.module.css";
 const Popup = ({children}) =>{
 
     const handlePopupClick = (event) => {
-        event.stopPropagation(); // Add this line to prevent the popup from closing
+        event.stopPropagation();
     };
 
 

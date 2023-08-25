@@ -28,6 +28,5 @@ export const getFileSheets = async (data) => {
         let SheetName = wb.SheetNames[i];
         sheets.push(SheetName);
     }
-    console.log(sheets);
     return sheets;
 }

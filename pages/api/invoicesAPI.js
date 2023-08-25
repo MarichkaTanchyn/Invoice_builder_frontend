@@ -1,4 +1,5 @@
 import {authorizedApi } from './api';
+import axios from "axios";
 import {getCookie} from "cookies-next";
 
 export const getAllDocuments = async ({CompanyId, EmployeeId}) => {

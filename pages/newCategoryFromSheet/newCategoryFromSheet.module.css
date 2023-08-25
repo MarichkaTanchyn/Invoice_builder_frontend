@@ -17,7 +17,6 @@
 
 .sheetTable {
     margin-left: 4em;
-    /*width: 40em;*/
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1em;
     text-align: left;
@@ -95,12 +94,10 @@
 .buttonContainer {
     margin-top: 4em;
     position: relative;
-    /*bottom: 1em;*/
     right: 1em;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    /*justify-content: space-between;*/
 }
 
 .buttonContainer button {
@@ -112,7 +109,6 @@
     flex-direction: column;
 }
 .label {
-    /*margin-top: .2em;*/
     margin-bottom: 1em;
     font-size: 1em;
     color: rgba(27, 27, 27, 0.5);

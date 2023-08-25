@@ -16,12 +16,12 @@ import WarningPopup from "../../components/util/warningPopup/warningPopup";
 const PreprocessSheet = () => {
     const [deletedColumnIndex, setDeletedColumnIndex] = useState(null);
     const [sheetsData, setSheetsData] = useState({});
-    const [originalSheetsData, setOriginalSheetsData] = useState({}); // Save the original state of sheetsData
+    const [originalSheetsData, setOriginalSheetsData] = useState({});
     const [selectedColumns, setSelectedColumns] = useState([]);
     const [selectedSheet, setSelectedSheet] = useState("");
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
     const [originalColumnNames, setOriginalColumnNames] = useState([]);
-    const [loading, setLoading] = useState(true); // initialize loading state
+    const [loading, setLoading] = useState(true);
     const [fileKey, setFileKey] = useState("");
     const [useInInvoice, setUseInInvoice] = useState({});
     const [invalidColumns, setInvalidColumns] = useState([]);
@@ -109,7 +109,7 @@ const PreprocessSheet = () => {
             updatedSheetsData[selectedSheet] = updatedSheetsData[selectedSheet].map(
                 (col, colIndex) => {
                     if (colIndex === index) {
-                        return {...col, useInInvoice: checked}; // Use newValue.value here
+                        return {...col, useInInvoice: checked};
                     }
                     return col;
                 }
@@ -148,11 +148,8 @@ const PreprocessSheet = () => {
             (col) => col.column
         );
 
-        // Update states with original values
         setSheetsData((prevSheetsData) => {
-            // Create a new object
             const updatedSheetsData = {...prevSheetsData};
-            // Only change the column names back to original
             updatedSheetsData[selectedSheet] = updatedSheetsData[selectedSheet].map(
                 (col, index) => {
                     return {...col, column: originalColumns[index]};
@@ -173,13 +170,10 @@ const PreprocessSheet = () => {
             type ? null : index.toString()
         ).filter(index => index !== null);
 
-        // Proceed with the validation check
         if (newInvalidColumns.length > 0) {
             setInvalidColumns(newInvalidColumns);
             return;
         }
-
-        console.log("selectedSheet", selectedSheet);
         const response = await preprocessCsv(
             fileKey,
             sheetsData,
@@ -187,12 +181,10 @@ const PreprocessSheet = () => {
             "preprocessSelectedSheetData"
         );
 
-        console.log(response);
         if (response === "success") {
             await router.push("/products");
         } else {
             setShowWarningPopup(true);
-            console.log(response.message)
             setErrorMessage(response.message);
         }
     };
@@ -243,7 +235,7 @@ const PreprocessSheet = () => {
                                                 <SelectWithLabel
                                                     options={dataTypes}
                                                     value={dataTypes.find((option) => option.value === selectedColumnTypes[index])}
-                                                    onChange={(selectedOption) => handleColumnTypeChange(index, selectedOption)} // Pass the selected option to the handler
+                                                    onChange={(selectedOption) => handleColumnTypeChange(index, selectedOption)}
                                                     isError={invalidColumns.includes(`${index}`)}
                                                 />
                                             </div>

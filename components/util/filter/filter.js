@@ -6,7 +6,7 @@ import InputWithLabel from "./inputWithLabel";
 import SelectWithLabel from "./selectWithLabel";
 import Button from "../button/button";
 import useFilter from "./useFilter";
-import {getEmployees} from "../../../pages/api/employeesApi";
+import { getEmployees} from "../../../pages/api/employeesApi";
 
 
 const CURRENCY_OPTIONS = [
@@ -22,14 +22,6 @@ const INVOICE_STATUS_OPTIONS = [
     {value: 'overdue', label: 'Overdue'},
     {value: 'void', label: 'Void'},
     {value: 'partiallyPaid', label: 'Partially Paid'},
-]
-const USERS_OPTIONS = [
-    {value: 1, label: '@me'},
-    {value: 2, label: 'Max Dubakov'},
-    {value: 3, label: 'Mykchailo Smilianets'},
-    {value: 4, label: 'Angelina Soroka'},
-    {value: 5, label: 'Alex Shkap'},
-    {value: 6, label: 'Olena Tanchyn'},
 ]
 
 const Filter = ({updateFilterSettings}) => {
@@ -51,6 +43,8 @@ const Filter = ({updateFilterSettings}) => {
     const [selectCurrency, setSelectCurrency] = useState(CURRENCY_OPTIONS[0])
     const [selectStatus, setSelectStatus] = useState(null)
     const [selectUser, setSelectUser] = useState(null)
+
+    const [users , setUsers] = useState(null);
 
 
     const handleCheckboxChange = (setter) => (event) => {
@@ -79,28 +73,39 @@ const Filter = ({updateFilterSettings}) => {
             return inputValue;
         }
     }
-    //
-    // useEffect(() => {
-    //     return () => {
-    //         setUseDateRange(false);
-    //         setUseDate(false);
-    //         setUseTotalAmountDue(false);
-    //         setUseSelectStatus(false);
-    //         setUseSelectUser(false);
-    //
-    //         setFromDate('');
-    //         setToDate('');
-    //
-    //         setDate('');
-    //
-    //         setFromTotalAmountDue(null);
-    //         setToTotalAmountDue(null);
-    //
-    //         setSelectCurrency(CURRENCY_OPTIONS[0]);
-    //         setSelectStatus(null);
-    //         setSelectUser(null);
-    //     };
-    // }, []);
+
+    useEffect(() => {
+        async function fetchEmployee() {
+            const data = await getEmployees();
+
+            const transformedUsers = data.employees.map(employee => ({
+                value: employee.id,
+                label: `${employee.Person.firstName} ${employee.Person.lastName}`
+            }));
+
+            setUsers(transformedUsers);
+        }
+
+        return () => {
+            setUseDateRange(false);
+            setUseDate(false);
+            setUseTotalAmountDue(false);
+            setUseSelectStatus(false);
+            setUseSelectUser(false);
+
+            setFromDate('');
+            setToDate('');
+
+            setDate('');
+
+            setFromTotalAmountDue(null);
+            setToTotalAmountDue(null);
+
+            setSelectCurrency(CURRENCY_OPTIONS[0]);
+            setSelectStatus(null);
+            setSelectUser(null);
+        };
+    }, []);
 
 
 
@@ -126,7 +131,7 @@ const Filter = ({updateFilterSettings}) => {
 
     const handleClearFilter = () => {
         clearFilterSettings();
-        updateFilterSettings({}); // Reset the filter settings in the parent component
+        updateFilterSettings({});
     };
 
     return (
@@ -161,7 +166,7 @@ const Filter = ({updateFilterSettings}) => {
                         <div className={styles.checkboxContent}>
                             <SelectWithLabel
                                 label="User"
-                                options={USERS_OPTIONS}
+                                options={users}
                                 value={selectUser}
                                 onChange={handleSelectChange(setSelectUser)}
                                 placeholder={"Select User"}

@@ -3,7 +3,7 @@ import Button from "../button/button";
 
 const WarningPopup = ({ type, message, handleClose, actionMessage}) => {
   const handlePopupClick = (event) => {
-    event.stopPropagation(); // Add this line to prevent the popup from closing
+    event.stopPropagation();
   };
 
   return (

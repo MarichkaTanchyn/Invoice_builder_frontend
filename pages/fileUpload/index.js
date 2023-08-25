@@ -80,7 +80,6 @@ const DragAndDrop = () => {
     };
 
     const handleHeadersPopupSubmit = async () => {
-        console.log("here")
         const fileKey = await postFile(file, '1');
         setCookie('fKey', fileKey, {
             maxAge: 60 * 60 * 24 * 7,
@@ -118,7 +117,6 @@ const DragAndDrop = () => {
             await router.push({
                 pathname: '/newCategoryFromSheet',
             });
-            // TODO: CALL page where will be inputs for headers for each sheet
         } else {
             const sheetHeaderJson = {[selectedSheet]: headersRow};
             setCookie('sheetHeaderJson', sheetHeaderJson, {

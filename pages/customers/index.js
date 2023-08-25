@@ -105,7 +105,6 @@ const Customers = () => {
 
     const exportToCsv = () => {
         // Map through the customers array and create a new object for each customer
-        // Exclude the properties you don't want and flatten the Person object
         const formattedCustomers = customers.map(({
                                                       PersonId,
                                                       CompanyId,
@@ -122,7 +121,6 @@ const Customers = () => {
             representativePhoneNumber: Person.phoneNumber,
         }));
 
-        // Now create the worksheet with the new array
         const ws = utils.json_to_sheet(formattedCustomers);
 
         const csv = utils.sheet_to_csv(ws);

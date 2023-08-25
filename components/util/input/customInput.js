@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import styles from './customInput.module.css';
 
-
 const CustomInput = ({placeholder, onChange, type, label, defaultValue, className, readOnly, isValid, validationMessage}) => {
 
     const [value, setValue] = useState(defaultValue || '');

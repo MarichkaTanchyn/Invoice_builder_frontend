@@ -34,7 +34,6 @@ const AccountData = () => {
     const handleSave = async () => {
         setUserData(editedData);
         const resp = await updatePersonData(editedData);
-        console.log(resp);
         setEditMode(false);
     };
 

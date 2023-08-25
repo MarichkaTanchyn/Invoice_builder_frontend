@@ -5,7 +5,7 @@ import Button from "../../components/util/button/button";
 import React from "react";
 import style from './signUp.module.css';
 import Link from "next/link";
-import {companySignup, employeeSignUp} from "../api/authorizationApi";
+import {employeeSignUp} from "../api/authorizationApi";
 import {useRouter} from "next/router";
 
 const UserSignUp = () => {
@@ -60,7 +60,6 @@ const UserSignUp = () => {
                 firstName, lastName, email, password
             }
             const response = await employeeSignUp(signUpdData , token);
-            console.log(response)
             if (response.data !== 'success') {
                 setEmailMessage(response.data.message)
                 setEmailValid(false)

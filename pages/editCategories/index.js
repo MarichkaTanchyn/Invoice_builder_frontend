@@ -83,7 +83,6 @@ const EditCategories = () => {
         setShowConfirmationDialogBeforeCategoryDelete(false);
     }, []);
 
-    // Submit Data
     const submitData = useCallback(async () => {
         const formattedOriginalData = formatData(originalData)
 

@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./invoices.module.css"
 import numeral from "numeral";
 import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 import OptionsPopup from "../../components/util/optionsPopup/optionsPopup";
 import InvoicePreview from "../../components/invoicePreview/invoicePreview";
-import { Document, Page } from 'react-pdf';
 import {getInvoicePdf} from "../api/invoicesAPI";
 
 const InvoiceListItem = ({
@@ -23,10 +22,8 @@ const InvoiceListItem = ({
 
     useEffect(() => {
         async function fetchPdf() {
-            console.log(id)
             const url = await getInvoicePdf(id);
             setPdfUrl(url);
-            console.log(url)
         }
         fetchPdf();
     }, [id]);

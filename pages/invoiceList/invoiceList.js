@@ -4,7 +4,6 @@ import InvoiceListItem from "./invoiceListItem";
 import { format } from 'date-fns';
 import {getCookie} from "cookies-next";
 const InvoiceList = ({invoiceList}) => {
-    console.log(invoiceList)
     return (
         <table className={styles.table}>
             <thead>

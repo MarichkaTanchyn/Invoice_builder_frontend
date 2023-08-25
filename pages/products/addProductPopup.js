@@ -3,7 +3,6 @@ import Button from "../../components/util/button/button";
 import React, {useCallback, useEffect, useState} from "react";
 import CustomInput from "../../components/util/input/customInput";
 import {debounce} from "@mui/material";
-import button from "../../components/util/button/button";
 import SelectWithLabel from "../../components/util/filter/selectWithLabel";
 import dataTypes from "../../components/data/dataTypes.json";
 
@@ -14,7 +13,6 @@ const AddProductPopup = ({
     const [invalidColumns, setInvalidColumns] = useState([]);
     const [useInInvoice, setUseInInvoice] = useState([]);
 
-    // Add an extra row when the popup opens if all headers are empty
     useEffect(() => {
         if (allHeaders.length === 0 && extraRows.length === 0) {
             handleAddNewRow();
@@ -29,7 +27,6 @@ const AddProductPopup = ({
             return newTypes;
         });
 
-        // Update the type in extra rows
         setExtraRows(prevRows => {
             const newRow = { ...prevRows[index], type: selectedOption.value };
             return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
@@ -52,7 +49,6 @@ const AddProductPopup = ({
         };
     }, []);
 
-    // Create a debounced version of setExtraRows
     const debouncedSetExtraRows = debounce(setExtraRows, 300);
 
     const handlePopupClick = (event) => {
@@ -69,7 +65,7 @@ const AddProductPopup = ({
                 const newRow = {
                     ...prevRows[index],
                     [field]: value,
-                    useInInvoice: useInInvoice[index] || false // Add the useInInvoice checkbox state
+                    useInInvoice: useInInvoice[index] || false
                 };
                 return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
             });
@@ -98,9 +94,7 @@ const AddProductPopup = ({
                             <span className={styles.inputLabel}>Column Value</span>
                             <CustomInput className={styles.input} onChange={debounce((value) => {
                                 setTempProduct(prevProduct => {
-                                    // directly modify the specific product within the array
                                     prevProduct[header] = value;
-                                    // return the modified array
                                     return {...prevProduct};
                                 });
                             }, 500)}/>
@@ -130,7 +124,7 @@ const AddProductPopup = ({
                             <SelectWithLabel
                                 options={dataTypes}
                                 value={dataTypes.find((option) => option.value === selectedColumnTypes[index])}
-                                onChange={(selectedOption) => handleColumnTypeChange(index, selectedOption)} // Pass the selected option to the handler
+                                onChange={(selectedOption) => handleColumnTypeChange(index, selectedOption)}
                                 isError={invalidColumns.includes(`${index}`)}
                             />
                         </div>

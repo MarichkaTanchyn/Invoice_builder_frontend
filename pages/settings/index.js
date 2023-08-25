@@ -85,7 +85,6 @@ const Settings = () => {
                 <TabPanel value={value} index={3}>
                     <Permissions/>
                 </TabPanel>
-
             </Box>
         </div>
     </Card>)

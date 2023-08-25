@@ -46,18 +46,12 @@
     font-size: 1em;
     padding-left: .5em;
     width: 22em;
-    /*margin-bottom: 2em;*/
 }
 
 .inputValid {
     margin-bottom: 1.75em;
 }
 
-/*.errorMessage {*/
-/*    color: #ff0000;*/
-/*    font-size: 1em;*/
-/*    margin: 1em 0;*/
-/*}*/
 .passwordValid {
     margin-bottom: 3em;
 }
@@ -67,7 +61,6 @@
     flex-direction: row;
     justify-content: space-between;
     color: black;
-    /*margin-left: 1em;*/
 }
 
 .actionsBox span {
@@ -85,7 +78,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /*width: 100%;*/
 }
 
 .buttonsBox button {

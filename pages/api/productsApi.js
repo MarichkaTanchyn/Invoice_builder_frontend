@@ -1,5 +1,4 @@
 import {authorizedApi } from './api';
-import {getCookie} from "cookies-next";
 
 export const addProduct = async (productsData, CategoryId) => {
     try {

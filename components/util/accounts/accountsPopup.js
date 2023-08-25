@@ -9,7 +9,7 @@ const AccountsPopup = ({setShowAccountsPopup}) => {
     const router = useRouter();
 
     const handlePopupClick = (event) => {
-        event.stopPropagation(); // Add this line to prevent the popup from closing
+        event.stopPropagation();
     };
 
 

@@ -1,12 +1,10 @@
 .input {
     font-size: 1em;
-    /*padding: 10px;*/
     border: none;
     border-bottom: .1em solid #949bab;
     outline: none;
     margin-top: .8em ;
     height: 1.3em;
-    /* width: 15em; */
 }
 
 .label {

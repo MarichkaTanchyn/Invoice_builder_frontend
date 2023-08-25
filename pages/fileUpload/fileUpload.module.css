@@ -121,12 +121,9 @@
 }
 
 .headersPopup h4 {
-    /*margin: 0;*/
     text-align: center;
 }
 .input {
-    /*border: .1em solid #ccc !Important;*/
-    /*border-radius: .5em;*/
     height: 2.3em!important;
     border-bottom: .1em solid #ccc !Important;
     margin-bottom: .3em;
@@ -157,6 +154,7 @@
     margin: 0;
     height: 24em;
 }
+
 /* Custom scrollbar styling */
 .optionsPopup::-webkit-scrollbar {
     width: .5em;
@@ -189,11 +187,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /*border-bottom: .1em solid #ccc !Important;*/
 }
 
 .x {
-    /*height: 2.3em;*/
     cursor: pointer;
 }
 

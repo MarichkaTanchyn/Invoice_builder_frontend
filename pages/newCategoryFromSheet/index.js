@@ -40,7 +40,6 @@ const CreateNewCategoryFromSheet = () => {
             const newSheets = dataArray ? Object.assign({}, ...dataArray) : {};
             setFileKey(fileKey);
 
-            // Include originalColumn in sheets
             for (const sheetName in newSheets) {
                 newSheets[sheetName] = newSheets[sheetName].map((column) => ({
                     ...column,
@@ -204,8 +203,6 @@ const CreateNewCategoryFromSheet = () => {
 
     const handleSubmit = async () => {
         const finalSheets = Object.keys(sheets).reduce((acc, sheetName) => {
-            console.log(categoryNames);
-            console.log(categoryNames["Sheet1"]);
             const newInvalidColumns = [];
             for (const [sheetName, columns] of Object.entries(sheets)) {
                 columns.forEach((_, columnIndex) => {
@@ -252,12 +249,9 @@ const CreateNewCategoryFromSheet = () => {
         if (response === "success") {
         } else {
             setShowWarningPopup(true);
-            console.log(response.message);
             setErrorMessage(response.message);
         }
 
-        console.log(response);
-        //send to backend and create categories and add products
     };
 
     const router = useRouter();
@@ -359,7 +353,7 @@ const CreateNewCategoryFromSheet = () => {
                                                                 }
                                                                 isError={invalidColumns.includes(
                                                                     `${sheetName}_${columnIndex}`
-                                                                )} // pass true to isError if the current column is invalid
+                                                                )}
                                                             />
                                                         </div>
                                                     </div>

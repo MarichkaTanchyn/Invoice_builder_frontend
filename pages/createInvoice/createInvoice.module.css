@@ -60,15 +60,6 @@
     font-size: 1em;
 }
 
-/*@media (min-width: 1600px) {*/
-/*    .customerInfo {*/
-/*        display: flex;*/
-/*        flex-direction: row;*/
-/*        padding: 0 3em;*/
-/*        font-size: 1em;*/
-/*    }*/
-/*}*/
-
 .items {
     padding: 2em 3em 0;
     font-size: 1em;
@@ -97,15 +88,12 @@
 }
 
 .table {
-    /* margin-top: 2em; */
     width: 100%;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 1.1em;
     border-collapse: separate;
     border-spacing: 0 1em;
-    /* position: relative; */
     text-align: center;
-    /* padding: 2em; */
 }
 
 .tableHeaders th {

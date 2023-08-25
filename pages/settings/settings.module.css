@@ -69,8 +69,6 @@
 .companyDataContent {
     display: flex;
     flex-direction: row;
-    /*align-items: center;*/
-    /*padding: 1em;*/
 }
 
 .rowData {
@@ -164,9 +162,6 @@ margin-bottom: .4em
     display: grid;
     grid-template-columns: .7fr 4fr 1.5fr;
     margin: 1em 0;
-    /*border: .1em solid #fafafa;*/
-    /*border-radius: .5em;*/
-    /*background-color: #fafafa;*/
 }
 
 .permissionHeaders {
@@ -250,7 +245,6 @@ margin-bottom: .4em
 .popupButtons {
     display: flex;
     justify-content: space-between;
-    /*position: fixed;*/
     margin-top: 1.5em;
 }
 

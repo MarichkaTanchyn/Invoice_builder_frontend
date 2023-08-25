@@ -37,7 +37,7 @@
     padding: 1em;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Add this line */
+    flex-grow: 1;
   }
 
 .actionButtons {
@@ -49,7 +49,6 @@
 .button {
     margin: 1em 1.5em;
 }
-
 
 .img {
     padding-right: .4em;
@@ -134,7 +133,6 @@
 }
 
 .categoryTable {
-    /*width: 40em;*/
     margin: 1em;
     margin-left: 1.5em;
     font-family: -apple-system, "San Francisco", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -157,7 +155,6 @@
     border: .1em solid #ccc !Important;
     border-radius: .5em;
     height: 2.3em!important;
-    /*margin-right: 1em;*/
     margin-top: .8em;
     margin-bottom: .3em;
     padding-right: 1em;

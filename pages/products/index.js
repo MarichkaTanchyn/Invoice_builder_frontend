@@ -36,7 +36,7 @@ const Products = () => {
     const [showConfirmationBeforeDelete, setShowConfirmationBeforeDelete] = useState(false);
     const [loading, setLoading] = useState(false);
     const [originalData, setOriginalData] = useState([]);
-    const {categoryName, parentCategoryName} = router.query; // Extract query parameters
+    const {categoryName, parentCategoryName} = router.query;
     const [title, setTitle] = useState('');
     const [hasPermission, setHasPermission] = React.useState(false);
 
@@ -56,9 +56,8 @@ const Products = () => {
             data.forEach(row => {
                 allKeys = [...allKeys, ...Object.keys(row)];
             });
-            // Filter out the 'id' key
             allKeys = allKeys.filter(key => key !== 'id');
-            const uniqueKeys = [...new Set(allKeys)]; // Removes duplicates
+            const uniqueKeys = [...new Set(allKeys)];
             setAllHeaders(uniqueKeys);
         }
     }, [data]);
@@ -66,7 +65,7 @@ const Products = () => {
     useEffect(() => {
         if (categoryName && parentCategoryName) {
             setTitle(`${parentCategoryName}/${categoryName}`);
-        } else if (categoryName) { // If only category is defined
+        } else if (categoryName) {
             setTitle(categoryName);
         }
         const fetchProducts = async () => {
@@ -171,10 +170,8 @@ const Products = () => {
 
             let newProductDB = initializeProductDB();
             if (originalData.length === 0) {
-                // If no products exist yet
                 processNewProduct(newProductDB, extraRows);
             } else {
-                // If products exist
                 processExistingProduct(newProduct, newProductDB, originalData);
             }
             await addNewProductToDBAndUI(newProduct, newProductDB, {
@@ -190,7 +187,6 @@ const Products = () => {
     const handleSaveChanges = async () => {
         let updatedProducts = [];
 
-        // Iterate through each product in data
         data.forEach((product, index) => {
             // Make a deep copy of the original product object
             const originalProduct = _.cloneDeep(originalData[index]);
@@ -233,9 +229,7 @@ const Products = () => {
                 }
             });
 
-            // Compare the original product and the updated product
             if (!_.isEqual(originalProduct, originalData[index])) {
-                // If they're not equal, add the updated product to the updatedProducts array
                 updatedProducts.push(originalProduct);
             }
         });

@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import CustomInput from "../../components/util/input/customInput";
 import SmallSelectWithUnderline from "../../components/util/select/smallSelectWithUnderline";
 import styles from "./createInvoice.module.css";
 import ButtonWithImg from "../../components/util/button/buttonWithImg";
 import units from "../../components/data/units.json";
-import PaymentActions from "./paymentActions";
 import { Cascader } from 'antd';
 import {getProduct} from "../api/productsApi";
 
@@ -22,7 +21,6 @@ const ProductTable = ({
 
 
     const vatOptions = [
-        // Add your VAT options here
         {value: 0, label: '0%'},
         {value: 5, label: '5%'},
         {value: 10, label: '10%'},

@@ -96,7 +96,6 @@ const template1 = (invoiceDetails) => {
             .invoice-title {
                 margin-bottom: .2em;
                 font-size: 1.4em;
-                
             }
             
             .invoice-date {

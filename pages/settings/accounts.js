@@ -6,7 +6,6 @@ import {getRegisterToken, sendRegisterLinkViaEmail} from "../api/authorizationAp
 import {getCookie} from "cookies-next";
 import ConfirmationDialog from "../../components/util/confirmationDialog/confirmationDialog";
 import Button from "../../components/util/button/button";
-import ButtonWithImg from "../../components/util/button/buttonWithImg";
 
 const Accounts = () => {
 
