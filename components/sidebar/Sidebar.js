@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import 'bootstrap/dist/css/bootstrap.css';
 import {Collapse} from 'reactstrap';
 import SidebarList from "./SidebarList";
 import style from './sidebar.module.css';
