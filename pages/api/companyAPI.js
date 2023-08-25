@@ -1,13 +1,9 @@
-import axios from "axios";
+import {authorizedApi } from './api';
 import {getCookie} from "cookies-next";
 
 export const getCompanyData = async () => {
     try {
-        const data = await axios.get(process.env.API_URL + `getCompany/${getCookie('companyId')}`, {
-            headers: {
-                'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
+        const data = await authorizedApi.get(`getCompany/${getCookie('companyId')}`);
         return {
             data: data.data,
         };
@@ -21,12 +17,7 @@ export const getCompanyData = async () => {
 
 export const updateCompanyData = async (data) => {
     try {
-        return await axios.post(process.env.API_URL + `updateCompany/${getCookie('companyId')}`, data, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        return await authorizedApi.post(`updateCompany/${getCookie('companyId')}`, data);
     } catch (error) {
         console.error("Error sending products data:", error.response || error);
     }

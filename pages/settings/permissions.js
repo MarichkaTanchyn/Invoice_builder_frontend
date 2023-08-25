@@ -18,7 +18,6 @@ const Permissions = () => {
     useEffect(() => {
         const fetchData = async () => {
             const data = await getEmployees()
-            console.log(data)
             setUsers(data.employees)
         }
         fetchData()

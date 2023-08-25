@@ -1,13 +1,8 @@
-import axios from "axios";
+import {authorizedApi } from './api';
 import {getCookie} from "cookies-next";
-
 export const getEmployees = async () => {
     try {
-        const {data: employees} = await axios.get(process.env.API_URL + `getCompanyEmployees/${getCookie('companyId')}`, {
-            headers: {
-                'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
+        const {data: employees} = await authorizedApi.get(`getCompanyEmployees/${getCookie('companyId')}`);
         return {
             employees,
         };
@@ -21,12 +16,7 @@ export const getEmployees = async () => {
 
 export const getEmployeeData = async () => {
     try {
-        const data = await axios.get(process.env.API_URL + `getEmployee/${getCookie('employeeId')}`, {
-            headers: {
-                'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        const data = await authorizedApi.get(`getEmployee/${getCookie('employeeId')}`);
         return {
             data: data.data,
         };
@@ -40,12 +30,7 @@ export const getEmployeeData = async () => {
 
 export const updatePersonData = async (data) => {
     try {
-        return await axios.post(process.env.API_URL + `updateEmployeePerson/${getCookie('employeeId')}`, data, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        return await authorizedApi.post(process.env.API_URL + `updateEmployeePerson/${getCookie('employeeId')}`, data);
     } catch (error) {
         console.error("Error sending products data:", error.response || error);
     }
@@ -54,12 +39,7 @@ export const updatePersonData = async (data) => {
 
 export const deleteEmployee = async (EmployeeId) => {
     try {
-        return await axios.delete(process.env.API_URL + `deleteEmployee/${EmployeeId}`, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        return await authorizedApi.delete(`deleteEmployee/${EmployeeId}`);
     } catch (error) {
         console.error("Error sending products data:", error.response || error);
     }
@@ -67,12 +47,7 @@ export const deleteEmployee = async (EmployeeId) => {
 
 export const updateEmployeePermissions = async (EmployeeId, permissions) => {
     try {
-        return await axios.post(process.env.API_URL + `updateEmployeePermissions/${EmployeeId}`, permissions, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        return await authorizedApi.post(`updateEmployeePermissions/${EmployeeId}`, permissions);
     } catch (error) {
         console.error("Error sending products data:", error.response || error);
     }
@@ -80,12 +55,7 @@ export const updateEmployeePermissions = async (EmployeeId, permissions) => {
 
 export const acceptEmployee = async (EmployeeId) => {
     try {
-        return await axios.post(process.env.API_URL + `acceptEmployee/${EmployeeId}`, {}, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        return await authorizedApi.post(process.env.API_URL + `acceptEmployee/${EmployeeId}`, {},);
     } catch (error) {
         console.error("Error sending products data:", error.response || error);
     }

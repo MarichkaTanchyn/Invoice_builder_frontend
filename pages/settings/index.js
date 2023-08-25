@@ -27,13 +27,13 @@ const Settings = () => {
         }
     }, []);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
     const router = useRouter();
     const onClick = async () => {
         await router.push("/");
     }
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     return (<Card>
         <div>

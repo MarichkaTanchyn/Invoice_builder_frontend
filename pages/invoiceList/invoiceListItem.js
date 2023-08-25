@@ -9,6 +9,7 @@ import {getInvoicePdf} from "../api/invoicesAPI";
 
 const InvoiceListItem = ({
                              id,
+                             index,
                              invoiceNumber,
                              type,
                              clientName,
@@ -22,6 +23,7 @@ const InvoiceListItem = ({
 
     useEffect(() => {
         async function fetchPdf() {
+            console.log(id)
             const url = await getInvoicePdf(id);
             setPdfUrl(url);
             console.log(url)
@@ -55,7 +57,7 @@ const InvoiceListItem = ({
         <>
             <tr className={styles.rowBox} onClick={handleShowPreview}>
                 <td style={{padding: '0'}} className={styles.tableColumns}>
-                    <CheckboxWithLabel label={id}/>
+                    <CheckboxWithLabel label={index}/>
                 </td>
                 <td className={styles.tableColumns}>{invoiceNumber}</td>
                 <td className={styles.tableColumns}>{type}</td>

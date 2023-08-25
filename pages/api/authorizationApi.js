@@ -1,15 +1,9 @@
-import axios from "axios";
+import { api, authorizedApi } from './api';
 import {getCookie} from "cookies-next";
 
 export const companySignup = async (data) => {
     try {
-        const response = await axios.post(process.env.API_URL + `companySignup`, data, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        console.log("response", response);
-        console.log("response", response.data.message);
+        const response = await api.post(`companySignup`, data);
         return response.data.message;
     } catch (error) {
         console.error("Error in signUp process:", error.response || error);
@@ -18,13 +12,7 @@ export const companySignup = async (data) => {
 
 export const login = async (data) => {
     try {
-        const response = await axios.post(process.env.API_URL + `signIn`, data, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        console.log("response", response);
-        return response;
+        return await api.post(`signIn`, data);
     } catch (error) {
         console.error("Error in login process:", error.response || error);
     }
@@ -32,7 +20,7 @@ export const login = async (data) => {
 
 export const getRegisterToken = async () => {
     try {
-        return await axios.get(process.env.API_URL + `createInvite/${getCookie("companyId")}`);
+        return await api.get(`createInvite/${getCookie("companyId")}`);
     } catch (error) {
         console.error("Error in login process:", error.response || error);
     }
@@ -40,13 +28,7 @@ export const getRegisterToken = async () => {
 
 export const employeeSignUp = async (data, token) => {
     try {
-        const response = await axios.post(process.env.API_URL + `employeeSignup/${token}`, data, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        console.log("response", response);
-        return response;
+        return await api.post(`employeeSignup/${token}`, data);
     } catch (error) {
         console.error("Error in login process:", error.response || error);
     }
@@ -54,11 +36,7 @@ export const employeeSignUp = async (data, token) => {
 
 export const sendRegisterLinkViaEmail = async (email) => {
     try {
-        return await axios.post(process.env.API_URL + `sendRegisterLinkViaEmail/${getCookie("companyId")}`, email, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
+        return await authorizedApi.post(`sendRegisterLinkViaEmail/${getCookie("companyId")}`, email);
     } catch (error) {
         console.error("Error in login process:", error.response || error);
     }

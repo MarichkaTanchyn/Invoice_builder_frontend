@@ -1,14 +1,9 @@
-import axios from "axios";
+import {authorizedApi } from './api';
 import {getCookie} from "cookies-next";
 
 export const readExcel = async (fileKey, data) => {
     try {
-        const response = await axios.post(process.env.API_URL + `readExcelSheet/${fileKey}`, data, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-        console.log("Sheets data sent successfully", response.data);
+        const response = await authorizedApi.post(`readExcelSheet/${fileKey}`, data);
         return response.data;
     } catch (error) {
         console.error("Error sending sheets data:", error.response || error);
@@ -20,12 +15,7 @@ export const preprocessCsv = async (fileKey, sheetData, headersRow, processType)
         categoryId: getCookie("categoryId"), data: sheetData, headersRow: headersRow
     }
     try {
-        const response = await axios.post(process.env.API_URL + `${processType}/${fileKey}`, data, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-        console.log("Products data sent successfully", response.data);
+        const response = await authorizedApi.post(`${processType}/${fileKey}`, data);
         return response.data;
     } catch (error) {
         console.error("Error sending products data:", error.response || error);

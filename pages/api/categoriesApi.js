@@ -1,14 +1,9 @@
-import axios from "axios";
+import {authorizedApi } from './api';
 import {getCookie} from "cookies-next";
 
 export const getCategoriesWithSubcategories = async () => {
     try {
-        return await axios.get(process.env.API_URL + `getCategoriesWithSubcategories/${getCookie('companyId')}`, {
-            headers: {
-                'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-
+        return await authorizedApi.get(`getCategoriesWithSubcategories/${getCookie('companyId')}`);
     } catch (error) {
         console.error(error);
         return {
@@ -19,12 +14,7 @@ export const getCategoriesWithSubcategories = async () => {
 
 export const createCategories = async (categoriesData) => {
     try {
-        const response = await axios.post(process.env.API_URL + `addCategories/${getCookie('companyId')}`, categoriesData, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-        console.log("Categories data sent successfully", response.data);
+        await authorizedApi.post(`addCategories/${getCookie('companyId')}`, categoriesData);
     } catch (error) {
         console.error("Error sending categories data:", error.response || error);
     }
@@ -33,14 +23,8 @@ export const createCategories = async (categoriesData) => {
 
 
 export const updateCategory = async (CategoryId, data) => {
-    console.log(data)
     try {
-        const response = await axios.post(process.env.API_URL + `updateCategory/${CategoryId}`, data, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-        console.log("Category updated successfully", response.data);
+        await authorizedApi.post(`updateCategory/${CategoryId}`, data);
     } catch (error) {
         console.error("Error sending category data:", error.response || error);
     }
@@ -49,12 +33,7 @@ export const updateCategory = async (CategoryId, data) => {
 
 export const deleteCategory = async (CategoryId) => {
     try {
-        const response = await axios.delete(process.env.API_URL + `deleteCategory/${CategoryId}`, {
-            headers: {
-                'Content-Type': 'application/json', 'Authorization': `Bearer ${getCookie("accToken")}`
-            }
-        });
-        console.log("Category deleted successfully", response.data);
+        await authorizedApi.delete(`deleteCategory/${CategoryId}`);
     } catch (error) {
         console.error("Error sending category data:", error.response || error);
     }

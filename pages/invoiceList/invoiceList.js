@@ -4,6 +4,7 @@ import InvoiceListItem from "./invoiceListItem";
 import { format } from 'date-fns';
 import {getCookie} from "cookies-next";
 const InvoiceList = ({invoiceList}) => {
+    console.log(invoiceList)
     return (
         <table className={styles.table}>
             <thead>
@@ -24,7 +25,8 @@ const InvoiceList = ({invoiceList}) => {
             {invoiceList && invoiceList.map((invoice, index) => (
                 <InvoiceListItem
                     key={invoice.id}
-                    id={index + 1}
+                    index={index + 1}
+                    id={invoice.id}
                     invoiceNumber={invoice.documentNumber}
                     type={invoice.documentType}
                     createdBy={parseInt(getCookie('employeeId')) === invoice.Employee.id ? 'You' : invoice.Employee.Person.firstName + " " + invoice.Employee.Person.lastName}
