@@ -2,11 +2,9 @@ import AuthenticationLayout from "./authenticationLayout";
 
 const withAuthenticationLayout = (WrappedComponent) => {
     const WithAuthenticationLayout = (props) => {
-        return (
-            <AuthenticationLayout>
+        return (<AuthenticationLayout>
                 <WrappedComponent {...props} />
-            </AuthenticationLayout>
-        )
+            </AuthenticationLayout>)
     }
 
     WithAuthenticationLayout.displayName = `WithAuthenticationLayout(${getDisplayName(WrappedComponent)})`;

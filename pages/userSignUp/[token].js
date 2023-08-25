@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 const UserSignUp = () => {
     const router = useRouter();
 
-    const { token } = router.query
+    const {token} = router.query
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [firstNameValid, setFirstNameValid] = React.useState(true);
@@ -59,7 +59,7 @@ const UserSignUp = () => {
             const signUpdData = {
                 firstName, lastName, email, password
             }
-            const response = await employeeSignUp(signUpdData , token);
+            const response = await employeeSignUp(signUpdData, token);
             if (response.data !== 'success') {
                 setEmailMessage(response.data.message)
                 setEmailValid(false)

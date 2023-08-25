@@ -2,7 +2,7 @@ import styles from "./createCategory.module.css";
 import React from "react";
 
 
-const SubCategoryHeaders = ({index, fieldId, subCategoryId, addSubcategory, deleteSubcategory}) => (
+const SubCategoryHeaders = ({index, fieldId, addSubcategory, deleteSubcategory}) => (
     <>
         {index === 0 && (
             <>

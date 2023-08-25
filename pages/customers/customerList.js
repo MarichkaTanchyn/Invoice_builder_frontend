@@ -22,7 +22,7 @@ const CustomerList = ({customers}) => {
                 <CustomerListItem key={customer.id} id={index + 1}
                                   company={customer.name}
                                   representative={customer.Person.firstName + " " + customer.Person.lastName}
-                                  location={customer.city  + "," + customer.country}
+                                  location={customer.city + "," + customer.country}
                                   contactNumber={customer.Person.phoneNumber}
                                   email={customer.Person.email}
                 />

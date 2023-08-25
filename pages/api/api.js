@@ -23,6 +23,6 @@ authorizedApi.interceptors.request.use(config => {
     return config;
 });
 
-export { api, authorizedApi };
+export {api, authorizedApi};
 
 

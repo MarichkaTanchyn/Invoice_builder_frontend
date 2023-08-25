@@ -7,7 +7,7 @@ import CustomInput from "../../components/util/input/customInput";
 import CheckboxWithLabel from "../../components/util/filter/checkboxWithLabel";
 
 
-const PaymentActions = ({ leftToPay, setPaid, bankAccount, setCurrency, setPaymentMethod}) => {
+const PaymentActions = ({leftToPay, setPaid, bankAccount, setCurrency, setPaymentMethod}) => {
 
     const [partiallyPaid, setPartiallyPaid] = React.useState(false);
 
@@ -17,13 +17,15 @@ const PaymentActions = ({ leftToPay, setPaid, bankAccount, setCurrency, setPayme
 
     return (
         <div className={styles.paymentActions}>
-            {/*    select currency, select payment method, select bankAccount, input paid, input left to pay, checkBox paid*/}
-            <SelectWithUnderline options={currencies} label={"Currency"} placeholder={"Currency"} onChange={(option) => setCurrency(option)}/>
-            <SelectWithUnderline options={paymentMethods} label={"Payment Methods"} placeholder={"Payment Methods"} onChange={(option) => setPaymentMethod(option)}/>
+            <SelectWithUnderline options={currencies} label={"Currency"} placeholder={"Currency"}
+                                 onChange={(option) => setCurrency(option)}/>
+            <SelectWithUnderline options={paymentMethods} label={"Payment Methods"} placeholder={"Payment Methods"}
+                                 onChange={(option) => setPaymentMethod(option)}/>
 
             <div className={styles.labelBox}>
                 <span className={styles.label}>Bank Account </span>
-                <span>{bankAccount ? bankAccount : ''} <hr/></span>
+                <span>{bankAccount ? bankAccount : ''}
+                    <hr/></span>
             </div>
             <div className={styles.labelBox}>
                 <span className={styles.label}>Partially paid</span>
@@ -33,7 +35,8 @@ const PaymentActions = ({ leftToPay, setPaid, bankAccount, setCurrency, setPayme
                 <div style={{display: "flex", flexDirection: "row"}}>
                     <div className={styles.labelBox}>
                         <span className={styles.label}>Paid</span>
-                        <CustomInput type="text" placeholder="0" onChange={(value) => setPaid(value)} className={styles.payInput}/>
+                        <CustomInput type="text" placeholder="0" onChange={(value) => setPaid(value)}
+                                     className={styles.payInput}/>
                     </div>
                     <div className={styles.labelBox}>
                         <span className={styles.label}>Left to Pay</span>

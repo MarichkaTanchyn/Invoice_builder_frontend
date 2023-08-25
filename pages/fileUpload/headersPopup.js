@@ -20,7 +20,7 @@ const HeadersPopup = ({setHeadersRow, handlePopupSubmit, handleClose, defaultVal
                 />
                 <div className={styles.popupButtons}>
                     <Button onClick={handleClose} label={"Cancel"}></Button>
-                <Button onClick={handlePopupSubmit} label={"Submit"}></Button>
+                    <Button onClick={handlePopupSubmit} label={"Submit"}></Button>
                 </div>
             </div>
         </div>

@@ -54,37 +54,37 @@ const Login = () => {
     };
 
     return (<Card customStyle={style.card}>
-            <div className={style.cardBody}>
-                <h1>Log In</h1>
-                <div className={style.inputsBox}>
-                    <CustomInput
-                        className={style.input}
-                        label={'Email'}
-                        placeholder={'Email'}
-                        defaultValue={getCookie('email') ? getCookie('email') : email}
-                        type={'email'}
-                        onChange={value => setEmail(value)}
+        <div className={style.cardBody}>
+            <h1>Log In</h1>
+            <div className={style.inputsBox}>
+                <CustomInput
+                    className={style.input}
+                    label={'Email'}
+                    placeholder={'Email'}
+                    defaultValue={getCookie('email') ? getCookie('email') : email}
+                    type={'email'}
+                    onChange={value => setEmail(value)}
 
-                    />
-                    <CustomInput
-                        className={style.input}
-                        label={'Password'}
-                        placeholder={'Password'}
-                        defaultValue={password}
-                        type={'password'}
-                        onChange={value => setPassword(value)}
-                        validationMessage={errorMessage}
-                    />
-                </div>
-                <div className={style.actionsBox}>
-                    <CheckboxWithLabel label={'Remember me'}/>
-                    <div className={style.buttonsBox}>
-                        <Button label={'Sign Up'} onClick={handleSignUpClick}/>
-                        <Button label={'Log In'} onClick={handleLoginClick}/>
-                    </div>
+                />
+                <CustomInput
+                    className={style.input}
+                    label={'Password'}
+                    placeholder={'Password'}
+                    defaultValue={password}
+                    type={'password'}
+                    onChange={value => setPassword(value)}
+                    validationMessage={errorMessage}
+                />
+            </div>
+            <div className={style.actionsBox}>
+                <CheckboxWithLabel label={'Remember me'}/>
+                <div className={style.buttonsBox}>
+                    <Button label={'Sign Up'} onClick={handleSignUpClick}/>
+                    <Button label={'Log In'} onClick={handleLoginClick}/>
                 </div>
             </div>
-        </Card>)
+        </div>
+    </Card>)
 };
 
 export default WithAuthenticationLayout(Login);

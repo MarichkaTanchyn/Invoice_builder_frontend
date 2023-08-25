@@ -2,11 +2,11 @@ import Select from 'react-select'
 import React from "react";
 
 const ProductSelect = ({
-                                 options,
-                                 value,
-                                 onChange,
-                                 placeholder
-                             }) => {
+                           options,
+                           value,
+                           onChange,
+                           placeholder
+                       }) => {
     const selectStyle = {
         control: base => ({
             ...base,

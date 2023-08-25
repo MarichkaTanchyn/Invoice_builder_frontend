@@ -2,7 +2,7 @@ import styles from "./confirmationDialog.module.css";
 import Button from "../button/button";
 
 
-const ConfirmationDialog = ({type, header,message, onAgree, onCancel}) => {
+const ConfirmationDialog = ({type, header, message, onAgree, onCancel}) => {
 
     const handlePopupClick = (event) => {
         event.stopPropagation();
@@ -14,9 +14,9 @@ const ConfirmationDialog = ({type, header,message, onAgree, onCancel}) => {
                 <div className={styles.content}>
                     <div className={styles.header}>
                         {type === "Delete" &&
-                        <div>
-                            <img className={styles.img} src="/redBin.svg" alt="confirmation icon"/>
-                        </div>
+                            <div>
+                                <img className={styles.img} src="/redBin.svg" alt="confirmation icon"/>
+                            </div>
                         }
                         <div className={styles.title}>
                             <h4>{header}</h4>

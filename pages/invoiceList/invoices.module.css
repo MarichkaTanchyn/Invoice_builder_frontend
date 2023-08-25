@@ -93,15 +93,16 @@
 .lastTableColumns {
     position: relative;
 }
+
 .rowBox {
     line-height: 1.7em;
     border: 1px solid #ccc;
     background-color: #FFFFFF;
-    box-shadow:  0 2px 4px rgba(128, 128, 128, 0.25);
+    box-shadow: 0 2px 4px rgba(128, 128, 128, 0.25);
     cursor: pointer;
 }
 
-.imgDetails{
+.imgDetails {
     height: 1.5em;
     margin-top: .4em;
 }

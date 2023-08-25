@@ -9,7 +9,8 @@ const Header = ({withAccounts}) => {
         setShowAccountsPopup(true)
     }
 
-    return (<header className={styles.header}>
+    return (
+        <header className={styles.header}>
             <div className={styles.logoAndName}>
                 <Link href="/">
                     <img className={styles.img} src="/logo.svg" alt="Logo"/>
@@ -19,8 +20,9 @@ const Header = ({withAccounts}) => {
             {withAccounts && (<Link onClick={handleAccountsClick} href="">
                 <img className={styles.img} src="/accounts.svg" alt="Account"/>
             </Link>)}
-        {showAccountsPopup && <AccountsPopup setShowAccountsPopup={setShowAccountsPopup}/>}
-        </header>);
+            {showAccountsPopup && <AccountsPopup setShowAccountsPopup={setShowAccountsPopup}/>}
+        </header>
+    );
 }
 
 export default Header;

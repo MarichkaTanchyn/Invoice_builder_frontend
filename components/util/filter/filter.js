@@ -6,7 +6,7 @@ import InputWithLabel from "./inputWithLabel";
 import SelectWithLabel from "./selectWithLabel";
 import Button from "../button/button";
 import useFilter from "./useFilter";
-import { getEmployees} from "../../../pages/api/employeesApi";
+import {getEmployees} from "../../../pages/api/employeesApi";
 
 
 const CURRENCY_OPTIONS = [
@@ -44,7 +44,7 @@ const Filter = ({updateFilterSettings}) => {
     const [selectStatus, setSelectStatus] = useState(null)
     const [selectUser, setSelectUser] = useState(null)
 
-    const [users , setUsers] = useState(null);
+    const [users, setUsers] = useState(null);
 
 
     const handleCheckboxChange = (setter) => (event) => {
@@ -108,7 +108,6 @@ const Filter = ({updateFilterSettings}) => {
     }, []);
 
 
-
     const handleApplyFilter = () => {
         updateFilterSettings({
             useDateRange,
@@ -127,7 +126,7 @@ const Filter = ({updateFilterSettings}) => {
         });
     };
 
-    const { clearFilterSettings } = useFilter();
+    const {clearFilterSettings} = useFilter();
 
     const handleClearFilter = () => {
         clearFilterSettings();

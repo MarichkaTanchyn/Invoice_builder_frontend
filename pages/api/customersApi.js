@@ -1,4 +1,4 @@
-import {authorizedApi } from './api';
+import {authorizedApi} from './api';
 import {getCookie} from "cookies-next";
 
 export const getCustomers = async () => {
@@ -17,7 +17,7 @@ export const getCustomers = async () => {
 
 export const getCustomer = async (CustomerId) => {
     try {
-        return await authorizedApi.get( `getCustomer/${CustomerId}`);
+        return await authorizedApi.get(`getCustomer/${CustomerId}`);
     } catch (error) {
         console.error(error);
     }

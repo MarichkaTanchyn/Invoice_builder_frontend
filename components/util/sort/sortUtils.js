@@ -18,7 +18,7 @@ export const sortDocuments = (documents, sortOption) => {
 }
 
 export const sortCustomers = (customers, option) => {
-    switch(option){
+    switch (option) {
         case 'oldest':
             return [...customers].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         case 'newest':

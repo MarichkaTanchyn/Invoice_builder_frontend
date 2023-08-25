@@ -20,6 +20,6 @@ const EditableCell = ({
     return <input value={value} onChange={onChange} onBlur={onBlur}/>;
 };
 
-const ReadOnlyCell  = ({ value }) => <>{value}</>;
+const ReadOnlyCell = ({value}) => <>{value}</>;
 
 export {EditableCell, ReadOnlyCell};

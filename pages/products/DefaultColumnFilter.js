@@ -5,7 +5,8 @@ const DefaultColumnFilter = ({
                              }) => {
     const filterValue = column?.filterValue || '';
     const preFilteredRows = column?.preFilteredRows || [];
-    const setFilter = column?.setFilter || function() {};
+    const setFilter = column?.setFilter || function () {
+    };
 
     const count = preFilteredRows.length;
 

@@ -16,7 +16,12 @@ import globalStyle from "../global.module.css";
 import WarningPopup from "../../components/util/warningPopup/warningPopup";
 
 const CreateInvoiceForm = ({
-                               customers, products, clickedOpenPreview, setClickedOpenPreview, companyDetails = [{}], employee
+                               customers,
+                               products,
+                               clickedOpenPreview,
+                               setClickedOpenPreview,
+                               companyDetails = [{}],
+                               employee
                            }) => {
 
     const [customer, setCustomer] = useState(null)
@@ -334,14 +339,14 @@ const CreateInvoiceForm = ({
         <div className={styles.items}>
             {summary &&
                 <ProductTable summary={summary}
-                          rows={rows}
-                          addRow={addRow}
-                          deleteSelectedRows={deleteSelectedRows}
-                          handleInputChange={handleInputChange}
-                          toggleRowSelection={toggleRowSelection}
-                          selectAllRows={selectAllRows}
-                          products={products}
-            />}
+                              rows={rows}
+                              addRow={addRow}
+                              deleteSelectedRows={deleteSelectedRows}
+                              handleInputChange={handleInputChange}
+                              toggleRowSelection={toggleRowSelection}
+                              selectAllRows={selectAllRows}
+                              products={products}
+                />}
             <PaymentActions bankAccount={companyDetails[0] ? companyDetails[0].bankAccountNumber : ''}
                             setCurrency={setCurrency}
                             currency={currency}
@@ -359,7 +364,7 @@ const CreateInvoiceForm = ({
             </div>
         </div>
         {openPreview && <InvoicePreview handleClosePreview={handleClosePreview}>
-            <div className={styles.previewInvoice} dangerouslySetInnerHTML={{ __html: htmlString }} />
+            <div className={styles.previewInvoice} dangerouslySetInnerHTML={{__html: htmlString}}/>
         </InvoicePreview>
         }
         {showFillCompanyDataPopup && <WarningPopup type={"Error"}
@@ -367,10 +372,13 @@ const CreateInvoiceForm = ({
                                                    actionMessage={"Please complete the company data fields or consult with your manager to do so before proceeding."}
                                                    message={"Without filled company data, invoice creation is not possible."}
         />}
-        {showFillDataPopup && <WarningPopup actionMessage={"To create an invoice successfully, enter essential data like customer details and product descriptions."}
-                                            message={"Invoice creation requires all necessary information to be properly filled in."}
-                                            handleClose={() => {setShowFillDataPopup(false)}}
-                                            type={"Error"} /> }
+        {showFillDataPopup && <WarningPopup
+            actionMessage={"To create an invoice successfully, enter essential data like customer details and product descriptions."}
+            message={"Invoice creation requires all necessary information to be properly filled in."}
+            handleClose={() => {
+                setShowFillDataPopup(false)
+            }}
+            type={"Error"}/>}
     </>)
 }
 

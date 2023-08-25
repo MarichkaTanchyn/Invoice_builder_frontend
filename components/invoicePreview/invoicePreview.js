@@ -11,7 +11,8 @@ const InvoicePreview = ({handleClosePreview, children}) => {
             <div className={styles.previewContainer} onClick={handlePopupClick}>
                 {children}
             </div>
-        </div>)
+        </div>
+    )
 
 }
 

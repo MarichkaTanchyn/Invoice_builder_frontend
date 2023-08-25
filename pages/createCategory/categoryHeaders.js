@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./createCategory.module.css";
 
-const CategoryHeaders = ({ addCategoryField, deleteCategoryField }) => (
+const CategoryHeaders = ({addCategoryField, deleteCategoryField}) => (
     <div style={{width: "50em"}}>
         <div className={styles.categoryHeaders}>
             <h4>Categories</h4>

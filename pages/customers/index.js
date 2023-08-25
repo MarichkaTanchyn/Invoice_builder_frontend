@@ -21,20 +21,20 @@ const Customers = () => {
 
     const [showAddCustomerPopup, setShowAddCustomerPopup] = React.useState(false);
     const [newCustomer, setNewCustomer] = React.useState({
-            "name": '',
-            "description": '',
-            "companyNumber": '',
-            "country": '',
-            "city": '',
-            "postalCode": '',
-            "nip": '',
-            "address": '',
-            "Person": {
-                "firstName": '',
-                "lastName": '',
-                "middleName": '',
-                "email": '',
-                "phoneNumber": '',
+        "name": '',
+        "description": '',
+        "companyNumber": '',
+        "country": '',
+        "city": '',
+        "postalCode": '',
+        "nip": '',
+        "address": '',
+        "Person": {
+            "firstName": '',
+            "lastName": '',
+            "middleName": '',
+            "email": '',
+            "phoneNumber": '',
         }
     });
 
@@ -133,34 +133,34 @@ const Customers = () => {
     }
 
     return (<>
-            <div className={styles.headers}>
-                <h1>Customers</h1>
-                <div className={styles.actions}>
-                    <Search placeholder="Search" onSearch={handleSearch}/>
-                    <SortSelect
-                        options={sortOptions}
-                        value={sortSelect}
-                        onChange={handleSortSelectChange}
-                    />
-                    <div className={styles.buttons}>
-                        <Button label={"Add New Customer"} onClick={handleAddCustomer}/>
-                        <Button label={"Export to csv"} onClick={exportToCsv}/>
-                    </div>
+        <div className={styles.headers}>
+            <h1>Customers</h1>
+            <div className={styles.actions}>
+                <Search placeholder="Search" onSearch={handleSearch}/>
+                <SortSelect
+                    options={sortOptions}
+                    value={sortSelect}
+                    onChange={handleSortSelectChange}
+                />
+                <div className={styles.buttons}>
+                    <Button label={"Add New Customer"} onClick={handleAddCustomer}/>
+                    <Button label={"Export to csv"} onClick={exportToCsv}/>
                 </div>
             </div>
-            {loading ? (<div className={globalStyle.loadingWave}>
-                    <div className={globalStyle.loadingBar}></div>
-                    <div className={globalStyle.loadingBar}></div>
-                    <div className={globalStyle.loadingBar}></div>
-                    <div className={globalStyle.loadingBar}></div>
-                </div>) : (
-                    <CustomerList customers={displayedCustomers}/>
-            )}
-            {showAddCustomerPopup &&
-                <AddCustomerPopup
-                    newCustomer={newCustomer} setNewCustomer={setNewCustomer}
-                    handleSubmitPopup={handleSubmitPopup} handleClosePopup={handleClosePopup}/>}
-        </>)
+        </div>
+        {loading ? (<div className={globalStyle.loadingWave}>
+            <div className={globalStyle.loadingBar}></div>
+            <div className={globalStyle.loadingBar}></div>
+            <div className={globalStyle.loadingBar}></div>
+            <div className={globalStyle.loadingBar}></div>
+        </div>) : (
+            <CustomerList customers={displayedCustomers}/>
+        )}
+        {showAddCustomerPopup &&
+            <AddCustomerPopup
+                newCustomer={newCustomer} setNewCustomer={setNewCustomer}
+                handleSubmitPopup={handleSubmitPopup} handleClosePopup={handleClosePopup}/>}
+    </>)
 
 }
 

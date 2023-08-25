@@ -13,10 +13,10 @@ const AddCustomerPopup = ({handleClosePopup, handleSubmitPopup, customer, newCus
         if (field in newCustomer.Person) {
             setNewCustomer({
                 ...newCustomer,
-                Person: { ...newCustomer.Person, [field]: value },
+                Person: {...newCustomer.Person, [field]: value},
             });
         } else {
-            setNewCustomer({ ...newCustomer, [field]: value });
+            setNewCustomer({...newCustomer, [field]: value});
         }
     };
 
@@ -134,7 +134,6 @@ const AddCustomerPopup = ({handleClosePopup, handleSubmitPopup, customer, newCus
                 <div className={styles.buttonsContainer}>
                     <Button onClick={handleClosePopup} label={"Cancel"}/>
                     <Button onClick={handleSubmitPopup} label={"Submit"}/>
-
                 </div>
             </div>
         </div>

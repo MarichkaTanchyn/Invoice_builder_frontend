@@ -1,5 +1,6 @@
-import {authorizedApi } from './api';
+import {authorizedApi} from './api';
 import {getCookie} from "cookies-next";
+
 export const getEmployees = async () => {
     try {
         const {data: employees} = await authorizedApi.get(`getCompanyEmployees/${getCookie('companyId')}`);

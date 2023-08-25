@@ -80,7 +80,7 @@ const Permissions = () => {
     }
 
     return (<div className={styles.permissionsContent}>
-        {users.length>1 ? users.map((user, index) => {
+        {users.length > 1 ? users.map((user, index) => {
             return (
                 user.id !== parseInt(getCookie('employeeId')) && user.accepted &&
                 <div>

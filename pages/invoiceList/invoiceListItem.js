@@ -25,6 +25,7 @@ const InvoiceListItem = ({
             const url = await getInvoicePdf(id);
             setPdfUrl(url);
         }
+
         fetchPdf();
     }, [id]);
 
@@ -74,9 +75,11 @@ const InvoiceListItem = ({
                 </td>
             </tr>
             {showPreview && <InvoicePreview handleClosePreview={() => setShowPreview(false)}>
-                <iframe src={pdfUrl} style={{width: '100%', height: '90vh',border: 'none',
+                <iframe src={pdfUrl} style={{
+                    width: '100%', height: '90vh', border: 'none',
                     boxShadow: '0px 0px 10px 2px rgba(0,0,0,0.1)',
-                    borderRadius: '5px'}} />
+                    borderRadius: '5px'
+                }}/>
             </InvoicePreview>}
         </>
     )

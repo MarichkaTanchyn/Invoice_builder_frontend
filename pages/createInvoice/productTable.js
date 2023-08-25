@@ -4,7 +4,7 @@ import SmallSelectWithUnderline from "../../components/util/select/smallSelectWi
 import styles from "./createInvoice.module.css";
 import ButtonWithImg from "../../components/util/button/buttonWithImg";
 import units from "../../components/data/units.json";
-import { Cascader } from 'antd';
+import {Cascader} from 'antd';
 import {getProduct} from "../api/productsApi";
 
 
@@ -112,7 +112,7 @@ const ProductTable = ({
                         </td>
                         <td style={{textAlign: 'center'}}>
                             <div className={styles.container}>
-                                {products &&  <Cascader
+                                {products && <Cascader
                                     className={styles.selectProduct}
                                     options={products}
                                     value={row.selectedProduct}
@@ -195,7 +195,6 @@ const ProductTable = ({
                         <td>{summary.totalGrossValue}</td>
                         <td></td>
                     </tr>}
-
                 </tfoot>
             </table>
         </>

@@ -3,7 +3,7 @@
     border: none;
     border-bottom: .1em solid #949bab;
     outline: none;
-    margin-top: .8em ;
+    margin-top: .8em;
     height: 1.3em;
 }
 
@@ -14,7 +14,7 @@
     align-items: flex-start;
 }
 
-.label span{
+.label span {
     font-size: 1em;
 }
 
@@ -28,14 +28,14 @@
     border-bottom: .1em solid red;
 }
 
-@media only screen and (min-width: 20000px){
-    .input{
-         width: 15em;
+@media only screen and (min-width: 20000px) {
+    .input {
+        width: 15em;
     }
 }
 
 @media (max-width: 1000px) {
-    .input{
-         width: 10em;
+    .input {
+        width: 10em;
     }
 }

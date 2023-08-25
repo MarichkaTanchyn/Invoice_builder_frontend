@@ -1,4 +1,4 @@
-import { api, authorizedApi } from './api';
+import {api, authorizedApi} from './api';
 import {getCookie} from "cookies-next";
 
 export const companySignup = async (data) => {

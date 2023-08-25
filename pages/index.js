@@ -1,7 +1,6 @@
 import InvoicesPage from "./invoiceList/invoicesPage";
 
 function HomePage() {
-
     return (
         <InvoicesPage/>
     )

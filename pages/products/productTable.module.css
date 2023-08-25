@@ -40,22 +40,27 @@
     .container {
         max-height: 78vh;
     }
+
     .bottomButtonContainer {
         bottom: 4em;
     }
 }
+
 @media only screen and (min-height: 1500px) {
     .container {
         max-height: 78vh;
     }
+
     .bottomButtonContainer {
         bottom: 5em;
     }
 }
+
 @media only screen and (min-height: 1700px) {
     .bottomButtonContainer {
-                bottom: 5em;
-            }
+        bottom: 5em;
+    }
+
     .container {
         max-height: 80.5vh;
     }
@@ -223,12 +228,13 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
+
 .inputs {
     height: calc(100% - 7em);
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-    margin-bottom: 1em ;
+    margin-bottom: 1em;
 }
 
 .input {

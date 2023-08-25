@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
+    ({indeterminate, ...rest}, ref) => {
         const defaultRef = React.useRef();
         const resolvedRef = ref || defaultRef;
 

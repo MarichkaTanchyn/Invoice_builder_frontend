@@ -160,7 +160,7 @@ const EditCategories = () => {
                                     </div>
                                 </tr>
                                 <tr>
-                                    <td colSpan={2} >
+                                    <td colSpan={2}>
                                         {field.Subcategories.map((subCategory, subCategoryIndex) => (
                                             <tr key={subCategory.id}>
                                                 <div style={{marginLeft: "2em"}}>

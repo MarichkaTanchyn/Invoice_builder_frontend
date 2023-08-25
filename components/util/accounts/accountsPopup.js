@@ -12,7 +12,6 @@ const AccountsPopup = ({setShowAccountsPopup}) => {
         event.stopPropagation();
     };
 
-
     const handleLogOut = async () => {
         deleteCookie('accToken');
         deleteCookie('categoryId');
@@ -27,7 +26,8 @@ const AccountsPopup = ({setShowAccountsPopup}) => {
     const email = getCookie('email');
 
 
-    return (<div className={styles.popupBox} onClick={() => setShowAccountsPopup(false)}>
+    return (
+        <div className={styles.popupBox} onClick={() => setShowAccountsPopup(false)}>
             <div className={styles.box} onClick={handlePopupClick}>
                 <div className={styles.content}>
                     <h4>Accounts</h4>
@@ -35,7 +35,8 @@ const AccountsPopup = ({setShowAccountsPopup}) => {
                     <Button label={"LogOut"} onClick={handleLogOut}/>
                 </div>
             </div>
-        </div>)
+        </div>
+    )
 
 }
 

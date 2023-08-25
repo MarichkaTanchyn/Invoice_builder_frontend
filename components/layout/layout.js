@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import style from "./layout.module.css";
 import Header from "../util/header/header";
 import Sidebar from "../sidebar/Sidebar";
-import {useEffect, useState} from "react";
-import { getCategoriesWithSubcategories} from "../../pages/api/categoriesApi";
+import {getCategoriesWithSubcategories} from "../../pages/api/categoriesApi";
 import {getCookie} from "cookies-next";
 import {useRouter} from "next/router";
 
@@ -20,7 +19,7 @@ const Layout = ({children}) => {
             const resp = await getCategoriesWithSubcategories()
             if (resp.status === 200) {
                 setCategories(resp.data)
-            }else {
+            } else {
                 await router.push('login');
             }
 

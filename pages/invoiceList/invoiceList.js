@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./invoices.module.css"
 import InvoiceListItem from "./invoiceListItem";
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import {getCookie} from "cookies-next";
+
 const InvoiceList = ({invoiceList}) => {
     return (
         <table className={styles.table}>

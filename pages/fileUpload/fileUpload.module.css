@@ -38,12 +38,14 @@
 @media (max-height: 800px) {
     .card {
         height: 45em;
-    }  
+    }
+
     .img {
         height: 15em;
     }
-      
+
 }
+
 .uploadedFiles {
     list-style-type: none;
     padding: 0;
@@ -123,8 +125,9 @@
 .headersPopup h4 {
     text-align: center;
 }
+
 .input {
-    height: 2.3em!important;
+    height: 2.3em !important;
     border-bottom: .1em solid #ccc !Important;
     margin-bottom: .3em;
     padding-left: .5em;
@@ -170,6 +173,7 @@
     border-radius: 8px;
     margin: 1em;
 }
+
 .optionsPopup h4 {
     margin: 0;
     text-align: center;

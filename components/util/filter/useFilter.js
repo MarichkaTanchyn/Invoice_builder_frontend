@@ -80,7 +80,7 @@ const useFilter = () => {
         setFilterSettings(settings);
     };
 
-    return { applyFilter, updateFilterSettings, clearFilterSettings};
+    return {applyFilter, updateFilterSettings, clearFilterSettings};
 };
 
 export default useFilter;

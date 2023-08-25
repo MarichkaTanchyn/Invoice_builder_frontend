@@ -270,7 +270,8 @@ const Products = () => {
                         {headerGroups.map((headerGroup, index) => (
                             <tr {...headerGroup.getHeaderGroupProps()} key={index}>
                                 {headerGroup.headers.map((column, i) => (
-                                    <th {...column.getHeaderProps(column.getSortByToggleProps())} className={styles.header} key={i}>
+                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        className={styles.header} key={i}>
                                         <div className={styles.headerContent}>
                                             <span>{column.render("Header")}</span>
                                             {column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}

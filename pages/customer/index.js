@@ -29,13 +29,14 @@ const Customer = () => {
                 setCustomerInvoices(data.data);
             }
         }
+
         if (router.isReady) { // This checks whether the router instance is ready
             fetchData();
         }
     }, [router.isReady, router.query.id]);
 
     const handleSubmitPopup = async () => {
-        const res = await updateCustomer(customer.id,newCustomer);
+        const res = await updateCustomer(customer.id, newCustomer);
         if (!res.data.message) {
             setCustomer(res.data);
             setShowEditCustomerPopup(false);

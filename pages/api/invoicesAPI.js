@@ -1,11 +1,11 @@
-import {authorizedApi } from './api';
+import {authorizedApi} from './api';
 import axios from "axios";
 import {getCookie} from "cookies-next";
 
 export const getAllDocuments = async ({CompanyId, EmployeeId}) => {
 
     try {
-        const {data: documents} = await authorizedApi.get( `getAllDocuments/${CompanyId}/${EmployeeId}`);
+        const {data: documents} = await authorizedApi.get(`getAllDocuments/${CompanyId}/${EmployeeId}`);
         return {
             documents,
         };
@@ -36,7 +36,7 @@ export const getCustomerInvoices = async (CustomerId) => {
 
 export const getInvoicePdf = async (InvoiceId) => {
     try {
-        const { data: pdfData } = await axios.get(process.env.API_URL + `getInvoicePdf/${InvoiceId}`, {
+        const {data: pdfData} = await axios.get(process.env.API_URL + `getInvoicePdf/${InvoiceId}`, {
             headers: {
                 'Authorization': `Bearer ${getCookie("accToken")}`,
                 'Accept': 'application/pdf',
@@ -44,7 +44,7 @@ export const getInvoicePdf = async (InvoiceId) => {
             responseType: 'arraybuffer',
         });
 
-        const blob = await new Blob([pdfData], { type: 'application/pdf' });
+        const blob = await new Blob([pdfData], {type: 'application/pdf'});
         const url = URL.createObjectURL(blob);
         return url;
     } catch (error) {

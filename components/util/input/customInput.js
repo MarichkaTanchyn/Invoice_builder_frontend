@@ -1,7 +1,17 @@
 import React, {useState, useEffect} from "react";
 import styles from './customInput.module.css';
 
-const CustomInput = ({placeholder, onChange, type, label, defaultValue, className, readOnly, isValid, validationMessage}) => {
+const CustomInput = ({
+                         placeholder,
+                         onChange,
+                         type,
+                         label,
+                         defaultValue,
+                         className,
+                         readOnly,
+                         isValid,
+                         validationMessage
+                     }) => {
 
     const [value, setValue] = useState(defaultValue || '');
 
@@ -77,19 +87,20 @@ const CustomInput = ({placeholder, onChange, type, label, defaultValue, classNam
                         onChange={handleChange}
                         readOnly={readOnly}
                     />
-                    {!isValid && <span className={styles.validationMessage} dangerouslySetInnerHTML={{__html: validationMessage}}></span>}
+                    {!isValid && <span className={styles.validationMessage}
+                                       dangerouslySetInnerHTML={{__html: validationMessage}}></span>}
                 </label>
             ) : (
                 <>
-                <input
-                    type={type === 'number'  ? 'text' : type}
-                    className={mergedClassNames}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={handleChange}
-                    readOnly={readOnly}
-                />
-                {!isValid && <span>{validationMessage}</span>}
+                    <input
+                        type={type === 'number' ? 'text' : type}
+                        className={mergedClassNames}
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={handleChange}
+                        readOnly={readOnly}
+                    />
+                    {!isValid && <span>{validationMessage}</span>}
                 </>
             )}
         </>

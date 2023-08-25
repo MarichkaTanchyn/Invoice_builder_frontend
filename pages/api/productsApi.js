@@ -1,4 +1,4 @@
-import {authorizedApi } from './api';
+import {authorizedApi} from './api';
 
 export const addProduct = async (productsData, CategoryId) => {
     try {
@@ -11,7 +11,7 @@ export const addProduct = async (productsData, CategoryId) => {
 
 export const getCategoryProducts = async (CategoryId) => {
     try {
-        const response = await authorizedApi.get( `getCategoryProducts/${CategoryId}`);
+        const response = await authorizedApi.get(`getCategoryProducts/${CategoryId}`);
         return response.data;
     } catch (error) {
         console.error("Error receiving products data:", error.response || error);
@@ -20,7 +20,7 @@ export const getCategoryProducts = async (CategoryId) => {
 
 export const deleteProducts = async (data) => {
     try {
-        await authorizedApi.post( `deleteProducts`, data);
+        await authorizedApi.post(`deleteProducts`, data);
     } catch (error) {
         console.error("Error sending products data:", error.response || error);
     }

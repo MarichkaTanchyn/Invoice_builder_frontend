@@ -5,7 +5,7 @@ const Button = ({label, onClick, className}) => {
 
     const mergedClassName = `${styles.button} ${className}`
 
-    return(
+    return (
         <button onClick={onClick} className={mergedClassName}>{label}</button>
     )
 }

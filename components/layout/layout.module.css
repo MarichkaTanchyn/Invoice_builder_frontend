@@ -1,4 +1,4 @@
-.pageContainer{
+.pageContainer {
     height: 100vh;
 }
 
@@ -10,6 +10,7 @@
     width: 100%;
     background-color: #fafafa;
 }
+
 .pageContent {
     background-color: #fafafa;
     height: 100%;

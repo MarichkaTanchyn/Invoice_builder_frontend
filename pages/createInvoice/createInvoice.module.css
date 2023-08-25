@@ -190,7 +190,7 @@
     width: 6em !Important;
     border-color: rgba(165, 165, 165, 0.5) !Important;
     margin-left: .5em;
-    margin-top: .6em!important;
+    margin-top: .6em !important;
     margin-right: .5em;
 }
 
@@ -207,7 +207,7 @@
 
 .container {
     margin-top: 1.7em;
-    border: none!important;
+    border: none !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -216,12 +216,13 @@
 }
 
 .selectProduct {
-    width: 25em; text-align: center;
+    width: 25em;
+    text-align: center;
 
 }
 
 .container > div > div {
-    border: none!important;
+    border: none !important;
 
     border-bottom: .1em solid #ccc !important;
     box-shadow: none !important;

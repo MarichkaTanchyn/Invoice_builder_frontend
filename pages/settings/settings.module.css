@@ -14,6 +14,7 @@
 .backToInvoices {
     padding-left: 1em;
 }
+
 .headers h2 {
     text-decoration: none;
     color: #707070;
@@ -50,7 +51,7 @@
     font-size: 1em;
     padding-left: .5em;
     width: 22em;
-    margin-top: .5em!Important;
+    margin-top: .5em !Important;
 }
 
 .buttonContainer {
@@ -96,7 +97,7 @@
     margin-bottom: 1em;
 }
 
-.sectionSpan{
+.sectionSpan {
     font-size: 1.1em;
     color: #707070;
 }
@@ -118,15 +119,15 @@
 }
 
 .linkInput {
-    width: 30em!important;
+    width: 30em !important;
 }
 
 .emailInput {
-    width: 30em!important;
+    width: 30em !important;
 }
 
 .copy {
-margin-bottom: .4em
+    margin-bottom: .4em
 }
 
 .sendViaEmailBox {
@@ -170,7 +171,7 @@ margin-bottom: .4em
     padding: 10px;
 }
 
-.userCell span{
+.userCell span {
     margin-right: 1em;
 }
 
@@ -183,7 +184,7 @@ margin-bottom: .4em
 
 .permissionsCell {
     display: grid;
-    grid-template-columns: .7fr .7fr .7fr .7fr ;
+    grid-template-columns: .7fr .7fr .7fr .7fr;
     grid-auto-rows: auto;
     grid-gap: 10px;
     flex-wrap: wrap;

@@ -14,6 +14,7 @@
 .backToInvoices {
     padding-left: 1em;
 }
+
 .headers h2 {
     text-decoration: none;
     color: #707070;
@@ -32,13 +33,13 @@
     font-size: 1.2em;
     padding: 0;
 }
-  
-  .content {
+
+.content {
     padding: 1em;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-  }
+}
 
 .actionButtons {
     display: flex;
@@ -71,21 +72,21 @@
 .categoryNameInput {
     border: .1em solid #ccc !Important;
     border-radius: .5em;
-    height: 2.3em!important;
+    height: 2.3em !important;
     width: 35em;
 }
 
 .input {
     border: .1em solid #ccc !Important;
     border-radius: .5em;
-    height: 2.3em!important;
+    height: 2.3em !important;
     padding-left: .5em;
 }
 
 .spanBox {
     border: .1em solid #ccc !Important;
     border-radius: .5em;
-    height: 2.3em!important;
+    height: 2.3em !important;
     padding: .5em 1em;
     margin-right: .5em;
 }
@@ -101,13 +102,14 @@
 }
 
 .categoryHeaders {
-    padding: 3em 0 0 0 ;
+    padding: 3em 0 0 0;
     font-size: 1em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
+
 .hr {
     margin: 0;
 }
@@ -140,7 +142,7 @@
     text-align: left;
 }
 
-.x{
+.x {
     margin-left: 1.5em;
     height: 2em;
 }
@@ -151,18 +153,21 @@
     color: #707070;
     padding: .5em 0em;
 }
+
 .checkBox {
     border: .1em solid #ccc !Important;
     border-radius: .5em;
-    height: 2.3em!important;
+    height: 2.3em !important;
     margin-top: .8em;
     margin-bottom: .3em;
     padding-right: 1em;
 }
-.categoryFields td{
+
+.categoryFields td {
     margin: 0;
 }
-.subCategoryHeaders{
+
+.subCategoryHeaders {
     font-size: .9em;
     display: flex;
     flex-direction: row;
@@ -183,6 +188,6 @@
     color: #707070;
 }
 
-.subcategoryTableFields td{
+.subcategoryTableFields td {
     padding-right: 1em;
 }

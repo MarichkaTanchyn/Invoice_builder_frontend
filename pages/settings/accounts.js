@@ -124,7 +124,7 @@ const Accounts = () => {
                                 <span>{user.Person.lastName}</span>
                                 <span>{user.email}</span>
                                 {user.accepted ?
-                                    <span style={{visibility:'hidden'}}></span> :
+                                    <span style={{visibility: 'hidden'}}></span> :
                                     <span className={styles.accept} onClick={() => handleAcceptUser(user)}>Accept</span>
                                 }
                                 <img className={`${styles.img} ${styles.bin}`} src={"/bin.svg"} alt={"bin"}
@@ -146,7 +146,7 @@ const Accounts = () => {
                                 setTimeout(() => setCopySuccess(''), 1000);
                             })
                             .catch(err => console.error('Copy failed!', err));
-                    }} className={ styles.copy} label={"Copy"}/>
+                    }} className={styles.copy} label={"Copy"}/>
                     {copySuccess && <div style={{color: 'green'}}>{copySuccess}</div>}
                 </div>
                 <span>or</span>
