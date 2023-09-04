@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import style from './sidebar.module.css';
 import {useRouter} from "next/router";
 import {setCookie} from "cookies-next";
