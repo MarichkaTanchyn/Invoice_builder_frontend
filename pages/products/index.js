@@ -164,6 +164,7 @@ const Products = () => {
     };
 
     const handleClosePopup = () => {
+        setExtraRows([]);
         setShowAddProductPopup(false);
     };
 

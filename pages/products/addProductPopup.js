@@ -12,6 +12,26 @@ const AddProductPopup = ({
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
     const [invalidColumns, setInvalidColumns] = useState([]);
     const [useInInvoice, setUseInInvoice] = useState([]);
+    const [error, setError] = useState("");
+
+    const validate = (productArray) => {
+        if (productArray.length === 0) {
+            setError("Value can not be empty.");
+            return false;
+        }
+        const requiredTypes = ["name", "price", "description"];
+        const existingTypes = productArray.map(product => product.type);
+
+        for (const requiredType of requiredTypes) {
+            if (!existingTypes.includes(requiredType)) {
+                setError("Product must have obligatory name, price, and description types.");
+                return false;
+            }
+        }
+        setError("");
+        return true;
+    };
+
 
     useEffect(() => {
         if (allHeaders.length === 0 && extraRows.length === 0) {
@@ -76,7 +96,9 @@ const AddProductPopup = ({
 
     const handleSubmit = () => {
         const filteredExtraRows = extraRows.filter(row => row.name && row.value);
-        handleSubmitPopup(filteredExtraRows);
+        if (validate(filteredExtraRows)) {
+            handleSubmitPopup(filteredExtraRows);
+        }
     };
 
     return (<div className={styles.popupBox}>
@@ -138,6 +160,7 @@ const AddProductPopup = ({
                         />
                     </div>
                 </div>))}
+                {error && <p className={styles.error}>{error}</p>}
             </div>
             <div className={styles.popupButtons}>
                 <div>
