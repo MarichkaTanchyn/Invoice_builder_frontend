@@ -84,9 +84,23 @@ const PreprocessSheet = () => {
     };
 
     const handleDeleteColumn = (column) => {
-        // Update selectedColumns
+        const columnIndex = selectedColumns.indexOf(column);
+        if (columnIndex === -1) return;
+
         setSelectedColumns((prevColumns) =>
             prevColumns.filter((col) => col !== column)
+        );
+
+        setSelectedColumnTypes((prevTypes) =>
+            prevTypes.filter((_, index) => index !== columnIndex)
+        );
+
+        // Update invalidColumns
+        setInvalidColumns((prevInvalidColumns) =>
+            prevInvalidColumns
+                .map((invalidIndex) => parseInt(invalidIndex, 10))
+                .filter((invalidIndex) => invalidIndex !== columnIndex)
+                .map((filteredIndex) => filteredIndex.toString())
         );
 
         // Update sheetsData
@@ -188,6 +202,7 @@ const PreprocessSheet = () => {
             setErrorMessage(response.message);
         }
     };
+
     return (
         <Card customStyle={styles.card}>
             <div className={styles.box}>

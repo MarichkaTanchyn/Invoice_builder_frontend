@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Collapse} from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 import SidebarList from "./SidebarList";
 import style from './sidebar.module.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
