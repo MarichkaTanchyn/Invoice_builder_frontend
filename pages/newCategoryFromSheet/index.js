@@ -201,57 +201,68 @@ const CreateNewCategoryFromSheet = () => {
         });
     };
 
+    const validateColumnTypes = () => {
+        const requiredTypes = ["name", "price", "description"];
+        for (const [sheetName, columns] of Object.entries(sheets)) {
+            const presentTypes = columns.map((column) => selectedColumnTypes[`${sheetName}_${column.columnIndex}`]);
+            if (!requiredTypes.every((type) => presentTypes.includes(type))) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     const handleSubmit = async () => {
-        const finalSheets = Object.keys(sheets).reduce((acc, sheetName) => {
-            const newInvalidColumns = [];
-            for (const [sheetName, columns] of Object.entries(sheets)) {
-                columns.forEach((_, columnIndex) => {
+        const newInvalidColumns = [];
+        const invSheet = [];
+        const requiredTypes = ["name", "price", "description"];
+        const finalSheets = {};
+
+        for (const [sheetName, columns] of Object.entries(sheets)) {
+            const presentTypes = columns.map((column) => column.dataType);
+            const categoryName = categoryNames[sheetName] || sheetName;
+
+            if (!requiredTypes.every((type) => presentTypes.includes(type))) {
+                invSheet.push(sheetName);
+                setErrorMessage("Products in each category must have obligatory name, price, and description types.");
+            }
+
+            finalSheets[sheetName] = [{
+                categoryName,
+                columns: columns.map((_, columnIndex) => {
                     const columnType = selectedColumnTypes[`${sheetName}_${columnIndex}`];
                     if (!columnType) {
                         newInvalidColumns.push(`${sheetName}_${columnIndex}`);
                     }
-                });
-            }
 
+                    return {
+                        ...columns[columnIndex],
+                        dataType: columnType,
+                        useInInvoice: useInInvoice[`${sheetName}_${columnIndex}`] || false,
+                    };
+                }),
+            }];
+        }
+        if (newInvalidColumns.length === 0 && invSheet.length === 0) {
+            const response = await preprocessCsv(
+                fileKey,
+                finalSheets,
+                headers,
+                "createNewCategoryFromSheet"
+            );
+
+            if (response !== "success") {
+                setShowWarningPopup(true);
+                setErrorMessage(response.message);
+            }
+        } else {
             if (newInvalidColumns.length > 0) {
                 setInvalidColumns(newInvalidColumns);
-                return;
             }
-
-            const categoryName = categoryNames[sheetName] || sheetName;
-            acc[sheetName] = [
-                {
-                    categoryName: categoryName,
-                    columns: sheets[sheetName].map((column, columnIndex) => {
-                        const columnType =
-                            selectedColumnTypes[`${sheetName}_${columnIndex}`];
-                        return {
-                            ...column,
-                            dataType: columnType,
-                            useInInvoice:
-                                useInInvoice[`${sheetName}_${columnIndex}`] || false,
-                        };
-                    }),
-                },
-            ];
-            return acc;
-        }, {});
-        const categoryId = getCookie("categoryId");
-
-        const response = await preprocessCsv(
-            fileKey,
-            categoryId,
-            finalSheets,
-            headers,
-            "createNewCategoryFromSheet"
-        );
-
-        if (response === "success") {
-        } else {
-            setShowWarningPopup(true);
-            setErrorMessage(response.message);
+            if (invSheet.length > 0) {
+                setShowWarningPopup(true);
+            }
         }
-
     };
 
     const router = useRouter();
