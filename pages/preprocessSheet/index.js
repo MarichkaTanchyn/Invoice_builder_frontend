@@ -188,6 +188,17 @@ const PreprocessSheet = () => {
             setInvalidColumns(newInvalidColumns);
             return;
         }
+
+        const mandatoryTypes = ["name", "price", "description"];
+        const selectedTypeValues = selectedColumnTypes.map(typeObj => typeObj?.value);
+        const hasMandatoryTypes = mandatoryTypes.every(mandatoryType => selectedTypeValues.includes(mandatoryType));
+
+        if (!hasMandatoryTypes) {
+            setShowWarningPopup(true);
+            setErrorMessage("Products must have obligatory name, price, and description types.");
+            return;
+        }
+
         const response = await preprocessCsv(
             fileKey,
             sheetsData,
