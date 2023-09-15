@@ -1,19 +1,18 @@
 import styles from "./productTable.module.css";
 import Button from "../../components/util/button/button";
 import React, {useCallback, useEffect, useState} from "react";
-import CustomInput from "../../components/util/input/customInput";
-import {debounce} from "@mui/material";
 import SelectWithLabel from "../../components/util/filter/selectWithLabel";
 import dataTypes from "../../components/data/dataTypes.json";
+import SimpleInput from "../../components/util/input/simpleInput";
 
 const AddProductPopup = ({
-                             allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows, setTempProduct
+                          data, allHeaders, handleClosePopup, handleSubmitPopup, extraRows, setExtraRows, setTempProduct, tempProduct
                          }) => {
     const [selectedColumnTypes, setSelectedColumnTypes] = useState([]);
     const [invalidColumns, setInvalidColumns] = useState([]);
     const [useInInvoice, setUseInInvoice] = useState([]);
     const [error, setError] = useState("");
-
+    const [pendingRows, setPendingRows] = useState(null);
     const validate = (productArray) => {
         if (productArray.length === 0) {
             setError("Value can not be empty.");
@@ -38,6 +37,49 @@ const AddProductPopup = ({
             handleAddNewRow();
         }
     }, [allHeaders]);
+
+
+    const validateProduct = (tempProduct) => {
+        let isValid = true;
+        let errors = [];
+
+        // Check if required fields are empty or just white spaces
+        if (!tempProduct.name || tempProduct.name.trim() === "") {
+            isValid = false;
+            errors.push(`${tempProduct.nameColumnName} is required`);
+        }
+
+        if (!tempProduct.description || tempProduct.description.trim() === "") {
+            isValid = false;
+            errors.push(`${tempProduct.descriptionColumnName} is required`);
+        }
+
+        if (!tempProduct.price || tempProduct.price.trim() === "") {
+            isValid = false;
+            errors.push(`${tempProduct.priceColumnName} is required`);
+        } else if (isNaN(Number(tempProduct.price))) {
+            isValid = false;
+            errors.push(`${tempProduct.priceColumnName} must be a number`);
+        }
+
+        if (tempProduct.other && Array.isArray(tempProduct.other)) {
+            tempProduct.other.forEach((item, index) => {
+                for (let key in item) {
+                    if (key !== "type" && key !== "useInInvoice") {
+                        if (item.type === "number" || item.type === "price") {
+                            if (isNaN(Number(item[key]))) {
+                                isValid = false;
+                                errors[`other_${index}_${key}`] = `${key} must be a number`;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        return { isValid, errors };
+    };
+
 
     // handling column type change
     const handleColumnTypeChange = useCallback((index, selectedOption) => {
@@ -69,8 +111,6 @@ const AddProductPopup = ({
         };
     }, []);
 
-    const debouncedSetExtraRows = debounce(setExtraRows, 300);
-
     const handlePopupClick = (event) => {
         event.stopPropagation();
     };
@@ -80,24 +120,57 @@ const AddProductPopup = ({
     };
 
     const handleInputChange = (field, index, value) => {
-        if (field === 'name' || field === 'value') {
-            debouncedSetExtraRows(prevRows => {
-                const newRow = {
-                    ...prevRows[index],
-                    [field]: value,
-                    useInInvoice: useInInvoice[index] || false
-                };
-                return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
-            });
-        } else {
-            setTempProduct(prevProduct => ({...prevProduct, [field]: value}));
-        }
+        setExtraRows(prevRows => {
+            const newRow = {
+                ...prevRows[index],
+                [field]: value,
+                useInInvoice: useInInvoice[index] || false
+            };
+            return [...prevRows.slice(0, index), newRow, ...prevRows.slice(index + 1)];
+        });
+    };
+
+    const handleColumnValueChange = (header, value) => {
+        setTempProduct(prevProduct => {
+            const updatedProduct = { ...prevProduct };
+
+            const columnNameField = Object.keys(updatedProduct).find(
+                key => updatedProduct[key] === header && key.includes("ColumnName")
+            );
+
+            if (columnNameField) {
+                const cleanField = columnNameField.replace("ColumnName", "");
+                updatedProduct[cleanField] = value;
+            } else {
+                const otherObjIndex = updatedProduct['other'].findIndex(obj => obj.hasOwnProperty(header));
+
+                if (otherObjIndex !== -1) {
+                    updatedProduct['other'][otherObjIndex][header] = value;
+                }
+            }
+
+            return updatedProduct;
+        });
     };
 
     const handleSubmit = () => {
-        const filteredExtraRows = extraRows.filter(row => row.name && row.value);
-        if (validate(filteredExtraRows)) {
-            handleSubmitPopup(filteredExtraRows);
+        const filteredRows = extraRows.filter(row => row.name && row.value);
+        if (filteredRows) {
+            if (filteredRows.length !== 0) {
+
+                if (validate(filteredRows)) {
+                    handleSubmitPopup();
+                    setPendingRows(null);
+                }
+            } else if (tempProduct) {
+                let valid = validateProduct(tempProduct)
+                if (valid.isValid || valid.errors.length === 0) {
+                    setError("")
+                    handleSubmitPopup();
+                } else {
+                    setError(valid.errors[0])
+                }
+            }
         }
     };
 
@@ -110,16 +183,14 @@ const AddProductPopup = ({
                     return (<div key={header} className={styles.popupInput}>
                         <div className={styles.inputBox}>
                             <span className={styles.inputLabel}>Column Name</span>
-                            <CustomInput defaultValue={header} className={styles.input} readOnly={true}/>
+                            <SimpleInput defaultValue={header} className={styles.input} readOnly={true}/>
                         </div>
                         <div className={styles.inputBox}>
                             <span className={styles.inputLabel}>Column Value</span>
-                            <CustomInput className={styles.input} onChange={debounce((value) => {
-                                setTempProduct(prevProduct => {
-                                    prevProduct[header] = value;
-                                    return {...prevProduct};
-                                });
-                            }, 500)}/>
+                            <SimpleInput
+                                className={styles.input}
+                                onChange={(value) => handleColumnValueChange(header, value)}
+                            />
                         </div>
                     </div>)
                 })}
@@ -127,7 +198,7 @@ const AddProductPopup = ({
                 {extraRows && extraRows.map((row, index) => (<div key={`extra-${index}`} className={styles.popupInput}>
                     <div className={styles.inputBox}>
                         <span className={styles.inputLabel}>Column Name</span>
-                        <CustomInput
+                        <SimpleInput
                             value={row.name}
                             className={styles.input}
                             onChange={(value) => handleInputChange('name', index, value)}
@@ -135,7 +206,7 @@ const AddProductPopup = ({
                     </div>
                     <div className={styles.inputBox}>
                         <span className={styles.inputLabel}>Column Value</span>
-                        <CustomInput
+                        <SimpleInput
                             value={row.value}
                             className={styles.input}
                             onChange={(value) => handleInputChange('value', index, value)}
@@ -163,9 +234,11 @@ const AddProductPopup = ({
                 {error && <p className={styles.error}>{error}</p>}
             </div>
             <div className={styles.popupButtons}>
-                <div>
-                    <Button onClick={handleAddNewRow} label={"Add Column"}></Button>
-                </div>
+                {data && data.length === 0 &&
+                    <div>
+                        <Button onClick={handleAddNewRow} label={"Add Column"}></Button>
+                    </div>
+                }
                 <div>
                     <Button onClick={handleClosePopup} className={styles.cancelButton} label={"Cancel"}></Button>
                     <Button onClick={handleSubmit} label={"Submit"}></Button>

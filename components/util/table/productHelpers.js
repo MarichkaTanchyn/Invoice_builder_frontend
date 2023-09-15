@@ -60,25 +60,11 @@ export const processExistingProduct = (newProduct, newProductDB, originalData) =
     }
 }
 
-const getMaxFilledData = (originalData) => {
+export const getMaxFilledData = (originalData) => {
     return originalData.reduce((prev, current) => {
         let currentFilledCount = Object.values(current).reduce((count, value) => count + (value !== null && value !== undefined ? 1 : 0), 0);
         return (currentFilledCount > prev.count) ? {item: current, count: currentFilledCount} : prev;
     }, {item: null, count: 0});
-}
-export const addNewProductToDBAndUI = async (newProduct, newProductDB, {
-    setData,
-    originalData,
-    setTempProduct,
-    setExtraRows
-}) => {
-    const categoryId = getCookie("categoryId");
-    await addProduct(newProductDB, categoryId);
-
-    originalData.push(newProductDB);
-    setData(prevData => [...prevData, newProduct]);
-    setTempProduct({});
-    setExtraRows([]);
 }
 
 const createOtherObject = (name, value) => {

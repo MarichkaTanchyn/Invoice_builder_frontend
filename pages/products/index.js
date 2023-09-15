@@ -12,12 +12,12 @@ import Button from "../../components/util/button/button";
 import AddProductPopup from "./addProductPopup";
 import ConfirmationDialog from "../../components/util/confirmationDialog/confirmationDialog";
 import {getCookie} from "cookies-next";
-import {deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
+import {addProduct, deleteProducts, getCategoryProducts, updateProducts} from "../api/productsApi";
 import globalStyles from "../global.module.css";
 import _ from 'lodash';
 import {useRouter} from "next/router";
 import {
-    addNewProductToDBAndUI,
+     getMaxFilledData,
     initializeProductDB,
     normalizeProductData,
     processExistingProduct,
@@ -74,24 +74,52 @@ const Products = () => {
     }, [data]);
 
     useEffect(() => {
+        let maxFilledData = getMaxFilledData(originalData).item;
+        let initialTempProduct = {
+            ...maxFilledData,
+            name: "",
+            description: "",
+            price: ""
+        };
+
+        delete initialTempProduct.id;
+
+        console.log(initialTempProduct)
+        if (maxFilledData && maxFilledData.other) {
+            let initialOther = maxFilledData.other.map(item => {
+                let initialItem = {...item};
+                for (let key in initialItem) {
+                    if (key !== "type" && key !== "useInInvoice") {
+                        initialItem[key] = "";  // Empty out the value
+                    }
+                }
+                return initialItem;
+            });
+            initialTempProduct.other = initialOther;
+        }
+
+        setTempProduct(initialTempProduct);
+    }, [showAddProductPopup]);
+
+    useEffect(() => {
         if (categoryName && parentCategoryName) {
             setTitle(`${parentCategoryName}/${categoryName}`);
         } else if (categoryName) {
             setTitle(categoryName);
         }
-        const fetchProducts = async () => {
-            const categoryId = getCookie("categoryId");
-            const products = await getCategoryProducts(categoryId);
-            setOriginalData(products);
-            if (products && products.length > 0) {
-                const normalizedProducts = products.map(product => normalizeProductData(product));
-                setData(normalizedProducts);
-            }
-            setLoading(false);
-        };
         fetchProducts();
     }, [router.query]);
 
+    const fetchProducts = async () => {
+        const categoryId = getCookie("categoryId");
+        const products = await getCategoryProducts(categoryId);
+        setOriginalData(products);
+        if (products && products.length > 0) {
+            const normalizedProducts = products.map(product => normalizeProductData(product));
+            setData(normalizedProducts);
+        }
+        setLoading(false);
+    };
     const updateMyData = (rowIndex, columnId, value) => {
         setSkipPageReset(true);
         setData((old) => old.map((row, i) => {
@@ -129,6 +157,7 @@ const Products = () => {
         await deleteProducts(productsIdToDelete);
         setData(old => old.filter((row, i) => !selectedFlatRows.some((selectedRow) => selectedRow.index === i)));
         setShowConfirmationBeforeDelete(false);
+        await fetchProducts();
     }
     const onCancelDelete = () => {
         setShowConfirmationBeforeDelete(false);
@@ -177,21 +206,20 @@ const Products = () => {
             let newColumns = [...tableColumns];  // Clone the current columns
 
             processExtraRows(newProduct, newColumns, extraRows);
+            const categoryId = getCookie("categoryId");
 
             let newProductDB = initializeProductDB();
             if (originalData.length === 0) {
                 processNewProduct(newProductDB, extraRows);
-            } else {
-                processExistingProduct(newProduct, newProductDB, originalData);
+                await addProduct(newProductDB, categoryId);
+            } else if (tempProduct) {
+                await addProduct(tempProduct, categoryId);
             }
-            await addNewProductToDBAndUI(newProduct, newProductDB, {
-                setData,
-                originalData,
-                setTempProduct,
-                setExtraRows
-            });
+
         }
         setShowAddProductPopup(false);
+        await fetchProducts();
+
     };
 
     const handleSaveChanges = async () => {
