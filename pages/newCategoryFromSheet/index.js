@@ -255,6 +255,7 @@ const CreateNewCategoryFromSheet = () => {
                 setShowWarningPopup(true);
                 setErrorMessage(response.message);
             }
+            await router.push("/")
         } else {
             if (newInvalidColumns.length > 0) {
                 setInvalidColumns(newInvalidColumns);
