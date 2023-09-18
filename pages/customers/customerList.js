@@ -19,7 +19,8 @@ const CustomerList = ({customers}) => {
             </thead>
             <tbody>
             {customers && customers.map((customer, index) => (
-                <CustomerListItem key={customer.id} id={index + 1}
+                <CustomerListItem key={customer.id} id={customer.id}
+                                  index={index + 1}
                                   company={customer.name}
                                   representative={customer.Person.firstName + " " + customer.Person.lastName}
                                   location={customer.city + "," + customer.country}

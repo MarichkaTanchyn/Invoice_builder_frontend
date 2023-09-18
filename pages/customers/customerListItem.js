@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {useRouter} from "next/router";
 
 
-const CustomerListItem = ({id, representative, company, location, contactNumber, email}) => {
+const CustomerListItem = ({id, index, representative, company, location, contactNumber, email}) => {
     const [showPopup, setShowPopup] = useState(false);
 
     const handleDetailsClick = () => {
@@ -20,7 +20,7 @@ const CustomerListItem = ({id, representative, company, location, contactNumber,
         <>
             <tr className={styles.rowBox} onClick={handleRowClick}>
                 <td style={{padding: '1em'}} className={styles.tableColumns}>
-                    {id}
+                    {index}
                 </td>
                 <td className={styles.tableColumns}>{company}</td>
                 <td className={styles.tableColumns}>{representative}</td>
