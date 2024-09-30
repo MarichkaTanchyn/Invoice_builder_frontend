@@ -24,4 +24,4 @@ What the Frontend Does
 * User Authentication: Includes login and registration pages to authenticate users (in conjunction with the backend).
 * PDF Export: Generates PDF versions of invoices for downloading and printing.
 
-For more details about how the frontend interacts with the backend, refer to the backend documentation [https://github.com/MarichkaTanchyn/Invoice_builder_backend]
+For more details about how the frontend interacts with the backend, refer to the backend documentation [[link to backend repo](https://github.com/MarichkaTanchyn/Invoice_builder_backend)].
