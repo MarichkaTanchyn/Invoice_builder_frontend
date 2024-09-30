@@ -1,38 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Invoice Management Application - Frontend
 
-## Getting Started
+This repository contains the frontend code for the Invoice Management Application, a system designed to simplify the process of generating and managing invoices for businesses. The frontend is responsible for providing a clean, intuitive user interface that allows users to interact with the application, view invoices, manage clients, and perform other business-related tasks efficiently.
 
-First, run the development server:
+Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+The application allows users to:
+* Create and manage invoices
+* Manage clients and products
+* Export invoices as PDFs
+* Filter and sort invoices based on various criteria
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tech Stack:
+* Next.js: A React framework for building web applications with server-side rendering and static site generation capabilities.
+* React.js: Used for creating reusable and modular UI components.
+* CSS Modules: For modular and reusable styling.
+* Axios: Handles API requests to communicate with the backend.
+* Responsive Design: The UI is fully responsive and mobile-friendly.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+What the Frontend Does
+* Invoice Management: Provides an interface for creating, viewing, and managing invoices.
+* Client Management: Allows users to add, update, and delete client records.
+* Product Management: Enables users to manage product details and integrate them into invoices.
+* User Authentication: Includes login and registration pages to authenticate users (in conjunction with the backend).
+* PDF Export: Generates PDF versions of invoices for downloading and printing.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For more details about how the frontend interacts with the backend, refer to the backend documentation [https://github.com/MarichkaTanchyn/Invoice_builder_backend]
